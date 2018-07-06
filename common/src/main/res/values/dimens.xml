@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <dimen name="bg_row_padding_left">1.0dip</dimen>
+    <dimen name="bg_row_padding_right">1.0dip</dimen>
+    <dimen name="bg_row_padding_top">1.0dip</dimen>
+    <dimen name="bg_row_padding_bottom">1.0dip</dimen>
+    <dimen name="bg_row_border_width">0.5dip</dimen>
+
+
+    <!-- actionBar的高度-->
+    <dimen name="actionBarHeight">50dp</dimen>
+
+    <!-- slidingmenu -->
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <!-- slidingmenu end -->
+
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_content_big">16sp</dimen>
+    <dimen name="text_size_content">14sp</dimen>
+    <dimen name="text_size_notes">12sp</dimen>
+    <dimen name="text_size_tips">10sp</dimen>
+    <dimen name="text_size_11">11sp</dimen>
+    <dimen name="text_size_9">9sp</dimen>
+
+    <!-- 大V标志相对于用户头像的margin大小-->
+    <dimen name="vip_margin_bottom">-8dp</dimen>
+    <dimen name="vip_margin_right">-4dp</dimen>
+    <!-- 大V标志的大小，头像50dp、60dp使用 -->
+    <dimen name="vip_width_height">24dp</dimen>
+    <!-- 大V标志的大小，头像40dp使用 -->
+    <dimen name="vip_width_height_small">18dp</dimen>
+    <!-- 大V标志的大小，头像90dp使用 -->
+    <dimen name="vip_width_height_big">30dp</dimen>
+
+    <!-- 页面左右两边的边距 -->
+    <dimen name="page_margin">10dp</dimen>
+
+    <!-- 分割线高度 -->
+    <dimen name="dp2">2dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp180">180dp</dimen>
+    <dimen name="margin_20">10dp</dimen>
+    <dimen name="dp6">6dp</dimen>
+
+    <!-- 屏幕宽度360dp 广告高度: 现在有 大广告、小广告 。 hdpi mdpi高度不一样 -->
+    <dimen name="ad_homepage">170dp</dimen>
+    <dimen name="ad_big">118dp</dimen>
+    <dimen name="ad_small">55dp</dimen>
+    <dimen name="ad_salon_home">138dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+
+    <!--图片选择器-->
+    <dimen name="folder_cover_size">72dp</dimen>
+
+    <!-- 按钮、图片等的圆角半径大小 -->
+    <dimen name="round_small">4dp</dimen>
+    <dimen name="round_big">50dp</dimen>
+    /******************************************Shaycormac******************************************/
+    <!--<dimen name="shay_sp12">12sp</dimen>-->
+    <!--<dimen name="shay_sp14">14sp</dimen>-->
+    <!--<dimen name="shay_sp16">16sp</dimen>-->
+    <!--<dimen name="shay_sp18">18sp</dimen>-->
+    <!--<dimen name="shay_sp20">20sp</dimen>-->
+
+    <!--<dimen name="shay_0.5dp">0.5dp</dimen>-->
+    <!--<dimen name="shay_4dp">4dp</dimen>-->
+    <!--<dimen name="shay_6dp">6dp</dimen>-->
+    <!--<dimen name="shay_8dp">8dp</dimen>-->
+    <!--<dimen name="shay_10dp">10dp</dimen>-->
+    <!--<dimen name="shay_12dp">12dp</dimen>-->
+    <!--<dimen name="shay_14dp">14dp</dimen>-->
+    <!--<dimen name="shay_16dp">16dp</dimen>-->
+    <!--<dimen name="shay_24dp">24dp</dimen>-->
+    <!--<dimen name="shay_18dp">12dp</dimen>-->
+    <!--<dimen name="shay_28dp">28dp</dimen>-->
+    <!--<dimen name="shay_34dp">34dp</dimen>-->
+    <!--<dimen name="shay_40dp">40dp</dimen>-->
+    <!--<dimen name="shay_42dp">42dp</dimen>-->
+    <!--<dimen name="shay_44dp">44dp</dimen>-->
+    <!--<dimen name="shay_50dp">50dp</dimen>-->
+    <!--<dimen name="shay_54dp">54dp</dimen>-->
+    <!--<dimen name="shay_56dp">56dp</dimen>-->
+    <!--<dimen name="shay_60dp">60dp</dimen>-->
+    <!--<dimen name="shay_80dp">80dp</dimen>-->
+    <!--<dimen name="shay_84dp">84dp</dimen>-->
+    <!--<dimen name="shay_86dp">86dp</dimen>-->
+    <!--<dimen name="shay_94dp">94dp</dimen>-->
+    <!--<dimen name="shay_102dp">102dp</dimen>-->
+    <!--<dimen name="shay_140dp">140dp</dimen>-->
+    <!--cardview边框距离-->
+    <dimen name="toolbar_padding_top">0dp</dimen>
+    <bool name="fitsSystemWindows">false</bool>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--部落appbarlayout的布局高度-->
+    <dimen name="app_bar_group_height">200dp</dimen>
+    <dimen name="app_bar_group_height_header">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <!--商品详情appbarlayout的布局高度-->
+    <dimen name="app_bar_salon">260dp</dimen>
+    <dimen name="app_bar_salon_header">260dp</dimen>
+    <!--首页刷新按钮出现位置-->
+    <dimen name="app_view_off">75dp</dimen>
+    <dimen name="cardViewItemMargin">-1.5dp</dimen>
+    <dimen name="pass_ball_vertical_line_width">30dp</dimen>
+    <dimen name="group_title_size">18sp</dimen>
+</resources>

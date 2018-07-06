@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarSize">@dimen/actionBarHeight</item>
+        <item name="actionBarSize">@dimen/actionBarHeight</item>
+        <!--
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        -->
+        <!--
+        <item name="actionBarStyle">@style/ActionBar</item>
+        -->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:buttonStyle">@style/BaseButton</item>
+        <item name="buttonStyle">@style/BaseButton</item>
+        <item name="android:textViewStyle">@style/BaseTextView</item>
+        <item name="android:editTextStyle">@style/BaseEditText</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:editTextColor">@color/text_grey</item>
+        <item name="editTextColor">@color/text_grey</item>
+        <item name="android:windowBackground">@color/window_default_bg</item>
+        <!--<item name="android:homeAsUpIndicator">@drawable/back_b</item>-->
+        <!--<item name="homeAsUpIndicator">@drawable/back_b</item>-->
+
+        <!-- DividerItemDecoration 使用 -->
+        <item name="android:listDivider">@color/divider_bg</item>
+        <!--<item name="android:navigationBarColor" tools:targetApi="lollipop">#66ea5504</item>-->
+        <item name="popupMenuStyle">@style/MyPopupMenu</item>
+
+        <!-- Label标签的颜色 -->
+        <!--<item name="colorAccent">#c6174e</item>-->
+        <!-- 默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#dcdcdc</item>
+        <!-- 选择的底线颜色 -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!-- Loading界面 -->
+    <!--<style name="WithLoadingBG" parent="AppTheme">-->
+        <!--<item name="android:windowBackground">@drawable/img_loading</item>-->
+        <!--<item name="android:windowFullscreen">true</item>-->
+    <!--</style>-->
+    <style name="MyPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow"></style>
+    <!--
+    <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/de_actionbar_bg</item>
+        <item name="background">@color/de_actionbar_bg</item>
+        <item name="android:titleTextStyle">@style/ActionBarTextStyle</item>
+        <item name="titleTextStyle">@style/ActionBarTextStyle</item>
+        <item name="elevation">0.5dp</item>
+    </style>
+    -->
+</resources>

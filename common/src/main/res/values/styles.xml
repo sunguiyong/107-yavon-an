@@ -1,0 +1,104 @@
+<resources>
+    <!-- loading框 -->
+    <style name="CustomProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <!-- 基础 Button，一般不直接使用 -->
+    <style name="BaseButton" parent="android:Widget.Button">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 基础 BaseEditText，一般不直接使用 -->
+    <style name="BaseEditText" parent="android:Widget.EditText">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <!--<item name="android:textColorHint">@color/text_grey_light</item>-->
+    </style>
+
+    <!-- 基础 TextView，一般不直接使用 -->
+    <style name="BaseTextView" parent="android:Widget.TextView">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="text_content_grey">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
+    <style name="text_title_grey" parent="text_content_grey">
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
+    <style name="text_title_black" parent="text_title_grey">
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+    <style name="NoPaadingDivider" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider_grey</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+    <style name="NoPaadingDivider2" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.6dp</item>
+        <item name="android:background">@color/divider_grey</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+    <style name="NoPaadingVertical" >
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/divider_grey</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+    <!--<style name="MySwitch">-->
+        <!--<item name="android:paddingRight">@dimen/shay_12dp</item>-->
+        <!--<item name="android:paddingLeft">@dimen/shay_12dp</item>-->
+        <!--<item name="android:layout_height">@dimen/shay_50dp</item>-->
+        <!--<item name="android:layout_width">match_parent</item>-->
+    <!--</style>-->
+    <style name="BottomDialog" parent="@android:style/Theme.Dialog">
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <!--<item name="android:windowAnimationStyle">@style/DialogAnimation</item>-->
+    </style>
+    <!-- ActionSheet进出动画 -->
+    <!--<style name="DialogAnimation" parent="@android:style/Animation.Dialog">-->
+    <!--<item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in</item>-->
+    <!--<item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>-->
+    <!--</style>-->
+
+    <!--tablayout文字的大小-->
+    <style name="MyTabLayoutTextSize" parent="MyTabLayoutTextSize">
+        <item name="android:textSize">18sp</item>
+        <!--parent="MyTabLayoutTextSize"-->
+    </style>
+    <!--<style name="menu_anim_style">-->
+    <!--<item name="android:windowEnterAnimation">@anim/menu_in</item>-->
+    <!--<item name="android:windowExitAnimation">@anim/menu_out</item>-->
+    <!--</style>-->
+</resources>

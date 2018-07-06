@@ -1,0 +1,27 @@
+<resources>
+    <declare-styleable name="RoundRectImageView">
+        <attr name="type">
+            <enum name="none" value="0" />
+            <enum name="circle" value="1" />
+            <enum name="rounded_rect" value="2" />
+        </attr>
+        <attr name="borderColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="rectRoundRadius" format="dimension" />
+    </declare-styleable>
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@android:color/transparent</item>
+        <item name="colorSwitchThumbNormal">@android:color/transparent</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="android:colorForeground">@android:color/transparent</item>
+    </style>
+    <style name="mDialogStyle_trans" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="mDialogStyle_black" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>
