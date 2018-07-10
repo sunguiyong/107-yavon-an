@@ -16,17 +16,14 @@
 
     <!-- 基础 BaseEditText，一般不直接使用 -->
     <style name="BaseEditText" parent="android:Widget.EditText">
-        <item name="android:background">@android:color/transparent</item>
         <item name="android:textSize">@dimen/text_size_content</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <!--<item name="android:textColorHint">@color/text_grey_light</item>-->
     </style>
 
     <!-- 基础 TextView，一般不直接使用 -->
     <style name="BaseTextView" parent="android:Widget.TextView">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textSize">@dimen/text_size_content</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="text_content_grey">
