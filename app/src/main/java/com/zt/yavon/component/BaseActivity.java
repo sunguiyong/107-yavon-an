@@ -3,6 +3,7 @@ package com.zt.yavon.component;
 
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -169,20 +170,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void onHeadBack(){
         finish();
     }
-//
-//    public void setRightMenuText(String text){
-//        if(tvRight != null && !TextUtils.isEmpty(text)){
-//            tvRight.setText(text);
-//        }
-//    }
-//
-//    public void setRightMenuImage(int resId){
-//        if(tvRight != null ){
-//            Drawable drawable = getResources().getDrawable(resId);
-//            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-//            tvRight.setCompoundDrawables(drawable,null,null,null);
-//        }
-//    }
+
+    public void setRightMenuText(String text){
+        if(tvRight != null && !TextUtils.isEmpty(text)){
+            tvRight.setText(text);
+        }
+    }
+
+    public void setRightMenuImage(int resId){
+        if(tvRight != null ){
+            Drawable drawable = getResources().getDrawable(resId);
+            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+            tvRight.setCompoundDrawables(drawable,null,null,null);
+        }
+    }
     /**
      * 沉浸状态栏（4.4以上系统有效）
      */
