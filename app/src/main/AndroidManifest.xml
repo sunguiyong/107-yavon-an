@@ -11,13 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--<activity android:name=".module.guide.GuideActivity">-->
-        <activity android:name="com.zt.yavon.module.main.view.MainActivity">
+        <activity android:name=".module.device.lock.view.LockDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.device.lock.view.MoreSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lock.view.DirectUseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lock.view.LockRecordActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

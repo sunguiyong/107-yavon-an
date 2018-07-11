@@ -10,10 +10,10 @@
         <attr name="rectRoundRadius" format="dimension" />
     </declare-styleable>
     <style name="MySwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@android:color/transparent</item>
-        <item name="colorSwitchThumbNormal">@android:color/transparent</item>
+        <item name="colorControlActivated">@color/green_switch</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
-        <item name="android:colorForeground">@android:color/transparent</item>
+        <item name="android:colorForeground">@color/gray_disable</item>
     </style>
     <style name="mDialogStyle_trans" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -2,4 +2,13 @@
     <string name="app_name">Yavon</string>
     <string name="tab_main">首页</string>
     <string name="tab_mine">我的</string>
+    <!--智能锁-->
+    <string name="text_switch">开关</string>
+    <string name="title_lock">智能琐</string>
+    <string name="title_more">更多设置</string>
+    <string name="more_derection">使用说明</string>
+    <string name="more_record">使用记录</string>
+    <string name="more_share">共享设置</string>
+    <string name="more_lock_auto">自动开琐</string>
+    <string name="more_lock_low">低电量手动开琐</string>
 </resources>

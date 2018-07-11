@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="white_tran">#A0FFFFFF</color>
     <color name="gray_disable">#E4E4E4</color>
     <color name="gray_text">#959595</color>
     <color name="bg_main">#161429</color>
     <color name="orange_dark">#DE833B</color>
     <color name="green">#22B449</color>
+    <color name="green_switch">#52D5C5</color>
+    <color name="black2">#121212</color>
 </resources>
