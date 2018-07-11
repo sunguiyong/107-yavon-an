@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.common.base.utils.LoadingDialog;
 import com.zt.yavon.R;
 import com.zt.yavon.utils.StatusBarCompat;
 import com.common.base.utils.TUtil;
+
+import java.nio.channels.ConnectionPendingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +53,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Nullable
     @BindView(R.id.btn_back_header)
     ImageView ivBack;
+    @Nullable
+    @BindView(R.id.root_header)
+    View rootHead;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,6 +188,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             Drawable drawable = getResources().getDrawable(resId);
             drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
             tvRight.setCompoundDrawables(drawable,null,null,null);
+        }
+    }
+    public void setTitleBackgroudColor(int colorRes){
+        if(rootHead != null){
+            rootHead.setBackgroundColor(ContextCompat.getColor(this,colorRes));
         }
     }
     /**

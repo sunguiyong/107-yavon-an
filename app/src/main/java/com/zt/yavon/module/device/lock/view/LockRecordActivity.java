@@ -28,7 +28,8 @@ public class LockRecordActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        setStatusBarColor(ContextCompat.getColor(this,R.color.black2));
+        setTitleBackgroudColor(R.color.black2);
         setTitle(getString(R.string.more_record));
 //        setRightMenuImage(R.mipmap.more_right);
     }

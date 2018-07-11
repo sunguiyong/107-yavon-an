@@ -11,10 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--<activity android:name=".module.guide.GuideActivity">-->
-        <!--<activity android:name=".module.device.lock.view.LockDetailActivity">-->
-
-        <!-- <activity android:name=".module.guide.GuideActivity"> -->
-        <activity android:name=".module.login.SelectAccountActivity">
+        <activity android:name=".module.device.lock.view.LockDetailActivity">
+        <!--<activity android:name=".module.login.SelectAccountActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
