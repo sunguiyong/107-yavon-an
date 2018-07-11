@@ -46,13 +46,6 @@ public class LoginFragment extends BaseFragment {
     }
 
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @OnClick({R.id.tv_auto_login, R.id.tv_forget_psd, R.id.tv_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -62,6 +55,7 @@ public class LoginFragment extends BaseFragment {
                 ResetPasswordActivity.start(getActivity());
                 break;
             case R.id.tv_login:
+
                 break;
         }
     }
