@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zt.yavon.module.login.SelectAccountActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/iv_select_account">
+
+        <TextView
+            android:layout_above="@+id/tv_use_have"
+            android:id="@+id/tv_create_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/shape_stroke_green"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="创建新账户"
+            android:textColor="@color/mainGreen"
+            android:textSize="18sp" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/tv_use_have"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用已有的账户登录" />
+    </RelativeLayout>
+</LinearLayout>

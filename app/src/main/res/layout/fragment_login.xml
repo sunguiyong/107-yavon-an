@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_account"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/selector_account"
+            android:drawablePadding="10dp"
+            android:hint="账号/手机号/邮箱"
+            android:textSize="@dimen/sp_14" />
+        <EditText
+            android:id="@+id/et_psd"
+            android:drawableRight="@drawable/selector_password_visible"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/selector_password"
+            android:drawablePadding="10dp"
+            android:hint="密码"
+            android:textSize="@dimen/sp_14" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_auto_login"
+                android:padding="5dp"
+                android:textColor="@color/mainGray"
+                android:text="自动登录"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_forget_psd"
+                android:padding="5dp"
+                android:textColor="@color/mainGray"
+                android:layout_alignParentRight="true"
+                android:text="忘记密码"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_login"
+            android:padding="10dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/mainGreen"
+            android:gravity="center"
+            android:background="@drawable/shape_stroke_green"
+            android:text="登           录"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
