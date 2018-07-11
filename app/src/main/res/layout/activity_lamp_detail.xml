@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <include layout="@layout/header"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_device_top"
+        android:layout_weight="0.7">
+        <ImageView
+            android:id="@+id/iv_lamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/selector_lamp_dev"/>
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.28"/>
+    <TextView
+        android:id="@+id/tv_switch_lamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:drawableTop="@drawable/selector_switch_dev"
+        android:textSize="14sp"
+        android:textColor="@color/switch_text_select"
+        android:drawablePadding="10dp"
+        android:text="@string/text_switch"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.zt.yavon.module.device.lock.view;
+package com.zt.yavon.module.device.lamp.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.device.lock.adapter.LockRecordAdapter;
 import com.zt.yavon.module.data.LockRecordItem;
+import com.zt.yavon.module.device.lock.adapter.LockRecordAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ import butterknife.BindView;
  * Created by lifujun on 2018/7/10.
  */
 
-public class LockRecordActivity extends BaseActivity{
-    @BindView(R.id.recycler_record_lock)
+public class LampRecordActivity extends BaseActivity{
+    @BindView(R.id.recycler_record_lamp)
     RecyclerView recyclerView;
     private LockRecordAdapter adapter;
 
@@ -29,7 +29,7 @@ public class LockRecordActivity extends BaseActivity{
 //    TextView tvSwith;
     @Override
     public int getLayoutId() {
-        return R.layout.activity_record_use_lock;
+        return R.layout.activity_record_use_lamp;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class LockRecordActivity extends BaseActivity{
 //        }
 //    }
     public static void startAction(Context context){
-        Intent intent = new Intent(context,LockRecordActivity.class);
+        Intent intent = new Intent(context,LampRecordActivity.class);
         context.startActivity(intent);
     }
 }

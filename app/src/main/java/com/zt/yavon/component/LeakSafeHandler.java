@@ -3,7 +3,6 @@ package com.zt.yavon.component;
 import android.os.Handler;
 import android.os.Message;
 
-
 import java.lang.ref.SoftReference;
 
 /**
@@ -27,6 +26,11 @@ public class LeakSafeHandler<K extends BaseActivity> extends Handler {
             return activity.get();
         }
         return null;
+    }
+    public void clean(int what){
+        if(hasMessages(what)){
+            removeMessages(what);
+        }
     }
     public void onMessageReceived(K mActivity,Message msg){}
 }

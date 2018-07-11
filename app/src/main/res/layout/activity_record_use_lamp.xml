@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="电池版智能锁"
+                android:text="智能灯"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         </LinearLayout>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_record_lock"
+        android:id="@+id/recycler_record_lamp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"

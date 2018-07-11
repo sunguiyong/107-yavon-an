@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--<activity android:name=".module.guide.GuideActivity">-->
-        <activity android:name=".module.device.lock.view.LockDetailActivity">
+        <activity android:name=".module.device.TestActivity">
         <!--<activity android:name=".module.login.SelectAccountActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +19,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.device.lock.view.MoreSettingActivity"
+        <activity android:name=".module.device.lock.view.LockSettingActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lock.view.DirectUseActivity"
+        <activity android:name=".module.device.lock.view.LockUseActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".module.device.lock.view.LockRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lock.view.LockDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lamp.view.LampDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lamp.view.LampUseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lamp.view.LampSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lamp.view.LampRecordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.desk.view.DeskDetailActivity"
             android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -11,7 +11,7 @@ import com.zt.yavon.component.BaseActivity;
  * Created by lifujun on 2018/7/10.
  */
 
-public class DirectUseActivity extends BaseActivity{
+public class LockUseActivity extends BaseActivity{
 //    @BindView(R.id.iv_lock)
 //    ImageView ivLock;
 //    @BindView(R.id.tv_switch_lock)
@@ -29,7 +29,7 @@ public class DirectUseActivity extends BaseActivity{
     @Override
     public void initView() {
         setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
-        setTitle(getString(R.string.title_more));
+        setTitle(getString(R.string.more_derection));
 //        setRightMenuImage(R.mipmap.more_right);
     }
 
@@ -56,7 +56,7 @@ public class DirectUseActivity extends BaseActivity{
 //        }
 //    }
     public static void startAction(Context context){
-        Intent intent = new Intent(context,DirectUseActivity.class);
+        Intent intent = new Intent(context,LockUseActivity.class);
         context.startActivity(intent);
     }
 }

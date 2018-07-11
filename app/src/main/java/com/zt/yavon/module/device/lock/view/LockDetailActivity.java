@@ -58,7 +58,7 @@ public class LockDetailActivity extends BaseActivity{
                 }
                 break;
             case R.id.tv_right_header:
-                MoreSettingActivity.startAction(this);
+                LockSettingActivity.startAction(this);
                 break;
         }
     }
