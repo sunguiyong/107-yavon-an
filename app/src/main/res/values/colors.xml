@@ -3,6 +3,7 @@
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_tran">#A0FFFFFF</color>
+    <color name="white_tran2">#88ffffff</color>
     <color name="gray_disable">#E4E4E4</color>
     <color name="gray_text">#959595</color>
     <color name="bg_main">#161429</color>

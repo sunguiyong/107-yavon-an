@@ -115,14 +115,14 @@ public class VerticalSeekBar extends android.support.v7.widget.AppCompatSeekBar 
 
     void onProgressRefresh(float scale, boolean fromUser) {
 
-        Drawable thumb = mThumb;
-
-        if (thumb != null) {
-
-            setThumbPos(getHeight(), thumb, scale, Integer.MIN_VALUE);
-
-            invalidate();
-        }
+//        Drawable thumb = mThumb;
+//
+//        if (thumb != null) {
+//
+//            setThumbPos(getHeight(), thumb, scale, Integer.MIN_VALUE);
+//
+//            invalidate();
+//        }
 
         if (mOnSeekBarChangeListener != null) {
 

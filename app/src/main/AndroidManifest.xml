@@ -37,6 +37,12 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".module.device.desk.view.DeskDetailActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.desk.view.DeskSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.desk.view.DeskUseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.desk.view.DeskRecordActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
