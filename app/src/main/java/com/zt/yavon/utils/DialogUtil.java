@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
@@ -18,7 +19,6 @@ import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,42 +26,57 @@ import java.util.List;
  */
 public class DialogUtil {
 
-    //    /**
-//     * 信息提示
-//     * @param context
-//     * @param listener
-//     * @return
-//     */
-//    public static Dialog create2BtnInfoDialog(Context context,String info, final OnComfirmListening listener) {
-//            LayoutInflater inflaterDl = LayoutInflater.from(context);
-//            View parent = inflaterDl.inflate(R.layout.dialog_info, null);
-//            if(!TextUtils.isEmpty(info))
-//            ((TextView)parent.findViewById(R.id.tv_tip_info)).setText(info);
-//            final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
-//            dialog.setCancelable(true);
-//            dialog.setCanceledOnTouchOutside(false);
-//            int width = context.getResources().getDisplayMetrics().widthPixels;
-//            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
-//            dialog.setContentView(parent, params);
-//            parent.findViewById(R.id.btn_cancle_info).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dialog.cancel();
-//                }
-//            });
-//            TextView confirmBt = (TextView) parent.findViewById(R.id.btn_confirm_info);
-//            confirmBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dialog.dismiss();
-//                    if (listener != null) {
-//                        listener.confirm();
-//                    }
-//                }
-//            });
-//            dialog.show();
-//            return dialog;
-//        }
+    /**
+     * 全局弹窗提示
+     *
+     * @param context
+     * @param info
+     * @param cancel
+     * @param confirm
+     * @param listener
+     * @return
+     */
+    public static Dialog create2BtnInfoDialog(Context context, String info, String cancel, String confirm, final OnComfirmListening listener) {
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        View parent = inflaterDl.inflate(R.layout.layout_dialog_info, null);
+        if (!TextUtils.isEmpty(info))
+            ((TextView) parent.findViewById(R.id.title_tv)).setText(info);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        TextView confirmBt = (TextView) parent.findViewById(R.id.confirm_bt);
+        TextView cancelBt = (TextView) parent.findViewById(R.id.cancel_bt);
+        if (TextUtils.isEmpty(cancel)){
+            cancelBt.setText("取消");
+        }else {
+            cancelBt.setText(cancel);
+        }
+        if (TextUtils.isEmpty(confirm)){
+            confirmBt.setText("确定");
+        }else {
+            confirmBt.setText(confirm);
+        }
+        cancelBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        confirmBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm();
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
     public static Dialog createSitTimeDialog(final Context context, String defaultValue, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_sit_time, null);

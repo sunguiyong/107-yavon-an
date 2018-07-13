@@ -25,4 +25,7 @@
     <string name="tip2_time">请填写提醒时间</string>
     <string name="hint_name_desk">请填写自定义名称</string>
     <string name="hint_height_desk">请填写自定义高度</string>
+    <string name="scan_code">请将取景框对准二维码，\n轻触屏幕以对焦。</string>
+    <string name="scan_permission">未取得您的相机使用权限，此功能无法使用。请前往应用权限设置打开权限。</string>
+    <string name="bluetooth_permission">当前手机蓝牙关闭，是否打开以扫描附近蓝牙设备？</string>
 </resources>

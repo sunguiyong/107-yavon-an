@@ -1,4 +1,4 @@
-package com.zt.yavon.module.login;
+package com.zt.yavon.module.login.view;
 
 import android.view.View;
 import android.widget.TextView;

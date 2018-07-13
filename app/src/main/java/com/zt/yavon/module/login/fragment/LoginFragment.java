@@ -6,11 +6,11 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.login.ResetPasswordActivity;
+import com.zt.yavon.module.login.view.ResetPasswordActivity;
+import com.zt.yavon.module.main.view.BluetoothActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by hp on 2018/6/11.
@@ -27,7 +27,6 @@ public class LoginFragment extends BaseFragment {
     TextView tvForgetPsd;
     @BindView(R.id.tv_login)
     TextView tvLogin;
-    Unbinder unbinder;
 
     @Override
     protected int getLayoutResource() {
@@ -55,7 +54,7 @@ public class LoginFragment extends BaseFragment {
                 ResetPasswordActivity.start(getActivity());
                 break;
             case R.id.tv_login:
-
+                BluetoothActivity.start(getActivity());
                 break;
         }
     }

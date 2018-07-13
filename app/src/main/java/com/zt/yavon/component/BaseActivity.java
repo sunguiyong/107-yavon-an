@@ -16,11 +16,9 @@ import android.widget.TextView;
 
 import com.common.base.rx.RxManager;
 import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.TUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.utils.StatusBarCompat;
-import com.common.base.utils.TUtil;
-
-import java.nio.channels.ConnectionPendingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -192,6 +190,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             Drawable drawable = getResources().getDrawable(resId);
             drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
             tvRight.setCompoundDrawables(drawable,null,null,null);
+        }
+    }
+    public void setRightMenuTopImage(int resId,float textsize){
+        if(tvRight != null ){
+            Drawable drawable = getResources().getDrawable(resId);
+            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+            tvRight.setCompoundDrawables(null,drawable,null,null);
+            tvRight.setTextSize(textsize);
         }
     }
     public void setTitleBackgroudColor(int colorRes){

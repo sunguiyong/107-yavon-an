@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zt.yavon.module.login.LoginRegisterActivity">
+    tools:context="com.zt.yavon.module.login.view.LoginRegisterActivity">
 
     <include layout="@layout/header"></include>
 
@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:background="@color/alpha_05_white"
         android:id="@+id/fr_login_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>

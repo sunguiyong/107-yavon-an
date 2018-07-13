@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zt.yavon">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -12,7 +19,7 @@
         android:theme="@style/AppTheme">
         <!--<activity android:name=".module.guide.GuideActivity">-->
         <activity android:name=".module.device.TestActivity">
-        <!--<activity android:name=".module.login.SelectAccountActivity">-->
+        <!--<activity android:name=".module.login.view.SelectAccountActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,9 +51,10 @@
         <activity
             android:name=".module.main.view.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.login.LoginRegisterActivity" />
-        <activity android:name=".module.login.ResetPasswordActivity" />
-        <activity android:name=".module.main.view.ScanCodeActivity"></activity>
+        <activity android:name=".module.login.view.LoginRegisterActivity" />
+        <activity android:name=".module.login.view.ResetPasswordActivity" />
+        <activity android:name=".module.main.view.ScanCodeActivity" />
+        <activity android:name=".module.main.view.BluetoothActivity"></activity>
     </application>
 
 </manifest>

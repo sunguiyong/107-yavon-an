@@ -33,6 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:drawablePadding="3dp"
+                android:drawableLeft="@drawable/selector_login"
                 android:id="@+id/tv_auto_login"
                 android:padding="5dp"
                 android:textColor="@color/mainGray"

@@ -1,4 +1,4 @@
-package com.zt.yavon.module.login;
+package com.zt.yavon.module.login.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -62,12 +62,16 @@ public class LoginRegisterActivity extends BaseActivity {
                 nowFragment = registerFragment;
                 tvRegister.setSelected(true);
                 tvLogin.setSelected(false);
+                tvRegister.setBackgroundResource(R.color.alpha_05_white);
+                tvLogin.setBackgroundResource(R.color.black);
                 setTitle("创建新账户");
                 break;
             case "login":
                 nowFragment = loginFragment;
                 tvRegister.setSelected(false);
                 tvLogin.setSelected(true);
+                tvLogin.setBackgroundResource(R.color.alpha_05_white);
+                tvRegister.setBackgroundResource(R.color.black);
                 setTitle("登录");
                 break;
         }
@@ -95,6 +99,8 @@ public class LoginRegisterActivity extends BaseActivity {
                 nowFragment = loginFragment;
                 tvRegister.setSelected(false);
                 tvLogin.setSelected(true);
+                tvLogin.setBackgroundResource(R.color.alpha_05_white);
+                tvRegister.setBackgroundResource(R.color.black);
                 setTitle("登录");
                 break;
             case R.id.tv_register:
@@ -102,6 +108,8 @@ public class LoginRegisterActivity extends BaseActivity {
                 nowFragment = registerFragment;
                 tvRegister.setSelected(true);
                 tvLogin.setSelected(false);
+                tvLogin.setBackgroundResource(R.color.black);
+                tvRegister.setBackgroundResource(R.color.alpha_05_white);
                 setTitle("创建新账户");
                 break;
         }
