@@ -3,9 +3,14 @@ package com.common.base.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.WIFI_SERVICE;
 
 /**
  * des:网络管理工具
@@ -66,5 +71,12 @@ public class NetWorkUtils {
             return true;
         }
         return false;
+    }
+    public static String getConnectWifiSsid(Context context){
+        WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        Log.d("wifiInfo", wifiInfo.toString());
+        Log.d("SSID",wifiInfo.getSSID());
+        return wifiInfo.getSSID();
     }
 }

@@ -1,4 +1,4 @@
-package com.zt.yavon.module.main.view;
+package com.zt.yavon.module.deviceconnect.view;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.main.view.WebviewActivity;
 import com.zt.yavon.utils.DialogUtil;
 
 import java.util.Set;
@@ -44,6 +46,7 @@ public class BluetoothActivity extends BaseActivity {
     LinearLayout linScanBluetooth;
     private BluetoothManager bluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
+    private boolean first=true;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
@@ -94,8 +97,6 @@ public class BluetoothActivity extends BaseActivity {
         setRightMenuTopImage(R.mipmap.iv_explan, 12);
 
 
-
-
     }
 
     private void initblueconfig() {
@@ -104,18 +105,23 @@ public class BluetoothActivity extends BaseActivity {
         registerReceiver(mReceiver, mFilter);
         mFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, mFilter);
+        initPermission();
+
+    }
+
+    private void initPermission() {
         AndPermission.with(this)
                 .runtime()
                 .permission(Permission.Group.LOCATION)
                 .onGranted(permissions -> {
                 })
                 .onDenied(permissions -> {
-//                    DialogUtil.create2BtnInfoDialog(ScanCodeActivity.this, getString(R.string.scan_permission), "取消", "开启", new DialogUtil.OnComfirmListening() {
-//                        @Override
-//                        public void confirm() {
-//                            initPermission();
-//                        }
-//                    });
+                    DialogUtil.create2BtnInfoDialog(BluetoothActivity.this, getString(R.string.scan_permission), "取消", "开启", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            initPermission();
+                        }
+                    });
                 })
                 .start();
     }
@@ -184,15 +190,33 @@ public class BluetoothActivity extends BaseActivity {
         //解除注册
         unregisterReceiver(mReceiver);
     }
-    @OnClick({R.id.tv_right_header, R.id.tv_scan})
+
+    @OnClick({R.id.tv_right_header, R.id.tv_scan, R.id.tv_disconnect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_right_header:
                 break;
+            case R.id.tv_disconnect:
+                WebviewActivity.start(this,"www.baidu.com");
+                break;
             case R.id.tv_scan:
-                mBluetoothAdapter.startDiscovery();
-                linSearchNothing.setVisibility(View.GONE);
-                linSearching.setVisibility(View.VISIBLE);
+                if (first){
+                    mBluetoothAdapter.startDiscovery();
+                    linSearchNothing.setVisibility(View.GONE);
+                    linSearching.setVisibility(View.VISIBLE);
+                    first=false;
+                }else {
+                    linSearchNothing.setVisibility(View.GONE);
+                    linSearching.setVisibility(View.GONE);
+                    DialogUtil.create2BtnInfoDialog(this, getString(R.string.device_is_used), "取消", "去联系", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:123456"));//跳转到拨号界面，同时传递电话号码
+                            startActivity(dialIntent);
+
+                        }
+                    });
+                }
                 break;
         }
     }

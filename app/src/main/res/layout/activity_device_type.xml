@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zt.yavon.module.deviceconnect.view.DeviceTypeActivity">
+
+    <include layout="@layout/header"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蓝牙锁"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_device_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="指纹锁只能密码锁家用防盗门锁" />
+
+        <ImageView
+            android:id="@+id/iv_device"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/lock1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+       <LinearLayout
+           android:paddingLeft="40dp"
+           android:paddingRight="40dp"
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:id="@+id/tv_device"
+               android:drawablePadding="5dp"
+               android:gravity="center_vertical"
+               android:drawableLeft="@mipmap/lock1_small"
+               android:textColor="@color/mainGreen"
+               android:text="设备名称"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+          <View
+              android:layout_marginTop="12dp"
+              android:paddingLeft="40dp"
+              android:paddingRight="40dp"
+              android:background="@drawable/iv_edittext_activate"
+              android:layout_width="match_parent"
+              android:layout_height="5dp"></View>
+       </LinearLayout>
+
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/re_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.jude.easyrecyclerview.EasyRecyclerView>
+        <TextView
+            android:id="@+id/tv_next"
+            android:padding="12dp"
+            android:layout_margin="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shape_stroke_green"
+            android:gravity="center"
+            android:text="下一步"
+            android:textColor="@color/mainGreen" />
+    </RelativeLayout>
+</LinearLayout>

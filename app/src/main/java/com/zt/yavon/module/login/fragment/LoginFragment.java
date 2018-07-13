@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.deviceconnect.view.DeviceAddActivity;
 import com.zt.yavon.module.login.view.ResetPasswordActivity;
-import com.zt.yavon.module.main.view.BluetoothActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,7 +54,7 @@ public class LoginFragment extends BaseFragment {
                 ResetPasswordActivity.start(getActivity());
                 break;
             case R.id.tv_login:
-                BluetoothActivity.start(getActivity());
+                DeviceAddActivity.start(getActivity());
                 break;
         }
     }

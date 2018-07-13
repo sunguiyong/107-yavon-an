@@ -1,4 +1,4 @@
-package com.zt.yavon.module.main.view;
+package com.zt.yavon.module.deviceconnect.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -82,7 +82,8 @@ public class ScanCodeActivity extends BaseActivity {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             Log.e("result", result);
-
+            DeviceTypeActivity.start(ScanCodeActivity.this, DeviceTypeActivity.BATTERY_LOCK);
+            finish();
         }
 
         @Override

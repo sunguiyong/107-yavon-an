@@ -6,9 +6,12 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -17,27 +20,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".module.guide.GuideActivity">-->
-        <activity android:name=".module.device.TestActivity">
-        <!--<activity android:name=".module.login.view.SelectAccountActivity">-->
+
+        <!-- <activity android:name=".module.guide.GuideActivity"> -->
+        <!--<activity android:name=".module.device.TestActivity">-->
+             <activity android:name=".module.login.view.SelectAccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.device.lock.view.LockSettingActivity"/>
-        <activity android:name=".module.device.lock.view.LockUseActivity"/>
-        <activity android:name=".module.device.lock.view.LockRecordActivity"/>
-        <activity android:name=".module.device.lock.view.LockDetailActivity"/>
-        <activity android:name=".module.device.lamp.view.LampDetailActivity"/>
-        <activity android:name=".module.device.lamp.view.LampUseActivity"/>
-        <activity android:name=".module.device.lamp.view.LampSettingActivity"/>
-        <activity android:name=".module.device.lamp.view.LampRecordActivity"/>
-        <activity android:name=".module.device.desk.view.DeskDetailActivity"/>
-        <activity android:name=".module.device.desk.view.DeskSettingActivity"/>
-        <activity android:name=".module.device.desk.view.DeskUseActivity"/>
-        <activity android:name=".module.device.desk.view.DeskRecordActivity"/>
+        <activity android:name=".module.device.lock.view.LockSettingActivity" />
+        <activity android:name=".module.device.lock.view.LockUseActivity" />
+        <activity android:name=".module.device.lock.view.LockRecordActivity" />
+        <activity android:name=".module.device.lock.view.LockDetailActivity" />
+        <activity android:name=".module.device.lamp.view.LampDetailActivity" />
+        <activity android:name=".module.device.lamp.view.LampUseActivity" />
+        <activity android:name=".module.device.lamp.view.LampSettingActivity" />
+        <activity android:name=".module.device.lamp.view.LampRecordActivity" />
+        <activity android:name=".module.device.desk.view.DeskDetailActivity" />
+        <activity android:name=".module.device.desk.view.DeskSettingActivity" />
+        <activity android:name=".module.device.desk.view.DeskUseActivity" />
+        <activity android:name=".module.device.desk.view.DeskRecordActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -53,8 +58,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.login.view.LoginRegisterActivity" />
         <activity android:name=".module.login.view.ResetPasswordActivity" />
-        <activity android:name=".module.main.view.ScanCodeActivity" />
-        <activity android:name=".module.main.view.BluetoothActivity"></activity>
+        <activity android:name=".module.deviceconnect.view.ScanCodeActivity" />
+        <activity android:name=".module.deviceconnect.view.BluetoothActivity" />
+        <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
+        <activity android:name=".module.deviceconnect.view.DeviceAddActivity"></activity>
+        <activity android:name=".module.deviceconnect.view.WifiDeviceActivity"></activity>
     </application>
 
 </manifest>

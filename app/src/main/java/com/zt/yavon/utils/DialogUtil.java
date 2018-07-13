@@ -2,6 +2,7 @@ package com.zt.yavon.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
+import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
@@ -107,6 +109,36 @@ public class DialogUtil {
                 if (listener != null) {
                     listener.confirm(data);
                 }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
+
+    public static Dialog createWifiDialog(final Context context,  final OnComfirmListening listener) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View parent = inflater.inflate(R.layout.dialog_sit_time, null);
+         TextView tv_current_wifi= (TextView) parent.findViewById(R.id.tv_current_wifi);
+         TextView tv_change_wifi=(TextView) parent.findViewById(R.id.tv_change_wifi);
+
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        tv_current_wifi.setText(NetWorkUtils.getConnectWifiSsid(context));
+        tv_change_wifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               context.startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+                dialog.dismiss();
+            }
+        });
+        parent.findViewById(R.id.btn_confirm_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
         dialog.show();

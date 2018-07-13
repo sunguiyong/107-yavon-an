@@ -1,5 +1,7 @@
 package com.zt.yavon.module.device;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import com.zt.yavon.R;
@@ -34,7 +36,10 @@ public class TestActivity extends BaseActivity{
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
     }
-
+    public static void startAction(Context context){
+        Intent intent = new Intent(context,TestActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     public void doClick(View view) {
         switch (view.getId()){
