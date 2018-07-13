@@ -31,7 +31,11 @@ public class LampRecordActivity extends BaseActivity{
     public int getLayoutId() {
         return R.layout.activity_record_use_lamp;
     }
-
+    @Override
+    public void setThemeStyle() {
+        super.setThemeStyle();
+        setStatusBarColor(ContextCompat.getColor(this,R.color.black2));
+    }
     @Override
     public void initPresenter() {
 
@@ -39,7 +43,6 @@ public class LampRecordActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        setStatusBarColor(ContextCompat.getColor(this,R.color.black2));
         setTitleBackgroudColor(R.color.black2);
         setTitle(getString(R.string.more_record));
 //        setRightMenuImage(R.mipmap.more_right);

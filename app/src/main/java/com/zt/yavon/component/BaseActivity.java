@@ -2,6 +2,7 @@ package com.zt.yavon.component;
 
 
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -78,7 +79,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     public void setThemeStyle() {
-
+        // 设置竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // 默认着色状态栏
+//        setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
     }
 
 

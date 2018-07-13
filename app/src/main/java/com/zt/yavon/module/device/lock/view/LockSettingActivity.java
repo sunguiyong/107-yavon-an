@@ -31,7 +31,6 @@ public class LockSettingActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
         setTitle(getString(R.string.title_more));
 //        setRightMenuImage(R.mipmap.more_right);
     }

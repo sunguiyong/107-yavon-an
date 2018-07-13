@@ -38,8 +38,13 @@ public class DeskRecordActivity extends BaseActivity{
     }
 
     @Override
-    public void initView() {
+    public void setThemeStyle() {
+        super.setThemeStyle();
         setStatusBarColor(ContextCompat.getColor(this,R.color.black2));
+    }
+
+    @Override
+    public void initView() {
         setTitleBackgroudColor(R.color.black2);
         setTitle(getString(R.string.more_record));
 //        setRightMenuImage(R.mipmap.more_right);

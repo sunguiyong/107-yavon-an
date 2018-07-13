@@ -19,30 +19,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.device.lock.view.LockSettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lock.view.LockUseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lock.view.LockRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lock.view.LockDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lamp.view.LampDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lamp.view.LampUseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lamp.view.LampSettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.lamp.view.LampRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.desk.view.DeskDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.desk.view.DeskSettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.desk.view.DeskUseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.device.desk.view.DeskRecordActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".module.device.lock.view.LockSettingActivity"/>
+        <activity android:name=".module.device.lock.view.LockUseActivity"/>
+        <activity android:name=".module.device.lock.view.LockRecordActivity"/>
+        <activity android:name=".module.device.lock.view.LockDetailActivity"/>
+        <activity android:name=".module.device.lamp.view.LampDetailActivity"/>
+        <activity android:name=".module.device.lamp.view.LampUseActivity"/>
+        <activity android:name=".module.device.lamp.view.LampSettingActivity"/>
+        <activity android:name=".module.device.lamp.view.LampRecordActivity"/>
+        <activity android:name=".module.device.desk.view.DeskDetailActivity"/>
+        <activity android:name=".module.device.desk.view.DeskSettingActivity"/>
+        <activity android:name=".module.device.desk.view.DeskUseActivity"/>
+        <activity android:name=".module.device.desk.view.DeskRecordActivity"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
