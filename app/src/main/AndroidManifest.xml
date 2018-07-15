@@ -54,7 +54,7 @@
         </provider>
 
         <activity
-            android:name=".module.main.view.MainActivity"
+            android:name=".module.main.frame.view.MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.login.view.LoginRegisterActivity" />
         <activity android:name=".module.login.view.ResetPasswordActivity" />
@@ -63,6 +63,8 @@
         <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceAddActivity"></activity>
         <activity android:name=".module.deviceconnect.view.WifiDeviceActivity"></activity>
+        <activity android:name=".module.roommanager.view.RoomActivity" />
+        <activity android:name=".module.main.adddevice.view.ActAddDevice" />
     </application>
 
 </manifest>

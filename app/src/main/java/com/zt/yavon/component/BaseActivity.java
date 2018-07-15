@@ -2,6 +2,7 @@ package com.zt.yavon.component;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,8 @@ import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.TUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.utils.StatusBarCompat;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Nullable
     @BindView(R.id.root_header)
     View rootHead;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,16 +101,19 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public abstract void initView();
 
 
-    public void doClick(View view){};
+    public void doClick(View view) {
+    }
+
+    ;
 
 
     @Optional
     @OnClick({R.id.btn_back_header, R.id.btn_close_header})
-    public void doubleClickFilter(View view){
+    public void doubleClickFilter(View view) {
         long curTime = System.currentTimeMillis();
-        if(curTime-lastClickTime > TIME_DELAY_BTN){
+        if (curTime - lastClickTime > TIME_DELAY_BTN) {
             lastClickTime = curTime;
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.btn_back_header:
                     onHeadBack();
                     break;
@@ -118,11 +125,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
         }
     }
-    public void hideBackButton(){
-        if(ivBack != null){
+
+    public void hideBackButton() {
+        if (ivBack != null) {
             ivBack.setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -142,18 +151,21 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 //            MobclickAgent.onPause(this);
 //        }
     }
-    public void showProgress(String msg){
-        if(TextUtils.isEmpty(msg))
-           msg = "处理中..." ;
+
+    public void showProgress(String msg) {
+        if (TextUtils.isEmpty(msg))
+            msg = "处理中...";
         dismissProgress();
-        progressDialog = LoadingDialog.showDialogForLoading(this,msg,false,false);
+        progressDialog = LoadingDialog.showDialogForLoading(this, msg, false, false);
     }
-    public void dismissProgress(){
-        if(progressDialog != null && progressDialog.isShowing()){
+
+    public void dismissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
     }
+
     @Override
     protected void onDestroy() {
         dismissProgress();
@@ -165,54 +177,58 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
 
-
-    public void setTitle(String text){
-        if(tvTitle != null && !TextUtils.isEmpty(text)){
+    public void setTitle(String text) {
+        if (tvTitle != null && !TextUtils.isEmpty(text)) {
             tvTitle.setText(text);
         }
     }
-    public void closeWebview(){
+
+    public void closeWebview() {
         finish();
     }
 
-    public void onHeadBack(){
+    public void onHeadBack() {
         finish();
     }
 
-    public void setRightMenuText(String text){
-        if(tvRight != null && !TextUtils.isEmpty(text)){
+    public void setRightMenuText(String text) {
+        if (tvRight != null && !TextUtils.isEmpty(text)) {
             tvRight.setText(text);
         }
     }
 
-    public void setRightMenuImage(int resId){
-        if(tvRight != null ){
+    public void setRightMenuImage(int resId) {
+        if (tvRight != null) {
             Drawable drawable = getResources().getDrawable(resId);
-            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-            tvRight.setCompoundDrawables(drawable,null,null,null);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvRight.setCompoundDrawables(drawable, null, null, null);
         }
     }
-    public void setRightMenuTopImage(int resId,float textsize){
-        if(tvRight != null ){
+
+    public void setRightMenuTopImage(int resId, float textsize) {
+        if (tvRight != null) {
             Drawable drawable = getResources().getDrawable(resId);
-            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-            tvRight.setCompoundDrawables(null,drawable,null,null);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvRight.setCompoundDrawables(null, drawable, null, null);
             tvRight.setTextSize(textsize);
         }
     }
-    public void setTitleBackgroudColor(int colorRes){
-        if(rootHead != null){
-            rootHead.setBackgroundColor(ContextCompat.getColor(this,colorRes));
+
+    public void setTitleBackgroudColor(int colorRes) {
+        if (rootHead != null) {
+            rootHead.setBackgroundColor(ContextCompat.getColor(this, colorRes));
         }
     }
+
     /**
      * 沉浸状态栏（4.4以上系统有效）
      */
     protected void SetTranslanteBar() {
-        StatusBarCompat.translucentStatusBar(this,true);
+        StatusBarCompat.translucentStatusBar(this, true);
     }
-    protected void setStatusBarColor(int color){
-        StatusBarCompat.setStatusBarColor(this,color);
+
+    protected void setStatusBarColor(int color) {
+        StatusBarCompat.setStatusBarColor(this, color);
     }
 //    protected void showStatusBar() {
 //        StatusBarCompat.setStatusBarColor(this,getResources().getColor(R.color.appThem));
@@ -224,14 +240,77 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     /**
      * 沉浸式的文字颜色改变（4.4以上系统有效）
      */
-    protected void SetStateTextColorDark(){
+    protected void SetStateTextColorDark() {
 //        StatusBarCompat.setStatusBarDarkMode(true, this);//false 状态栏字体颜色是白色 true 颜色是黑色
-        StatusBarCompat.setStatusBarLightMode(this,Color.BLACK);
+        StatusBarCompat.setStatusBarLightMode(this, Color.BLACK);
     }
-    protected void SetStateTextColorWhite(){
+
+    protected void SetStateTextColorWhite() {
 //        StatusBarCompat.setStatusBarDarkMode(false, this);//false 状态栏字体颜色是白色 true 颜色是黑色
-        StatusBarCompat.setStatusBarLightMode(this,Color.WHITE);
+        StatusBarCompat.setStatusBarLightMode(this, Color.WHITE);
 
     }
+
+
+    // startActivity & Intent
+    // ------ Start ------
+    public static String EXTRA_COMMON_DATA_BEAN = "extra_data_bean";
+    public static final int REQUEST_CODE_COMMON = 9999;
+    public Serializable mCommonBean;
+
+    public void startAct(Class<?> cls) {
+        startActivity(new Intent(this, cls));
+    }
+
+    public void startAct(Class<?> cls, Serializable bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivity(intent);
+    }
+
+    public void startAct(Class<?> cls, Serializable... bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivity(intent);
+    }
+
+    public void startActForResult(Class<?> cls) {
+        startActivityForResult(new Intent(this, cls), REQUEST_CODE_COMMON);
+    }
+
+    public void startActForResult(Class<?> cls, Serializable bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivityForResult(intent, REQUEST_CODE_COMMON);
+    }
+
+    public void startActForResult(Class<?> cls, Serializable... bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivityForResult(intent, REQUEST_CODE_COMMON);
+    }
+
+    public void startActForResult(Class<?> cls, int requestCode) {
+        startActivityForResult(new Intent(this, cls), requestCode);
+    }
+
+    public void startActForResult(Class<?> cls, int requestCode, Serializable bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivityForResult(intent, requestCode);
+    }
+
+    public void startActForResult(Class<?> cls, int requestCode, Serializable... bean) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        startActivityForResult(intent, requestCode);
+    }
+
+    public void setResult(int resultCode, Serializable bean) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_COMMON_DATA_BEAN, bean);
+        super.setResult(resultCode, intent);
+    }
+    // ------ End ------
 
 }

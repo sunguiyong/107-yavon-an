@@ -5,7 +5,7 @@ import android.os.Message;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.component.LeakSafeHandler;
-import com.zt.yavon.module.main.view.MainActivity;
+import com.zt.yavon.module.main.frame.view.MainActivity;
 
 /**
  * Created by hp on 2018/6/11.

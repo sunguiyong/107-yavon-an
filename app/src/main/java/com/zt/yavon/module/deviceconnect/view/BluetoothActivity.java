@@ -20,7 +20,7 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.view.WebviewActivity;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.utils.DialogUtil;
 
 import java.util.Set;

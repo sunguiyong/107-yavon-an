@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.common.base.utils.NetWorkUtils;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.view.WebviewActivity;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;

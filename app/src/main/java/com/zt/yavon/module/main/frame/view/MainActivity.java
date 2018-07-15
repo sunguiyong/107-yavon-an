@@ -1,23 +1,23 @@
-package com.zt.yavon.module.main.view;
+package com.zt.yavon.module.main.frame.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.common.base.utils.DensityUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.main.frame.model.DeviceItemBean;
 import com.zt.yavon.module.mine.MineFragment;
 import com.zt.yavon.widget.MyFragmentTabHost;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -25,8 +25,9 @@ public class MainActivity extends BaseActivity {
     @BindView(android.R.id.tabhost)
     MyFragmentTabHost fragmentTabHost;
     private String texts[] = new String[2];
-    private Class fragmentArray[] = {HomeFragment.class,MineFragment.class};
-    private int[] imageButton = {R.mipmap.ic_launcher,R.mipmap.ic_launcher};
+    private Class fragmentArray[] = {HomeFragment.class, MineFragment.class};
+    private int[] imageButton = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -71,11 +72,11 @@ public class MainActivity extends BaseActivity {
 //        ColorStateList csl=(ColorStateList)getResources().getColorStateList(R.color.tab_text_select);
 //        textView.setTextColor(Co);
         textView.setTextSize(11);
-        Drawable drawable= getResources().getDrawable(imageButton[i]);
+        Drawable drawable = getResources().getDrawable(imageButton[i]);
         // 这一步必须要做,否则不会显示.
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        textView.setCompoundDrawables(null,drawable,null,null);
-        textView.setCompoundDrawablePadding(DensityUtil.dp2px(this,3));
+        textView.setCompoundDrawables(null, drawable, null, null);
+        textView.setCompoundDrawablePadding(DensityUtil.dp2px(this, 3));
         textView.setClickable(true);
 //        View view = getLayoutInflater().inflate(R.layout.item_tab_home,null);
 //        TextView textView = (TextView) view.findViewById(R.id.tv_tab_home);
@@ -99,8 +100,21 @@ public class MainActivity extends BaseActivity {
 //        }
 //    }
 
-    public static void startAction(Context context){
-        Intent intent = new Intent(context,MainActivity.class);
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_COMMON && resultCode == RESULT_OK) {
+            List<DeviceItemBean> beans = (List<DeviceItemBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+            HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+            FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter)fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
+            fmtDevice.addData(beans);
+        }
+    }
+
+    public static void startAction(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
+
 }

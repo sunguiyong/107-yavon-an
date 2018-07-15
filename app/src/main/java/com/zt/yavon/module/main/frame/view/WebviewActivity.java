@@ -1,4 +1,4 @@
-package com.zt.yavon.module.main.view;
+package com.zt.yavon.module.main.frame.view;
 
 import android.app.Activity;
 import android.content.Intent;
