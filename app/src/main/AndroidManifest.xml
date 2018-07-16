@@ -42,6 +42,7 @@
         <activity android:name=".module.device.desk.view.DeskSettingActivity" />
         <activity android:name=".module.device.desk.view.DeskUseActivity" />
         <activity android:name=".module.device.desk.view.DeskRecordActivity" />
+        <activity android:name=".module.device.TestActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

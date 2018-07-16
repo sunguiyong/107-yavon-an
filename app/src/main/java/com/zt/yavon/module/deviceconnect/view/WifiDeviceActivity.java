@@ -70,6 +70,12 @@ public class WifiDeviceActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initDialog();
+    }
+
     @OnClick({R.id.tv_scan, R.id.tv_disconnect})
     public void onViewClicked(View view) {
         switch (view.getId()) {

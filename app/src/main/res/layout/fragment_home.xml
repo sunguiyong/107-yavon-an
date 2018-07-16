@@ -34,6 +34,7 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/iv_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
@@ -44,6 +45,7 @@
                 android:src="@mipmap/ic_qr_code" />
 
             <ImageView
+                android:id="@+id/iv_add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"

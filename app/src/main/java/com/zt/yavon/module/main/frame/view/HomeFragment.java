@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.deviceconnect.view.DeviceAddActivity;
+import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -119,5 +122,21 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+
+
+
+
+    @OnClick({R.id.iv_scan, R.id.iv_add})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_scan:
+                ScanCodeActivity.start(getActivity());
+                break;
+            case R.id.iv_add:
+                DeviceAddActivity.start(getActivity());
+                break;
+        }
     }
 }

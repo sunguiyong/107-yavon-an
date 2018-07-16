@@ -117,7 +117,7 @@ public class DialogUtil {
 
     public static Dialog createWifiDialog(final Context context,  final OnComfirmListening listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View parent = inflater.inflate(R.layout.dialog_sit_time, null);
+        View parent = inflater.inflate(R.layout.dialog_wifi, null);
          TextView tv_current_wifi= (TextView) parent.findViewById(R.id.tv_current_wifi);
          TextView tv_change_wifi=(TextView) parent.findViewById(R.id.tv_change_wifi);
 
@@ -127,7 +127,9 @@ public class DialogUtil {
         int width = context.getResources().getDisplayMetrics().widthPixels;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(parent, params);
-        tv_current_wifi.setText(NetWorkUtils.getConnectWifiSsid(context));
+        if (!TextUtils.isEmpty(NetWorkUtils.getConnectWifiSsid(context))){
+            tv_current_wifi.setText(NetWorkUtils.getConnectWifiSsid(context));
+        }
         tv_change_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

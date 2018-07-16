@@ -90,7 +90,7 @@ public class DeviceAddActivity extends BaseActivity {
             public void onItemClick(int position) {
                 switch (deviceAdapter.getAllData().get(position).getDeviceType()) {
                     case "0":
-
+                        WifiDeviceActivity.start(DeviceAddActivity.this);
                         break;
                     case "1":
                         ScanCodeActivity.start(DeviceAddActivity.this);
