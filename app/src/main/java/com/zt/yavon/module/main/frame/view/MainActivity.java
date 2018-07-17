@@ -16,7 +16,7 @@ import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.main.frame.model.DeviceItemBean;
 import com.zt.yavon.module.mall.MallFragment;
-import com.zt.yavon.module.mine.MineFragment;
+import com.zt.yavon.module.mine.view.MineFragment;
 import com.zt.yavon.widget.MyFragmentTabHost;
 
 import java.util.List;

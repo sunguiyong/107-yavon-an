@@ -18,10 +18,11 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         />
-    <View
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@mipmap/divider_white"/>
+        android:layout_height="wrap_content"
+        android:src="@mipmap/divider_white"
+        android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/tv_use_record_desk"
         android:layout_width="match_parent"
@@ -34,10 +35,11 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         />
-    <View
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@mipmap/divider_white"/>
+        android:layout_height="wrap_content"
+        android:src="@mipmap/divider_white"
+        android:scaleType="centerCrop"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,10 +51,11 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         />
-    <View
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@mipmap/divider_white"/>
+        android:layout_height="wrap_content"
+        android:src="@mipmap/divider_white"
+        android:scaleType="centerCrop"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,8 +97,9 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"/>
     </LinearLayout>
-    <View
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@mipmap/divider_white"/>
+        android:layout_height="wrap_content"
+        android:src="@mipmap/divider_white"
+        android:scaleType="centerCrop"/>
 </LinearLayout>

@@ -1,11 +1,13 @@
-package com.zt.yavon.module.login.fragment;
+package com.zt.yavon.module.account.login.fragment;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.widget.CustomEditText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,14 +19,16 @@ import butterknife.OnClick;
 public class RegisterFragment extends BaseFragment {
     @BindView(R.id.et_phone)
     EditText etPhone;
+    @BindView(R.id.iv_divider_phone)
+    ImageView ivDivider;
     @BindView(R.id.tv_get_notify)
     TextView tvGetNotify;
     @BindView(R.id.et_notify)
-    EditText etNotify;
+    CustomEditText etNotify;
     @BindView(R.id.et_psd)
-    EditText etPsd;
+    CustomEditText etPsd;
     @BindView(R.id.et_psd_again)
-    EditText etPsdAgain;
+    CustomEditText etPsdAgain;
     @BindView(R.id.tv_agree)
     TextView tvAgree;
     @BindView(R.id.tv_register)
@@ -47,6 +51,12 @@ public class RegisterFragment extends BaseFragment {
         hideBackButton();
         setTitle(getString(R.string.tab_mine));
         tvAgree.setSelected(true);
+        etPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                ivDivider.setSelected(hasFocus);
+            }
+        });
     }
 
 

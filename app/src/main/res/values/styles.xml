@@ -24,4 +24,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <declare-styleable name="CustomEditTextStyle">
+        <attr name="deleteDrawable" format="reference"/>
+        <attr name="visibleDrawable" format="reference"/>
+        <attr name="iconDrawable" format="reference"/>
+        <attr name="passwordTag" format="boolean"/>
+        <attr name="customHint" format="string|reference"/>
+        <attr name="customHintColor" format="color|reference"/>
+        <attr name="drawablePadding" format="dimension"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
 </resources>

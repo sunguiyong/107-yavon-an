@@ -3,7 +3,9 @@ package com.zt.yavon.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -83,6 +85,49 @@ public class DialogUtil {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_sit_time, null);
         final EditText etTime = (EditText) parent.findViewById(R.id.et_time_dialog);
+        ((TextView) parent.findViewById(R.id.title_dialog)).setText(R.string.title_dialog_sitdown);
+        etTime.setInputType(InputType.TYPE_CLASS_NUMBER);
+        etTime.setHint(R.string.tip2_time);
+        parent.findViewById(R.id.tv_unit_dialog).setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(defaultValue))
+            etTime.setText(defaultValue);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        parent.findViewById(R.id.btn_cancle_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        parent.findViewById(R.id.btn_confirm_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data = etTime.getText().toString().trim();
+                if (TextUtils.isEmpty(data)) {
+                    ToastUtil.showShort(context, context.getString(R.string.tip2_time));
+                    return;
+                }
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm(data);
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
+    public static Dialog createNickNameDialog(final Context context, String defaultValue, final OnComfirmListening2 listener) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View parent = inflater.inflate(R.layout.dialog_sit_time, null);
+        final EditText etTime = (EditText) parent.findViewById(R.id.et_time_dialog);
+        ((TextView) parent.findViewById(R.id.title_dialog)).setText(R.string.nickname_modify);
+        etTime.setInputType(InputType.TYPE_CLASS_TEXT);
+        etTime.setHint(R.string.nickname_hint);
+        parent.findViewById(R.id.tv_unit_dialog).setVisibility(View.GONE);
         if (!TextUtils.isEmpty(defaultValue))
             etTime.setText(defaultValue);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);

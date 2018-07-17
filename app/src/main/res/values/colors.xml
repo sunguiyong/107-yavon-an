@@ -14,4 +14,5 @@
     <color name="black">#000000</color>
     <color name="text_black">#2D2220</color>
     <color name="gray_circle">#88ffffff</color>
+    <color name="bg_white">#f7f8f8</color>
 </resources>

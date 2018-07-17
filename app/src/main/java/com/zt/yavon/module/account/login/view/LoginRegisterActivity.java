@@ -1,4 +1,4 @@
-package com.zt.yavon.module.login.view;
+package com.zt.yavon.module.account.login.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.login.fragment.LoginFragment;
-import com.zt.yavon.module.login.fragment.RegisterFragment;
+import com.zt.yavon.module.account.login.fragment.LoginFragment;
+import com.zt.yavon.module.account.login.fragment.RegisterFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;

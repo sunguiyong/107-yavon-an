@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <!-- <activity android:name=".module.guide.GuideActivity"> -->
-             <activity android:name=".module.login.view.SelectAccountActivity">
+             <activity android:name=".module.account.login.view.SelectAccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,10 @@
         <activity android:name=".module.device.desk.view.DeskSettingActivity" />
         <activity android:name=".module.device.desk.view.DeskUseActivity" />
         <activity android:name=".module.device.desk.view.DeskRecordActivity" />
-        <activity android:name=".module.device.TestActivity" />
+        <activity android:name=".module.mine.view.PersonalInfoActivity" />
+        <activity android:name=".module.mine.view.BindEmailActivity" />
+        <activity android:name=".module.mine.view.ModityEmailActivity" />
+        <activity android:name=".module.mine.view.ModityPhoneActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -56,8 +59,8 @@
         <activity
             android:name=".module.main.frame.view.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.login.view.LoginRegisterActivity" />
-        <activity android:name=".module.login.view.ResetPasswordActivity" />
+        <activity android:name=".module.account.login.view.LoginRegisterActivity" />
+        <activity android:name=".module.account.login.view.ResetPasswordActivity" />
         <activity android:name=".module.deviceconnect.view.ScanCodeActivity" />
         <activity android:name=".module.deviceconnect.view.BluetoothActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
