@@ -56,7 +56,7 @@ public class CustomHeightAdapter extends BaseAdapter{
         }else{
            vh = (ViewHolder) view.getTag();
         }
-        vh.tv.setText(list.get(i).getName());
+        vh.tv.setText("自定义"+(i+1));
         vh.tv.setSelected(list.get(i).isSelect());
         return view;
     }

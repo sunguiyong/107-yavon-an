@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,74 +11,75 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="30dp">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
             <EditText
-
-                android:singleLine="true"
-                android:layout_width="match_parent"
+                android:id="@+id/et_phone"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:drawableLeft="@drawable/selector_phone"
-                android:drawablePadding="10dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
                 android:hint="请输入11位手机号码"
-                android:textSize="@dimen/sp_14"
-                android:id="@+id/et_phone" />
+                android:paddingTop="15dp"
+                android:drawableLeft="@drawable/selector_phone"
+                android:background="@null"
+                android:drawablePadding="10dp"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_get_notify"
-                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/et_phone"
-                android:layout_alignBottom="@+id/et_phone"
-                android:layout_alignParentEnd="true"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
                 android:background="@drawable/shape_stroke_green"
-                android:paddingBottom="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="3dp"
                 android:text="获取验证码"
-                android:textColor="@color/mainGreen" />
-        </RelativeLayout>
-
-        <EditText
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_divider_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_divider"
+            android:scaleType="centerCrop"/>
+        <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_notify"
-            android:singleLine="true"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/selector_key"
-            android:drawablePadding="10dp"
-            android:hint="请输入验证码"
-            android:textSize="@dimen/sp_14" />
-
-        <EditText
+            app:iconDrawable="@drawable/selector_key"
+            app:drawablePadding="10dp"
+            app:customHint="请输入验证码"
+            app:textSize="14sp" />
+        <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_psd"
-            android:singleLine="true"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/selector_password"
-            android:drawablePadding="10dp"
-            android:hint="请输入密码"
-            android:textSize="@dimen/sp_14" />
-
-        <EditText
+            app:iconDrawable="@drawable/selector_password"
+            app:drawablePadding="10dp"
+            app:customHint="请输入密码"
+            app:textSize="14sp" />
+        <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_psd_again"
-            android:singleLine="true"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/selector_password"
-            android:drawablePadding="10dp"
-            android:hint="请再次输入密码"
-            android:textSize="@dimen/sp_14" />
+            app:iconDrawable="@drawable/selector_password"
+            app:drawablePadding="10dp"
+            app:customHint="请再次输入密码"
+            app:textSize="14sp" />
 
         <TextView
             android:drawablePadding="3dp"

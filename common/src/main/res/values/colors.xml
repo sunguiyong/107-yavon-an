@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1C1B21</color>
-    <color name="colorPrimaryDark">#1C1B21</color>
-    <color name="colorAccent">#1C1B21</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
     <color name="text_grey">#1C1B21</color>
     <color name="black">#000000</color>
     <color name="window_default_bg">#FFFFFF</color>
@@ -10,6 +10,8 @@
     <color name="divider_grey">#DDDFDE</color>
     <color name="white">#FFFFFF</color>
     <color name="mainGray">#b3b3b3</color>
+    <color name="color_hint">#959595</color>
+    <color name="color_activate">#52d5c5</color>
 
     <color name="alpha_05_white">#0DFFFFFF</color>
     <color name="alpha_10_white">#1AFFFFFF</color>

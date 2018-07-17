@@ -18,4 +18,5 @@ public class DeviceItemBean implements Serializable{
     public DeviceItemBean() {
 
     }
+
 }

@@ -6,6 +6,7 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/title_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -32,9 +33,9 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:hint="@string/tip2_time"
-            android:inputType="number"
             android:background="@null"/>
         <TextView
+            android:id="@+id/tv_unit_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"

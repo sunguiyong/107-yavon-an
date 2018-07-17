@@ -44,7 +44,7 @@
             android:progressDrawable="@drawable/progressbar"
             android:splitTrack="false"
             android:thumbOffset="0dp"
-            android:thumb="@drawable/round_point_record_w"
+            android:thumb="@drawable/round_point_seekbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -106,51 +106,61 @@
             android:layout_marginRight="8dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.zt.yavon.widget.MyTextView
                 android:id="@+id/tv_zdy1_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
+                android:maxLength="9"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:textSize="12.5sp"
+                android:lines="2"
+                android:gravity="center"
+                android:textSize="13sp"
                 android:text="自定义1"/>
-            <TextView
+            <com.zt.yavon.widget.MyTextView
                 android:id="@+id/tv_zdy2_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
-                android:textSize="12.5sp"
+                android:maxLength="9"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
+                android:lines="2"
+                android:gravity="center"
                 android:text="自定义2"/>
-            <TextView
+            <com.zt.yavon.widget.MyTextView
                 android:id="@+id/tv_zdy3_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
-                android:textSize="12.5sp"
+                android:maxLength="9"
+                android:textSize="13sp"
+                android:lines="2"
+                android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
                 android:text="自定义3"/>
-            <TextView
+            <com.zt.yavon.widget.MyTextView
                 android:id="@+id/tv_zdy4_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
-                android:textSize="12.5sp"
+                android:maxLength="9"
+                android:textSize="13sp"
+                android:lines="2"
+                android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
                 android:text="自定义4"/>
-            <TextView
+            <com.zt.yavon.widget.MyTextView
                 android:id="@+id/tv_zdy5_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="8"
-                android:textSize="12.5sp"
+                android:maxLength="9"
+                android:lines="2"
+                android:gravity="center"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"

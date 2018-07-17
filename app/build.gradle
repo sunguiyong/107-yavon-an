@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
+ext {
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream() ;
+    properties.load( inputStream )
 
+    mykeyAlias = properties.getProperty( 'keyAlias' )
+    mykeyPassword = properties.getProperty( 'keyPassword' )
+    mystoreFile = file(properties.getProperty( 'storeFile' ))
+    mystorePassword = properties.getProperty( 'storePassword' )
+}
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -7,16 +16,30 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.2"
         multiDexEnabled true
     }
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    signingConfigs {
+        release {
+            storeFile mystoreFile
+            storePassword mystorePassword
+            keyAlias mykeyAlias
+            keyPassword mykeyPassword
+        }
+    }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

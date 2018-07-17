@@ -17,6 +17,7 @@
     <!-- 基础 BaseEditText，一般不直接使用 -->
     <style name="BaseEditText" parent="android:Widget.EditText">
         <item name="android:textSize">@dimen/text_size_content</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- 基础 TextView，一般不直接使用 -->

@@ -1,4 +1,4 @@
-package com.zt.yavon.module.login.fragment;
+package com.zt.yavon.module.account.login.fragment;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,8 +6,9 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.login.view.ResetPasswordActivity;
+import com.zt.yavon.module.account.login.view.ResetPasswordActivity;
 import com.zt.yavon.module.main.frame.view.MainActivity;
+import com.zt.yavon.widget.CustomEditText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,9 +19,9 @@ import butterknife.OnClick;
 
 public class LoginFragment extends BaseFragment {
     @BindView(R.id.et_account)
-    EditText etAccount;
-    @BindView(R.id.et_psd)
-    EditText etPsd;
+    CustomEditText etAccount;
+    @BindView(R.id.et_pwd)
+    CustomEditText etPwd;
     @BindView(R.id.tv_auto_login)
     TextView tvAutoLogin;
     @BindView(R.id.tv_forget_psd)

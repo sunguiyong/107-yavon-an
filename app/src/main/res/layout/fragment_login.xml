@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,28 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
+        <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_account"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/selector_account"
-            android:drawablePadding="10dp"
-            android:hint="账号/手机号/邮箱"
-            android:textSize="@dimen/sp_14" />
-        <EditText
-            android:id="@+id/et_psd"
-            android:drawableRight="@drawable/selector_password_visible"
-            android:layout_marginTop="15dp"
+            app:iconDrawable="@drawable/selector_account"
+            app:drawablePadding="10dp"
+            app:customHint="账号/手机号/邮箱"
+            app:textSize="14sp" />
+        <com.zt.yavon.widget.CustomEditText
+            android:id="@+id/et_pwd"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/selector_password"
-            android:drawablePadding="10dp"
-            android:hint="密码"
-            android:textSize="@dimen/sp_14" />
+            app:iconDrawable="@drawable/selector_password"
+            app:visibleDrawable="@drawable/selector_password_visible"
+            app:drawablePadding="10dp"
+            app:customHint="密码"
+            app:textSize="14sp" />
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
             <TextView
                 android:drawablePadding="3dp"
                 android:drawableLeft="@drawable/selector_login"

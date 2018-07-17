@@ -1,4 +1,4 @@
-package com.zt.yavon.module.login.view;
+package com.zt.yavon.module.account.login.view;
 
 import android.app.Activity;
 import android.content.Intent;
