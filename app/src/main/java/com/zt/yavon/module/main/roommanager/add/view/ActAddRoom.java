@@ -1,7 +1,10 @@
 package com.zt.yavon.module.main.roommanager.add.view;
 
+import android.view.View;
 import android.widget.Button;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.main.roommanager.add.adapter.RvRoomAdd;
@@ -23,6 +26,8 @@ public class ActAddRoom extends BaseActivity<AddRoomPresenter> implements AddRoo
     @BindView(R.id.btn_ok)
     Button btnOk;
 
+    private int mCheckPosition;
+
     @Override
     public int getLayoutId() {
         return R.layout.act_add_room_layout;
@@ -35,6 +40,13 @@ public class ActAddRoom extends BaseActivity<AddRoomPresenter> implements AddRoo
 
     @Override
     public void initView() {
+        setTitle("添加房间");
+        rvRoomAdd.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                rvRoomAdd.onItemCheck(position);
+            }
+        });
         mPresenter.getAddRoomData();
     }
 

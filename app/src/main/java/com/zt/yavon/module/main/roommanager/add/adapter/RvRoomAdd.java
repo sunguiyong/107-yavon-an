@@ -42,6 +42,17 @@ public class RvRoomAdd extends RvBase<RoomItemBean> {
     public void customConvert(BaseViewHolder holder, RoomItemBean bean) {
         CheckBox cb = holder.getView(R.id.cb_room_item);
         cb.setChecked(false);
+        cb.setText(bean.mName);
         cb.setCompoundDrawablesWithIntrinsicBounds(0, bean.mResId, 0, 0);
+        if (holder.getLayoutPosition() == mCheckedPosition && mCheckedPosition != mAdapter.getItemCount() - 1) {
+            cb.setChecked(true);
+        }
+    }
+
+    private int mCheckedPosition = -1;
+
+    public void onItemCheck(int position) {
+        mCheckedPosition = position;
+        mAdapter.notifyDataSetChanged();
     }
 }
