@@ -10,6 +10,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
+import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
+import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.main.adddevice.view.ActAddDevice;
 import com.zt.yavon.module.main.frame.adapter.RvDevices;
 import com.zt.yavon.module.main.frame.contract.DeviceContract;
@@ -54,8 +57,18 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         mRvDevices.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DeviceItemBean item = (DeviceItemBean) adapter.getItem(position);
                 if (position == adapter.getItemCount() - 1) {
                     ((MainActivity) getActivity()).startActForResult(ActAddDevice.class);
+                }else{
+
+                    if("1".equals(item.mDeviceId)){
+                        LampDetailActivity.startAction(getContext());
+                    }else if("2".equals(item.mDeviceId)){
+                        DeskDetailActivity.startAction(getContext());
+                    }else if("3".equals(item.mDeviceId)){
+                        LockDetailActivity.startAction(getContext());
+                    }
                 }
             }
         });

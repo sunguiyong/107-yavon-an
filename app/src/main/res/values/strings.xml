@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Yavon</string>
-    <string name="tab_main">首页</string>
+    <string name="tab_main">Yavon</string>
+    <string name="tab_mall">商城</string>
     <string name="tab_mine">我的</string>
     <string name="cancle">取消</string>
     <string name="confirm">确定</string>

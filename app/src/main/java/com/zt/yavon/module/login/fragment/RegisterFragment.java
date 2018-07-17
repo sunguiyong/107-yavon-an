@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.device.TestActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,7 +66,6 @@ public class RegisterFragment extends BaseFragment {
                 }
                 break;
             case R.id.tv_register:
-                TestActivity.startAction(getActivity());
                 break;
             case R.id.tv_login:
                 break;

@@ -1,11 +1,9 @@
-package com.zt.yavon.module.device;
+package com.zt.yavon.module.mall;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import com.zt.yavon.R;
-import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
@@ -13,13 +11,14 @@ import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import butterknife.OnClick;
 
 /**
- * Created by lifujun on 2018/7/11.
+ * Created by lifujun on 2018/7/16.
  */
 
-public class TestActivity extends BaseActivity{
+public class MallFragment extends BaseFragment{
+
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_test_device;
+    protected int getLayoutResource() {
+        return R.layout.fragment_mall_main;
     }
 
     @Override
@@ -29,28 +28,25 @@ public class TestActivity extends BaseActivity{
 
     @Override
     public void initView() {
-
+        hideBackButton();
+        setTitle(getString(R.string.tab_mall));
     }
     @OnClick({R.id.btn_lamp,R.id.btn_lock,R.id.btn_desk})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
     }
-    public static void startAction(Context context){
-        Intent intent = new Intent(context,TestActivity.class);
-        context.startActivity(intent);
-    }
     @Override
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.btn_lamp:
-                LampDetailActivity.startAction(this);
+                LampDetailActivity.startAction(getActivity());
                 break;
             case R.id.btn_lock:
-                LockDetailActivity.startAction(this);
+                LockDetailActivity.startAction(getActivity());
                 break;
             case R.id.btn_desk:
-                DeskDetailActivity.startAction(this);
+                DeskDetailActivity.startAction(getActivity());
                 break;
         }
     }

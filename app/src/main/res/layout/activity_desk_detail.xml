@@ -44,7 +44,7 @@
             android:progressDrawable="@drawable/progressbar"
             android:splitTrack="false"
             android:thumbOffset="0dp"
-            android:thumb="@drawable/round_point_record_w"
+            android:thumb="@drawable/round_point_seekbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -113,48 +113,48 @@
                 android:maxLength="8"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:textSize="12.5sp"
-                android:text="自定义1"/>
+                android:textSize="13sp"
+                android:text="自定义自\n定义字1"/>
             <TextView
                 android:id="@+id/tv_zdy2_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="8"
-                android:textSize="12.5sp"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:text="自定义2"/>
+                android:text="自定义自\n定义字2"/>
             <TextView
                 android:id="@+id/tv_zdy3_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="8"
-                android:textSize="12.5sp"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:text="自定义3"/>
+                android:text="自定义自\n定义字3"/>
             <TextView
                 android:id="@+id/tv_zdy4_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="8"
-                android:textSize="12.5sp"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:text="自定义4"/>
+                android:text="自定义自\n定义字4"/>
             <TextView
                 android:id="@+id/tv_zdy5_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="8"
-                android:textSize="12.5sp"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/switch_text_select5"
                 android:clickable="true"
-                android:text="自定义5"/>
+                android:text="自定义自\n定义字5"/>
             <View
                 android:layout_width="20dp"
                 android:layout_height="1dp"

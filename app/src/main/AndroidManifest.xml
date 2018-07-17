@@ -22,7 +22,6 @@
         android:theme="@style/AppTheme">
 
         <!-- <activity android:name=".module.guide.GuideActivity"> -->
-        <!--<activity android:name=".module.device.TestActivity">-->
              <activity android:name=".module.login.view.SelectAccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

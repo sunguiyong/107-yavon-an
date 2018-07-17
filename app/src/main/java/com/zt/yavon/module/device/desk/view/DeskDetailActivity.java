@@ -111,7 +111,7 @@ public class DeskDetailActivity extends BaseActivity{
         heightList = new ArrayList<>();
         for(int i = 1;i<6;i++){
             CustomHeightBean bean = new CustomHeightBean();
-            bean.setName("自定义"+i);
+            bean.setName("自定义自\n定义义"+i);
             bean.setHeight(i+"");
             heightList.add(bean);
         }
@@ -180,27 +180,27 @@ public class DeskDetailActivity extends BaseActivity{
     private void updateCustomButtonName() {
         String name0 = heightList.get(0).getName();
         if(TextUtils.isEmpty(name0)){
-            name0 = "自定义1";
+            name0 = "自定义自\n定义义1";
         }
         tvZDY1.setText(name0);
         String name1 = heightList.get(1).getName();
         if(TextUtils.isEmpty(name1)){
-            name1 = "自定义1";
+            name1 = "自定义自\n定义义2";
         }
         tvZDY2.setText(name1);
         String name2 = heightList.get(2).getName();
         if(TextUtils.isEmpty(name2)){
-            name2 = "自定义1";
+            name2 = "自定义自\n定义义3";
         }
         tvZDY3.setText(name2);
         String name3 = heightList.get(3).getName();
         if(TextUtils.isEmpty(name3)){
-            name3 = "自定义1";
+            name3 = "自定义自\n定义义4";
         }
         tvZDY4.setText(name3);
         String name4 = heightList.get(4).getName();
         if(TextUtils.isEmpty(name4)){
-            name4 = "自定义1";
+            name4 = "自定义自\n定义义5";
         }
         tvZDY5.setText(name4);
     }

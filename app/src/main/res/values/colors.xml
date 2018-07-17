@@ -5,11 +5,13 @@
     <color name="white_tran">#A0FFFFFF</color>
     <color name="white_tran2">#88ffffff</color>
     <color name="gray_disable">#E4E4E4</color>
-    <color name="gray_text">#959595</color>
+    <color name="gray_text">#898989</color>
     <color name="bg_main">#161429</color>
     <color name="green">#22B449</color>
     <color name="black2">#121212</color>
     <color name="mainGray">#b3b3b3</color>
     <color name="mainGreen">#52d5c5</color>
     <color name="black">#000000</color>
+    <color name="text_black">#2D2220</color>
+    <color name="gray_circle">#88ffffff</color>
 </resources>
