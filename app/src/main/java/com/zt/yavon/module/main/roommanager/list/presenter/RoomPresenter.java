@@ -1,8 +1,8 @@
-package com.zt.yavon.module.roommanager.presenter;
+package com.zt.yavon.module.main.roommanager.list.presenter;
 
 import com.zt.yavon.R;
-import com.zt.yavon.module.roommanager.contract.RoomContract;
-import com.zt.yavon.module.roommanager.model.RoomBean;
+import com.zt.yavon.module.main.roommanager.list.contract.RoomContract;
+import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
 
 import java.util.ArrayList;
 import java.util.List;

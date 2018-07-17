@@ -1,4 +1,4 @@
-package com.zt.yavon.module.roommanager.model;
+package com.zt.yavon.module.main.roommanager.list.model;
 
 public class RoomBean {
     public String mName;

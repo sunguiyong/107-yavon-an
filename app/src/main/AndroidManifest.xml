@@ -64,8 +64,9 @@
         <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceAddActivity"></activity>
         <activity android:name=".module.deviceconnect.view.WifiDeviceActivity"></activity>
-        <activity android:name=".module.roommanager.view.RoomActivity" />
+        <activity android:name=".module.main.roommanager.list.view.RoomActivity" />
         <activity android:name=".module.main.adddevice.view.ActAddDevice" />
+        <activity android:name=".module.main.roommanager.add.view.ActAddRoom" />
     </application>
 
 </manifest>

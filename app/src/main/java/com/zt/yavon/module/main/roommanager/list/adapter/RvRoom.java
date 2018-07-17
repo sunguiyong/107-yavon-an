@@ -1,4 +1,4 @@
-package com.zt.yavon.module.roommanager.adapter;
+package com.zt.yavon.module.main.roommanager.list.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
-import com.zt.yavon.module.roommanager.model.RoomBean;
+import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
 import com.zt.yavon.widget.RvBase;
 
 public class RvRoom extends RvBase<RoomBean> {

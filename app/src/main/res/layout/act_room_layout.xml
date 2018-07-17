@@ -6,7 +6,7 @@
 
     <include layout="@layout/header" />
 
-    <com.zt.yavon.module.roommanager.adapter.RvRoom
+    <com.zt.yavon.module.main.roommanager.list.adapter.RvRoom
         android:id="@+id/rv_room"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

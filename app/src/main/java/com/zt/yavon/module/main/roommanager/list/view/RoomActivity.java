@@ -1,15 +1,15 @@
-package com.zt.yavon.module.roommanager.view;
+package com.zt.yavon.module.main.roommanager.list.view;
 
 
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.roommanager.adapter.RvRoom;
-import com.zt.yavon.module.roommanager.contract.RoomContract;
-import com.zt.yavon.module.roommanager.model.RoomBean;
-import com.zt.yavon.module.roommanager.presenter.RoomPresenter;
+import com.zt.yavon.module.main.roommanager.add.view.ActAddRoom;
+import com.zt.yavon.module.main.roommanager.list.adapter.RvRoom;
+import com.zt.yavon.module.main.roommanager.list.contract.RoomContract;
+import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
+import com.zt.yavon.module.main.roommanager.list.presenter.RoomPresenter;
 
 import java.util.List;
 
@@ -34,11 +34,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
     public void initView() {
         setTitle("房间管理");
         setRightMenuText("添加房间");
-        findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        findViewById(R.id.tv_right_header).setOnClickListener(v -> {
+            startActForResult(ActAddRoom.class);
         });
         mPresenter.getRoomData();
     }
