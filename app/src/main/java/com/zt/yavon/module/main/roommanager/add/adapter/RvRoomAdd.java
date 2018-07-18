@@ -49,7 +49,7 @@ public class RvRoomAdd extends RvBase<RoomItemBean> {
         }
     }
 
-    private int mCheckedPosition = -1;
+    public int mCheckedPosition = -1;
 
     public void onItemCheck(int position) {
         mCheckedPosition = position;

@@ -1,10 +1,12 @@
 package com.zt.yavon.module.main.roommanager.list.view;
 
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.add.view.ActAddRoom;
 import com.zt.yavon.module.main.roommanager.list.adapter.RvRoom;
 import com.zt.yavon.module.main.roommanager.list.contract.RoomContract;
@@ -19,6 +21,15 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
 
     @BindView(R.id.rv_room)
     RvRoom rvRoom;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_COMMON && resultCode == RESULT_OK) {
+            RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+            rvRoom.addData(new RoomBean(item.mName, item.mResId, 2));
+        }
+    }
 
     @Override
     public int getLayoutId() {

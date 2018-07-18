@@ -2,6 +2,7 @@ package com.zt.yavon.module.main.roommanager.add.model;
 
 import com.zt.yavon.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Author: Administrator
  * Date: 2018/7/17
  */
-public class RoomItemBean {
+public class RoomItemBean implements Serializable{
     public static List<RoomItemBean> data = new ArrayList<>();
 
     static {

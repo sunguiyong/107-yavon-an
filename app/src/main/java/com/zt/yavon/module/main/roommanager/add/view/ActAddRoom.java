@@ -35,7 +35,7 @@ public class ActAddRoom extends BaseActivity<AddRoomPresenter> implements AddRoo
 
     @Override
     public void initPresenter() {
-         mPresenter.setVM(this);
+        mPresenter.setVM(this);
     }
 
     @Override
@@ -45,6 +45,15 @@ public class ActAddRoom extends BaseActivity<AddRoomPresenter> implements AddRoo
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 rvRoomAdd.onItemCheck(position);
+            }
+        });
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rvRoomAdd.mCheckedPosition != -1 && rvRoomAdd.mCheckedPosition != rvRoomAdd.mAdapter.getItemCount() - 1) {
+                    setResult(RESULT_OK, rvRoomAdd.mAdapter.getItem(rvRoomAdd.mCheckedPosition));
+                    finish();
+                }
             }
         });
         mPresenter.getAddRoomData();

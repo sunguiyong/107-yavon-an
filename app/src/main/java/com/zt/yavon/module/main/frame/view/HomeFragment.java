@@ -124,10 +124,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-
-
-
-
     @OnClick({R.id.iv_scan, R.id.iv_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
