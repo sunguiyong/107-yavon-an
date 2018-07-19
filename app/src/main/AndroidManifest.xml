@@ -45,6 +45,12 @@
         <activity android:name=".module.mine.view.BindEmailActivity" />
         <activity android:name=".module.mine.view.ModityEmailActivity" />
         <activity android:name=".module.mine.view.ModityPhoneActivity" />
+        <activity android:name=".module.mine.view.SettingActivity" />
+        <activity android:name=".module.mine.view.AboutActivity" />
+        <activity android:name=".module.message.view.MessageCenterActivity" />
+        <activity android:name=".module.message.view.MessageListActivity" />
+        <activity android:name=".module.mine.view.AllDevActivity" />
+        <activity android:name=".module.device.desk.view.ElectricityStatisticsActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -58,6 +64,7 @@
 
         <activity
             android:name=".module.main.frame.view.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".module.account.login.view.LoginRegisterActivity" />
         <activity android:name=".module.account.login.view.ResetPasswordActivity" />

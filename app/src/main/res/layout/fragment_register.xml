@@ -44,7 +44,7 @@
                 android:paddingTop="5dp"
                 android:background="@drawable/shape_stroke_green"
                 android:text="获取验证码"
-                android:textColor="@color/white"
+                android:textColor="@color/mainGreen"
                 android:textSize="12sp" />
         </LinearLayout>
         <ImageView
@@ -70,6 +70,7 @@
             app:iconDrawable="@drawable/selector_password"
             app:drawablePadding="10dp"
             app:customHint="请输入密码"
+            app:passwordTag = "true"
             app:textSize="14sp" />
         <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_psd_again"
@@ -79,6 +80,7 @@
             app:iconDrawable="@drawable/selector_password"
             app:drawablePadding="10dp"
             app:customHint="请再次输入密码"
+            app:passwordTag = "true"
             app:textSize="14sp" />
 
         <TextView

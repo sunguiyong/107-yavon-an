@@ -4,29 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class ResetPasswordActivity extends BaseActivity {
+    @BindView(R.id.et_phone_reset)
+    EditText etPhone;
+    @BindView(R.id.iv_divider_phone)
+    ImageView ivDivider;
 
-
-    @BindView(R.id.et_account)
-    EditText etAccount;
-    @BindView(R.id.et_get_notify)
-    TextView etGetNotify;
-    @BindView(R.id.et_notify)
-    EditText etNotify;
-    @BindView(R.id.et_psd)
-    EditText etPsd;
-    @BindView(R.id.et_psd_again)
-    EditText etPsdAgain;
-    @BindView(R.id.tv_center)
-    TextView tvCenter;
 
     @Override
     public int getLayoutId() {
@@ -41,6 +31,12 @@ public class ResetPasswordActivity extends BaseActivity {
     @Override
     public void initView() {
         setTitle("重置密码");
+        etPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                ivDivider.setSelected(hasFocus);
+            }
+        });
     }
 
     public static void start(Activity activity) {
@@ -48,13 +44,4 @@ public class ResetPasswordActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-    @OnClick({R.id.et_get_notify, R.id.tv_center})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.et_get_notify:
-                break;
-            case R.id.tv_center:
-                break;
-        }
-    }
 }

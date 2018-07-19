@@ -17,6 +17,7 @@ import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.main.frame.model.DeviceItemBean;
 import com.zt.yavon.module.mall.MallFragment;
 import com.zt.yavon.module.mine.view.MineFragment;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.widget.MyFragmentTabHost;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-
+        mRxManager.post(Constants.EVENT_LOGIN_SUCCESS,1);
     }
 
     @Override

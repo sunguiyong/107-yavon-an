@@ -8,4 +8,10 @@ public class Constants {
     public static final String OEM = "100";
     public static final String PHONE_TYPE = "2";
     public static final String EXTRA_DEVICE_TAB_ITEM_BEAN = "EXTRA_DEVICE_TAB_ITEM_BEAN";
+
+
+
+    //event bus
+    public static final String EVENT_ERROR_TOKEN = "invalid token";
+    public static final String EVENT_LOGIN_SUCCESS = "login success";
 }

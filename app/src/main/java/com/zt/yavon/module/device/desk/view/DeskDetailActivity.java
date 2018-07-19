@@ -134,7 +134,7 @@ public class DeskDetailActivity extends BaseActivity{
                 DeskSettingActivity.startAction(this);
                 break;
             case R.id.tv_coulometry_desk:
-                DeskSettingActivity.startAction(this);
+                ElectricityStatisticsActivity.startAction(this);
                 break;
             case R.id.tv_zdy1_desk:
                 int height0 = isAvailableHeight(heightList.get(0).getHeight());

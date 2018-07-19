@@ -84,6 +84,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_setting_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/setting"
@@ -100,6 +101,7 @@
                 android:background="@color/divider_grey" />
 
             <TextView
+                android:id="@+id/tv_about_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/about"
@@ -116,6 +118,7 @@
                 android:background="@color/divider_grey" />
 
             <TextView
+                android:id="@+id/tv_dev_all_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/dev_all"

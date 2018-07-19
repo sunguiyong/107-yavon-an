@@ -13,9 +13,11 @@ import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.account.login.fragment.LoginFragment;
 import com.zt.yavon.module.account.login.fragment.RegisterFragment;
+import com.zt.yavon.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class LoginRegisterActivity extends BaseActivity {
 
@@ -46,6 +48,12 @@ public class LoginRegisterActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
+        mRxManager.on(Constants.EVENT_LOGIN_SUCCESS, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                finish();
+            }
+        });
         mode = getIntent().getStringExtra("mode");
     }
 
