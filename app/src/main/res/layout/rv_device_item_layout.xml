@@ -6,6 +6,7 @@
     android:background="@drawable/shape_device_item_bg">
 
     <LinearLayout
+        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,8 +24,8 @@
             android:text="办公室"
             android:textSize="10sp" />
 
-
         <LinearLayout
+            android:id="@+id/ll_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

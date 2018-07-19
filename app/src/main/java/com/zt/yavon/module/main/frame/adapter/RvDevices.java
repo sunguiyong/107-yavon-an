@@ -51,5 +51,6 @@ public class RvDevices extends RvBase<DeviceItemBean> {
 
                     }
                 });
+        holder.addOnClickListener(R.id.ll_center);
     }
 }
