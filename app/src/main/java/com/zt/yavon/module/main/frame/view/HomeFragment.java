@@ -15,7 +15,7 @@ import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
-import com.zt.yavon.module.roommanager.view.RoomActivity;
+import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.utils.Constants;
 
 import java.util.ArrayList;
@@ -123,10 +123,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onPause() {
         super.onPause();
     }
-
-
-
-
 
     @OnClick({R.id.iv_scan, R.id.iv_add})
     public void onViewClicked(View view) {

@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:paddingBottom="30dp"
         android:paddingTop="30dp"
         android:text="请点击勾选您常用的设备，选择的设备\n将在常用菜单中显示"
