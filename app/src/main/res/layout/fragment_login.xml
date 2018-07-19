@@ -26,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconDrawable="@drawable/selector_password"
-            app:visibleDrawable="@drawable/selector_password_visible"
+            app:visibleDrawable_close="@drawable/selector_eye_close"
+            app:visibleDrawable_open="@drawable/selector_eye_open"
+            app:passwordTag = "true"
             app:drawablePadding="10dp"
             app:customHint="密码"
             app:textSize="14sp" />

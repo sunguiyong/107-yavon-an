@@ -26,12 +26,17 @@
     </style>
     <declare-styleable name="CustomEditTextStyle">
         <attr name="deleteDrawable" format="reference"/>
-        <attr name="visibleDrawable" format="reference"/>
+        <attr name="visibleDrawable_open" format="reference"/>
+        <attr name="visibleDrawable_close" format="reference"/>
         <attr name="iconDrawable" format="reference"/>
         <attr name="passwordTag" format="boolean"/>
         <attr name="customHint" format="string|reference"/>
         <attr name="customHintColor" format="color|reference"/>
         <attr name="drawablePadding" format="dimension"/>
         <attr name="textSize" format="dimension"/>
+        <attr name="paddingLeft" format="dimension"/>
+        <attr name="paddingRight" format="dimension"/>
+        <attr name="paddingTop" format="dimension"/>
+        <attr name="paddingBottom" format="dimension"/>
     </declare-styleable>
 </resources>

@@ -50,6 +50,7 @@ public class LoginFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_auto_login:
+                tvAutoLogin.setSelected(!tvAutoLogin.isSelected());
                 break;
             case R.id.tv_forget_psd:
                 ResetPasswordActivity.start(getActivity());

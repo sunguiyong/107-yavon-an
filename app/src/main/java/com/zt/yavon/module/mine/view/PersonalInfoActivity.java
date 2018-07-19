@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.account.login.view.LoginRegisterActivity;
 import com.zt.yavon.module.account.login.view.ResetPasswordActivity;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
@@ -83,6 +85,8 @@ public class PersonalInfoActivity extends BaseActivity{
                 });
                 break;
             case R.id.btn_exit_info://注销
+                LoginRegisterActivity.start(this,"login");
+                mRxManager.post(Constants.EVENT_ERROR_TOKEN,"");
                 break;
         }
     }

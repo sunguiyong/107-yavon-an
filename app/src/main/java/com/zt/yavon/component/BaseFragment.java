@@ -28,7 +28,6 @@ public abstract  class BaseFragment<T extends BasePresenter> extends Fragment {
     public RxManager mRxManager;
     private Unbinder mUnBinder;
     private long lastClickTime;
-    private boolean isBack = true;
     @Nullable
     @BindView(R.id.tv_title_header)
     TextView tvTitle;
@@ -37,7 +36,7 @@ public abstract  class BaseFragment<T extends BasePresenter> extends Fragment {
     ImageView ivCloseWeb;
     @Nullable
     @BindView(R.id.btn_back_header)
-    ImageView ivBack;
+    TextView ivBack;
     @Nullable
     @BindView(R.id.tv_right_header)
     TextView tvRight;
@@ -77,11 +76,7 @@ public abstract  class BaseFragment<T extends BasePresenter> extends Fragment {
             lastClickTime = curTime;
             switch (view.getId()){
                 case R.id.btn_back_header:
-                    if(isBack){
-                        finishActivity();
-                    }else{
-                        doClick(view);
-                    }
+                    onHeadBack();
                     break;
                 case R.id.btn_close_header:
                     closeWebview();
@@ -119,22 +114,33 @@ public abstract  class BaseFragment<T extends BasePresenter> extends Fragment {
             ivBack.setVisibility(View.GONE);
         }
     }
-    public void setRightMenuText(String text){
-        if(tvRight != null && !TextUtils.isEmpty(text)){
+    public void onHeadBack() {
+        getActivity().finish();
+    }
+
+    public void setRightMenuText(String text) {
+        if (tvRight != null ) {
             tvRight.setText(text);
         }
     }
-    public void setLeftMenuIcon(int resId){
-        if(ivBack != null){
-            isBack = false;
-            ivBack.setImageResource(resId);
+    public void setLeftMenuText(String text) {
+        if (ivBack != null ) {
+            ivBack.setText(text);
         }
     }
-    public void setRightMenuImage(int resId){
-        if(tvRight != null ){
+
+    public void setRightMenuImage(int resId) {
+        if (tvRight != null) {
             Drawable drawable = getResources().getDrawable(resId);
-            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-            tvRight.setCompoundDrawables(drawable,null,null,null);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvRight.setCompoundDrawables(drawable, null, null, null);
+        }
+    }
+    public void setLeftButtonImage(int resId) {
+        if (ivBack != null) {
+            Drawable drawable = getResources().getDrawable(resId);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivBack.setCompoundDrawables(drawable, null, null, null);
         }
     }
 }

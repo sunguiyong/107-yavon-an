@@ -17,8 +17,11 @@ import android.widget.TextView;
 
 import com.common.base.rx.RxManager;
 import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.TUtil;
 import com.zt.yavon.R;
+import com.zt.yavon.module.account.login.view.LoginRegisterActivity;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.StatusBarCompat;
 
 import java.io.Serializable;
@@ -28,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import butterknife.Unbinder;
+import io.reactivex.functions.Consumer;
 
 /**
  * 基类
@@ -54,7 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     ImageView ivCloseWeb;
     @Nullable
     @BindView(R.id.btn_back_header)
-    ImageView ivBack;
+    TextView ivBack;
     @Nullable
     @BindView(R.id.root_header)
     View rootHead;
@@ -70,12 +74,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.mContext = this;
         }
-//        mRxManager.on(Constants.TAG_EVENT_ERROR_TOKEN, new Consumer<Object>() {
-//            @Override
-//            public void accept(Object o) throws Exception {
-//                finish();
-//            }
-//        });
+        mRxManager.on(Constants.EVENT_ERROR_TOKEN, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if(!(BaseActivity.this instanceof LoginRegisterActivity))
+                finish();
+            }
+        });
         initPresenter();
         initView();
     }
@@ -192,8 +197,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     public void setRightMenuText(String text) {
-        if (tvRight != null && !TextUtils.isEmpty(text)) {
+        if (tvRight != null ) {
             tvRight.setText(text);
+        }
+    }
+    public void setRightMenuTextColor(int color) {
+        if (tvRight != null ) {
+            tvRight.setTextColor(color);
+        }
+    }
+    public void setLeftMenuText(String text) {
+        if (ivBack != null ) {
+            ivBack.setText(text);
         }
     }
 
@@ -202,6 +217,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             Drawable drawable = getResources().getDrawable(resId);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvRight.setCompoundDrawables(drawable, null, null, null);
+        }
+    }
+    public void setLeftButtonImage(int resId) {
+        if (ivBack != null) {
+            Drawable drawable = getResources().getDrawable(resId);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivBack.setCompoundDrawables(drawable, null, null, null);
         }
     }
 

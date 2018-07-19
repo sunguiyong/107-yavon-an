@@ -34,6 +34,10 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
     // 是否 显示 密码
     private boolean passwordDisplayTag;
     private TextWatcher textWatcher;
+    private View editLayout;
+    private int visibleDrawableOpen;
+    private int visibleDrawableClose;
+
     public CustomEditText(Context context) {
         this(context, null);
     }
@@ -53,11 +57,14 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
         drawbleDeleteView = (ImageView) viewGroup.findViewById(R.id.drawbleDeleteView);
         drawbleVisableView = (ImageView) viewGroup.findViewById(R.id.drawbleVisableView);
         ivDivider = (ImageView) viewGroup.findViewById(R.id.iv_divider);
+        editLayout =  viewGroup.findViewById(R.id.layout_edit);
         setListener();
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 drawbleIconView.setSelected(hasFocus);
+                drawbleVisableView.setSelected(hasFocus);
+                drawbleDeleteView.setSelected(hasFocus);
                 ivDivider.setSelected(hasFocus);
             }
         });
@@ -77,7 +84,8 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
 
         int deleteDrawable = typedArray.getResourceId(R.styleable.CustomEditTextStyle_deleteDrawable,-1);
         int iconDrawable = typedArray.getResourceId(R.styleable.CustomEditTextStyle_iconDrawable,-1);
-        int visibleDrawable = typedArray.getResourceId(R.styleable.CustomEditTextStyle_visibleDrawable,-1);
+        visibleDrawableOpen = typedArray.getResourceId(R.styleable.CustomEditTextStyle_visibleDrawable_open,-1);
+        visibleDrawableClose = typedArray.getResourceId(R.styleable.CustomEditTextStyle_visibleDrawable_close,-1);
         int hintColor = typedArray.getColor(R.styleable.CustomEditTextStyle_customHintColor,ContextCompat.getColor(getContext(),R.color.gray_text));
         editText.setHintTextColor(hintColor);
         String hintText = typedArray.getString(R.styleable.CustomEditTextStyle_customHint);
@@ -86,12 +94,20 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
                 14, context.getResources().getDisplayMetrics()));
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
         int paddingLeft = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_drawablePadding,0);
-        editText.setPadding(paddingLeft,0,0,0);
+        int marginLeft = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingLeft,0);
+        int marginRight = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingRight,0);
+        int paddingTop = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingTop,0);
+        int paddingBottom = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingBottom,0);
+        editText.setPadding(paddingLeft,paddingTop,0,paddingBottom);
+        editLayout.setPadding(marginLeft,0,marginRight,0);
         showOrHideDrawableView(drawbleDeleteView, deleteDrawable);
         showOrHideDrawableView(drawbleIconView, iconDrawable);
 
-
-        setIsPassword(passwordTag, visibleDrawable);
+        if(passwordDisplayTag){
+            setIsPassword(passwordTag, visibleDrawableOpen);
+        }else{
+            setIsPassword(passwordTag, visibleDrawableClose);
+        }
         // 先默认 隐藏
         drawbleVisableView.setVisibility(GONE);
         drawbleDeleteView.setVisibility(GONE);
@@ -150,12 +166,17 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
                 }
                 break;
             case R.id.drawbleVisableView:
+                int selection = editText.getSelectionStart();
                 if (!passwordDisplayTag) {
                     // 设置 EditText 的 input type  显示 密码
                     editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    editText.setSelection(selection);
+                    drawbleVisableView.setImageResource(visibleDrawableOpen);
                 } else {
                     // 隐藏 密码
                     editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    editText.setSelection(selection);
+                    drawbleVisableView.setImageResource(visibleDrawableClose);
                 }
                 passwordDisplayTag = !passwordDisplayTag;
                 break;

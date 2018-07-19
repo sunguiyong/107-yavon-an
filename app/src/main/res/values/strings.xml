@@ -29,6 +29,15 @@
     <string name="email_modify">修改绑定邮箱</string>
     <string name="email_phone">修改绑定号码</string>
     <string name="phone_email_modify">手机号码/邮箱地址</string>
+    <string name="auto_update">自动检测更新</string>
+    <string name="version">当前版本号</string>
+
+    <!--消息-->
+    <string name="message">消息中心</string>
+    <string name="msg_sys">系统消息</string>
+    <string name="msg_error">故障消息</string>
+    <string name="msg_share">共享消息</string>
+    <string name="delete">删除</string>
     <!--智能锁-->
     <string name="text_switch">开关</string>
     <string name="title_lock">智能琐</string>
