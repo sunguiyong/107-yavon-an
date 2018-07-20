@@ -37,7 +37,7 @@ public class ElectricityStatisticsActivity extends BaseActivity{
         setTitle(getString(R.string.coulometry));
         //x轴数据
         List<String> xData = new ArrayList<>();
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 2; i <= 8; i++) {
             xData.add(String.valueOf(i));
         }
         //y轴数据集合

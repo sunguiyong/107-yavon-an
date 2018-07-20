@@ -86,6 +86,7 @@
                 android:layout_weight="1" />
 
             <FrameLayout
+                android:id="@+id/layout_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

@@ -42,10 +42,15 @@ public class MsgListAdapter extends BaseQuickAdapter<Object,BaseViewHolder>{
             helper.setText(R.id.tv_content,"您的小桌子坏了");
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_error2);
             helper.setText(R.id.tv_time,"2天前");
-        }else{
+        }else if(type == MessageListActivity.TYPE_SHARE){
             helper.setText(R.id.tv_title,"共享消息");
             helper.setText(R.id.tv_content,"分享可以抽奖，一起分享吧！");
             helper.setImageResource(R.id.iv_type,R.mipmap.lock1_small);
+            helper.setText(R.id.tv_time,"2018/07/18");
+        }else if(type == MessageListActivity.TYPE_INTERNAL){
+            helper.setText(R.id.tv_title,"内部消息");
+            helper.setText(R.id.tv_content,"有新的活动，快来看看吧~");
+            helper.setImageResource(R.id.iv_type,R.mipmap.msg_internal);
             helper.setText(R.id.tv_time,"2018/07/18");
         }
     }

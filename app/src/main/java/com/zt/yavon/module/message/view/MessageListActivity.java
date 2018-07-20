@@ -34,6 +34,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     public static final int TYPE_SYS = 1;
     public static final int TYPE_ERROR = 2;
     public static final int TYPE_SHARE = 3;
+    public static final int TYPE_INTERNAL = 4;
     @BindView(R.id.swipe_message_list)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_message_list)
@@ -44,7 +45,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     private MsgListAdapter adapter;
     private int type;
     private LinearLayoutManager layoutManager;
-    private Set<Integer> list = new android.support.v4.util.ArraySet<>();
+    private Set<Object> list = new android.support.v4.util.ArraySet<>();
     @Override
     public int getLayoutId() {
         return R.layout.activity_message_list;
@@ -61,8 +62,10 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             setTitle(getString(R.string.msg_sys));
         }else if(type == TYPE_ERROR){
             setTitle(getString(R.string.msg_error));
-        }else{
+        }else  if(type == TYPE_SHARE){
             setTitle(getString(R.string.msg_share));
+        }else{
+            setTitle(getString(R.string.msg_internal));
         }
         setRightMenuText("选择");
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -78,9 +81,9 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                     View chooseView = view.findViewById(R.id.iv_select);
                     chooseView.setSelected(!chooseView.isSelected());
                     if(chooseView.isSelected()){
-                        list.add(position);
+                        list.add(adapter.getItem(position));
                     }else{
-                        list.remove(position);
+                        list.remove(adapter.getItem(position));
                     }
                 }
             }
@@ -98,7 +101,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             }
         });
         List<Object> list = new ArrayList<>();
-        for(int i= 0;i<100;i++){
+        for(int i= 0;i<10;i++){
             list.add(new Object());
         }
         adapter.setNewData(list);
@@ -128,8 +131,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                 dialog = DialogUtil.create2BtnInfoDialog(MessageListActivity.this, "确定要删除所选消息吗?", null, null, new DialogUtil.OnComfirmListening() {
                     @Override
                     public void confirm() {
-                        for(Integer position:list){
-                            adapter.remove(position);
+                        for(Object bean:list){
+                            adapter.getData().remove(bean);
                         }
                         adapter.notifyDataSetChanged();
                     }

@@ -16,6 +16,7 @@ import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
+import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
 
 import java.util.ArrayList;
@@ -124,14 +125,23 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-    @OnClick({R.id.iv_scan, R.id.iv_add})
-    public void onViewClicked(View view) {
+    @OnClick({R.id.iv_scan, R.id.iv_add,R.id.layout_msg})
+    @Override
+    public void doubleClickFilter(View view) {
+        super.doubleClickFilter(view);
+    }
+
+
+    public void doClick(View view) {
         switch (view.getId()) {
             case R.id.iv_scan:
                 ScanCodeActivity.start(getActivity());
                 break;
             case R.id.iv_add:
                 DeviceAddActivity.start(getActivity());
+                break;
+            case R.id.layout_msg:
+                MessageListActivity.startAction(getActivity(),MessageListActivity.TYPE_INTERNAL);
                 break;
         }
     }

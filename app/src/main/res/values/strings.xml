@@ -37,6 +37,7 @@
     <string name="msg_sys">系统消息</string>
     <string name="msg_error">故障消息</string>
     <string name="msg_share">共享消息</string>
+    <string name="msg_internal">内部消息</string>
     <string name="delete">删除</string>
     <!--智能锁-->
     <string name="text_switch">开关</string>
