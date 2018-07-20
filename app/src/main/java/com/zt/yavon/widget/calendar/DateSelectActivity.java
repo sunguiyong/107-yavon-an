@@ -1,5 +1,6 @@
 package com.zt.yavon.widget.calendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -198,9 +199,9 @@ public class DateSelectActivity extends BaseActivity {
             }
         }
     }
-    public static void startAction(Context context){
+    public static void startAction(Activity context, int reqCode){
         Intent intent = new Intent(context,DateSelectActivity.class);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,reqCode);
     }
     @OnClick({R.id.tv_right_header})
     @Override
@@ -225,6 +226,9 @@ public class DateSelectActivity extends BaseActivity {
             ToastUtil.showShort(this,"请选择截止日期");
             return;
         }
-
+        Intent intent = new Intent();
+        intent.putExtra("date",start.toString()+"-"+end.toString());
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

@@ -38,6 +38,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.common.base.utils.DensityUtil;
 import com.common.base.utils.LogUtil;
 import com.zt.yavon.widget.wheelview.adapter.ArrayWheelAdapter;
 import com.zt.yavon.widget.wheelview.adapter.BaseWheelAdapter;
@@ -56,6 +57,7 @@ import java.util.List;
  * @author venshine
  */
 public class WheelView<T> extends ListView implements IWheelView<T> {
+
 
     private int mItemH = 0; // 每一项高度
     private int mWheelSize = WHEEL_SIZE;    // 滚轮个数
@@ -134,6 +136,11 @@ public class WheelView<T> extends ListView implements IWheelView<T> {
     private OnScrollListener mOnScrollListener = new OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
+            int height = mItemH;
+            int delta = mStyle.selectedTextSize-mStyle.textSize;
+            if(delta > 0){
+                height += (int) (DensityUtil.dp2px(getContext(), delta)*1.4);
+            }
 //            LogUtil.d("=========scrollState:"+scrollState);
             mHandler.removeMessages(WheelConstants.WHEEL_SCROLL_HANDLER_WHAT_IDLE);
             if (scrollState == SCROLL_STATE_IDLE) {
@@ -146,12 +153,12 @@ public class WheelView<T> extends ListView implements IWheelView<T> {
                     if (deltaY == 0 || mItemH == 0) {
                         return;
                     }
-                    if (Math.abs(deltaY) < mItemH / 2) {
+                    if (Math.abs(deltaY) < height / 2) {
                         int d = getSmoothDistance(deltaY);
                         smoothScrollBy(d, WheelConstants
                                 .WHEEL_SMOOTH_SCROLL_DURATION);
                     } else {
-                        int d = getSmoothDistance(mItemH + deltaY);
+                        int d = getSmoothDistance(height + deltaY);
                         smoothScrollBy(d, WheelConstants
                                 .WHEEL_SMOOTH_SCROLL_DURATION);
                     }
@@ -256,7 +263,11 @@ public class WheelView<T> extends ListView implements IWheelView<T> {
                     mItemH = getChildAt(0).getHeight();
                     if (mItemH != 0) {
                         ViewGroup.LayoutParams params = getLayoutParams();
-                        params.height = mItemH * mWheelSize;
+                        int delta = mStyle.selectedTextSize-mStyle.textSize;
+                        if(delta > 0){
+                            delta = (int) (DensityUtil.dp2px(getContext(), delta)*1.4);
+                        }
+                        params.height = mItemH * mWheelSize+delta;
                         refreshVisibleItems(getFirstVisiblePosition(),
                                 getCurrentPosition() + mWheelSize / 2,
                                 mWheelSize / 2);
@@ -291,8 +302,8 @@ public class WheelView<T> extends ListView implements IWheelView<T> {
      * 设置背景
      */
     private void setBackground() {
-        Drawable drawable = DrawableFactory.createDrawable(mSkin, getWidth(),
-                mItemH * mWheelSize, mStyle, mWheelSize, mItemH);
+        Drawable drawable = DrawableFactory.createDrawable(getContext(),mSkin, getWidth(),
+                getHeight(), mStyle, mWheelSize, mItemH);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(drawable);
         } else {
@@ -424,15 +435,15 @@ public class WheelView<T> extends ListView implements IWheelView<T> {
     public void setSelectedItem(Object object){
         if(mList != null){
             int index = mList.indexOf(object);
-            LogUtil.d("==========setSelectedItem,object:"+object+",index:"+index);
+//            LogUtil.d("==========setSelectedItem,object:"+object+",index:"+index);
             if(index != -1)
-            setSelection(index);
+                setSelection(index);
         }
     }
     public void setSelectedItem(Object object,boolean hasDefaultData){
         if(mList != null){
             int index = mList.indexOf(object);
-            LogUtil.d("==========setSelectedItem,object:"+object+",index:"+index);
+//            LogUtil.d("==========setSelectedItem,object:"+object+",index:"+index);
             if(index != -1){
                 this.hasDefaultData = hasDefaultData;
                 setSelection(index);

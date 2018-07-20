@@ -8,6 +8,9 @@ import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
+import com.zt.yavon.module.device.share.view.ApplyDevActivity;
+import com.zt.yavon.module.device.share.view.AuthorActivity;
+import com.zt.yavon.module.device.share.view.ShareDevActivity;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.widget.calendar.DateSelectActivity;
 
@@ -37,7 +40,7 @@ public class MallFragment extends BaseFragment{
         hideBackButton();
         setTitle(getString(R.string.tab_mall));
     }
-    @OnClick({R.id.btn_lamp,R.id.btn_lock,R.id.btn_desk})
+    @OnClick({R.id.btn_lamp,R.id.btn_lock,R.id.btn_desk,R.id.btn_share,R.id.btn_apply,R.id.btn_author})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -52,18 +55,16 @@ public class MallFragment extends BaseFragment{
                 LockDetailActivity.startAction(getActivity());
                 break;
             case R.id.btn_desk:
-//                DeskDetailActivity.startAction(getActivity());
-//                DateSelectActivity.startAction(getActivity());
-                List<Integer> list = new ArrayList<>();
-                for(int i = 0;i<50;i++){
-                    list.add(i);
-                }
-                DialogUtil.createTimeWheelViewDialog(getContext(), 0, null, list, new DialogUtil.OnSelectCompleteListening() {
-                    @Override
-                    public void onSelectComplete(int data) {
-
-                    }
-                });
+                DeskDetailActivity.startAction(getActivity());
+                break;
+            case R.id.btn_share:
+                ShareDevActivity.startAction(getActivity());
+                break;
+            case R.id.btn_apply:
+                ApplyDevActivity.startAction(getActivity());
+                break;
+            case R.id.btn_author:
+                AuthorActivity.startAction(getActivity());
                 break;
         }
     }

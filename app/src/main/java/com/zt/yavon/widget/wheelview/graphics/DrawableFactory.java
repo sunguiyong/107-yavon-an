@@ -16,6 +16,7 @@ package com.zt.yavon.widget.wheelview.graphics;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.zt.yavon.widget.wheelview.widget.WheelView;
@@ -26,12 +27,12 @@ import com.zt.yavon.widget.wheelview.widget.WheelView;
  */
 public class DrawableFactory {
 
-    public static Drawable createDrawable(WheelView.Skin skin, int width, int height, WheelView.WheelViewStyle
+    public static Drawable createDrawable(Context context, WheelView.Skin skin, int width, int height, WheelView.WheelViewStyle
             style, int wheelSize, int itemH) {
         if (skin.equals(WheelView.Skin.Common)) {
             return new CommonDrawable(width, height, style, wheelSize, itemH);
         } else if (skin.equals(WheelView.Skin.Holo)) {
-            return new HoloDrawable(width, height, style, wheelSize, itemH);
+            return new HoloDrawable(context,width, height, style, wheelSize, itemH);
         } else {
             return new WheelDrawable(width, height, style);
         }

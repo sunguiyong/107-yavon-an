@@ -1,9 +1,10 @@
-package com.zt.yavon.module.device.apply.view;
+package com.zt.yavon.module.device.share.view;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -13,6 +14,7 @@ import com.zt.yavon.widget.calendar.DateSelectActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -20,10 +22,10 @@ import butterknife.OnClick;
  */
 
 public class ApplyDevActivity extends BaseActivity{
-//    @BindView(R.id.iv_lock)
-//    ImageView ivLock;
-//    @BindView(R.id.tv_switch_lock)
-//    TextView tvSwith;
+    @BindView(R.id.tv_num_apply)
+    TextView tvNum;
+    @BindView(R.id.tv_unit_apply)
+    TextView tvUnit;
     private Dialog dialog;
     @Override
     public int getLayoutId() {
@@ -37,11 +39,11 @@ public class ApplyDevActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.more_derection));
+        setTitle("申请设备");
 //        setRightMenuImage(R.mipmap.more_right);
     }
 
-    @OnClick({R.id.tv_count_apply,R.id.tv_day_apply,R.id.tv_month_apply,R.id.tv_year_apply,R.id.tv_custom_apply})
+    @OnClick({R.id.tv_count_apply,R.id.tv_day_apply,R.id.tv_month_apply,R.id.tv_year_apply,R.id.tv_custom_apply,R.id.tv_submit_apply})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -56,39 +58,46 @@ public class ApplyDevActivity extends BaseActivity{
         switch (view.getId()){
             case R.id.tv_count_apply:
 
-                dialog = DialogUtil.createTimeWheelViewDialog(this, 0, null, list, new DialogUtil.OnSelectCompleteListening() {
+                dialog = DialogUtil.createTimeWheelViewDialog(this, "次", null, list, new DialogUtil.OnSelectCompleteListening() {
                     @Override
                     public void onSelectComplete(int data) {
-
+                        tvNum.setText(data+"");
+                        tvUnit.setText("次");
                     }
                 });
                 break;
             case R.id.tv_day_apply:
-                dialog = DialogUtil.createTimeWheelViewDialog(this, 0, null, list, new DialogUtil.OnSelectCompleteListening() {
+                dialog = DialogUtil.createTimeWheelViewDialog(this, "天", null, list, new DialogUtil.OnSelectCompleteListening() {
                     @Override
                     public void onSelectComplete(int data) {
-
+                        tvNum.setText(data+"");
+                        tvUnit.setText("天");
                     }
                 });
                 break;
             case R.id.tv_month_apply:
-                dialog = DialogUtil.createTimeWheelViewDialog(this, 0, null, list, new DialogUtil.OnSelectCompleteListening() {
+                dialog = DialogUtil.createTimeWheelViewDialog(this, "月", null, list, new DialogUtil.OnSelectCompleteListening() {
                     @Override
                     public void onSelectComplete(int data) {
-
+                        tvNum.setText(data+"");
+                        tvUnit.setText("个月");
                     }
                 });
                 break;
             case R.id.tv_year_apply:
-                dialog = DialogUtil.createTimeWheelViewDialog(this, 0, null, list, new DialogUtil.OnSelectCompleteListening() {
+                dialog = DialogUtil.createTimeWheelViewDialog(this, "年", null, list, new DialogUtil.OnSelectCompleteListening() {
                     @Override
                     public void onSelectComplete(int data) {
-
+                        tvNum.setText(data+"");
+                        tvUnit.setText("年");
                     }
                 });
                 break;
             case R.id.tv_custom_apply:
-                DateSelectActivity.startAction(this);
+                DateSelectActivity.startAction(this,0x10);
+                break;
+            case R.id.tv_submit_apply:
+                EditDevActivity.startAction(this);
                 break;
         }
     }
@@ -101,5 +110,15 @@ public class ApplyDevActivity extends BaseActivity{
     protected void onDestroy() {
         DialogUtil.dismiss(dialog);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0x10 && resultCode == RESULT_OK){
+            String date = data.getStringExtra("date");
+            tvNum.setText(date);
+            tvUnit.setText("");
+        }
     }
 }

@@ -12,14 +12,17 @@ import com.common.base.utils.DensityUtil;
  * Created by hp on 2017/8/30.
  */
 public class MyWheelAdapter extends BaseWheelAdapter<Integer> {
-//    public static final int TYPE_SUBSCRIBE = 0;
-//    public static final int TYPE_INTERVAL = 1;
-//    private int type = TYPE_SUBSCRIBE;
+    public static final int TYPE_COUNT = 0;
+    public static final int TYPE_DAY = 1;
+    private int type = TYPE_COUNT;
     public MyWheelAdapter(){}
+    public MyWheelAdapter(int type){
+        this.type = type;
+    }
     @Override
     protected View bindView(int position, View convertView, ViewGroup parent) {
         TextView textView = new TextView(parent.getContext());
-        int paddingTop = DensityUtil.dp2px(parent.getContext(),6);
+        int paddingTop = DensityUtil.dp2px(parent.getContext(),8);
         int paddingBottom = DensityUtil.dp2px(parent.getContext(),8);
         textView.setPadding(0,paddingTop,0,paddingBottom);
         textView.setText(mList.get(position)+"");
@@ -27,14 +30,24 @@ public class MyWheelAdapter extends BaseWheelAdapter<Integer> {
         textView.setSingleLine();
         return textView;
     }
-//    private String getDataByPosition(int position){
-//        int totalMin = mList.get(position)*15;
-//        switch (type){
-//            case TYPE_SUBSCRIBE:
-//                return totalMin/60+":"+totalMin%60;
-//            case TYPE_INTERVAL:
-//                return totalMin/60+"小时"+totalMin%60+"分钟";
-//        }
-//        return null;
-//    }
+
+
+    private String getDataByPosition(int position,TextView textView){
+        String item = mList.get(position)+"";
+        if(position%mWheelSize == mWheelSize/2){
+            String unit = "";
+            switch (type){
+                case TYPE_COUNT:
+                    unit = "次";
+                case TYPE_DAY:
+                    unit = "天";
+            }
+
+            textView.setPadding((int) (textView.getTextSize()*item.length()),0,0,0);
+            return item+unit;
+        }else{
+            textView.setPadding(0,0,0,0);
+          return item+"";
+        }
+    }
 }

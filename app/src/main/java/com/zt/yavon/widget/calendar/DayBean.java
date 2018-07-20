@@ -82,4 +82,11 @@ public class DayBean {
     public void setCheckable(boolean checkable) {
         this.checkable = checkable;
     }
+
+
+
+    @Override
+    public String toString() {
+        return year+"/"+month+"/"+day;
+    }
 }

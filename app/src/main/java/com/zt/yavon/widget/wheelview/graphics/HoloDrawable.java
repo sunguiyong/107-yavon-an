@@ -16,9 +16,11 @@ package com.zt.yavon.widget.wheelview.graphics;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.common.base.utils.DensityUtil;
 import com.zt.yavon.widget.wheelview.common.WheelConstants;
 import com.zt.yavon.widget.wheelview.widget.WheelView;
 
@@ -30,12 +32,20 @@ import com.zt.yavon.widget.wheelview.widget.WheelView;
  */
 public class HoloDrawable extends WheelDrawable {
 
+    private Context mContext;
     private Paint mHoloBgPaint, mHoloPaint;
 
     private int mWheelSize, mItemH;
 
     public HoloDrawable(int width, int height, WheelView.WheelViewStyle style, int wheelSize, int itemH) {
         super(width, height, style);
+        mWheelSize = wheelSize;
+        mItemH = itemH;
+        init();
+    }
+    public HoloDrawable(Context context, int width, int height, WheelView.WheelViewStyle style, int wheelSize, int itemH) {
+        super(width, height, style);
+        mContext = context;
         mWheelSize = wheelSize;
         mItemH = itemH;
         init();
@@ -60,10 +70,14 @@ public class HoloDrawable extends WheelDrawable {
 
         // draw select border
         if (mItemH != 0) {
+            int delta = mStyle.selectedTextSize-mStyle.textSize;
+            if(delta > 0){
+                delta = (int) (DensityUtil.dp2px(mContext, delta)*1.4);
+            }
             canvas.drawLine(0, mItemH * (mWheelSize / 2), mWidth, mItemH
                     * (mWheelSize / 2), mHoloPaint);
-            canvas.drawLine(0, mItemH * (mWheelSize / 2 + 1), mWidth, mItemH
-                    * (mWheelSize / 2 + 1), mHoloPaint);
+            canvas.drawLine(0, mItemH * (mWheelSize / 2 + 1)+delta, mWidth, mItemH
+                    * (mWheelSize / 2 + 1)+delta, mHoloPaint);
         }
     }
 }

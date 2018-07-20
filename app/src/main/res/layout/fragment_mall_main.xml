@@ -37,6 +37,30 @@
             android:padding="15dp"
             android:layout_marginTop="15dp"
             android:text="智能桌子"/>
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:layout_marginTop="15dp"
+            android:text="共享设备"/>
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:layout_marginTop="15dp"
+            android:text="申请设备"/>
+        <Button
+            android:id="@+id/btn_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:layout_marginTop="15dp"
+            android:text="临时授权"/>
     </LinearLayout>
 
     </ScrollView>

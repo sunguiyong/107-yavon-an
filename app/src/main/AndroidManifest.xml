@@ -51,7 +51,10 @@
         <activity android:name=".module.message.view.MessageListActivity" />
         <activity android:name=".module.mine.view.AllDevActivity" />
         <activity android:name=".widget.calendar.DateSelectActivity" />
-        <activity android:name=".module.device.apply.view.ApplyDevActivity" />
+        <activity android:name=".module.device.share.view.EditDevActivity" />
+        <activity android:name=".module.device.share.view.ShareDevActivity" />
+        <activity android:name=".module.device.share.view.ApplyDevActivity" />
+        <activity android:name=".module.device.share.view.AuthorActivity" />
         <activity android:name=".module.device.desk.view.ElectricityStatisticsActivity" />
 
         <provider
