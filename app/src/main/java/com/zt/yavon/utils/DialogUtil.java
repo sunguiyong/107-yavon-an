@@ -8,20 +8,27 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.common.base.utils.DensityUtil;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
+import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
+import com.zt.yavon.widget.wheelview.widget.WheelView;
 
 import java.util.List;
 
@@ -295,7 +302,92 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
-
+    public static Dialog createTimeWheelViewDialog(Context context, final int type, Integer defaultData, final List<Integer> data, final OnSelectCompleteListening listener) {
+        if (data == null || data.size() < 1) {
+            Log.e("error", "data is null");
+            return null;
+        }
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        View relativeLayout = inflaterDl.inflate(R.layout.layout_dialog_wheel, null);
+        final TextView tvUnit = (TextView) relativeLayout.findViewById(R.id.tv_unit_dialog);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        params.weight = 1;
+        tvUnit.setText("天");
+        WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
+        style.backgroundColor = context.getResources().getColor(R.color.white);
+        style.holoBorderColor = context.getResources().getColor(R.color.divider_bg2);
+        style.textSize = 14;
+        style.textColor = context.getResources().getColor(R.color.gray_text);
+        style.selectedTextColor = context.getResources().getColor(R.color.colorPrimary);
+        style.selectedTextSize = 18;
+        final Integer[] results = new Integer[1];
+//        final List<WheelView> wheelViewsList = new ArrayList<>();
+//        for(int i = 0;i<data.size();i++){
+//        int result = defaultData;
+//        final WheelView<Integer> wheelView = new WheelView<Integer>(context, style);
+        final WheelView<Integer> wheelView = (WheelView)relativeLayout.findViewById(R.id.wheelview_dialog);
+        wheelView.setStyle(style);
+        final MyWheelAdapter adapter = new MyWheelAdapter();
+        wheelView.setWheelAdapter(adapter); // 文本数据源
+        wheelView.setSkin(WheelView.Skin.Holo); // common皮肤
+        wheelView.setWheelSize(5);
+        wheelView.setLoop(true);
+        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener<Integer>() {
+            @Override
+            public void onItemSelected(int position, Integer data) {
+                results[0] = data;
+                String dataString = data+"";
+                tvUnit.setPadding(dataString.length()*DensityUtil.dp2px(context,40),DensityUtil.dp2px(context,3),0,0);
+            }
+        });
+//        container.addView(wheelView, params);
+        wheelView.setWheelData(data);  // 数据集合
+//        wheelView.setSelectedItem(defaultData);
+//            wheelViewsList.add(wheelView);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(relativeLayout, params2);
+//        dialog.setContentView(relativeLayout);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        final ViewGroup.LayoutParams wheelParams = wheelView.getLayoutParams();
+//        if(type == MyWheelAdapter.TYPE_SUBSCRIBE || type == MyWheelAdapter.TYPE_FAN){
+//            wheelParams.width = DensityUtil.dp2px(context,100);
+//        }else if(type == MyWheelAdapter.TYPE_INTERVAL){
+//            wheelParams.width = DensityUtil.dp2px(context,200);
+//        }
+//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView cancleBt = (TextView) relativeLayout.findViewById(R.id.btn_cancle_wheel);
+        cancleBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        TextView confirmBt = (TextView) relativeLayout.findViewById(R.id.btn_confirm_wheel);
+        confirmBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                for(WheelView wheelView:wheelViewsList){
+                if (wheelView.isScrolling()) {
+//                        L.d("=======正在滑动中");
+                    return;
+                }
+//                }
+//                L.d("=======可以点击");
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.onSelectComplete(results[0]);
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
     public interface OnComfirmListening {
         void confirm();
     }
@@ -309,5 +401,8 @@ public class DialogUtil {
             dialog.dismiss();
             dialog = null;
         }
+    }
+    public interface OnSelectCompleteListening {
+        void onSelectComplete(int data);
     }
 }

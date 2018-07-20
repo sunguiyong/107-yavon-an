@@ -50,6 +50,8 @@
         <activity android:name=".module.message.view.MessageCenterActivity" />
         <activity android:name=".module.message.view.MessageListActivity" />
         <activity android:name=".module.mine.view.AllDevActivity" />
+        <activity android:name=".widget.calendar.DateSelectActivity" />
+        <activity android:name=".module.device.apply.view.ApplyDevActivity" />
         <activity android:name=".module.device.desk.view.ElectricityStatisticsActivity" />
 
         <provider

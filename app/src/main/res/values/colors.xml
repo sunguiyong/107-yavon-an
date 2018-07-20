@@ -11,8 +11,10 @@
     <color name="black2">#121212</color>
     <color name="mainGray">#b3b3b3</color>
     <color name="mainGreen">#52d5c5</color>
+    <color name="mainGreen_tran">#6652d5c5</color>
     <color name="black">#000000</color>
     <color name="text_black">#2D2220</color>
     <color name="gray_circle">#88ffffff</color>
     <color name="bg_white">#f7f8f8</color>
+    <color name="orange">#DF3628</color>
 </resources>

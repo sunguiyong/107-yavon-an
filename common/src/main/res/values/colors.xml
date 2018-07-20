@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="window_default_bg">#FFFFFF</color>
     <color name="divider_bg">#E4E4E4</color>
+    <color name="divider_bg2">#E9E9E9</color>
     <color name="divider_grey">#DDDFDE</color>
     <color name="white">#FFFFFF</color>
     <color name="mainGray">#b3b3b3</color>

@@ -12,6 +12,7 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.device.apply.view.ApplyDevActivity;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
@@ -82,7 +83,8 @@ public class ScanCodeActivity extends BaseActivity {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             Log.e("result", result);
-            DeviceTypeActivity.start(ScanCodeActivity.this, DeviceTypeActivity.BATTERY_LOCK);
+//            DeviceTypeActivity.start(ScanCodeActivity.this, DeviceTypeActivity.BATTERY_LOCK);
+            ApplyDevActivity.startAction(ScanCodeActivity.this);
             finish();
         }
 

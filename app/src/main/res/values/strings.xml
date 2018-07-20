@@ -5,6 +5,9 @@
     <string name="tab_mine">我的</string>
     <string name="cancle">取消</string>
     <string name="confirm">确定</string>
+    <string name="complete">完成</string>
+    <!--日历-->
+    <string name="date_choose">选择日期</string>
     <!--我的-->
     <string name="setting">设置</string>
     <string name="about">关于</string>
