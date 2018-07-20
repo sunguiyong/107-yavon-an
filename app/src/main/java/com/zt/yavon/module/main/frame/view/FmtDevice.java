@@ -5,9 +5,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
@@ -54,22 +58,29 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     @Override
     protected void initView() {
         mRvDevices = (RvDevices) rootView;
-        mRvDevices.addOnItemTouchListener(new OnItemClickListener() {
+        mRvDevices.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DeviceItemBean item = (DeviceItemBean) adapter.getItem(position);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == adapter.getItemCount() - 1) {
                     ((MainActivity) getActivity()).startActForResult(ActAddDevice.class);
-                }else{
-
-                    if("1".equals(item.mDeviceId)){
-                        LampDetailActivity.startAction(getContext());
-                    }else if("2".equals(item.mDeviceId)){
-                        DeskDetailActivity.startAction(getContext());
-                    }else if("3".equals(item.mDeviceId)){
-                        LockDetailActivity.startAction(getContext());
+                } else {
+                    if (view.getId() == R.id.ll_center) {
+                        DeviceItemBean item = (DeviceItemBean) adapter.getItem(position);
+                        if ("1".equals(item.mDeviceId)) {
+                            LampDetailActivity.startAction(getContext());
+                        } else if ("2".equals(item.mDeviceId)) {
+                            DeskDetailActivity.startAction(getContext());
+                        } else if ("3".equals(item.mDeviceId)) {
+                            LockDetailActivity.startAction(getContext());
+                        }
                     }
                 }
+            }
+        });
+        mRvDevices.addOnItemTouchListener(new OnItemLongClickListener() {
+            @Override
+            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getActivity(), "Long click", Toast.LENGTH_LONG).show();
             }
         });
     }
