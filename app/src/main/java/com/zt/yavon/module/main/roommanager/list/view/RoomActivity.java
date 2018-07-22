@@ -3,11 +3,15 @@ package com.zt.yavon.module.main.roommanager.list.view;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.add.view.ActAddRoom;
+import com.zt.yavon.module.main.roommanager.detail.ActRoomDetail;
 import com.zt.yavon.module.main.roommanager.list.adapter.RvRoom;
 import com.zt.yavon.module.main.roommanager.list.contract.RoomContract;
 import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
@@ -27,7 +31,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_COMMON && resultCode == RESULT_OK) {
             RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-            rvRoom.addData(new RoomBean(item.mName, item.mResId, 2));
+            rvRoom.addData(new RoomBean(item.mName, item.mCheckedResId, 0));
+            setResult(RESULT_OK, item);
         }
     }
 
@@ -49,6 +54,12 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
             startActForResult(ActAddRoom.class);
         });
         mPresenter.getRoomData();
+        rvRoom.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startAct(ActRoomDetail.class, (RoomBean)adapter.getItem(position));
+            }
+        });
     }
 
     @Override

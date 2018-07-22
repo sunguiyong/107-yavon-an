@@ -2,6 +2,7 @@ package com.zt.yavon.module.main.adddevice.view;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -23,6 +24,10 @@ public class ActAddDevice extends BaseActivity {
     CheckBox cb3;
     @BindView(R.id.cb_4)
     CheckBox cb4;
+    @BindView(R.id.cb_group_1)
+    CheckBox cbGroup1;
+    @BindView(R.id.cb_group_2)
+    CheckBox cbGroup2;
 
     @Override
     public int getLayoutId() {
@@ -34,10 +39,67 @@ public class ActAddDevice extends BaseActivity {
 
     }
 
+    private CompoundButton.OnCheckedChangeListener mCbGroup1Listener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            cb1.setChecked(isChecked);
+            cb2.setChecked(isChecked);
+        }
+    };
+    private CompoundButton.OnCheckedChangeListener mCbGroup2Listener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            cb3.setChecked(isChecked);
+            cb4.setChecked(isChecked);
+        }
+    };
+
     @Override
     public void initView() {
         setTitle("添加设备");
         setRightMenuText("完成");
+        cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
+        cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
+        cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    cbGroup1.setOnCheckedChangeListener(null);
+                    cbGroup1.setChecked(false);
+                    cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
+                }
+            }
+        });
+        cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    cbGroup1.setOnCheckedChangeListener(null);
+                    cbGroup1.setChecked(false);
+                    cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
+                }
+            }
+        });
+        cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    cbGroup2.setOnCheckedChangeListener(null);
+                    cbGroup2.setChecked(false);
+                    cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
+                }
+            }
+        });
+        cb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    cbGroup2.setOnCheckedChangeListener(null);
+                    cbGroup2.setChecked(false);
+                    cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
+                }
+            }
+        });
         findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,4 +117,5 @@ public class ActAddDevice extends BaseActivity {
             }
         });
     }
+
 }

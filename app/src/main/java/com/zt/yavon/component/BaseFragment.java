@@ -23,7 +23,7 @@ import butterknife.Unbinder;
 
 public abstract  class BaseFragment<T extends BasePresenter> extends Fragment {
     public static final int TIME_DELAY_BTN = 500;
-    protected View rootView;
+    public View rootView;
     public T mPresenter;
     public RxManager mRxManager;
     private Unbinder mUnBinder;

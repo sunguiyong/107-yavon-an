@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -21,13 +20,16 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.common.base.utils.DensityUtil;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
+import com.zt.yavon.module.main.frame.model.TabItemBean;
+import com.zt.yavon.widget.RvDialogTab;
 import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 import com.zt.yavon.widget.wheelview.widget.WheelView;
 
@@ -61,14 +63,14 @@ public class DialogUtil {
         dialog.setContentView(parent, params);
         TextView confirmBt = (TextView) parent.findViewById(R.id.confirm_bt);
         TextView cancelBt = (TextView) parent.findViewById(R.id.cancel_bt);
-        if (TextUtils.isEmpty(cancel)){
+        if (TextUtils.isEmpty(cancel)) {
             cancelBt.setText("取消");
-        }else {
+        } else {
             cancelBt.setText(cancel);
         }
-        if (TextUtils.isEmpty(confirm)){
+        if (TextUtils.isEmpty(confirm)) {
             confirmBt.setText("确定");
-        }else {
+        } else {
             confirmBt.setText(confirm);
         }
         cancelBt.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,7 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
+
     public static Dialog createSitTimeDialog(final Context context, String defaultValue, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_sit_time, null);
@@ -128,6 +131,43 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
+
+    public static Dialog createEtDialog(final Context context, String title, String hint, final OnComfirmListening2 listener) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View parent = inflater.inflate(R.layout.dialog_edit_text, null);
+        final EditText etTime = (EditText) parent.findViewById(R.id.et_time_dialog);
+        ((TextView) parent.findViewById(R.id.title_dialog)).setText(title);
+        etTime.setHint(hint);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        parent.findViewById(R.id.btn_cancle_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        parent.findViewById(R.id.btn_confirm_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data = etTime.getText().toString().trim();
+                if (TextUtils.isEmpty(data)) {
+                    ToastUtil.showShort(context, "请输入内容");
+                    return;
+                }
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm(data);
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
+
     public static Dialog createNickNameDialog(final Context context, String defaultValue, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_sit_time, null);
@@ -168,11 +208,11 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createWifiDialog(final Context context,  final OnComfirmListening listener) {
+    public static Dialog createWifiDialog(final Context context, final OnComfirmListening listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_wifi, null);
-         TextView tv_current_wifi= (TextView) parent.findViewById(R.id.tv_current_wifi);
-         TextView tv_change_wifi=(TextView) parent.findViewById(R.id.tv_change_wifi);
+        TextView tv_current_wifi = (TextView) parent.findViewById(R.id.tv_current_wifi);
+        TextView tv_change_wifi = (TextView) parent.findViewById(R.id.tv_change_wifi);
 
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
@@ -180,13 +220,13 @@ public class DialogUtil {
         int width = context.getResources().getDisplayMetrics().widthPixels;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(parent, params);
-        if (!TextUtils.isEmpty(NetWorkUtils.getConnectWifiSsid(context))){
+        if (!TextUtils.isEmpty(NetWorkUtils.getConnectWifiSsid(context))) {
             tv_current_wifi.setText(NetWorkUtils.getConnectWifiSsid(context));
         }
         tv_change_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               context.startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+                context.startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
                 dialog.dismiss();
             }
         });
@@ -206,13 +246,14 @@ public class DialogUtil {
         final EditText etName = (EditText) parent.findViewById(R.id.et_name_dialog);
         final EditText etHeight = (EditText) parent.findViewById(R.id.et_height_dialog);
         final GridView gridView = (GridView) parent.findViewById(R.id.grid_desk_dialog);
-        final CustomHeightAdapter adapter = new CustomHeightAdapter(context,defaultList);
+        final CustomHeightAdapter adapter = new CustomHeightAdapter(context, defaultList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             int lastSelectPosition = 0;
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if(position == lastSelectPosition){
+                if (position == lastSelectPosition) {
                     return;
                 }
                 lastSelectPosition = position;
@@ -231,12 +272,12 @@ public class DialogUtil {
             }
         });
 
-        if(adapter.getCount() > 0){
-            CustomHeightBean item =adapter.getItem(0);
+        if (adapter.getCount() > 0) {
+            CustomHeightBean item = adapter.getItem(0);
             etName.setText(item.getName());
             etHeight.setText(item.getHeight());
             item.setSelect(true);
-            gridView.setItemChecked(0,true);
+            gridView.setItemChecked(0, true);
             adapter.notifyDataSetChanged();
         }
         etName.addTextChangedListener(new TextWatcher() {
@@ -253,8 +294,8 @@ public class DialogUtil {
             @Override
             public void afterTextChanged(Editable editable) {
                 int position = gridView.getCheckedItemPosition();
-                if(position != -1){
-                    LogUtil.d("===================setName:"+etName.getText().toString().trim()+",position:"+position);
+                if (position != -1) {
+                    LogUtil.d("===================setName:" + etName.getText().toString().trim() + ",position:" + position);
                     defaultList.get(position).setName(etName.getText().toString().trim());
                 }
             }
@@ -273,8 +314,8 @@ public class DialogUtil {
             @Override
             public void afterTextChanged(Editable editable) {
                 int position = gridView.getCheckedItemPosition();
-                if(position != -1){
-                    LogUtil.d("===================setHeight:"+etHeight.getText().toString().trim()+",position:"+position);
+                if (position != -1) {
+                    LogUtil.d("===================setHeight:" + etHeight.getText().toString().trim() + ",position:" + position);
                     defaultList.get(position).setHeight(etHeight.getText().toString().trim());
                 }
             }
@@ -303,6 +344,7 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
+
     public static Dialog createTimeWheelViewDialog(Context context, String unit, Integer defaultData, final List<Integer> data, final OnSelectCompleteListening listener) {
         if (data == null || data.size() < 1) {
             Log.e("error", "data is null");
@@ -313,8 +355,8 @@ public class DialogUtil {
         final TextView tvUnit = (TextView) relativeLayout.findViewById(R.id.tv_unit_dialog);
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //        params.weight = 1;
-        if(!TextUtils.isEmpty(unit))
-        tvUnit.setText(unit);
+        if (!TextUtils.isEmpty(unit))
+            tvUnit.setText(unit);
         WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
         style.backgroundColor = Color.TRANSPARENT;
         style.holoBorderColor = Color.TRANSPARENT;
@@ -327,7 +369,7 @@ public class DialogUtil {
 //        for(int i = 0;i<data.size();i++){
 //        int result = defaultData;
 //        final WheelView<Integer> wheelView = new WheelView<Integer>(context, style);
-        final WheelView<Integer> wheelView = (WheelView)relativeLayout.findViewById(R.id.wheelview_dialog);
+        final WheelView<Integer> wheelView = (WheelView) relativeLayout.findViewById(R.id.wheelview_dialog);
         wheelView.setStyle(style);
         final MyWheelAdapter adapter = new MyWheelAdapter();
         wheelView.setWheelAdapter(adapter); // 文本数据源
@@ -390,6 +432,7 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
+
     public static Dialog createTimeWheelViewDialog2(Context context, String unit, Integer defaultData, final List<Integer> data, final OnSelectCompleteListening listener) {
         if (data == null || data.size() < 1) {
             Log.e("error", "data is null");
@@ -398,8 +441,8 @@ public class DialogUtil {
         LayoutInflater inflaterDl = LayoutInflater.from(context);
         View relativeLayout = inflaterDl.inflate(R.layout.dialog_wheel_mdh, null);
         final TextView tvUnit = (TextView) relativeLayout.findViewById(R.id.tv_unit_dialog);
-        if(!TextUtils.isEmpty(unit))
-        tvUnit.setText(unit);
+        if (!TextUtils.isEmpty(unit))
+            tvUnit.setText(unit);
         WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
         style.backgroundColor = Color.TRANSPARENT;
         style.holoBorderColor = Color.TRANSPARENT;
@@ -408,11 +451,11 @@ public class DialogUtil {
         style.selectedTextColor = context.getResources().getColor(R.color.colorPrimary);
         style.selectedTextSize = 18;
         final Integer[] results = new Integer[1];
-        final WheelView<Integer> wheelView = (WheelView)relativeLayout.findViewById(R.id.wheelview_dialog);
+        final WheelView<Integer> wheelView = (WheelView) relativeLayout.findViewById(R.id.wheelview_dialog);
         wheelView.setStyle(style);
-        final WheelView<Integer> wheelView2 = (WheelView)relativeLayout.findViewById(R.id.wheelview2_dialog);
+        final WheelView<Integer> wheelView2 = (WheelView) relativeLayout.findViewById(R.id.wheelview2_dialog);
         wheelView.setStyle(style);
-        final WheelView<Integer> wheelView3 = (WheelView)relativeLayout.findViewById(R.id.wheelview3_dialog);
+        final WheelView<Integer> wheelView3 = (WheelView) relativeLayout.findViewById(R.id.wheelview3_dialog);
         wheelView.setStyle(style);
         final MyWheelAdapter adapter = new MyWheelAdapter();
         wheelView.setWheelAdapter(adapter); // 文本数据源
@@ -475,6 +518,47 @@ public class DialogUtil {
         dialog.show();
         return dialog;
     }
+
+    public static Dialog createMoveDeviceDialog(Context context, List<TabItemBean> tabData, OnComfirmListening listener) {
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        View parent = inflaterDl.inflate(R.layout.dialog_move_device_layout, null);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        TextView confirmBt = (TextView) parent.findViewById(R.id.confirm_bt);
+        TextView cancelBt = (TextView) parent.findViewById(R.id.cancel_bt);
+        cancelBt.setText("取消");
+        confirmBt.setText("确定");
+        RvDialogTab rvDialogTab = parent.findViewById(R.id.rv_dialog_tab);
+        rvDialogTab.setData(tabData);
+        rvDialogTab.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                rvDialogTab.setSelection(position);
+            }
+        });
+        cancelBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        confirmBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm();
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
+
     public interface OnComfirmListening {
         void confirm();
     }
@@ -489,6 +573,7 @@ public class DialogUtil {
             dialog = null;
         }
     }
+
     public interface OnSelectCompleteListening {
         void onSelectComplete(int data);
     }

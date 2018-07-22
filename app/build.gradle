@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
-ext {
-    Properties properties = new Properties()
-    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-    properties.load( inputStream )
-    mykeyAlias = properties.getProperty( 'keyAlias' )
-    mykeyPassword = properties.getProperty( 'keyPassword' )
-    mystoreFile = file(properties.getProperty( 'storeFile' ))
-    mystorePassword = properties.getProperty( 'storePassword' )
-}
+//ext {
+//    Properties properties = new Properties()
+//    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+//    properties.load( inputStream )
+//    mykeyAlias = properties.getProperty( 'keyAlias' )
+//    mykeyPassword = properties.getProperty( 'keyPassword' )
+//    mystoreFile = file(properties.getProperty( 'storeFile' ))
+//    mystorePassword = properties.getProperty( 'storePassword' )
+//}
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -21,24 +21,24 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-    signingConfigs {
-        release {
-            storeFile mystoreFile
-            storePassword mystorePassword
-            keyAlias mykeyAlias
-            keyPassword mykeyPassword
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile mystoreFile
+//            storePassword mystorePassword
+//            keyAlias mykeyAlias
+//            keyPassword mykeyPassword
+//        }
+//    }
     buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
+//        debug {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     compileOptions {

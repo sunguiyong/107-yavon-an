@@ -16,44 +16,83 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="42dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的办公室 >"
-                android:textColor="@android:color/white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <Space
-                android:layout_width="0dip"
-                android:layout_height="0dip"
-                android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的办公室 >"
+                    android:textColor="@android:color/white" />
 
-            <ImageView
-                android:id="@+id/iv_scan"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:paddingBottom="12dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="10dp"
-                android:paddingTop="12dp"
-                android:src="@mipmap/ic_qr_code" />
+                <Space
+                    android:layout_width="0dip"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
 
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:paddingBottom="12dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="12dp"
-                android:src="@mipmap/ic_add" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="12dp"
+                    android:src="@mipmap/ic_qr_code" />
+
+                <ImageView
+                    android:id="@+id/iv_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="12dp"
+                    android:src="@mipmap/ic_add" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_title"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="#181818"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/title_select_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="全选"
+                    android:textColor="@android:color/white" />
+
+                <Space
+                    android:layout_width="0dip"
+                    android:layout_height="0dip"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/title_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="完成"
+                    android:textColor="#00DCDF" />
+            </LinearLayout>
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.zt.yavon.module.main.roommanager.list.model;
 
-public class RoomBean {
+import java.io.Serializable;
+
+public class RoomBean implements Serializable{
     public String mName;
     public int mResId;
     public int mDeviceCount;

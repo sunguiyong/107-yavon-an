@@ -81,6 +81,7 @@
         <activity android:name=".module.main.roommanager.list.view.RoomActivity" />
         <activity android:name=".module.main.adddevice.view.ActAddDevice" />
         <activity android:name=".module.main.roommanager.add.view.ActAddRoom" />
+        <activity android:name=".module.main.roommanager.detail.ActRoomDetail" />
     </application>
 
 </manifest>

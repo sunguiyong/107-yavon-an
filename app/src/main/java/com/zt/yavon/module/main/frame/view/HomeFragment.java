@@ -15,6 +15,7 @@ import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
+import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
@@ -42,7 +43,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private LinearLayoutManager layoutManager;
     private int curPage = 1;
 
-    private List<TabItemBean> mTabData;
+    public List<TabItemBean> mTabData;
 
     @Override
     protected int getLayoutResource() {
@@ -59,7 +60,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         ivSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).startActForResult(RoomActivity.class);
+                ((MainActivity) getActivity()).startActForResult(RoomActivity.class, MainActivity.REQUEST_CODE_ADD_ROOM);
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -144,5 +145,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 MessageListActivity.startAction(getActivity(),MessageListActivity.TYPE_INTERNAL);
                 break;
         }
+    }
+
+    public void addTab(TabItemBean item) {
+        // TODO refresh data
     }
 }
