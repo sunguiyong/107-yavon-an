@@ -37,7 +37,8 @@ public class RvDialogTab extends RvBase<TabItemBean> {
     public void customConvert(BaseViewHolder holder, TabItemBean bean) {
         CheckBox checkBox = holder.getView(R.id.checkbox);
         checkBox.setChecked(mSelectItem == holder.getLayoutPosition());
-        checkBox.setCompoundDrawablesWithIntrinsicBounds(mSelectItem == holder.getLayoutPosition() ? bean.mSelectResId : bean.mUnselectResId, 0, 0, 0);
+        // checkBox.setCompoundDrawablesWithIntrinsicBounds(mSelectItem == holder.getLayoutPosition() ? bean.mSelectResId : bean.mUnSelectResId, 0, 0, 0);
+        checkBox.setCompoundDrawablesWithIntrinsicBounds(bean.mSelectResId, 0, 0, 0);
         holder.setText(R.id.checkbox, bean.mTitle);
     }
 

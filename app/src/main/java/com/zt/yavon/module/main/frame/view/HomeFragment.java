@@ -15,7 +15,6 @@ import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
-import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
@@ -73,7 +72,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             public void onPageSelected(int position) {
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
                     slidingTabLayout.getTitleView(i).setCompoundDrawablesWithIntrinsicBounds(0,
-                            i == position ? mTabData.get(i).mSelectResId : mTabData.get(i).mUnselectResId,
+                            i == position ? mTabData.get(i).mSelectResId : mTabData.get(i).mUnSelectResId,
                             0, 0);
                     slidingTabLayout.getTitleView(i).setCompoundDrawablePadding(10);
                 }
@@ -99,7 +98,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
         for (int i = 0; i < data.size(); i++) {
             titles[i] = data.get(i).mTitle;
-            unSelectResIds[i] = data.get(i).mUnselectResId;
+            unSelectResIds[i] = data.get(i).mUnSelectResId;
             selectResIds[i] = data.get(i).mSelectResId;
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, data.get(i));
@@ -109,7 +108,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
             slidingTabLayout.getTitleView(i).setCompoundDrawablesWithIntrinsicBounds(0,
-                    i == 0 ? data.get(i).mSelectResId : data.get(i).mUnselectResId,
+                    i == 0 ? data.get(i).mSelectResId : data.get(i).mUnSelectResId,
                     0, 0);
             slidingTabLayout.getTitleView(i).setCompoundDrawablePadding(10);
         }
