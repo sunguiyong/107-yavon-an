@@ -43,7 +43,7 @@ public class RxSchedulers {
                         .flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
                     @Override
                     public ObservableSource<T> apply(@NonNull BaseResponse<T> result) throws Exception {
-                        return createData(result.getDatas());
+                        return createData(result.getData());
                     }
                 })
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

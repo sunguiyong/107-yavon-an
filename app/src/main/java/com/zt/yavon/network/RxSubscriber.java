@@ -6,12 +6,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.common.base.R;
+import com.common.base.rx.BaseResponse;
+import com.common.base.rx.RxBus;
 import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.NetWorkUtils;
+import com.common.base.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.zt.yavon.module.account.view.LoginRegisterActivity;
+import com.zt.yavon.utils.Constants;
+
+import java.io.IOException;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
+import retrofit2.Response;
 
 /**
  * des:订阅封装
@@ -92,6 +104,23 @@ public abstract class RxSubscriber<T> implements Observer<T> {
         if (!NetWorkUtils.isNetConnected(mContext)) {
             //2017年8月14日修改不弹网络错误
 //            _onError(BaseApplication.getAppContext().getString(R.string.no_net));
+        }
+        //除200以外的其他error
+        else if(e instanceof HttpException){
+            Response response = ((HttpException) e).response();
+            try {
+                if(response.code() == 419){//token 过期
+                    ToastUtil.showShort(mContext,"用户过期，请重新登录");
+                    RxBus.getInstance().post(Constants.EVENT_ERROR_TOKEN,0);
+                    LoginRegisterActivity.start(mContext,"login");
+                }else{
+                    BaseResponse baseResponse = new Gson().fromJson(response.errorBody().string(),BaseResponse.class);
+//                    baseResponse.setCode(response.code());
+                    _onError(baseResponse.getMessage());
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         //服务器
         else if (e instanceof ServerException) {

@@ -1,6 +1,5 @@
 package com.zt.yavon.network;
 
-import com.common.base.rx.BaseResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -58,27 +57,28 @@ public class ResponseConverterFactory extends Converter.Factory {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-            String response = value.string();
-//            LogUtil.d("=======:"+response);
+            return gson.fromJson(value.string(), type);
+//            String response = value.string();
+//            LogUtil.d("=======convert:"+response);
             //先将返回的json数据解析到Response中，如果code==200，则解析到我们的实体基类中，否则抛异常
-            BaseResponse httpResult = gson.fromJson(response, BaseResponse.class);
-            if (httpResult.getCode() == 0) {
-                return gson.fromJson(response, type);
-            } else if(httpResult.getCode() == 5){
-                throw new TokenException(httpResult.getMessage());
-            } else {
+//            BaseResponse httpResult = gson.fromJson(response, BaseResponse.class);
+//            if (httpResult.getCode() == 200 ) {
+//                return gson.fromJson(response, type);
+//            } else if(httpResult.getCode() == 419){
+//                throw new TokenException(httpResult.getMessage());
+//            } else {
 //            ErrorRespose errorResponse = gson.fromJson(response, ErrorRespose.class);
 //            抛一个自定义ResultException 传入失败时候的状态码，和信息
 //            try {
 //                throw new ServerException(httpResult.getCode()+"");
-                    throw new ServerException(httpResult.getMessage());
+//                    throw new ServerException(httpResult.getMessage());
 //            } catch (ServerException e) {
 //                e.printStackTrace();
 //                throw new RuntimeException(httpResult.getMessage());
 //            } finally {
 //                value.close();
 //            }
-            }
+//            }
         }
     }
 

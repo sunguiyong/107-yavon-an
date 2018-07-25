@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.account.login.view.LoginRegisterActivity;
-import com.zt.yavon.module.account.login.view.ResetPasswordActivity;
+import com.zt.yavon.module.account.view.LoginRegisterActivity;
+import com.zt.yavon.module.account.view.ResetPasswordActivity;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.SPUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,7 +74,7 @@ public class PersonalInfoActivity extends BaseActivity{
                 ModityPhoneActivity.startAction(this,REQ_PHONE);
                 break;
             case R.id.tv_pwd_info://修改密码
-                ResetPasswordActivity.start(this);
+                ResetPasswordActivity.start(this,"");
                 break;
             case R.id.tv_nickname_info://修改昵称
                 DialogUtil.dismiss(dialog);
@@ -85,6 +86,7 @@ public class PersonalInfoActivity extends BaseActivity{
                 });
                 break;
             case R.id.btn_exit_info://注销
+                SPUtil.clearPreferences(this);
                 LoginRegisterActivity.start(this,"login");
                 mRxManager.post(Constants.EVENT_ERROR_TOKEN,"");
                 break;

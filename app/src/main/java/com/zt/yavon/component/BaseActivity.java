@@ -17,10 +17,9 @@ import android.widget.TextView;
 
 import com.common.base.rx.RxManager;
 import com.common.base.utils.LoadingDialog;
-import com.common.base.utils.LogUtil;
 import com.common.base.utils.TUtil;
 import com.zt.yavon.R;
-import com.zt.yavon.module.account.login.view.LoginRegisterActivity;
+import com.zt.yavon.module.account.view.LoginRegisterActivity;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.StatusBarCompat;
 

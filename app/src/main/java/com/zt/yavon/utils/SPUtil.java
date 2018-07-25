@@ -2,6 +2,12 @@ package com.zt.yavon.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+
+import com.google.gson.Gson;
+import com.zt.yavon.module.data.LoginBean;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by hp on 2018/6/14.
@@ -11,20 +17,48 @@ public class SPUtil {
     public static String PREFERENCE_NAME = "data";
 
     /**用户名的key值*/
-    public static String USERNAME = "username";
-    public static String UID = "user_id";
-    public static String TOKEN = "user_token";
-
-    /**保存TOKEN*/
-    public static boolean saveToken(Context context, String uid) {
+    public static String TEMP = "temp";
+    public static String AUTO_LOGIN = "autologin";
+    public static boolean saveAccount(Context context,LoginBean bean){
+        String encodeString = Base64.encodeToString(bean.toString().getBytes(Charset.forName("utf-8")),Base64.NO_WRAP);
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCE_NAME, 0);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(UID, uid);
+        editor.putString(TEMP, encodeString);
         return editor.commit();
     }
+    public static LoginBean getAccount(Context context){
+        SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME, 0);
+        String decodeString = sp.getString(TEMP,null);
+        if(decodeString != null){
+            try {
+                decodeString = new String(Base64.decode(decodeString,Base64.NO_WRAP),"utf-8");
+                return new Gson().fromJson(decodeString,LoginBean.class);
+            }catch (Exception e){
+
+            }
+        }
+        return null;
+    }
+//    /**保存TOKEN*/
+//    public static boolean saveToken(Context context, String uid) {
+//        SharedPreferences preferences = context.getSharedPreferences(PREFERENCE_NAME, 0);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putString(TEMP, uid);
+//        return editor.commit();
+//    }
     /**读取TOKEN*/
     public static String getToken(Context context) {
-        return getString(context, UID, "");
+        SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME, 0);
+        String decodeString = sp.getString(TEMP,null);
+        if(decodeString != null){
+            try {
+                decodeString = new String(Base64.decode(decodeString,Base64.NO_WRAP),"utf-8");
+                return new Gson().fromJson(decodeString,LoginBean.class).getApi_token();
+            }catch (Exception e){
+
+            }
+        }
+        return null;
     }
     /**存储字符串*/
     public static boolean putString(Context context, String key, String value) {

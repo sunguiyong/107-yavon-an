@@ -5,10 +5,8 @@ import com.common.base.rx.RxSchedulers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
-import com.zt.yavon.module.data.DemoBean;
-import com.zt.yavon.utils.Constants;
+import com.zt.yavon.module.data.LoginBean;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -20,10 +18,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public class Api{
 //    public static final String HOST = "https://s1.zetadata.com.cn/";//测试
 //    public static final String HOST_H5 = "https://s1.zetadata.com.cn/";//测试
-    public static final String HOST = "https://ecseal.cn/";//正式环境
+    public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
     public static final String HOST_H5 = "https://ecseal.cn/";//正式环境
     private static Retrofit mRetrofit;
-    private static Retrofit mGsonRetrofit;
     private static ApiService mAPI;
     private static Gson mGson;
 
@@ -98,24 +95,16 @@ public class Api{
                 .create(ApiService.class);
         return mAPI;
     }
-    public static Observable<BaseResponse> addDevice(String token,String mac) {
-        ApiService api = getRxApi();
-        return api.addDevice(token, Constants.OEM,Constants.PHONE_TYPE, mac).compose(RxSchedulers.<BaseResponse>io_main());
+    public static Observable<BaseResponse> sendCode(String account,String type,String api_token) {
+        return getRxApi().sendCode(account, type,api_token).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> deleteDevice(String token,String mac) {
-        ApiService api = getRxApi();
-        return api.deleteDevice(token, Constants.OEM,Constants.PHONE_TYPE, mac).compose(RxSchedulers.<BaseResponse>io_main());
+    public static Observable<LoginBean> register(String mobile,String code,String password,String confirmPwd) {
+        return getRxApi().register(mobile, code,password,confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<List<DemoBean>> getHomeDevList(String token, String page) {
-        ApiService api = getRxApi();
-        return api.getHomeDevList(token, Constants.OEM,Constants.PHONE_TYPE, page).compose(RxSchedulers.<List<DemoBean>>handleResult());
+    public static Observable<LoginBean> resetPwd(String account,String code,String password,String confirmPwd) {
+        return getRxApi().resetPwd(account, code,password,confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<BaseResponse> renameDev(String token, String mac,String newName) {
-        ApiService api = getRxApi();
-        return api.renameDev(token, Constants.OEM,Constants.PHONE_TYPE, mac,newName).compose(RxSchedulers.<BaseResponse>io_main());
-    }
-    public static Observable<BaseResponse> controlDev(String token, String mac,String action,String val) {
-        ApiService api = getRxApi();
-        return api.controlDev(token, Constants.OEM,Constants.PHONE_TYPE, mac,action,val).compose(RxSchedulers.<BaseResponse>io_main());
+    public static Observable<LoginBean> login(String account,String pwd) {
+        return getRxApi().login(account,pwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
 }

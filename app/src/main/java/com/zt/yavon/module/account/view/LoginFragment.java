@@ -1,13 +1,15 @@
-package com.zt.yavon.module.account.login.fragment;
+package com.zt.yavon.module.account.view;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.account.login.view.ResetPasswordActivity;
+import com.zt.yavon.module.account.view.ResetPasswordActivity;
+import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.main.frame.view.MainActivity;
+import com.zt.yavon.utils.SPUtil;
 import com.zt.yavon.widget.CustomEditText;
 
 import butterknife.BindView;
@@ -41,8 +43,18 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        hideBackButton();
-        setTitle(getString(R.string.tab_mine));
+//        hideBackButton();
+//        setTitle(getString(R.string.tab_mine));
+        LoginBean bean = SPUtil.getAccount(getContext());
+        if(bean != null){
+            etAccount.setEditTextText(bean.getMobile());
+            etPwd.setEditTextText(bean.getPwd());
+        }
+        boolean isAutoLogin = SPUtil.getBoolean(getContext(),SPUtil.AUTO_LOGIN,false);
+        tvAutoLogin.setSelected(isAutoLogin);
+        if(isAutoLogin){
+            ((LoginRegisterActivity)getActivity()).mPresenter.login(bean.getAccount(),bean.getPwd());
+        }
     }
 
 
@@ -51,13 +63,14 @@ public class LoginFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.tv_auto_login:
                 tvAutoLogin.setSelected(!tvAutoLogin.isSelected());
+                SPUtil.putBoolean(getContext(),SPUtil.AUTO_LOGIN,tvAutoLogin.isSelected());
                 break;
             case R.id.tv_forget_psd:
-                ResetPasswordActivity.start(getActivity());
+                ResetPasswordActivity.start(getActivity(),ResetPasswordActivity.FLAG_LOGIN);
                 break;
             case R.id.tv_login:
-                // DeviceAddActivity.start(getActivity());
-                MainActivity.startAction(getActivity());
+                ((LoginRegisterActivity)getActivity()).mPresenter.login(etAccount.getEditText().toString().trim(),
+                        etPwd.getEditText().toString().trim());
                 break;
         }
     }

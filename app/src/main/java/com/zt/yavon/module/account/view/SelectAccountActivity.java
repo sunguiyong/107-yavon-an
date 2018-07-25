@@ -1,9 +1,10 @@
-package com.zt.yavon.module.account.login.view;
+package com.zt.yavon.module.account.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.utils.Constants;
@@ -48,5 +49,9 @@ public class SelectAccountActivity extends BaseActivity {
                 LoginRegisterActivity.start(this,"login");
                 break;
         }
+    }
+    public static void startAction(Context context){
+        Intent intent = new Intent(context,SelectAccountActivity.class);
+        context.startActivity(intent);
     }
 }

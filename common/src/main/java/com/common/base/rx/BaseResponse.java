@@ -6,7 +6,7 @@ package com.common.base.rx;
 public class BaseResponse<T> {
     private int code;
     private String message;
-    private T datas;
+    private T data;
 
     public int getCode() {
         return code;
@@ -25,12 +25,12 @@ public class BaseResponse<T> {
     }
 
 
-    public T getDatas() {
-        return datas;
+    public T getData() {
+        return data;
     }
 
-    public void setDatas(T datas) {
-        this.datas = datas;
+    public void setData(T data) {
+        this.data = data;
     }
 
 }

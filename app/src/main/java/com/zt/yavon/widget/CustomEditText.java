@@ -198,14 +198,6 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
             if(textWatcher != null){
                 textWatcher.onTextChanged(s,start,before,count);
             }
-            if (s.length() > 0) {
-                drawbleDeleteView.setVisibility(VISIBLE);
-                if (passwordTag)
-                    drawbleVisableView.setVisibility(VISIBLE);
-            } else {
-                drawbleDeleteView.setVisibility(GONE);
-                drawbleVisableView.setVisibility(GONE);
-            }
         }
     }
 
@@ -213,6 +205,14 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
     public void afterTextChanged(Editable s) {
         if(textWatcher != null){
             textWatcher.afterTextChanged(s);
+        }
+        if (s.length() > 0) {
+            drawbleDeleteView.setVisibility(VISIBLE);
+            if (passwordTag)
+                drawbleVisableView.setVisibility(VISIBLE);
+        } else {
+            drawbleDeleteView.setVisibility(GONE);
+            drawbleVisableView.setVisibility(GONE);
         }
     }
 

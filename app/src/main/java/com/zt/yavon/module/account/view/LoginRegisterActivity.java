@@ -1,25 +1,31 @@
-package com.zt.yavon.module.account.login.view;
+package com.zt.yavon.module.account.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.account.login.fragment.LoginFragment;
-import com.zt.yavon.module.account.login.fragment.RegisterFragment;
+import com.zt.yavon.module.account.contract.LoginRegisterContract;
+import com.zt.yavon.module.account.presenter.LoginRegisterPresenter;
+import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.utils.Constants;
+import com.zt.yavon.utils.SPUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class LoginRegisterActivity extends BaseActivity {
+public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> implements LoginRegisterContract.View {
 
 
     @BindView(R.id.tv_login)
@@ -40,7 +46,7 @@ public class LoginRegisterActivity extends BaseActivity {
         return R.layout.activity_login_register;
     }
 
-    public static void start(Activity activity, String mode) {
+    public static void start(Context activity, String mode) {
         Intent intent = new Intent(activity, LoginRegisterActivity.class);
         intent.putExtra("mode", mode);
         activity.startActivity(intent);
@@ -55,6 +61,7 @@ public class LoginRegisterActivity extends BaseActivity {
             }
         });
         mode = getIntent().getStringExtra("mode");
+        mPresenter.setVM(this);
     }
 
     @Override
@@ -98,18 +105,20 @@ public class LoginRegisterActivity extends BaseActivity {
             }
         }
     }
-
+    public void switchToLogin(){
+        switchFragment(nowFragment, loginFragment);
+        nowFragment = loginFragment;
+        tvRegister.setSelected(false);
+        tvLogin.setSelected(true);
+        tvLogin.setBackgroundResource(R.color.alpha_05_white);
+        tvRegister.setBackgroundResource(R.color.black);
+        setTitle("登录");
+    }
     @OnClick({R.id.tv_login, R.id.tv_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
-                switchFragment(nowFragment, loginFragment);
-                nowFragment = loginFragment;
-                tvRegister.setSelected(false);
-                tvLogin.setSelected(true);
-                tvLogin.setBackgroundResource(R.color.alpha_05_white);
-                tvRegister.setBackgroundResource(R.color.black);
-                setTitle("登录");
+                switchToLogin();
                 break;
             case R.id.tv_register:
                 switchFragment(nowFragment, registerFragment);
@@ -121,5 +130,20 @@ public class LoginRegisterActivity extends BaseActivity {
                 setTitle("创建新账户");
                 break;
         }
+    }
+
+    @Override
+    public void sendCodeResult(String msg) {
+        if(TextUtils.isEmpty(msg)){
+            ToastUtil.showShort(this,"发送成功");
+        }else{
+            registerFragment.sendCodeFail();
+        }
+    }
+
+    @Override
+    public void loginRegisterSuccess(LoginBean bean) {
+        SPUtil.saveAccount(this,bean);
+        MainActivity.startAction(this);
     }
 }

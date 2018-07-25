@@ -21,14 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- <activity android:name=".module.guide.GuideActivity"> -->
-             <activity android:name=".module.account.login.view.SelectAccountActivity">
+         <activity android:name=".module.guide.GuideActivity"
+             android:theme="@style/WithLoadingBG">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.account.view.SelectAccountActivity" />
         <activity android:name=".module.device.lock.view.LockSettingActivity" />
         <activity android:name=".module.device.lock.view.LockUseActivity" />
         <activity android:name=".module.device.lock.view.LockRecordActivity" />
@@ -71,8 +72,8 @@
             android:name=".module.main.frame.view.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.account.login.view.LoginRegisterActivity" />
-        <activity android:name=".module.account.login.view.ResetPasswordActivity" />
+        <activity android:name=".module.account.view.LoginRegisterActivity" />
+        <activity android:name=".module.account.view.ResetPasswordActivity" />
         <activity android:name=".module.deviceconnect.view.ScanCodeActivity" />
         <activity android:name=".module.deviceconnect.view.BluetoothActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
