@@ -44,6 +44,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_get_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
@@ -52,7 +53,7 @@
                     android:paddingTop="5dp"
                     android:background="@drawable/shape_stroke_green"
                     android:text="获取验证码"
-                    android:textColor="@color/white"
+                    android:textColor="@color/switch_text_select6"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -63,7 +64,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/selector_divider" />
             <com.zt.yavon.widget.CustomEditText
-                android:id="@+id/et_verify_modify_email"
+                android:id="@+id/et_verify_modify_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/verify_hint"
@@ -71,7 +72,7 @@
                 app:drawablePadding="5dp"
                 app:textSize="14sp" />
             <com.zt.yavon.widget.CustomEditText
-                android:id="@+id/et_email_modify_email"
+                android:id="@+id/et_phone_modify_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/phone_hint2"
@@ -79,7 +80,7 @@
                 app:drawablePadding="5dp"
                 app:textSize="14sp" />
             <com.zt.yavon.widget.CustomEditText
-                android:id="@+id/et_email2_modify_email"
+                android:id="@+id/et_phone2_modify_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/phone_hint3"

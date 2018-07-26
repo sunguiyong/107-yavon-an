@@ -101,10 +101,31 @@ public class Api{
     public static Observable<LoginBean> register(String mobile,String code,String password,String confirmPwd) {
         return getRxApi().register(mobile, code,password,confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> resetPwd(String account,String code,String password,String confirmPwd) {
-        return getRxApi().resetPwd(account, code,password,confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
+    public static Observable<BaseResponse> resetPwd(String account,String code,String password,String confirmPwd) {
+        return getRxApi().resetPwd(account, code,password,confirmPwd).compose(RxSchedulers.<BaseResponse>io_main());
     }
     public static Observable<LoginBean> login(String account,String pwd) {
         return getRxApi().login(account,pwd).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> personalInfo(String token) {
+        return getRxApi().personalInfo(token).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> bindEmail(String token,String email) {
+        return getRxApi().bindEmail(token,email).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> modifyEmail(String token,String account,String code,String email,String emailConfirm) {
+        return getRxApi().modifyEmail(token,account,code,email,emailConfirm).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> modifyPhone(String token,String account,String code,String mobile,String mobileConfirm) {
+        return getRxApi().modifyPhone(token,account,code,mobile,mobileConfirm).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> modifyNickname(String token,String nickname) {
+        return getRxApi().modifyNickname(token,nickname).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<LoginBean> sysSetting(String token,String msgSwitch,String updateSwitch) {
+        return getRxApi().sysSetting(token,msgSwitch,updateSwitch).compose(RxSchedulers.<LoginBean>handleResult());
+    }
+    public static Observable<BaseResponse> setAvatar(String token,String base64String) {
+        return getRxApi().setAvatar(token,base64String).compose(RxSchedulers.<BaseResponse>io_main());
     }
 }

@@ -105,6 +105,10 @@ public class ResetPasswordActivity extends BaseActivity<ResetPwdPresenter> imple
                 mPresenter.sendCode(mobile);
                 break;
             case R.id.tv_confirm_reset:
+                mPresenter.resetPwd(etPhone.getText().toString().trim(),
+                        etVerify.getEditText().toString().trim(),
+                        etPwd.getEditText().toString().trim(),
+                        etPwdConfirm.getEditText().toString().trim());
                 break;
         }
     }
@@ -123,10 +127,19 @@ public class ResetPasswordActivity extends BaseActivity<ResetPwdPresenter> imple
 
     @Override
     public void loginRegisterSuccess(LoginBean bean) {
-        SPUtil.saveAccount(this,bean);
-        if(isFromLogin){
-            MainActivity.startAction(this);
+        ToastUtil.showShort(this,"重置成功");
+        if(!isFromLogin){
+            LoginBean account = SPUtil.getAccount(this);
+            account.setPwd(bean.getPwd());
+            SPUtil.saveAccount(this,account);
         }
         finish();
+    }
+    @Override
+    public void onDestroy() {
+        if(timer != null ){
+            timer.cancel();
+        }
+        super.onDestroy();
     }
 }

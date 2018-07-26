@@ -22,7 +22,6 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
-                        LogUtil.d("======LoginRegisterPresenter,msg:"+response.getMessage());
                         mView.sendCodeResult(null);
                     }
                     @Override

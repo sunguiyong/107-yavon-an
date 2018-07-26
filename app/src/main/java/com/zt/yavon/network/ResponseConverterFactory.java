@@ -1,5 +1,9 @@
 package com.zt.yavon.network;
 
+import android.text.TextUtils;
+
+import com.common.base.rx.BaseResponse;
+import com.common.base.utils.LogUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -57,9 +61,13 @@ public class ResponseConverterFactory extends Converter.Factory {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-            return gson.fromJson(value.string(), type);
-//            String response = value.string();
+            String response = value.string();
 //            LogUtil.d("=======convert:"+response);
+            if(TextUtils.isEmpty(response)){
+                return (T) new BaseResponse<>();
+            }else{
+                return gson.fromJson(response, type);
+            }
             //先将返回的json数据解析到Response中，如果code==200，则解析到我们的实体基类中，否则抛异常
 //            BaseResponse httpResult = gson.fromJson(response, BaseResponse.class);
 //            if (httpResult.getCode() == 200 ) {

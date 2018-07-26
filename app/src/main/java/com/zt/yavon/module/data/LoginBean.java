@@ -12,8 +12,8 @@ public class LoginBean {
     private String mobile;
     private String avatar;
     private String api_token;
-    private String open_auto_update;
-    private String open_system_message;
+    private boolean open_auto_update;
+    private boolean open_system_message;
 
     public String getNick_name() {
         return nick_name;
@@ -71,19 +71,19 @@ public class LoginBean {
         this.api_token = api_token;
     }
 
-    public String getOpen_auto_update() {
+    public boolean getOpen_auto_update() {
         return open_auto_update;
     }
 
-    public void setOpen_auto_update(String open_auto_update) {
+    public void setOpen_auto_update(boolean open_auto_update) {
         this.open_auto_update = open_auto_update;
     }
 
-    public String getOpen_system_message() {
+    public boolean getOpen_system_message() {
         return open_system_message;
     }
 
-    public void setOpen_system_message(String open_system_message) {
+    public void setOpen_system_message(boolean open_system_message) {
         this.open_system_message = open_system_message;
     }
 

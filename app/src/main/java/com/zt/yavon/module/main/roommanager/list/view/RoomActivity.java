@@ -67,9 +67,4 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
         rvRoom.setData(data);
     }
 
-    @Override
-    public void setThemeStyle() {
-        super.setThemeStyle();
-        setStatusBarColor(ContextCompat.getColor(this, R.color.black2));
-    }
 }

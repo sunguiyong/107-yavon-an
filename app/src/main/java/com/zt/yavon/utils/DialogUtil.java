@@ -195,7 +195,7 @@ public class DialogUtil {
             public void onClick(View v) {
                 String data = etTime.getText().toString().trim();
                 if (TextUtils.isEmpty(data)) {
-                    ToastUtil.showShort(context, context.getString(R.string.tip2_time));
+                    ToastUtil.showShort(context, R.string.nickname_hint);
                     return;
                 }
                 dialog.dismiss();

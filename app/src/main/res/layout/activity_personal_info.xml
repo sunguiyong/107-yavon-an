@@ -153,12 +153,13 @@
             android:paddingBottom="15dp"
             />
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_email_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:paddingLeft="15dp"
             android:theme="@style/MySwitch"
-            android:checked="true"
+            android:checked="false"
             android:paddingRight="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"/>

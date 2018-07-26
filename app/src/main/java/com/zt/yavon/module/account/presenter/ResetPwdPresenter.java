@@ -10,6 +10,7 @@ import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
 import com.zt.yavon.utils.RegexUtils;
+import com.zt.yavon.utils.SPUtil;
 
 /**
  * Created by lifujun on 2018/7/25.
@@ -18,11 +19,10 @@ import com.zt.yavon.utils.RegexUtils;
 public class ResetPwdPresenter extends ResetPwdContract.Presenter{
     @Override
     public void sendCode(String account) {
-        mRxManage.add(Api.sendCode(account,"REGISTER","")
+        mRxManage.add(Api.sendCode(account,"RESET_PASSWORD", SPUtil.getToken(mContext))
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
-                        LogUtil.d("======LoginRegisterPresenter,msg:"+response.getMessage());
                         mView.sendCodeResult(null);
                     }
                     @Override
@@ -56,12 +56,12 @@ public class ResetPwdPresenter extends ResetPwdContract.Presenter{
             ToastUtil.showShort(mContext,"再次密码输入不一致");
             return;
         }
-        mRxManage.add(Api.register(mobile,code,pwd,confirmPwd)
-                .subscribeWith(new RxSubscriber<LoginBean>(mContext,true) {
+        mRxManage.add(Api.resetPwd(mobile,code,pwd,confirmPwd)
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
-                    protected void _onNext(LoginBean bean) {
-                        if(bean != null)
-                            bean.setPwd(pwd);
+                    protected void _onNext(BaseResponse response) {
+                        LoginBean bean = new LoginBean();
+                        bean.setPwd(pwd);
                         mView.loginRegisterSuccess(bean);
                     }
                     @Override

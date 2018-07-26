@@ -52,9 +52,9 @@ public class LoginFragment extends BaseFragment {
         }
         boolean isAutoLogin = SPUtil.getBoolean(getContext(),SPUtil.AUTO_LOGIN,false);
         tvAutoLogin.setSelected(isAutoLogin);
-        if(isAutoLogin){
-            ((LoginRegisterActivity)getActivity()).mPresenter.login(bean.getAccount(),bean.getPwd());
-        }
+//        if(isAutoLogin && ((LoginRegisterActivity)getActivity()).isAutologin()){
+//            ((LoginRegisterActivity)getActivity()).mPresenter.login(bean.getAccount(),bean.getPwd());
+//        }
     }
 
 

@@ -1,6 +1,5 @@
 package com.zt.yavon.module.account.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -40,7 +39,6 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
     private String mode;
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_login_register;
@@ -49,6 +47,7 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     public static void start(Context activity, String mode) {
         Intent intent = new Intent(activity, LoginRegisterActivity.class);
         intent.putExtra("mode", mode);
+//        intent.putExtra("autologin", autologin);
         activity.startActivity(intent);
     }
 
@@ -61,6 +60,7 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
             }
         });
         mode = getIntent().getStringExtra("mode");
+//        autologin = getIntent().getBooleanExtra("autologin",true);
         mPresenter.setVM(this);
     }
 
@@ -143,7 +143,9 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
 
     @Override
     public void loginRegisterSuccess(LoginBean bean) {
-        SPUtil.saveAccount(this,bean);
-        MainActivity.startAction(this);
+        if(bean != null){
+            SPUtil.saveAccount(this,bean);
+            MainActivity.startAction(this);
+        }
     }
 }

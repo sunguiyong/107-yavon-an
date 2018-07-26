@@ -19,7 +19,7 @@ public class GuideActivity extends BaseActivity {
         @Override
         public void onMessageReceived(GuideActivity mActivity, Message msg) {
             boolean isAutoLogin = SPUtil.getBoolean(mActivity,SPUtil.AUTO_LOGIN,false);
-            if(isAutoLogin){
+            if(SPUtil.getAccount(mActivity) != null && isAutoLogin){
                 MainActivity.startAction(mActivity);
             }else{
                 SelectAccountActivity.startAction(mActivity);
