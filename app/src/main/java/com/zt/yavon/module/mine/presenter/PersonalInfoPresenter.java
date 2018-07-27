@@ -53,22 +53,22 @@ public class PersonalInfoPresenter extends PersonalInfoContract.Presenter {
     }
 
     @Override
-    public void setAvatar(File cacheFile) {
+    public void setAvatar(String filepath) {
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(UriToPathUtil.getUri(mContext,cacheFile)));
-            mRxManage.add(Api.setAvatar(SPUtil.getToken(mContext), ImageUtils.bitmapToBase64(bitmap))
+//            bitmap = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(UriToPathUtil.getUri(mContext,cacheFile)));
+            mRxManage.add(Api.setAvatar(SPUtil.getToken(mContext), "data:image/png;base64,"+ImageUtils.compressAndResizeByMatrix(filepath,3*1024*1024,1080,1920))
                     .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                         @Override
                         protected void _onNext(BaseResponse bean) {
-                            mView.uploadSuccess(cacheFile);
+                            mView.uploadSuccess(filepath);
                         }
                         @Override
                         protected void _onError(String message) {
                             ToastUtil.showShort(mContext,message);
                         }
                     }).getDisposable());
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

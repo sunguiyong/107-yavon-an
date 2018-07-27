@@ -10,7 +10,12 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.message.adapter.MsgCenterAdapter;
+import com.zt.yavon.module.message.contract.MsgCenterContract;
+import com.zt.yavon.module.message.presenter.MsgCenterPresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -18,7 +23,7 @@ import butterknife.BindView;
  * Created by lifujun on 2018/7/17.
  */
 
-public class MessageCenterActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MessageCenterActivity extends BaseActivity<MsgCenterPresenter> implements SwipeRefreshLayout.OnRefreshListener,MsgCenterContract.View{
     @BindView(R.id.swipe_message_center)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_message_center)
@@ -31,7 +36,7 @@ public class MessageCenterActivity extends BaseActivity implements SwipeRefreshL
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this);
     }
 
     @Override
@@ -44,11 +49,12 @@ public class MessageCenterActivity extends BaseActivity implements SwipeRefreshL
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapterView, View view, int position) {
+                MsgBean bean = adapter.getItem(position);
                 int type = 0;
-                if(position == 0){
+                if(adapter.TYPE_SYSTEM.equals(bean.getType())){
                   type = MessageListActivity.TYPE_SYS;
-                }else if(position == 1){
+                }else if(adapter.TYPE_FAULT.equals(bean.getType())){
                     type = MessageListActivity.TYPE_ERROR;
                 }else{
                     type = MessageListActivity.TYPE_SHARE;
@@ -56,9 +62,7 @@ public class MessageCenterActivity extends BaseActivity implements SwipeRefreshL
                 MessageListActivity.startAction(MessageCenterActivity.this,type);
             }
         });
-        adapter.addData(new Object());
-        adapter.addData(new Object());
-        adapter.addData(new Object());
+        mPresenter.getNotifications();
     }
     public static void startAction(Context context){
         Intent intent = new Intent(context,MessageCenterActivity.class);
@@ -96,5 +100,13 @@ public class MessageCenterActivity extends BaseActivity implements SwipeRefreshL
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
+        mPresenter.getNotifications();
+    }
+
+    @Override
+    public void returnDataList(List<MsgBean> list) {
+        if(list != null){
+            adapter.setNewData(list);
+        }
     }
 }

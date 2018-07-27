@@ -7,21 +7,20 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArraySet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.common.base.utils.LogUtil;
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.message.adapter.MsgCenterAdapter;
+import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.message.adapter.MsgListAdapter;
+import com.zt.yavon.module.message.contract.MessageListContract;
+import com.zt.yavon.module.message.presenter.MsgListPresenter;
 import com.zt.yavon.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,7 +29,7 @@ import butterknife.OnClick;
  * Created by lifujun on 2018/7/17.
  */
 
-public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MessageListActivity extends BaseActivity<MsgListPresenter> implements SwipeRefreshLayout.OnRefreshListener,MessageListContract.View,BaseQuickAdapter.RequestLoadMoreListener{
     public static final int TYPE_SYS = 1;
     public static final int TYPE_ERROR = 2;
     public static final int TYPE_SHARE = 3;
@@ -45,7 +44,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     private MsgListAdapter adapter;
     private int type;
     private LinearLayoutManager layoutManager;
-    private Set<Object> list = new android.support.v4.util.ArraySet<>();
+    private int curPage = 1;
+    private int COUNT_PER_PAGE = 20;
     @Override
     public int getLayoutId() {
         return R.layout.activity_message_list;
@@ -53,6 +53,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void initPresenter() {
+        mPresenter.setVM(this);
         type = getIntent().getIntExtra("type",TYPE_SYS);
     }
 
@@ -67,44 +68,52 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         }else{
             setTitle(getString(R.string.msg_internal));
         }
-        setRightMenuText("选择");
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MsgListAdapter(type);
+        View empView = getLayoutInflater().inflate(R.layout.view_empty,null);
+        adapter.setEmptyView(empView);
         adapter.bindToRecyclerView(recyclerView);
+        adapter.setOnLoadMoreListener(this,recyclerView);
+        adapter.setEnableLoadMore(false);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapterView, View view, int position) {
+                MsgBean bean = adapter.getItem(position);
                 if(adapter.isSelectMode()){
-                    View chooseView = view.findViewById(R.id.iv_select);
-                    chooseView.setSelected(!chooseView.isSelected());
-                    if(chooseView.isSelected()){
-                        list.add(adapter.getItem(position));
+                    if(bean.isSelect()){
+                        bean.setSelect(false);
                     }else{
-                        list.remove(adapter.getItem(position));
+                        bean.setSelect(true);
                     }
+                    adapter.notifyItemChanged(position);
+                }else{
+                    mPresenter.readMsg(type,bean);
                 }
             }
         });
         adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+            public boolean onItemLongClick(BaseQuickAdapter adapterView, View view, int position) {
                 dialog = DialogUtil.create2BtnInfoDialog(MessageListActivity.this, "确定要删除这条消息吗?", null, null, new DialogUtil.OnComfirmListening() {
                     @Override
                     public void confirm() {
-                        adapter.notifyItemRemoved(position);
+                        List<MsgBean> list = new ArrayList<>();
+                        list.add(adapter.getItem(position));
+                        mPresenter.deleteMsg(type,list);
                     }
                 });
                 return true;
             }
         });
-        List<Object> list = new ArrayList<>();
-        for(int i= 0;i<10;i++){
-            list.add(new Object());
-        }
-        adapter.setNewData(list);
+//        List<Object> selectLlist = new ArrayList<>();
+//        for(int i= 0;i<10;i++){
+//            selectLlist.add(new Object());
+//        }
+//        adapter.setNewData(selectLlist);
+        onRefresh();
     }
     public static void startAction(Context context,int type){
         Intent intent = new Intent(context,MessageListActivity.class);
@@ -121,20 +130,13 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.tv_right_header:
-                if(adapter.isSelectMode()){
-                    finish();
-                }else{
-                    changeMode(true);
-                }
+                changeMode();
                 break;
             case R.id.btn_delete_msglist:
                 dialog = DialogUtil.create2BtnInfoDialog(MessageListActivity.this, "确定要删除所选消息吗?", null, null, new DialogUtil.OnComfirmListening() {
                     @Override
                     public void confirm() {
-                        for(Object bean:list){
-                            adapter.getData().remove(bean);
-                        }
-                        adapter.notifyDataSetChanged();
+                        mPresenter.deleteMsg(type,adapter.getSelectItems());
                     }
                 });
                 break;
@@ -144,7 +146,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     public void onHeadBack() {
         if(adapter.isSelectMode()){
-            changeMode(false);
+            changeMode();
             return;
         }
         super.onHeadBack();
@@ -153,13 +155,14 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     public void onBackPressed() {
         if(adapter.isSelectMode()){
-            changeMode(false);
+            changeMode();
             return;
         }
         super.onBackPressed();
     }
 
-    private void changeMode(boolean isChooseMode){
+    private void changeMode(){
+        boolean isChooseMode = !adapter.isSelectMode();
         if(isChooseMode){
             setRightMenuText("完成");
             setRightMenuTextColor(ContextCompat.getColor(this,R.color.mainGreen));
@@ -179,6 +182,71 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     }
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        curPage = 1;
+        adapter.setEnableLoadMore(false);
+        onLoadMoreRequested();
+    }
+
+    @Override
+    public void returnDataList(List<MsgBean> list) {
+        if(list == null){
+            if(curPage > 1){
+                adapter.loadMoreFail();
+            }else if(swipeRefreshLayout.isRefreshing()){
+                swipeRefreshLayout.setRefreshing(false);
+                ToastUtil.showShort(this,"刷新失败，请重试！");
+            }
+            return;
+        }
+        if(swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        if(curPage == 1){
+            adapter.setNewData(list);
+            if(list.size() == 0){
+                adapter.setSelectMode(false);
+                setRightMenuText("");
+                btnDelete.setVisibility(View.GONE);
+            }else{
+                if(adapter.isSelectMode()){
+                    setRightMenuText("完成");
+                    setRightMenuTextColor(ContextCompat.getColor(this,R.color.mainGreen));
+                    btnDelete.setVisibility(View.VISIBLE);
+                }else{
+                    setRightMenuText("选择");
+                    setRightMenuTextColor(ContextCompat.getColor(this,R.color.white));
+                    btnDelete.setVisibility(View.GONE);
+                }
+            }
+        }else{
+            adapter.addData(list);
+        }
+        if(curPage == 1){
+            adapter.disableLoadMoreIfNotFullPage();
+        }else if(list.size() < COUNT_PER_PAGE){
+            adapter.loadMoreEnd();
+        }else{
+            adapter.loadMoreComplete();
+        }
+        curPage++;
+    }
+
+    @Override
+    public void deleteSuccess(List<MsgBean> list) {
+        for(MsgBean bean:list){
+            adapter.getData().remove(bean);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void readSuccess(MsgBean bean) {
+        bean.setIs_read(true);
+        adapter.notifyItemChanged(adapter.getParentPosition(bean));
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mPresenter.getMsgList(type,curPage,COUNT_PER_PAGE);
     }
 }

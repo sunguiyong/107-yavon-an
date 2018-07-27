@@ -6,7 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
 import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.data.MsgBean;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -125,7 +127,37 @@ public class Api{
     public static Observable<LoginBean> sysSetting(String token,String msgSwitch,String updateSwitch) {
         return getRxApi().sysSetting(token,msgSwitch,updateSwitch).compose(RxSchedulers.<LoginBean>handleResult());
     }
+    public static Observable<List<MsgBean>> getInternalMsgList(String token, String page, String per_page) {
+        return getRxApi().getInternalMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+    }
+    public static Observable<List<MsgBean>> getSysMsgList(String token, String page, String per_page) {
+        return getRxApi().getSysMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+    }
+    public static Observable<List<MsgBean>> getFaultsMsgList(String token, String page, String per_page) {
+        return getRxApi().getFaultsMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+    }
+    public static Observable<List<MsgBean>> getNotifications(String token) {
+        return getRxApi().getNotifications(token).compose(RxSchedulers.<List<MsgBean>>handleResult());
+    }
     public static Observable<BaseResponse> setAvatar(String token,String base64String) {
         return getRxApi().setAvatar(token,base64String).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> deleteInternalMsg(String token,String ids) {
+        return getRxApi().deleteInternalMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> deleteSystemMsg(String token,String ids) {
+        return getRxApi().deleteSystemMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> deleteFaultMsg(String token,String ids) {
+        return getRxApi().deleteFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> readInternalMsg(String token,String ids) {
+        return getRxApi().readInternalMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> readSystemMsg(String token,String ids) {
+        return getRxApi().readSystemMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> readFaultMsg(String token,String ids) {
+        return getRxApi().readFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
 }

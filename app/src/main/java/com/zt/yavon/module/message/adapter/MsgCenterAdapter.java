@@ -3,34 +3,31 @@ package com.zt.yavon.module.message.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
+import com.zt.yavon.module.data.MsgBean;
 
 /**
  * Created by lifujun on 2018/7/18.
  */
 
-public class MsgCenterAdapter extends BaseQuickAdapter<Object,BaseViewHolder>{
+public class MsgCenterAdapter extends BaseQuickAdapter<MsgBean,BaseViewHolder>{
+    public final String TYPE_SYSTEM = "SYSTEM";
+    public final String TYPE_FAULT = "FAULT";
+    public final String TYPE_SHARE = "SHARE";
     public MsgCenterAdapter() {
         super(R.layout.item_message_center, null);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Object item) {
-        int position = helper.getAdapterPosition();
-        if(position == 0){
-            helper.setText(R.id.tv_title,"系统消息");
-            helper.setText(R.id.tv_content,"这是一条系统消息");
+    protected void convert(BaseViewHolder helper, MsgBean bean) {
+        if(TYPE_SYSTEM.equals(bean.getType())){
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_system);
-            helper.setText(R.id.tv_count_msg,"2");
-        }else if(position == 1){
-            helper.setText(R.id.tv_title,"故障消息");
-            helper.setText(R.id.tv_content,"您的小桌子坏了");
+        }else if(TYPE_FAULT.equals(bean.getType())){
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_error);
-            helper.setGone(R.id.tv_count_msg,false);
-        }else{
-            helper.setText(R.id.tv_title,"共享消息");
-            helper.setText(R.id.tv_content,"分享可以抽奖，一起分享吧！");
+        }else if(TYPE_SHARE.equals(bean.getType())){
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_share);
-            helper.setText(R.id.tv_count_msg,"6");
         }
+        helper.setText(R.id.tv_title,bean.getTitle());
+        helper.setText(R.id.tv_content,bean.getContent());
+        helper.setText(R.id.tv_count_msg,bean.getNew_count());
     }
 }

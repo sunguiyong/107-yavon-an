@@ -16,7 +16,7 @@ public class SettingPresenter extends SettingContract.Presenter {
 
     @Override
     public void switchUpdate(boolean isOn) {
-        mRxManage.add(Api.sysSetting(SPUtil.getToken(mContext),null,isOn+"")
+        mRxManage.add(Api.sysSetting(SPUtil.getToken(mContext),null,isOn?"1":"0")
                 .subscribeWith(new RxSubscriber<LoginBean>(mContext,false) {
                     @Override
                     protected void _onNext(LoginBean bean) {
@@ -32,7 +32,7 @@ public class SettingPresenter extends SettingContract.Presenter {
 
     @Override
     public void switchMsg(boolean isOn) {
-        mRxManage.add(Api.sysSetting(SPUtil.getToken(mContext),isOn+"",null)
+        mRxManage.add(Api.sysSetting(SPUtil.getToken(mContext),isOn?"1":"0",null)
                 .subscribeWith(new RxSubscriber<LoginBean>(mContext,false) {
                     @Override
                     protected void _onNext(LoginBean bean) {

@@ -197,7 +197,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public void setRightMenuText(String text) {
         if (tvRight != null ) {
-            tvRight.setText(text);
+            if(TextUtils.isEmpty(text)){
+                tvRight.setText(text);
+                tvRight.setEnabled(false);
+            }else{
+                tvRight.setText(text);
+                tvRight.setEnabled(true);
+            }
         }
     }
     public void setRightMenuTextColor(int color) {

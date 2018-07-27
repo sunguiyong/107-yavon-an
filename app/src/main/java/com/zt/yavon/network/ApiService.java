@@ -2,11 +2,15 @@ package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
 import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.data.MsgBean;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -35,7 +39,7 @@ public interface ApiService {
      * @param api_token 如果用户处于登录状态，需要传过来
      * @return
      */
-    @GET(Api.HOST+"api/send_code")
+    @GET("api/send_code")
     Observable<BaseResponse> sendCode(
             @Query("account") String account,
             @Query("type") String type,
@@ -50,7 +54,7 @@ public interface ApiService {
      * @param password_confirmation
      * @return
      */
-    @POST(Api.HOST+"api/auth/register")
+    @POST("api/auth/register")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> register(
             @Field("mobile") String mobile,
@@ -64,7 +68,7 @@ public interface ApiService {
      * @param password
      * @return
      */
-    @POST(Api.HOST+"api/auth/login")
+    @POST("api/auth/login")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> login(
             @Field("account") String account,
@@ -78,7 +82,7 @@ public interface ApiService {
      * @param password_confirmation
      * @return
      */
-    @PATCH(Api.HOST+"api/auth/reset_password")
+    @PATCH("api/auth/reset_password")
     @FormUrlEncoded
     Observable<BaseResponse> resetPwd(
             @Field("account") String account,
@@ -91,7 +95,7 @@ public interface ApiService {
      * @param api_token
      * @return
      */
-    @GET(Api.HOST+"api/user/detail")
+    @GET("api/user/detail")
     Observable<BaseResponse<LoginBean>> personalInfo(
             @Query("api_token") String api_token
     );
@@ -101,7 +105,7 @@ public interface ApiService {
      * @param email
      * @return
      */
-    @POST(Api.HOST+"api/user/bind_email")
+    @POST("api/user/bind_email")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> bindEmail(
             @Field("api_token") String api_token,
@@ -116,7 +120,7 @@ public interface ApiService {
      * @param new_email_confirmation
      * @return
      */
-    @PATCH(Api.HOST+"api/user/email")
+    @PATCH("api/user/email")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> modifyEmail(
             @Field("api_token") String api_token,
@@ -134,7 +138,7 @@ public interface ApiService {
      * @param mobile_confirmation
      * @return
      */
-    @PATCH(Api.HOST+"api/user/mobile")
+    @PATCH("api/user/mobile")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> modifyPhone(
             @Field("api_token") String api_token,
@@ -149,7 +153,7 @@ public interface ApiService {
      * @param nick_name
      * @return
      */
-    @PATCH(Api.HOST+"api/user/nick_name")
+    @PATCH("api/user/nick_name")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> modifyNickname(
             @Field("api_token") String api_token,
@@ -162,7 +166,7 @@ public interface ApiService {
      * @param open_auto_update
      * @return
      */
-    @PATCH(Api.HOST+"api/user/setting")
+    @PATCH("api/user/setting")
     @FormUrlEncoded
     Observable<BaseResponse<LoginBean>> sysSetting(
             @Field("api_token") String api_token,
@@ -175,11 +179,130 @@ public interface ApiService {
      * @param avatar
      * @return
      */
-    @POST(Api.HOST+"api/user/avatar")
+    @POST("api/user/avatar")
     @FormUrlEncoded
     Observable<BaseResponse> setAvatar(
             @Field("api_token") String api_token,
             @Field("avatar") String avatar
     );
-
+    /**
+     * 内部消息列表
+     * @param api_token
+     * @param page
+     * @param per_page
+     * @return
+     */
+    @GET("api/notifications/insides")
+    Observable<BaseResponse<List<MsgBean>>> getInternalMsgList(
+            @Query("api_token") String api_token,
+            @Query("page") String page,
+            @Query("per_page") String per_page
+    );
+    /**
+     * 系统消息列表
+     * @param api_token
+     * @param page
+     * @param per_page
+     * @return
+     */
+    @GET("api/notifications/systems")
+    Observable<BaseResponse<List<MsgBean>>> getSysMsgList(
+            @Query("api_token") String api_token,
+            @Query("page") String page,
+            @Query("per_page") String per_page
+    );
+    /**
+     * 故障消息列表
+     * @param api_token
+     * @param page
+     * @param per_page
+     * @return
+     */
+    @GET("api/notifications/faults")
+    Observable<BaseResponse<List<MsgBean>>> getFaultsMsgList(
+            @Query("api_token") String api_token,
+            @Query("page") String page,
+            @Query("per_page") String per_page
+    );
+    /**
+     * 消息列表（系统、报障、共享）
+     * @param api_token
+     * @return
+     */
+    @GET("api/notifications")
+    Observable<BaseResponse<List<MsgBean>>> getNotifications(
+            @Query("api_token") String api_token
+    );
+    /**
+     * 内部消息删除（批量）
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE",path = "api/notifications/insides/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> deleteInternalMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 系统消息删除（批量）
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE",path = "api/notifications/systems/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> deleteSystemMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 故障消息删除（批量）
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE",path = "api/notifications/faults/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> deleteFaultMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 内部消息标为已读
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @PATCH("api/notifications/insides/read")
+    @FormUrlEncoded
+    Observable<BaseResponse> readInternalMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 系统消息标为已读
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @PATCH("api/notifications/systems/read")
+    @FormUrlEncoded
+    Observable<BaseResponse> readSystemMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 故障消息标为已读
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @PATCH("api/notifications/faults/read")
+    @FormUrlEncoded
+    Observable<BaseResponse> readFaultMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
 }

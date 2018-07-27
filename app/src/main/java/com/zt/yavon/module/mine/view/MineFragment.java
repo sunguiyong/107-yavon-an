@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.data.LoginBean;
@@ -52,9 +53,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     private void updatePersonalView(LoginBean bean) {
         if(bean != null){
             tvName.setText(bean.getNick_name());
+//            LogUtil.d("================avatar:"+bean.getAvatar());
             tvPhone.setText(bean.getMobile());
             Glide.with(this)
                     .load(bean.getAvatar())
+                    .skipMemoryCache(true)
                     .placeholder(R.mipmap.avatar_default)
                     .error(R.mipmap.avatar_default)
                     .transform(new CenterCrop(getContext()),new GlideCircleTransfrom(getContext()))

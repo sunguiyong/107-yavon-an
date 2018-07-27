@@ -13,30 +13,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/divider_item"
-        app:layout_constraintRight_toLeftOf="@+id/iv_type"
+        app:layout_constraintRight_toLeftOf="@+id/layout_icon"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:visibility="gone"
         />
-    <ImageView
-        android:id="@+id/iv_type"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:src="@mipmap/msg_system2"
-        android:scaleType="fitCenter"
+    <FrameLayout
+        android:id="@+id/layout_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/iv_select"
         app:layout_constraintBottom_toTopOf="@+id/divider_item"
         app:layout_constraintRight_toLeftOf="@+id/tv_title"
         app:layout_goneMarginLeft="15dp"
-        />
+        >
+        <ImageView
+            android:id="@+id/iv_type"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@mipmap/msg_system2"
+            android:scaleType="fitCenter"
+            android:layout_margin="2dp"
+            />
+        <View
+            android:id="@+id/iv_red_point"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_gravity="right"
+            android:background="@drawable/round_point_red"
+            />
+    </FrameLayout>
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/iv_type"
+        app:layout_constraintLeft_toRightOf="@+id/layout_icon"
         app:layout_constraintRight_toLeftOf="@+id/tv_time"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tv_content"
@@ -49,7 +63,7 @@
         android:layout_marginLeft="15dp"
         android:textColor="@color/white_tran"
         android:textSize="12.5sp"
-        app:layout_constraintLeft_toRightOf="@+id/iv_type"
+        app:layout_constraintLeft_toRightOf="@+id/layout_icon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         app:layout_constraintBottom_toTopOf="@+id/divider_item"

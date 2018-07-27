@@ -1,33 +1,23 @@
 package com.zt.yavon.module.mine.view;
 
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zt.yavon.BuildConfig;
 import com.zt.yavon.R;
@@ -35,19 +25,14 @@ import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.account.view.LoginRegisterActivity;
 import com.zt.yavon.module.account.view.ResetPasswordActivity;
 import com.zt.yavon.module.data.LoginBean;
-import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.module.main.widget.GlideCircleTransfrom;
 import com.zt.yavon.module.mine.contract.PersonalInfoContract;
 import com.zt.yavon.module.mine.presenter.PersonalInfoPresenter;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.FileUtil;
-import com.zt.yavon.utils.ImageUtils;
 import com.zt.yavon.utils.PakageUtil;
 import com.zt.yavon.utils.SPUtil;
-import com.zt.yavon.utils.UriToPathUtil;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,8 +60,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
     private final int REQ_EMAIL = 0x10;
     private final int REQ_PHONE = 0x20;
     private final int REQ_CHOOSE = 0x30;
-    private final int REQ_CROP_PHOTO = 0x40;
-    private File cacheFile;
+//    private Uri destinationUri;
     @Override
     public int getLayoutId() {
         return R.layout.activity_personal_info;
@@ -104,13 +88,20 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
             }
             Glide.with(this)
                     .load(bean.getAvatar())
-                    .placeholder(R.mipmap.avatar_default)
+//                    .placeholder(R.mipmap.avatar_default)
                     .error(R.mipmap.avatar_default)
                     .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
                     .dontAnimate()
                     .into(ivAvatar);
         }
-        cacheFile = new File(FileUtil.getDiskCacheDir(this),"tempavatar.jpg");
+//        File file = new File(FileUtil.getDiskCacheDir(this));
+//        if(!file.exists()){
+//            file.mkdirs();
+//        }
+//        LogUtil.d("==================getAbsolutePath："+file.getAbsolutePath());
+//        destinationUri = UriToPathUtil.getUri(this,file.getAbsolutePath()+"/tempavatar.jpg");
+//        destinationUri = Uri.parse(destinationUri.toString().replace("/root",""));
+//        LogUtil.d("==================destinationUri："+destinationUri.toString());
     }
     public static void startAction(Context context){
         Intent intent = new Intent(context,PersonalInfoActivity.class);
@@ -227,22 +218,24 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                 case REQ_CHOOSE:
 //                    List<Uri> uriList = Matisse.obtainResult(data);
                     List<String> pathList = Matisse.obtainPathResult(data);
-//                    mPresenter.setAvatar(pathList.get(0));
-                    LogUtil.d("===============image path:"+pathList.get(0));
-                    startPhotoZoom(UriToPathUtil.getUri(this,pathList.get(0)),500);
-                    Glide.with(this)
-                            .load(UriToPathUtil.getUri(this,pathList.get(0)))
-                            .placeholder(R.mipmap.avatar_default)
-                            .error(R.mipmap.avatar_default)
-                            .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
-                            .dontAnimate()
-                            .into(ivAvatar);
+                    mPresenter.setAvatar(pathList.get(0));
+//                    LogUtil.d("===============image path:"+pathList.get(0));
+//                    startPhotoZoom(UriToPathUtil.getUri(this,pathList.get(0)),500);
+//                    Glide.with(this)
+//                            .load(UriToPathUtil.getUri(this,pathList.get(0)))
+//                            .placeholder(R.mipmap.avatar_default)
+//                            .error(R.mipmap.avatar_default)
+//                            .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
+//                            .dontAnimate()
+//                            .into(ivAvatar);
+//                    UCrop uCrop = UCrop.of(uriList.get(0), destinationUri);
+//                    Intent intent = uCrop.getIntent(this);
+//                    intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
+//                    intent.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
+//                    uCrop.withAspectRatio(1, 1)
+//                            .withMaxResultSize(500, 500)
+//                            .start(this);
                     break;
-                case REQ_CROP_PHOTO:
-                    LogUtil.d("===============cacheFile path:"+cacheFile.getAbsolutePath());
-                    mPresenter.setAvatar(cacheFile);
-                    break;
-
             }
         }
     }
@@ -265,39 +258,13 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
     }
 
     @Override
-    public void uploadSuccess(File cacheFile) {
+    public void uploadSuccess(String filePath) {
         Glide.with(this)
-                .load(cacheFile)
+                .load(filePath)
                 .placeholder(R.mipmap.avatar_default)
                 .error(R.mipmap.avatar_default)
                 .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
                 .dontAnimate()
                 .into(ivAvatar);
-    }
-    /**
-     * 剪裁图片
-     */
-    private void startPhotoZoom(Uri uri, int size) {
-        try {
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(uri, "image/*");//自己使用Content Uri替换File Uri
-            intent.putExtra("crop", "true");
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("outputX", size);
-            intent.putExtra("outputY", size);
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", false);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,UriToPathUtil.getUri(this,cacheFile));//定义输出的File Uri
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-            intent.putExtra("noFaceDetection", true);
-            startActivityForResult(intent, REQ_CROP_PHOTO);
-            LogUtil.d("===============startActivityForResult:"+cacheFile.getAbsolutePath());
-        } catch (ActivityNotFoundException e) {
-            String errorMessage = "Your device doesn't support the crop action!";
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

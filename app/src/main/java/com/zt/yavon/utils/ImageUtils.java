@@ -3,12 +3,16 @@ package com.zt.yavon.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.media.ExifInterface;
 import android.util.Base64;
+
+import com.common.base.utils.LogUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -194,5 +198,69 @@ public class ImageUtils {
             e.printStackTrace();
         }
     }
+    public static String compressAndResizeByMatrix(String filePath, int maxSize, float pixelW, float pixelH) {
+//        long startTime = System.currentTimeMillis();
+        Bitmap image = BitmapFactory.decodeFile(filePath);
+        Matrix matrix = new Matrix();
+        matrix.setRotate(readPictureDegree(filePath));
+        image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+        int w = image.getWidth();
+        int h = image.getHeight();
 
+        LogUtil.d("bitmap,before width:"+w+",height:"+h );
+        float be = 1;//be=1表示不缩放
+        float wScale = pixelW/w;
+        float hScale = pixelH/h;
+        if(wScale < 1 || hScale <1){
+            be = wScale<hScale?wScale:hScale;
+            LogUtil.d("bitmap,inSampleSize:"+be);
+            Matrix tempMatrix = new Matrix();
+            tempMatrix.postScale(be, be);
+            image = Bitmap.createBitmap(image, 0, 0, w,h, tempMatrix, true);
+        }else{
+            LogUtil.d("bitmap,inSampleSize:"+be);
+        }
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        int quanlity = 100;
+        do{
+            if(quanlity<60)
+                break;
+            os.reset();
+            image.compress(Bitmap.CompressFormat.JPEG, quanlity, os);
+            LogUtil.d("bitmap,quanlity:"+quanlity+",bitmap,after size:"+os.toByteArray().length  );
+            quanlity -= 8;
+        }while (os.toByteArray().length >maxSize);
+        //save file
+//        String newFilePath =  Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "ShuCi" + File.separator+"222.jpg";
+//        saveFile(os,newFilePath);
+//        saveFile(os,filePath);
+//        image = BitmapFactory.decodeByteArray(os.toByteArray(),0,os.toByteArray().length);
+        LogUtil.d("bitmap,after width:"+image.getWidth()+",height:"+image.getHeight() );
+//        long endTime = System.currentTimeMillis();
+//        L.d("use time:"+(endTime-startTime));
+        return Base64.encodeToString(os.toByteArray(), Base64.DEFAULT);
+
+    }
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return degree;
+        }
+        return degree;
+    }
 }
