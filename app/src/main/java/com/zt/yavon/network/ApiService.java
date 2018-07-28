@@ -2,7 +2,9 @@ package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
 import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
+import com.zt.yavon.module.data.ShareListBean;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -292,6 +295,52 @@ public interface ApiService {
     Observable<BaseResponse> readSystemMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
+    );
+    /**
+     * 故障状态操作(进行中、已解决)
+     * @param api_token
+     * @param notification_id
+     * @param api_token
+     * @param status
+     * @return
+     */
+    @PATCH("api/notifications/faults/{notification_id}/do_fault")
+    @FormUrlEncoded
+    Observable<BaseResponse> doFaultMsg(
+            @Path("notification_id") String notification_id,
+            @Field("api_token") String api_token,
+            @Field("status") String status
+    );
+    /**
+     * 全部设备
+     * @param api_token
+     * @return
+     */
+    @GET("api/user/machines")
+    Observable<BaseResponse<List<MineRoomBean>>> getAllDevs(
+            @Query("api_token") String api_token
+    );
+    /**
+     * 设备共享设置列表
+     * @param api_token
+     * @return
+     */
+    @GET("api/machines/{machine_id}/user")
+    Observable<BaseResponse<ShareListBean>> getShareList(
+            @Path("machine_id") String machine_id,
+            @Query("api_token") String api_token
+    );
+    /**
+     * 取消用户设备共享
+     * @param api_token
+     * @return
+     */
+    @PATCH("api/machines/{machine_id}/user/{user_id}/cancel_share")
+    @FormUrlEncoded
+    Observable<BaseResponse> cancleDevShare(
+            @Path("machine_id") String machine_id,
+            @Path("user_id") String user_id,
+            @Field("api_token") String api_token
     );
     /**
      * 故障消息标为已读

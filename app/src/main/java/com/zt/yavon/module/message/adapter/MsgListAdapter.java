@@ -1,6 +1,8 @@
 package com.zt.yavon.module.message.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
@@ -59,15 +61,27 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
         helper.setGone(R.id.iv_red_point,item.isIs_read()?false:true);
         if(type == MessageListActivity.TYPE_SYS){
             helper.setText(R.id.tv_title,item.getTitle());
-            helper.setText(R.id.tv_content,item.getContent());
-            helper.setText(R.id.tv_time,item.getTime());
+            helper.setText(R.id.tv_content,item.getTime());
+//            helper.setText(R.id.tv_time,item.getTime());
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_system2);
         }else if(type == MessageListActivity.TYPE_ERROR){
             helper.setText(R.id.tv_title,item.getTitle());
-            helper.setText(R.id.tv_content,item.getContent());
-            helper.setText(R.id.tv_time,item.getTime());
+            helper.setText(R.id.tv_content,item.getTime());
+//            helper.setText(R.id.tv_time,item.getTime());
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_error2);
-            helper.setText(R.id.tv_time,"2天前");
+            TextView tvDo = helper.getView(R.id.tv_do_msg);
+            tvDo.setVisibility(View.VISIBLE);
+            if("PROGRESS".equals(item.getStatus())){
+                tvDo.setBackgroundResource(R.drawable.shape_edittext_bk2);
+                tvDo.setTextColor(ContextCompat.getColor(mContext,R.color.mainGreen));
+                tvDo.setText("进行中");
+                helper.addOnClickListener(R.id.tv_do_msg);
+            }else{
+                tvDo.setText("已解决");
+                tvDo.setBackground(null);
+                tvDo.setTextColor(ContextCompat.getColor(mContext,R.color.white_tran));
+                tvDo.setOnClickListener(null);
+            }
         }else if(type == MessageListActivity.TYPE_SHARE){
             helper.setText(R.id.tv_title,"共享消息");
             helper.setText(R.id.tv_content,"分享可以抽奖，一起分享吧！");

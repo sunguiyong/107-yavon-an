@@ -14,10 +14,12 @@ public interface MessageListContract {
         void returnDataList(List<MsgBean> list);
         void deleteSuccess(List<MsgBean> list);
         void readSuccess(MsgBean bean);
+        void doFaultSuccess(MsgBean bean);
     }
     abstract class Presenter extends BasePresenter<View> {
         public abstract void getMsgList(int type,int page,int pageSize);
         public abstract void deleteMsg(int type,List<MsgBean> list);
         public abstract void readMsg(int type,MsgBean bean);
+        public abstract void doFaultMsg(MsgBean bean);
     }
 }

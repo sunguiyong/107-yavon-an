@@ -13,17 +13,20 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_dev"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/lock1_small" />
 
         <TextView
+            android:id="@+id/tv_name_dev"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
@@ -32,6 +35,7 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_type_user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,14 +50,15 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/tv_setting_dev_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="管理员"
+                android:text=""
                 android:padding="2.5dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"

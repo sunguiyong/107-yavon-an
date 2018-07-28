@@ -9,12 +9,12 @@ public class MsgBean {
     private String id;
     private String title;
     private String content;
-    private boolean is_read;
+    private boolean is_read ;
     private String time;
     private String flag;
     private String status;
     private String new_at;
-    private String new_count;
+    private int new_count;
     private String type;
 
     public String getId() {
@@ -89,11 +89,11 @@ public class MsgBean {
         this.new_at = new_at;
     }
 
-    public String getNew_count() {
+    public int getNew_count() {
         return new_count;
     }
 
-    public void setNew_count(String new_count) {
+    public void setNew_count(int new_count) {
         this.new_count = new_count;
     }
 
@@ -105,39 +105,4 @@ public class MsgBean {
         this.type = type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MsgBean bean = (MsgBean) o;
-
-        if (isSelect != bean.isSelect) return false;
-        if (is_read != bean.is_read) return false;
-        if (!id.equals(bean.id)) return false;
-        if (!title.equals(bean.title)) return false;
-        if (!content.equals(bean.content)) return false;
-        if (!time.equals(bean.time)) return false;
-        if (!flag.equals(bean.flag)) return false;
-        if (!status.equals(bean.status)) return false;
-        if (!new_at.equals(bean.new_at)) return false;
-        if (!new_count.equals(bean.new_count)) return false;
-        return type.equals(bean.type);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (isSelect ? 1 : 0);
-        result = 31 * result + id.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + content.hashCode();
-        result = 31 * result + (is_read ? 1 : 0);
-        result = 31 * result + time.hashCode();
-        result = 31 * result + flag.hashCode();
-        result = 31 * result + status.hashCode();
-        result = 31 * result + new_at.hashCode();
-        result = 31 * result + new_count.hashCode();
-        result = 31 * result + type.hashCode();
-        return result;
-    }
 }

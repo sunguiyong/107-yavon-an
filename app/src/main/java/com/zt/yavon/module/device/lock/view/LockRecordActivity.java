@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.device.lock.adapter.LockRecordAdapter;
-import com.zt.yavon.module.data.LockRecordItem;
+import com.zt.yavon.module.data.SectionItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +52,12 @@ public class LockRecordActivity extends BaseActivity{
 //        recyclerView.addItemDecoration(itemDecoration);
         adapter = new LockRecordAdapter();
         adapter.bindToRecyclerView(recyclerView);
-        List<LockRecordItem> list = new ArrayList<>();
+        List<SectionItem> list = new ArrayList<>();
         for(int i = 0;i<50;i++){
             if(i%7 == 0 || i%5 == 0){
-                list.add(new LockRecordItem(LockRecordItem.TYPE_TITLE,new Object()));
+                list.add(new SectionItem(SectionItem.TYPE_TITLE,new Object()));
             }else{
-                list.add(new LockRecordItem(LockRecordItem.TYPE_DETAIL,new Object()));
+                list.add(new SectionItem(SectionItem.TYPE_DETAIL,new Object()));
             }
         }
         adapter.setNewData(list);

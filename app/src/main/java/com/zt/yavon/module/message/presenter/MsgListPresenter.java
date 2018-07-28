@@ -122,7 +122,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
     public void readMsg(int type, MsgBean bean) {
         if(type == MessageListActivity.TYPE_INTERNAL){
             mRxManage.add(Api.readInternalMsg(SPUtil.getToken(mContext),bean.getId())
-                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
                         @Override
                         protected void _onNext(BaseResponse response) {
                             mView.readSuccess(bean);
@@ -137,7 +137,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
 
         }else if(type == MessageListActivity.TYPE_SYS){
             mRxManage.add(Api.readSystemMsg(SPUtil.getToken(mContext),bean.getId())
-                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
                         @Override
                         protected void _onNext(BaseResponse response) {
                             mView.readSuccess(bean);
@@ -149,7 +149,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                     }).getDisposable());
         }else if(type == MessageListActivity.TYPE_ERROR){
             mRxManage.add(Api.readFaultMsg(SPUtil.getToken(mContext),bean.getId())
-                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
                         @Override
                         protected void _onNext(BaseResponse response) {
                             mView.readSuccess(bean);
@@ -160,5 +160,20 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                         }
                     }).getDisposable());
         }
+    }
+
+    @Override
+    public void doFaultMsg(MsgBean bean) {
+        mRxManage.add(Api.doFaultMsg(bean.getId(),SPUtil.getToken(mContext),"RESOLVED")
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        mView.doFaultSuccess(bean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
     }
 }

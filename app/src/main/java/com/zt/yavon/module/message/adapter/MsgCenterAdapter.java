@@ -28,6 +28,11 @@ public class MsgCenterAdapter extends BaseQuickAdapter<MsgBean,BaseViewHolder>{
         }
         helper.setText(R.id.tv_title,bean.getTitle());
         helper.setText(R.id.tv_content,bean.getContent());
-        helper.setText(R.id.tv_count_msg,bean.getNew_count());
+        if(bean.getNew_count() > 0){
+            helper.setGone(R.id.tv_count_msg,true);
+            helper.setText(R.id.tv_count_msg,bean.getNew_count()+"");
+        }else{
+            helper.setGone(R.id.tv_count_msg,false);
+        }
     }
 }

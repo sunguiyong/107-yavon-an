@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.entity.SectionEntity;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -108,11 +110,25 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                 return true;
             }
         });
-//        List<Object> selectLlist = new ArrayList<>();
-//        for(int i= 0;i<10;i++){
-//            selectLlist.add(new Object());
-//        }
-//        adapter.setNewData(selectLlist);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapterView, View view, int position) {
+                MsgBean bean = adapter.getItem(position);
+                if(type == TYPE_ERROR){
+                    if("MACHINE_B_FAULT".equals(bean.getFlag())){//使用者上报
+                        DialogUtil.dismiss(dialog);
+                        dialog = DialogUtil.create2BtnInfoDialog(MessageListActivity.this, "该设备是否已解决故障?", "未解决", "已解决", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {//故障状态操作
+                                mPresenter.doFaultMsg(bean);
+                            }
+                        });
+                    }
+                }else{//自己申请的
+                    ToastUtil.showShort(MessageListActivity.this,"无法操作自己申请的故障");
+                }
+            }
+        });
         onRefresh();
     }
     public static void startAction(Context context,int type){
@@ -242,7 +258,13 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
     @Override
     public void readSuccess(MsgBean bean) {
         bean.setIs_read(true);
-        adapter.notifyItemChanged(adapter.getParentPosition(bean));
+        adapter.notifyItemChanged(adapter.getData().indexOf(bean));
+    }
+
+    @Override
+    public void doFaultSuccess(MsgBean bean) {
+        bean.setStatus("RESOLVED");
+        adapter.notifyItemChanged(adapter.getData().indexOf(bean));
     }
 
     @Override

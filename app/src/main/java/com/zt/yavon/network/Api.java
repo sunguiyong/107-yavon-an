@@ -6,7 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
 import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
+import com.zt.yavon.module.data.ShareListBean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -156,6 +158,18 @@ public class Api{
     }
     public static Observable<BaseResponse> readSystemMsg(String token,String ids) {
         return getRxApi().readSystemMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> doFaultMsg(String id,String token,String status) {
+        return getRxApi().doFaultMsg(id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<List<MineRoomBean>> getAllDevs(String token) {
+        return getRxApi().getAllDevs(token).compose(RxSchedulers.<List<MineRoomBean>>handleResult());
+    }
+    public static Observable<ShareListBean> getShareList(String token,String machineId) {
+        return getRxApi().getShareList(machineId,token).compose(RxSchedulers.<ShareListBean>handleResult());
+    }
+    public static Observable<BaseResponse> cancleDevShare(String token,String machineId,String userId) {
+        return getRxApi().cancleDevShare(machineId,userId,token).compose(RxSchedulers.<BaseResponse>io_main());
     }
     public static Observable<BaseResponse> readFaultMsg(String token,String ids) {
         return getRxApi().readFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
