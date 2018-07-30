@@ -139,6 +139,9 @@ public class Api{
     public static Observable<List<MsgBean>> getFaultsMsgList(String token, String page, String per_page) {
         return getRxApi().getFaultsMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
+    public static Observable<List<MsgBean>> getShareMsgList(String token, String page, String per_page) {
+        return getRxApi().getShareMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+    }
     public static Observable<List<MsgBean>> getNotifications(String token) {
         return getRxApi().getNotifications(token).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
@@ -163,6 +166,9 @@ public class Api{
     public static Observable<BaseResponse> doFaultMsg(String id,String token,String status) {
         return getRxApi().doFaultMsg(id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
     }
+    public static Observable<BaseResponse> doShareMsg(String id,String token,String status) {
+        return getRxApi().doShareMsg(id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+    }
     public static Observable<List<MineRoomBean>> getAllDevs(String token) {
         return getRxApi().getAllDevs(token).compose(RxSchedulers.<List<MineRoomBean>>handleResult());
     }
@@ -180,5 +186,8 @@ public class Api{
     }
     public static Observable<BaseResponse> readFaultMsg(String token,String ids) {
         return getRxApi().readFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> readShareMsg(String token,String ids) {
+        return getRxApi().readShareMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
 }

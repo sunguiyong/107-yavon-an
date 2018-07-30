@@ -92,6 +92,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                     }
                     adapter.notifyItemChanged(position);
                 }else{
+                    if(!bean.isIs_read())
                     mPresenter.readMsg(type,bean);
                 }
             }
@@ -114,8 +115,8 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapterView, View view, int position) {
                 MsgBean bean = adapter.getItem(position);
-                if(type == TYPE_ERROR){
-                    if("MACHINE_B_FAULT".equals(bean.getFlag())){//使用者上报
+                if(type == TYPE_ERROR) {
+                    if ("MACHINE_B_FAULT".equals(bean.getFlag())) {//使用者上报
                         DialogUtil.dismiss(dialog);
                         dialog = DialogUtil.create2BtnInfoDialog(MessageListActivity.this, "该设备是否已解决故障?", "未解决", "已解决", new DialogUtil.OnComfirmListening() {
                             @Override
@@ -123,9 +124,23 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                                 mPresenter.doFaultMsg(bean);
                             }
                         });
+                    } else {//自己申请的
+                        ToastUtil.showShort(MessageListActivity.this, "无法操作自己申请的故障");
                     }
-                }else{//自己申请的
-                    ToastUtil.showShort(MessageListActivity.this,"无法操作自己申请的故障");
+                }else if(type == TYPE_SHARE){
+                    if("APPLY".equals(bean.getType()) && bean.isIs_operate() && "WAIT".equals(bean.getStatus())){
+                        dialog = DialogUtil.create2BtnInfoDialog2(MessageListActivity.this, bean.getContent(), "拒绝", "同意", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {//故障状态操作
+                                mPresenter.doShareMsg(bean,false);
+                            }
+                        }, new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                mPresenter.doShareMsg(bean,true);
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -218,7 +233,6 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
             swipeRefreshLayout.setRefreshing(false);
         }
         if(curPage == 1){
-            adapter.setNewData(list);
             if(list.size() == 0){
                 adapter.setSelectMode(false);
                 setRightMenuText("");
@@ -234,6 +248,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                     btnDelete.setVisibility(View.GONE);
                 }
             }
+            adapter.setNewData(list);
         }else{
             adapter.addData(list);
         }
@@ -262,8 +277,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
     }
 
     @Override
-    public void doFaultSuccess(MsgBean bean) {
-        bean.setStatus("RESOLVED");
+    public void doMsgSuccess(MsgBean bean) {
         adapter.notifyItemChanged(adapter.getData().indexOf(bean));
     }
 

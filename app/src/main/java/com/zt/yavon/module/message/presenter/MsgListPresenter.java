@@ -34,7 +34,18 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                     }).getDisposable());
 
         }else if(type == MessageListActivity.TYPE_SHARE){
-
+            mRxManage.add(Api.getShareMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
+                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                        @Override
+                        protected void _onNext(List<MsgBean> list) {
+                            mView.returnDataList(list);
+                        }
+                        @Override
+                        protected void _onError(String message) {
+                            mView.returnDataList(null);
+                            ToastUtil.showShort(mContext,message);
+                        }
+                    }).getDisposable());
         }else if(type == MessageListActivity.TYPE_SYS){
             mRxManage.add(Api.getSysMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
                     .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
@@ -134,7 +145,17 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                     }).getDisposable());
 
         }else if(type == MessageListActivity.TYPE_SHARE){
-
+            mRxManage.add(Api.readShareMsg(SPUtil.getToken(mContext),bean.getId())
+                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
+                        @Override
+                        protected void _onNext(BaseResponse response) {
+                            mView.readSuccess(bean);
+                        }
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtil.showShort(mContext,message);
+                        }
+                    }).getDisposable());
         }else if(type == MessageListActivity.TYPE_SYS){
             mRxManage.add(Api.readSystemMsg(SPUtil.getToken(mContext),bean.getId())
                     .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
@@ -168,7 +189,24 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
-                        mView.doFaultSuccess(bean);
+                        bean.setStatus("RESOLVED");
+                        mView.doMsgSuccess(bean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
+
+    @Override
+    public void doShareMsg(MsgBean bean, boolean agree) {
+        mRxManage.add(Api.doShareMsg(bean.getId(),SPUtil.getToken(mContext),agree?"PASSED":"REFUSED")
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        bean.setStatus(agree?"AGREED":"REFUSED");
+                        mView.doMsgSuccess(bean);
                     }
                     @Override
                     protected void _onError(String message) {

@@ -230,6 +230,19 @@ public interface ApiService {
             @Query("per_page") String per_page
     );
     /**
+     * 共享信息列表
+     * @param api_token
+     * @param page
+     * @param per_page
+     * @return
+     */
+    @GET("api/notifications/shares")
+    Observable<BaseResponse<List<MsgBean>>> getShareMsgList(
+            @Query("api_token") String api_token,
+            @Query("page") String page,
+            @Query("per_page") String per_page
+    );
+    /**
      * 消息列表（系统、报障、共享）
      * @param api_token
      * @return
@@ -271,6 +284,18 @@ public interface ApiService {
     @HTTP(method = "DELETE",path = "api/notifications/faults/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> deleteFaultMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 共享消息删除（批量）
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE",path = "api/notifications/shares/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> deleteShareMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
@@ -377,5 +402,30 @@ public interface ApiService {
     Observable<BaseResponse> readFaultMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
+    );
+    /**
+     * 共享消息标为已读
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @PATCH("api/notifications/shares/read")
+    @FormUrlEncoded
+    Observable<BaseResponse> readShareMsg(
+            @Field("api_token") String api_token,
+            @Field("ids") String ids
+    );
+    /**
+     * 共享消息处理（同意、拒绝）
+     * @param api_token
+     * @param status
+     * @return
+     */
+    @PATCH("api/notifications/shares/{notification_id}/do_apply")
+    @FormUrlEncoded
+    Observable<BaseResponse> doShareMsg(
+            @Path("notification_id") String notification_id,
+            @Field("api_token") String api_token,
+            @Field("status") String status
     );
 }

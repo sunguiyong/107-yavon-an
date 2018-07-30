@@ -60,12 +60,12 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
         helper.setGone(R.id.iv_select,isSelectMode?true:false);
         helper.setGone(R.id.iv_red_point,item.isIs_read()?false:true);
         if(type == MessageListActivity.TYPE_SYS){
-            helper.setText(R.id.tv_title,item.getTitle());
+            helper.setText(R.id.tv_title,item.getContent());
             helper.setText(R.id.tv_content,item.getTime());
 //            helper.setText(R.id.tv_time,item.getTime());
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_system2);
         }else if(type == MessageListActivity.TYPE_ERROR){
-            helper.setText(R.id.tv_title,item.getTitle());
+            helper.setText(R.id.tv_title,item.getContent());
             helper.setText(R.id.tv_content,item.getTime());
 //            helper.setText(R.id.tv_time,item.getTime());
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_error2);
@@ -83,10 +83,31 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
                 tvDo.setOnClickListener(null);
             }
         }else if(type == MessageListActivity.TYPE_SHARE){
-            helper.setText(R.id.tv_title,"共享消息");
-            helper.setText(R.id.tv_content,"分享可以抽奖，一起分享吧！");
-            helper.setImageResource(R.id.iv_type,R.mipmap.lock1_small);
-            helper.setText(R.id.tv_time,"2018/07/18");
+            helper.setText(R.id.tv_title,item.getContent());
+            helper.setText(R.id.tv_content,item.getTime()+"  "+item.getMachine_name());
+            helper.setGone(R.id.layout_icon,false);
+//            helper.setImageResource(R.id.iv_type,R.mipmap.lock1_small);
+//            helper.setText(R.id.tv_time,"2018/07/18");
+            TextView tvDo = helper.getView(R.id.tv_do_msg);
+            tvDo.setVisibility(View.VISIBLE);
+            if("APPLY".equals(item.getType()) && item.isIs_operate()){
+                tvDo.setBackgroundResource(R.drawable.shape_edittext_bk2);
+                tvDo.setTextColor(ContextCompat.getColor(mContext,R.color.mainGreen));
+//                tvDo.setText("待授权");
+                helper.addOnClickListener(R.id.tv_do_msg);
+            }else{
+//                tvDo.setText("已解决");
+                tvDo.setBackground(null);
+                tvDo.setTextColor(ContextCompat.getColor(mContext,R.color.white_tran));
+                tvDo.setOnClickListener(null);
+            }
+            if("AGREED".equals(item.getStatus())){
+                tvDo.setText("已同意");
+            }else if("REFUSED".equals(item.getStatus())){
+                tvDo.setText("已拒绝");
+            }else{
+                tvDo.setText("待授权");
+            }
         }else if(type == MessageListActivity.TYPE_INTERNAL){
             helper.setText(R.id.tv_title,item.getTitle());
             helper.setText(R.id.tv_content,item.getContent());
