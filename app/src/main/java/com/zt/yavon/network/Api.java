@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -167,6 +168,12 @@ public class Api{
     }
     public static Observable<ShareListBean> getShareList(String token,String machineId) {
         return getRxApi().getShareList(machineId,token).compose(RxSchedulers.<ShareListBean>handleResult());
+    }
+    public static Observable<BaseResponse> shareDev(RequestBody expire_value) {
+        return getRxApi().shareDev(expire_value).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> shareAuthor(String token,String machineId,String mobile,String start,String end) {
+        return getRxApi().shareAuthor(token,machineId,mobile,start,end).compose(RxSchedulers.<BaseResponse>io_main());
     }
     public static Observable<BaseResponse> cancleDevShare(String token,String machineId,String userId) {
         return getRxApi().cancleDevShare(machineId,userId,token).compose(RxSchedulers.<BaseResponse>io_main());

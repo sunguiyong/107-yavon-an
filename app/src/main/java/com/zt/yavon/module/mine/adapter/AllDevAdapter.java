@@ -39,7 +39,13 @@ public class AllDevAdapter extends BaseMultiItemQuickAdapter<SectionItem,BaseVie
                 tvSetting.setTextColor(ContextCompat.getColor(mContext,R.color.mainGreen));
             }else{
                 userType = "使用者";
-                tvSetting.setText(bean.getExpire_value());
+                if("NEED".equals(bean.getExpire_type())){
+                    tvSetting.setText("按需");
+                }else if("FOREVER".equals(bean.getExpire_type())){
+                    tvSetting.setText("永久");
+                }else{
+                    tvSetting.setText("18/07/30-25/06/18");
+                }
                 tvSetting.setBackground(null);
                 tvSetting.setTextColor(ContextCompat.getColor(mContext,R.color.white));
             }

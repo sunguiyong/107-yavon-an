@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -33,6 +34,8 @@ import com.zt.yavon.widget.RvDialogTab;
 import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 import com.zt.yavon.widget.wheelview.widget.WheelView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -355,8 +358,9 @@ public class DialogUtil {
         final TextView tvUnit = (TextView) relativeLayout.findViewById(R.id.tv_unit_dialog);
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //        params.weight = 1;
-        if (!TextUtils.isEmpty(unit))
+        if(!TextUtils.isEmpty(unit)){
             tvUnit.setText(unit);
+        }
         WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
         style.backgroundColor = Color.TRANSPARENT;
         style.holoBorderColor = Color.TRANSPARENT;
@@ -371,7 +375,7 @@ public class DialogUtil {
 //        final WheelView<Integer> wheelView = new WheelView<Integer>(context, style);
         final WheelView<Integer> wheelView = (WheelView) relativeLayout.findViewById(R.id.wheelview_dialog);
         wheelView.setStyle(style);
-        final MyWheelAdapter adapter = new MyWheelAdapter();
+        final MyWheelAdapter<Integer> adapter = new MyWheelAdapter<Integer>();
         wheelView.setWheelAdapter(adapter); // 文本数据源
         wheelView.setSkin(WheelView.Skin.Holo); // common皮肤
         wheelView.setWheelSize(5);
@@ -386,11 +390,11 @@ public class DialogUtil {
         });
 //        container.addView(wheelView, params);
         wheelView.setWheelData(data);  // 数据集合
-//        wheelView.setSelectedItem(defaultData);
+        wheelView.setSelectedItem(defaultData);
 //            wheelViewsList.add(wheelView);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -433,16 +437,16 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createTimeWheelViewDialog2(Context context, String unit, Integer defaultData, final List<Integer> data, final OnSelectCompleteListening listener) {
-        if (data == null || data.size() < 1) {
-            Log.e("error", "data is null");
+    public static Dialog createTimeWheelViewDialog2(Context context, final String[] defaultData, final List<Object> data, final OnSelectCompleteListening2 listener) {
+        if(data == null || data.size() < 1){
+            Log.e("error","data is null");
             return null;
         }
         LayoutInflater inflaterDl = LayoutInflater.from(context);
         View relativeLayout = inflaterDl.inflate(R.layout.dialog_wheel_mdh, null);
-        final TextView tvUnit = (TextView) relativeLayout.findViewById(R.id.tv_unit_dialog);
-        if (!TextUtils.isEmpty(unit))
-            tvUnit.setText(unit);
+        LinearLayout container = (LinearLayout) relativeLayout.findViewById(R.id.container_wheelview);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.weight = 1;
         WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
         style.backgroundColor = Color.TRANSPARENT;
         style.holoBorderColor = Color.TRANSPARENT;
@@ -450,68 +454,76 @@ public class DialogUtil {
         style.textColor = context.getResources().getColor(R.color.gray_text);
         style.selectedTextColor = context.getResources().getColor(R.color.colorPrimary);
         style.selectedTextSize = 18;
-        final Integer[] results = new Integer[1];
-        final WheelView<Integer> wheelView = (WheelView) relativeLayout.findViewById(R.id.wheelview_dialog);
-        wheelView.setStyle(style);
-        final WheelView<Integer> wheelView2 = (WheelView) relativeLayout.findViewById(R.id.wheelview2_dialog);
-        wheelView.setStyle(style);
-        final WheelView<Integer> wheelView3 = (WheelView) relativeLayout.findViewById(R.id.wheelview3_dialog);
-        wheelView.setStyle(style);
-        final MyWheelAdapter adapter = new MyWheelAdapter();
-        wheelView.setWheelAdapter(adapter); // 文本数据源
-        wheelView.setSkin(WheelView.Skin.Holo); // common皮肤
-        wheelView.setWheelSize(5);
-        wheelView.setLoop(true);
-        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener<Integer>() {
-            @Override
-            public void onItemSelected(int position, Integer data) {
-                results[0] = data;
-//                String dataString = data+"";
-//                tvUnit.setPadding(dataString.length()*DensityUtil.dp2px(context,40),DensityUtil.dp2px(context,3),0,0);
+//        final String[] results = new String[data.size()];
+        final List<WheelView> wheelViewsList = new ArrayList<>();
+        for(int i = 0;i<data.size();i++){
+            final WheelView wheelView = new WheelView(context,style);
+            if(i == 0){
+                wheelView.setWheelAdapter(new MyWheelAdapter<String>(MyWheelAdapter.TYPE_MDH));
+            }else{
+                wheelView.setWheelAdapter(new MyWheelAdapter<String>());
             }
-        });
-//        container.addView(wheelView, params);
-        wheelView.setWheelData(data);  // 数据集合
-//        wheelView.setSelectedItem(defaultData);
-//            wheelViewsList.add(wheelView);
+            wheelView.setSkin(WheelView.Skin.Holo); // common皮肤
+            wheelView.setWheelSize(5);
+//            wheelView.setLoop(true);
+            final int index = i;
+            wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+                @Override
+                public void onItemSelected(int position, Object o) {
+//                    L.d("=========onItemSelected,index:"+index+",postion:"+position+",data:"+(String) o);
+                    defaultData[index] = (String) o;
+                }
+            });
+            container.addView(wheelView,params);
+            if(i != 1){
+                wheelView.setWheelData((List<String>) data.get(i));  // 数据集合
+                if(defaultData != null && defaultData.length > i){
+                    wheelView.setSelectedItem(defaultData[i]);
+                }
+            }else if(i == 1){
+                WheelView wheelView0 = (WheelView) container.getChildAt(i-1);
+                HashMap<String,List<String>> map = (HashMap<String, List<String>>) data.get(i);
+                wheelView0.join(wheelView);
+                wheelView0.joinDatas(map);
+                if(defaultData != null && defaultData.length > i) {
+                    wheelView.setWheelData(map.get(defaultData[i-1]));
+                    wheelView.setSelectedItem(defaultData[i],true);
+                }else{
+                    wheelView.setWheelData(map.get(wheelView0.getSelectionItem()));
+                }
+            }
+            wheelViewsList.add(wheelView);
+        }
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(relativeLayout, params2);
-//        dialog.setContentView(relativeLayout);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
-        final ViewGroup.LayoutParams wheelParams = wheelView.getLayoutParams();
-//        if(type == MyWheelAdapter.TYPE_SUBSCRIBE || type == MyWheelAdapter.TYPE_FAN){
-//            wheelParams.width = DensityUtil.dp2px(context,100);
-//        }else if(type == MyWheelAdapter.TYPE_INTERVAL){
-//            wheelParams.width = DensityUtil.dp2px(context,200);
-//        }
-//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView cancleBt = (TextView) relativeLayout.findViewById(R.id.btn_cancle_wheel);
         cancleBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
+                dismiss(dialog);
             }
         });
         TextView confirmBt = (TextView) relativeLayout.findViewById(R.id.btn_confirm_wheel);
         confirmBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                for(WheelView wheelView:wheelViewsList){
-                if (wheelView.isScrolling()) {
+                for(WheelView wheelView:wheelViewsList){
+                    if(wheelView.isScrolling()){
 //                        L.d("=======正在滑动中");
-                    return;
+                        return;
+                    }
                 }
-//                }
 //                L.d("=======可以点击");
-                dialog.dismiss();
+                dismiss(dialog);
                 if (listener != null) {
-                    listener.onSelectComplete(results[0]);
+                    listener.onSelectComplete();
                 }
             }
         });
@@ -576,5 +588,8 @@ public class DialogUtil {
 
     public interface OnSelectCompleteListening {
         void onSelectComplete(int data);
+    }
+    public interface OnSelectCompleteListening2 {
+        void onSelectComplete();
     }
 }

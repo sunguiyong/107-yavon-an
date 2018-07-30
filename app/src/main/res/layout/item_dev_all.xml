@@ -25,44 +25,44 @@
             android:id="@+id/tv_name_dev"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="设备名称"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_type_user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.65"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="管理员"
             android:textColor="@color/white"
-            android:layout_marginLeft="15dp"
-            android:textSize="14sp" />
+            android:layout_marginLeft="10dp"
+            android:textSize="13sp" />
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp">
+            android:layout_weight="1.7"
+            android:layout_marginRight="5dp"
+            >
 
             <TextView
                 android:id="@+id/tv_setting_dev_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text=""
                 android:padding="2.5dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
         </FrameLayout>
 
         <ImageView

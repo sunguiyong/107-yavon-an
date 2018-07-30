@@ -10,6 +10,7 @@ import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.widget.calendar.DateSelectActivity;
+import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class ApplyDevActivity extends BaseActivity{
                 });
                 break;
             case R.id.tv_month_apply:
-                dialog = DialogUtil.createTimeWheelViewDialog(this, "月", null, list, new DialogUtil.OnSelectCompleteListening() {
+                dialog = DialogUtil.createTimeWheelViewDialog(this, "个月", null, list, new DialogUtil.OnSelectCompleteListening() {
                     @Override
                     public void onSelectComplete(int data) {
                         tvNum.setText(data+"");

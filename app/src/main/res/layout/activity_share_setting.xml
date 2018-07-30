@@ -31,7 +31,9 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="共享"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="100dp"
                     android:textColor="@color/mainGreen"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
             </FrameLayout>
 </LinearLayout>

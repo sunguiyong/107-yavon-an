@@ -1,5 +1,8 @@
 package com.zt.yavon.widget.calendar;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * 描述：
  * 时间：2018/1/27/027
@@ -84,9 +87,24 @@ public class DayBean {
     }
 
 
+    public Date getDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month-1);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        return calendar.getTime();
+    }
 
     @Override
     public String toString() {
-        return year+"/"+month+"/"+day;
+        return "DayBean{" +
+                "year=" + year +
+                ", month=" + month +
+                ", day=" + day +
+                ", jr='" + jr + '\'' +
+                ", isSelect=" + isSelect +
+                ", isMiddle=" + isMiddle +
+                ", checkable=" + checkable +
+                '}';
     }
 }

@@ -9,6 +9,8 @@ import com.zt.yavon.module.data.ShareListBean;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -341,6 +343,28 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Path("user_id") String user_id,
             @Field("api_token") String api_token
+    );
+    /**
+     * 设备临时授权
+     * @param api_token
+     * @return
+     */
+    @POST("api/machines/share")
+    @FormUrlEncoded
+    Observable<BaseResponse> shareAuthor(
+            @Field("api_token") String api_token,
+            @Field("machine_id") String machine_id,
+            @Field("mobile") String mobile,
+            @Field("start_at") String start_at,
+            @Field("end_at") String end_at
+    );
+    /**
+     * 取消用户设备共享
+     * @return
+     */
+    @POST("api/machines/share")
+    Observable<BaseResponse> shareDev(
+            @Body RequestBody expire_value
     );
     /**
      * 故障消息标为已读

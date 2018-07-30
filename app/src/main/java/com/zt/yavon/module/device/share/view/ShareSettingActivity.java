@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.ShareListBean;
@@ -38,6 +39,7 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     RecyclerView recyclerView;
     private ShareSettingAdapter adapter;
     private String id;
+    private final int REQ_SHARE = 0x110;
     @Override
     public int getLayoutId() {
         return R.layout.activity_share_setting;
@@ -82,6 +84,10 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.tv_share_setting:
+                ShareDevActivity.startAction(this,id,REQ_SHARE);
+                break;
+            case R.id.tv_right_header:
+                AuthorActivity.startAction(this,id,REQ_SHARE);
                 break;
         }
     }
@@ -109,6 +115,7 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
             if("ADMIN".equals(bean.getMachine().getUser_type())){
                 //管理员
                 tvUser.setText("使用者");
+                setRightMenuText("");
                 if(list == null || list.isEmpty()){
                     tvShare.setVisibility(View.VISIBLE);
                 }else{
@@ -118,9 +125,11 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
             }else if("FIRST_USER".equals(bean.getMachine().getUser_type())){
                 //一级用户
                 tvUser.setText("使用者");
+                setRightMenuText("临时授权");
             }else{
                 //二级用户
                 tvUser.setText("管理员");
+                setRightMenuText("临时授权");
                 tvDo.setVisibility(View.GONE);
             }
         }
@@ -129,5 +138,18 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     @Override
     public void cancleDevShareSuccess(ShareListBean.User user) {
         adapter.remove(adapter.getData().indexOf(user));
+        if(adapter.getData().isEmpty()){
+            tvShare.setVisibility(View.VISIBLE);
+        }else{
+            tvShare.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQ_SHARE && resultCode == RESULT_OK){
+            mPresenter.getShareList(id);
+        }
     }
 }

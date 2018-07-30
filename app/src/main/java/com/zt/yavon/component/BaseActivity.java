@@ -112,7 +112,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     @Optional
-    @OnClick({R.id.btn_back_header, R.id.btn_close_header})
+    @OnClick({R.id.btn_back_header, R.id.btn_close_header,R.id.tv_right_header})
     public void doubleClickFilter(View view) {
         long curTime = System.currentTimeMillis();
         if (curTime - lastClickTime > TIME_DELAY_BTN) {
@@ -198,7 +198,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void setRightMenuText(String text) {
         if (tvRight != null ) {
             if(TextUtils.isEmpty(text)){
-                tvRight.setText(text);
+                tvRight.setText("");
                 tvRight.setEnabled(false);
             }else{
                 tvRight.setText(text);

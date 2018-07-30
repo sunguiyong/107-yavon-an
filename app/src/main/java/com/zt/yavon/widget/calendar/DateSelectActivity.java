@@ -63,7 +63,7 @@ public class DateSelectActivity extends BaseActivity {
         int currMonth = c.get(Calendar.MONTH) + 1;
         today = new DayBean(currYear,currMonth,c.get(Calendar.DAY_OF_MONTH),"",false,false,false);
         monthTimeEntities.add(new MonthBean(currYear, currMonth));
-        for(int i = 0;i<60;i++){
+        for(int i = 0;i<100;i++){
             c.add(Calendar.MONTH, 1);  // 得到下一个月
             int nextYear = c.get(Calendar.YEAR);
             int nextMonth = c.get(Calendar.MONTH) + 1;
@@ -227,7 +227,8 @@ public class DateSelectActivity extends BaseActivity {
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra("date",start.toString()+"-"+end.toString());
+        intent.putExtra("startDate",start.getDate());
+        intent.putExtra("endDate",end.getDate());
         setResult(RESULT_OK,intent);
         finish();
     }

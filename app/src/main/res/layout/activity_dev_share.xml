@@ -9,6 +9,7 @@
     <include layout="@layout/header" />
 
     <EditText
+        android:id="@+id/et_phone_share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -210,18 +211,18 @@
                 android:id="@+id/tv_num_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text=""
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:textSize="17sp" />
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_unit_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="天"
+                android:text=""
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -232,7 +233,7 @@
             android:layout_marginTop="5dp"
             android:src="@mipmap/divider_white" />
         <TextView
-            android:id="@+id/tv_login"
+            android:id="@+id/tv_submit_share"
             android:padding="10dp"
             android:layout_marginTop="50dp"
             android:textColor="@color/mainGreen"

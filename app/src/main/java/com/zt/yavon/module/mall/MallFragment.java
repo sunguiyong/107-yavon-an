@@ -58,13 +58,13 @@ public class MallFragment extends BaseFragment{
                 DeskDetailActivity.startAction(getActivity());
                 break;
             case R.id.btn_share:
-                ShareDevActivity.startAction(getActivity());
+                ShareDevActivity.startAction(getActivity(),"",0);
                 break;
             case R.id.btn_apply:
                 ApplyDevActivity.startAction(getActivity());
                 break;
             case R.id.btn_author:
-                AuthorActivity.startAction(getActivity());
+                AuthorActivity.startAction(getActivity(),"",0);
                 break;
         }
     }

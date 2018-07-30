@@ -11,10 +11,13 @@ import com.common.base.utils.DensityUtil;
 /**
  * Created by hp on 2017/8/30.
  */
-public class MyWheelAdapter extends BaseWheelAdapter<Integer> {
+public class MyWheelAdapter<T> extends BaseWheelAdapter<T> {
     public static final int TYPE_COUNT = 0;
     public static final int TYPE_DAY = 1;
-    private int type = TYPE_COUNT;
+    public static final int TYPE_MONTH = 2;
+    public static final int TYPE_YEAR = 3;
+    public static final int TYPE_MDH = 4;
+    private int type = -1;
     public MyWheelAdapter(){}
     public MyWheelAdapter(int type){
         this.type = type;
@@ -25,29 +28,34 @@ public class MyWheelAdapter extends BaseWheelAdapter<Integer> {
         int paddingTop = DensityUtil.dp2px(parent.getContext(),8);
         int paddingBottom = DensityUtil.dp2px(parent.getContext(),8);
         textView.setPadding(0,paddingTop,0,paddingBottom);
-        textView.setText(mList.get(position)+"");
+//        textView.setText(Html.fromHtml(getDataByPosition(position)));
+        textView.setText(getDataByPosition(position));
         textView.setGravity(Gravity.CENTER);
         textView.setSingleLine();
         return textView;
     }
 
 
-    private String getDataByPosition(int position,TextView textView){
+    private String getDataByPosition(int position){
         String item = mList.get(position)+"";
-        if(position%mWheelSize == mWheelSize/2){
-            String unit = "";
-            switch (type){
-                case TYPE_COUNT:
-                    unit = "次";
-                case TYPE_DAY:
-                    unit = "天";
-            }
-
-            textView.setPadding((int) (textView.getTextSize()*item.length()),0,0,0);
-            return item+unit;
-        }else{
-            textView.setPadding(0,0,0,0);
-          return item+"";
+        String unit = "";
+        switch (type){
+            case TYPE_COUNT:
+                unit = "次";
+                break;
+            case TYPE_DAY:
+                unit = "天";
+                break;
+            case TYPE_MONTH:
+                unit = "个月";
+                break;
+            case TYPE_YEAR:
+                unit = "年";
+                break;
+            case TYPE_MDH:
+                item = item.split("-")[1];
+                break;
         }
+        return item;
     }
 }
