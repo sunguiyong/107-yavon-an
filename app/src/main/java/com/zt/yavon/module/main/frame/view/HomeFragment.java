@@ -1,6 +1,7 @@
 package com.zt.yavon.module.main.frame.view;
 
 import android.os.Bundle;
+import android.renderscript.ScriptC;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;

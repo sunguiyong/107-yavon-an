@@ -54,12 +54,12 @@
         <activity android:name=".module.message.view.MessageListActivity" />
         <activity android:name=".module.mine.view.AllDevActivity" />
         <activity android:name=".widget.calendar.DateSelectActivity" />
-        <activity android:name=".module.device.share.view.EditDevActivity" />
         <activity android:name=".module.device.share.view.ShareDevActivity" />
         <activity android:name=".module.device.share.view.ApplyDevActivity" />
         <activity android:name=".module.device.share.view.AuthorActivity" />
         <activity android:name=".module.device.desk.view.ElectricityStatisticsActivity" />
         <activity android:name=".module.device.share.view.ShareSettingActivity" />
+        <activity android:name=".module.deviceconnect.view.EditDevActivity" />
         <!--<activity-->
             <!--android:name="com.yalantis.ucrop.UCropActivity"-->
             <!--android:screenOrientation="portrait"-->
@@ -80,7 +80,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.account.view.LoginRegisterActivity" />
         <activity android:name=".module.account.view.ResetPasswordActivity" />
-        <activity android:name=".module.deviceconnect.view.ScanCodeActivity" />
+        <activity android:name=".module.deviceconnect.view.ScanCodeActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".module.deviceconnect.view.BluetoothActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
         <activity android:name=".module.deviceconnect.view.DeviceAddActivity"></activity>

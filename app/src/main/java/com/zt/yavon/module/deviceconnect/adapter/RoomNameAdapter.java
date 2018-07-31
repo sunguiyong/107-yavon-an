@@ -1,4 +1,4 @@
-package com.zt.yavon.module.device.share.adapter;
+package com.zt.yavon.module.deviceconnect.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

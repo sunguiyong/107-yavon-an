@@ -55,7 +55,9 @@
             android:scaleType="centerCrop"/>
         <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_notify"
-            android:layout_marginTop="30dp"
+            app:paddingTop="10dp"
+            app:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconDrawable="@drawable/selector_key"
@@ -64,7 +66,9 @@
             app:textSize="14sp" />
         <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_psd"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            app:paddingTop="10dp"
+            app:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconDrawable="@drawable/selector_password"
@@ -74,7 +78,9 @@
             app:textSize="14sp" />
         <com.zt.yavon.widget.CustomEditText
             android:id="@+id/et_psd_again"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            app:paddingTop="10dp"
+            app:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconDrawable="@drawable/selector_password"

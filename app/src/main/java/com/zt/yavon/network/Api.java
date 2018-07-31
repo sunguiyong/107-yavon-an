@@ -5,6 +5,7 @@ import com.common.base.rx.RxSchedulers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
+import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
@@ -189,5 +190,8 @@ public class Api{
     }
     public static Observable<BaseResponse> readShareMsg(String token,String ids) {
         return getRxApi().readShareMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<List<DevTypeBean>> getMachineTypes(String token) {
+        return getRxApi().getMachineTypes(token).compose(RxSchedulers.<List<DevTypeBean>>handleResult());
     }
 }

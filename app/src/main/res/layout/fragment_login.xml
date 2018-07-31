@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             app:iconDrawable="@drawable/selector_account"
             app:drawablePadding="10dp"
+            app:paddingTop="10dp"
+            app:paddingBottom="10dp"
             app:customHint="账号/手机号/邮箱"
             app:textSize="14sp" />
         <com.zt.yavon.widget.CustomEditText
@@ -30,6 +32,8 @@
             app:visibleDrawable_open="@drawable/selector_eye_open"
             app:passwordTag = "true"
             app:drawablePadding="10dp"
+            app:paddingTop="10dp"
+            app:paddingBottom="10dp"
             app:customHint="密码"
             app:textSize="14sp" />
         <RelativeLayout

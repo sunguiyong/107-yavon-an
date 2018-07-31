@@ -98,11 +98,10 @@ public class ApplyDevActivity extends BaseActivity{
                 DateSelectActivity.startAction(this,0x10);
                 break;
             case R.id.tv_submit_apply:
-                EditDevActivity.startAction(this);
                 break;
         }
     }
-    public static void startAction(Context context){
+    public static void startAction(Context context,String name,String id){
         Intent intent = new Intent(context, ApplyDevActivity.class);
         context.startActivity(intent);
     }

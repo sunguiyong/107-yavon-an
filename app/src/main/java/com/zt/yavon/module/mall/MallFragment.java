@@ -61,7 +61,7 @@ public class MallFragment extends BaseFragment{
                 ShareDevActivity.startAction(getActivity(),"",0);
                 break;
             case R.id.btn_apply:
-                ApplyDevActivity.startAction(getActivity());
+                ApplyDevActivity.startAction(getActivity(),"","");
                 break;
             case R.id.btn_author:
                 AuthorActivity.startAction(getActivity(),"",0);
