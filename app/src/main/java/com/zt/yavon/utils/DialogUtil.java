@@ -28,8 +28,8 @@ import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.widget.RvDialogTab;
 import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 import com.zt.yavon.widget.wheelview.widget.WheelView;
@@ -575,7 +575,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createMoveDeviceDialog(Context context, List<TabItemBean> tabData, OnComfirmListening listener) {
+    public static Dialog createMoveDeviceDialog(Context context, List<TabBean> tabData, OnComfirmListening listener) {
         LayoutInflater inflaterDl = LayoutInflater.from(context);
         View parent = inflaterDl.inflate(R.layout.dialog_move_device_layout, null);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);

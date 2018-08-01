@@ -14,9 +14,7 @@ import android.widget.TextView;
 import com.common.base.utils.DensityUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.frame.model.DeviceItemBean;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
-import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.mall.MallFragment;
 import com.zt.yavon.module.mine.view.MineFragment;
 import com.zt.yavon.utils.Constants;
@@ -114,15 +112,15 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_COMMON) {
-                List<DeviceItemBean> beans = (List<DeviceItemBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+                List<TabBean.MachineBean> beans = (List<TabBean.MachineBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
                 HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
                 FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
                 fmtDevice.addData(beans);
             } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
-                RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+//                RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
                 HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
-                TabItemBean bean = new TabItemBean("", item.mName, item.mCheckedResId, item.mUncheckedResId);
-                fmtHome.addTab(bean);
+//                TabItemBean bean = new TabItemBean("", item.mName, item.mCheckedResId, item.mUncheckedResId);
+                fmtHome.addTab();
             }
         }
     }

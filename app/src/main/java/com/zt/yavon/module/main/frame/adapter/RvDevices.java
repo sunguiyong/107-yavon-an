@@ -4,26 +4,28 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
-import com.zt.yavon.module.main.frame.model.DeviceItemBean;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.frame.view.FmtDevice;
 import com.zt.yavon.module.main.frame.view.HomeFragment;
 import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.widget.RvBase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class RvDevices extends RvBase<DeviceItemBean> {
+public class RvDevices extends RvBase<TabBean.MachineBean> {
     private MainActivity mActivity;
 
     public RvDevices(Context context) {
@@ -55,7 +57,7 @@ public class RvDevices extends RvBase<DeviceItemBean> {
     }
 
     @Override
-    public void customConvert(BaseViewHolder holder, DeviceItemBean bean) {
+    public void customConvert(BaseViewHolder holder, TabBean.MachineBean bean) {
         CheckBox cbPower = holder.getView(R.id.cb_power);
 //        checkBox.setOnCheckedChangeListener(null);
         if (mSelectMode) {
@@ -63,16 +65,15 @@ public class RvDevices extends RvBase<DeviceItemBean> {
             cbPower.setChecked(mSelectIndex == holder.getLayoutPosition());
         } else {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_power, 0, 0);
-            cbPower.setChecked(bean.mOnOffStatus);
+            cbPower.setChecked(bean.isPowerOn());
         }
 
-        holder.setVisible(R.id.tv_location, bean.mDeviceEnum != null)
-                .setGone(R.id.cb_power, bean.mDeviceEnum != null)
-                .setGone(R.id.tv_status, bean.mDeviceEnum != null);
-        holder.setText(R.id.tv_name, bean.mDeviceEnum == null ? "添加设备" : bean.mDeviceEnum.mName)
-                .setText(R.id.tv_status, bean.mDeviceEnum == null ? "" : (bean.mOnOffStatus ? "设备开启" : "设备关闭"))
-                .setText(R.id.tv_location, bean.mDeviceEnum == null ? "" : bean.mLocation)
-                .setImageResource(R.id.iv_icon, bean.mDeviceEnum == null ? R.mipmap.ic_item_add : bean.mDeviceEnum.mResId)
+        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne)
+                .setGone(R.id.cb_power, !bean.isLastOne)
+                .setGone(R.id.tv_status, !bean.isLastOne);
+        holder.setText(R.id.tv_name, bean.isLastOne ? "添加设备" : bean.name)
+                .setText(R.id.tv_status, bean.isLastOne ? "" : (bean.isPowerOn() ? "设备开启" : "设备关闭"))
+                .setText(R.id.tv_location, bean.isLastOne ? "" : bean.from_room)
                 .setOnCheckedChangeListener(R.id.cb_power, new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,6 +87,12 @@ public class RvDevices extends RvBase<DeviceItemBean> {
                         }
                     }
                 });
+        ImageView ivIcon = holder.getView(R.id.iv_icon);
+        if (bean.isLastOne) {
+            ivIcon.setImageResource(R.mipmap.ic_item_add);
+        } else {
+            Glide.with(getContext()).load(bean.icon).into(ivIcon);
+        }
         holder.addOnClickListener(R.id.ll_center).addOnClickListener(R.id.cb_power);
     }
 
@@ -118,8 +125,8 @@ public class RvDevices extends RvBase<DeviceItemBean> {
         mAdapter.notifyDataSetChanged();
     }
 
-    public List<DeviceItemBean> getSelectBeans() {
-        List<DeviceItemBean> beans = new ArrayList<>();
+    public List<TabBean.MachineBean> getSelectBeans() {
+        List<TabBean.MachineBean> beans = new ArrayList<>();
         for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
             if (item.getValue()) {
                 beans.add(mAdapter.getItem(item.getKey()));

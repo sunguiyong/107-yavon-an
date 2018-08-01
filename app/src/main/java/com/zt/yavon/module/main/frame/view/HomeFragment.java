@@ -1,5 +1,7 @@
 package com.zt.yavon.module.main.frame.view;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -7,13 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.common.base.utils.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.deviceconnect.view.DeviceAddActivity;
 import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.message.view.MessageListActivity;
@@ -42,7 +48,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private LinearLayoutManager layoutManager;
     private int curPage = 1;
 
-    public List<TabItemBean> mTabData;
+    public List<TabBean> mTabData;
 
     @Override
     protected int getLayoutResource() {
@@ -71,10 +77,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
-                    slidingTabLayout.getTitleView(i).setCompoundDrawablesWithIntrinsicBounds(0,
-                            i == position ? mTabData.get(i).mSelectResId : mTabData.get(i).mUnSelectResId,
-                            0, 0);
-                    slidingTabLayout.getTitleView(i).setCompoundDrawablePadding(10);
+                    String resUrl = (i == position ? mTabData.get(i).icon_select : mTabData.get(i).icon);
+                    int finalI = i;
+                    Glide.with(getActivity()).load(resUrl).asBitmap().
+                            into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
+                                    /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(20);
+                                }
+                            });
                 }
             }
 
@@ -89,17 +103,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
 
     @Override
-    public void returnTabData(List<TabItemBean> data) {
+    public void returnTabData(List<TabBean> data) {
         mTabData = data;
         ArrayList<Fragment> fmts = new ArrayList<>();
         String[] titles = new String[data.size()];
-        int[] unSelectResIds = new int[data.size()];
-        int[] selectResIds = new int[data.size()];
 
         for (int i = 0; i < data.size(); i++) {
-            titles[i] = data.get(i).mTitle;
-            unSelectResIds[i] = data.get(i).mUnSelectResId;
-            selectResIds[i] = data.get(i).mSelectResId;
+            titles[i] = data.get(i).name;
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, data.get(i));
             Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
@@ -107,11 +117,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
-            slidingTabLayout.getTitleView(i).setCompoundDrawablesWithIntrinsicBounds(0,
-                    i == 0 ? data.get(i).mSelectResId : data.get(i).mUnSelectResId,
-                    0, 0);
-            slidingTabLayout.getTitleView(i).setCompoundDrawablePadding(10);
+            String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
+            int finalI = i;
+            Glide.with(getActivity()).load(resUrl).asBitmap().
+                    into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
+                            /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(20);
+                        }
+                    });
         }
+    }
+
+    @Override
+    public void errorTabData(String message) {
+        ToastUtil.showLong(getActivity(), message);
     }
 
 
@@ -125,7 +148,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-    @OnClick({R.id.iv_scan, R.id.iv_add,R.id.layout_msg})
+    @OnClick({R.id.iv_scan, R.id.iv_add, R.id.layout_msg})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -141,12 +164,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 DeviceAddActivity.start(getActivity());
                 break;
             case R.id.layout_msg:
-                MessageListActivity.startAction(getActivity(),MessageListActivity.TYPE_INTERNAL);
+                MessageListActivity.startAction(getActivity(), MessageListActivity.TYPE_INTERNAL);
                 break;
         }
     }
 
-    public void addTab(TabItemBean item) {
-        // TODO refresh data
+    public void addTab() {
+        mPresenter.getTabData();
     }
 }

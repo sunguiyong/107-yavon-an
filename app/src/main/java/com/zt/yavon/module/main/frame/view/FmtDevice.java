@@ -14,23 +14,21 @@ import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.main.adddevice.view.ActAddDevice;
 import com.zt.yavon.module.main.frame.adapter.RvDevices;
-import com.zt.yavon.module.main.frame.contract.DeviceContract;
-import com.zt.yavon.module.main.frame.model.DeviceItemBean;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
-import com.zt.yavon.module.main.frame.presenter.DevicePresenter;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceContract.View {
-    private TabItemBean mTabItemBean;
+public class FmtDevice extends BaseFragment {
+    private TabBean mTabItemBean;
     private RvDevices mRvDevices;
     private MainActivity mActivity;
     public MenuWidget mMenuWidget;
@@ -41,14 +39,13 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTabItemBean = (TabItemBean) getArguments().getSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN);
+        mTabItemBean = (TabBean) getArguments().getSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        mPresenter.getDeviceData(mTabItemBean.mId);
         return view;
     }
 
@@ -59,7 +56,6 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this);
     }
 
     @Override
@@ -88,7 +84,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         mMenuWidget.setOnItemClickListener(new MenuWidget.OnItemClickListener() {
             @Override
             public void onRecentClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -98,7 +94,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
             @Override
             public void onMoveClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -115,7 +111,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
             @Override
             public void onRenameClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -124,7 +120,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                     ToastUtil.showLong(mActivity, "只能选择一个设备重命名");
                     return;
                 }
-                DialogUtil.createEtDialog(mActivity, "重命名", beans.get(0).mDeviceEnum.mName, new DialogUtil.OnComfirmListening2() {
+                DialogUtil.createEtDialog(mActivity, "重命名", beans.get(0).name, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
                         exitMultiSelectMode();
@@ -135,7 +131,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
             @Override
             public void onShareClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -145,7 +141,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
             @Override
             public void onDelClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -160,7 +156,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
             @Override
             public void onReportClick() {
-                List<DeviceItemBean> beans = mRvDevices.getSelectBeans();
+                List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
                 if (beans.isEmpty()) {
                     ToastUtil.showLong(mActivity, "未选择设备");
                     return;
@@ -176,16 +172,16 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         mRvDevices.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == adapter.getItemCount() - 1) {
+                TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
+                if (item.isLastOne) {
                     ((MainActivity) getActivity()).startActForResult(ActAddDevice.class);
                 } else {
                     if (view.getId() == R.id.ll_center) {
-                        DeviceItemBean item = (DeviceItemBean) adapter.getItem(position);
-                        if ("1".equals(item.mDeviceId)) {
+                        if ("LIGHT".equals(item.machine_type)) {
                             LampDetailActivity.startAction(getContext());
-                        } else if ("2".equals(item.mDeviceId)) {
+                        } else if ("ADJUST_TABLE".equals(item.machine_type)) {
                             DeskDetailActivity.startAction(getContext());
-                        } else if ("3".equals(item.mDeviceId)) {
+                        } else if ("BLUE_LOCK".equals(item.machine_type)) {
                             LockDetailActivity.startAction(getContext());
                         }
                     }
@@ -198,14 +194,14 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                 enterMultiSelectMode(position);
             }
         });
+
+        List<TabBean.MachineBean> machines = new ArrayList<>();
+        machines.addAll(mTabItemBean.machines);
+        machines.add(new TabBean.MachineBean(true));
+        mRvDevices.setData(machines);
     }
 
-    @Override
-    public void returnDeviceData(List<DeviceItemBean> data) {
-        mRvDevices.setData(data);
-    }
-
-    public void addData(List<DeviceItemBean> beans) {
+    public void addData(List<TabBean.MachineBean> beans) {
         mRvDevices.mAdapter.getData().addAll(mRvDevices.mAdapter.getItemCount() - 1, beans);
         mRvDevices.mAdapter.notifyDataSetChanged();
     }

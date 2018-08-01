@@ -5,6 +5,8 @@ import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
+import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 
 import java.util.List;
 
@@ -39,8 +41,9 @@ public interface ApiService {
 
     /**
      * 发送验证码
-     * @param account 手机或者邮箱
-     * @param type 类型：REGISTER 注册， RESET_PASSWORD 重置密码， MODIFY_BIND_MOBILE 修改绑定手机号，MODIFY_BIND_EMAIL 修改绑定邮箱
+     *
+     * @param account   手机或者邮箱
+     * @param type      类型：REGISTER 注册， RESET_PASSWORD 重置密码， MODIFY_BIND_MOBILE 修改绑定手机号，MODIFY_BIND_EMAIL 修改绑定邮箱
      * @param api_token 如果用户处于登录状态，需要传过来
      * @return
      */
@@ -53,6 +56,7 @@ public interface ApiService {
 
     /**
      * 用户注册接口
+     *
      * @param mobile
      * @param code
      * @param password
@@ -67,8 +71,10 @@ public interface ApiService {
             @Field("password") String password,
             @Field("password_confirmation") String password_confirmation
     );
+
     /**
      * 用户登录
+     *
      * @param account
      * @param password
      * @return
@@ -79,8 +85,10 @@ public interface ApiService {
             @Field("account") String account,
             @Field("password") String password
     );
+
     /**
      * 重置密码
+     *
      * @param account
      * @param code
      * @param password
@@ -95,8 +103,10 @@ public interface ApiService {
             @Field("password") String password,
             @Field("password_confirmation") String password_confirmation
     );
+
     /**
      * 用户详情接口
+     *
      * @param api_token
      * @return
      */
@@ -104,8 +114,10 @@ public interface ApiService {
     Observable<BaseResponse<LoginBean>> personalInfo(
             @Query("api_token") String api_token
     );
+
     /**
      * 设置关联邮箱
+     *
      * @param api_token
      * @param email
      * @return
@@ -116,8 +128,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("email") String email
     );
+
     /**
      * 修改绑定邮箱
+     *
      * @param api_token
      * @param account
      * @param code
@@ -134,8 +148,10 @@ public interface ApiService {
             @Field("new_email") String new_email,
             @Field("new_email_confirmation") String new_email_confirmation
     );
+
     /**
      * 修改绑定手机
+     *
      * @param api_token
      * @param account
      * @param code
@@ -152,8 +168,10 @@ public interface ApiService {
             @Field("mobile") String mobile,
             @Field("mobile_confirmation") String mobile_confirmation
     );
+
     /**
      * 用户修改昵称
+     *
      * @param api_token
      * @param nick_name
      * @return
@@ -164,8 +182,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("nick_name") String nick_name
     );
+
     /**
      * 设置自动更新、是否接收系统消息
+     *
      * @param api_token
      * @param open_system_message
      * @param open_auto_update
@@ -178,8 +198,10 @@ public interface ApiService {
             @Field("open_system_message") String open_system_message,
             @Field("open_auto_update") String open_auto_update
     );
+
     /**
      * 上传头像
+     *
      * @param api_token
      * @param avatar
      * @return
@@ -190,8 +212,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("avatar") String avatar
     );
+
     /**
      * 内部消息列表
+     *
      * @param api_token
      * @param page
      * @param per_page
@@ -203,8 +227,10 @@ public interface ApiService {
             @Query("page") String page,
             @Query("per_page") String per_page
     );
+
     /**
      * 系统消息列表
+     *
      * @param api_token
      * @param page
      * @param per_page
@@ -216,8 +242,10 @@ public interface ApiService {
             @Query("page") String page,
             @Query("per_page") String per_page
     );
+
     /**
      * 故障消息列表
+     *
      * @param api_token
      * @param page
      * @param per_page
@@ -229,8 +257,10 @@ public interface ApiService {
             @Query("page") String page,
             @Query("per_page") String per_page
     );
+
     /**
      * 共享信息列表
+     *
      * @param api_token
      * @param page
      * @param per_page
@@ -242,8 +272,10 @@ public interface ApiService {
             @Query("page") String page,
             @Query("per_page") String per_page
     );
+
     /**
      * 消息列表（系统、报障、共享）
+     *
      * @param api_token
      * @return
      */
@@ -251,56 +283,66 @@ public interface ApiService {
     Observable<BaseResponse<List<MsgBean>>> getNotifications(
             @Query("api_token") String api_token
     );
+
     /**
      * 内部消息删除（批量）
+     *
      * @param api_token
      * @param ids
      * @return
      */
-    @HTTP(method = "DELETE",path = "api/notifications/insides/delete", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/notifications/insides/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> deleteInternalMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 系统消息删除（批量）
+     *
      * @param api_token
      * @param ids
      * @return
      */
-    @HTTP(method = "DELETE",path = "api/notifications/systems/delete", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/notifications/systems/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> deleteSystemMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 故障消息删除（批量）
+     *
      * @param api_token
      * @param ids
      * @return
      */
-    @HTTP(method = "DELETE",path = "api/notifications/faults/delete", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/notifications/faults/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> deleteFaultMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 共享消息删除（批量）
+     *
      * @param api_token
      * @param ids
      * @return
      */
-    @HTTP(method = "DELETE",path = "api/notifications/shares/delete", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/notifications/shares/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> deleteShareMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 内部消息标为已读
+     *
      * @param api_token
      * @param ids
      * @return
@@ -311,8 +353,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 系统消息标为已读
+     *
      * @param api_token
      * @param ids
      * @return
@@ -323,8 +367,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 故障状态操作(进行中、已解决)
+     *
      * @param api_token
      * @param notification_id
      * @param api_token
@@ -338,8 +384,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("status") String status
     );
+
     /**
      * 全部设备
+     *
      * @param api_token
      * @return
      */
@@ -347,8 +395,10 @@ public interface ApiService {
     Observable<BaseResponse<List<MineRoomBean>>> getAllDevs(
             @Query("api_token") String api_token
     );
+
     /**
      * 设备共享设置列表
+     *
      * @param api_token
      * @return
      */
@@ -357,8 +407,10 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Query("api_token") String api_token
     );
+
     /**
      * 取消用户设备共享
+     *
      * @param api_token
      * @return
      */
@@ -369,8 +421,10 @@ public interface ApiService {
             @Path("user_id") String user_id,
             @Field("api_token") String api_token
     );
+
     /**
      * 设备临时授权
+     *
      * @param api_token
      * @return
      */
@@ -383,16 +437,20 @@ public interface ApiService {
             @Field("start_at") String start_at,
             @Field("end_at") String end_at
     );
+
     /**
      * 取消用户设备共享
+     *
      * @return
      */
     @POST("api/machines/share")
     Observable<BaseResponse> shareDev(
             @Body RequestBody expire_value
     );
+
     /**
      * 故障消息标为已读
+     *
      * @param api_token
      * @param ids
      * @return
@@ -403,8 +461,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 共享消息标为已读
+     *
      * @param api_token
      * @param ids
      * @return
@@ -415,8 +475,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("ids") String ids
     );
+
     /**
      * 共享消息处理（同意、拒绝）
+     *
      * @param api_token
      * @param status
      * @return
@@ -428,4 +490,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("status") String status
     );
+
+    @GET("/api/user/homepage")
+    Observable<BaseResponse<List<TabBean>>> getTabData(@Query("api_token") String token);
+
+    @GET("/api/machines/add_often_list")
+    Observable<BaseResponse<List<AddDeviceBean>>> getAddDeviceData(@Query("api_token") String token);
 }

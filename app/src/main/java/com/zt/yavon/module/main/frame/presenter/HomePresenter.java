@@ -1,10 +1,11 @@
 package com.zt.yavon.module.main.frame.presenter;
 
-import com.zt.yavon.R;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
+import com.zt.yavon.network.Api;
+import com.zt.yavon.network.RxSubscriber;
+import com.zt.yavon.utils.SPUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +21,17 @@ public class HomePresenter extends HomeContract.Presenter {
 
     @Override
     public void getTabData() {
-        List<TabItemBean> tabs = new ArrayList<>();
-        tabs.add(new TabItemBean("1", "常用", R.mipmap.ic_recent_checked, R.mipmap.ic_recent_normal));
-        tabs.add(new TabItemBean("2", "办公室", R.mipmap.ic_office_checked, R.mipmap.ic_office_normal));
-        tabs.add(new TabItemBean("3", "会议室", R.mipmap.ic_meeting_checked, R.mipmap.ic_meeting_normal));
-        tabs.add(new TabItemBean("4", "会议室1", R.mipmap.ic_meeting_checked, R.mipmap.ic_meeting_normal));
-        mView.returnTabData(tabs);
-    }
+        mRxManage.add(Api.getTabData(SPUtil.getToken(mContext))
+                .subscribeWith(new RxSubscriber<List<TabBean>>(mContext, true) {
+                    @Override
+                    protected void _onNext(List<TabBean> response) {
+                        mView.returnTabData(response);
+                    }
 
+                    @Override
+                    protected void _onError(String message) {
+                        mView.errorTabData(message);
+                    }
+                }).getDisposable());
+    }
 }

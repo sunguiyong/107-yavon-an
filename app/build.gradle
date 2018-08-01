@@ -63,6 +63,7 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+
     //庆科
     compile 'io.fogcloud.sdk:fog2_sdk:0.1.1'
     //菜单栏

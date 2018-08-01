@@ -9,6 +9,8 @@ import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
+import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -189,5 +191,13 @@ public class Api{
     }
     public static Observable<BaseResponse> readShareMsg(String token,String ids) {
         return getRxApi().readShareMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+
+    public static Observable<List<TabBean>> getTabData(String token) {
+        return getRxApi().getTabData(token).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<List<AddDeviceBean>> getAddDeviceData(String token) {
+        return getRxApi().getAddDeviceData(token).compose(RxSchedulers.handleResult());
     }
 }

@@ -2,7 +2,7 @@ package com.zt.yavon.module.main.frame.contract;
 
 
 import com.zt.yavon.component.BasePresenter;
-import com.zt.yavon.module.main.frame.model.TabItemBean;
+import com.zt.yavon.module.data.TabBean;
 
 import java.util.List;
 
@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface HomeContract {
     interface View {
-        void returnTabData(List<TabItemBean> data);
+        void returnTabData(List<TabBean> data);
+
+        void errorTabData(String message);
     }
 
     abstract class Presenter extends BasePresenter<View> {

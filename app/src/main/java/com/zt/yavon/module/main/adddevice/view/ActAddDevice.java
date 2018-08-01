@@ -6,16 +6,15 @@ import android.widget.CompoundButton;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.frame.model.DeviceEnum;
-import com.zt.yavon.module.main.frame.model.DeviceItemBean;
+import com.zt.yavon.module.main.adddevice.contract.AddDeviceContract;
+import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
+import com.zt.yavon.module.main.adddevice.presenter.AddDevicePresenter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class ActAddDevice extends BaseActivity {
+public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements AddDeviceContract.View {
     @BindView(R.id.cb_1)
     CheckBox cb1;
     @BindView(R.id.cb_2)
@@ -36,7 +35,7 @@ public class ActAddDevice extends BaseActivity {
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this);
     }
 
     private CompoundButton.OnCheckedChangeListener mCbGroup1Listener = new CompoundButton.OnCheckedChangeListener() {
@@ -103,19 +102,28 @@ public class ActAddDevice extends BaseActivity {
         findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<DeviceItemBean> checkedBeans = new ArrayList<>();
-                if (cb1.isChecked())
-                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-                if (cb2.isChecked())
-                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-                if (cb3.isChecked())
-                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-                if (cb4.isChecked())
-                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-                setResult(RESULT_OK, (Serializable) checkedBeans);
-                finish();
+//                List<DeviceItemBean> checkedBeans = new ArrayList<>();
+//                if (cb1.isChecked())
+//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
+//                if (cb2.isChecked())
+//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
+//                if (cb3.isChecked())
+//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
+//                if (cb4.isChecked())
+//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
+//                setResult(RESULT_OK, (Serializable) checkedBeans);
+//                finish();
             }
         });
     }
 
+    @Override
+    public void returnAddDeviceData(List<AddDeviceBean> data) {
+
+    }
+
+    @Override
+    public void errorAddDeviceData(String message) {
+
+    }
 }

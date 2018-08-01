@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.frame.model.DeviceItemBean;
 import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
 import com.zt.yavon.utils.DialogUtil;
 
@@ -41,7 +40,8 @@ public class ActRoomDetail extends BaseActivity {
         RoomBean bean = (RoomBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
         tvRoomName.setText(bean.mName);
         ivRoom.setImageResource(bean.mResId);
-        rvRoomDevice.setData(DeviceItemBean.data);
+        // TODO setData
+//        rvRoomDevice.setData(DeviceItemBean.data);
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

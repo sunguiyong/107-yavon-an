@@ -1,0 +1,31 @@
+package com.zt.yavon.module.main.adddevice.presenter;
+
+import com.zt.yavon.module.main.adddevice.contract.AddDeviceContract;
+import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
+import com.zt.yavon.network.Api;
+import com.zt.yavon.network.RxSubscriber;
+import com.zt.yavon.utils.SPUtil;
+
+import java.util.List;
+
+/**
+ * Created by hp on 2018/6/13.
+ */
+
+public class AddDevicePresenter extends AddDeviceContract.Presenter {
+    @Override
+    public void getAddDeviceData() {
+        mRxManage.add(Api.getAddDeviceData(SPUtil.getToken(mContext))
+                .subscribeWith(new RxSubscriber<List<AddDeviceBean>>(mContext, true) {
+                    @Override
+                    protected void _onNext(List<AddDeviceBean> response) {
+                        mView.returnAddDeviceData(response);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        mView.errorAddDeviceData(message);
+                    }
+                }).getDisposable());
+    }
+}
