@@ -8,11 +8,12 @@ import android.widget.TextView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.zt.yavon.R;
+import com.zt.yavon.module.data.DevTypeBean;
 
 /**
  * Created by hp on 2017/11/15.
  */
-public class DeviceTypeAdapter extends RecyclerArrayAdapter<String> {
+public class DeviceTypeAdapter extends RecyclerArrayAdapter<DevTypeBean> {
     private Context context;
     private int postion=0;
     public DeviceTypeAdapter(Context context) {
@@ -34,7 +35,7 @@ public class DeviceTypeAdapter extends RecyclerArrayAdapter<String> {
     }
 
 
-    public class MyViewHolder extends BaseViewHolder<String> {
+    public class MyViewHolder extends BaseViewHolder<DevTypeBean> {
 
         TextView tvName;
         View line;
@@ -46,8 +47,8 @@ public class DeviceTypeAdapter extends RecyclerArrayAdapter<String> {
         }
 
         @Override
-        public void setData(String data) {
-          tvName.setText(data);
+        public void setData(DevTypeBean data) {
+          tvName.setText(data.getName());
           if (postion==getDataPosition()){
               tvName.setSelected(true);
               line.setBackgroundResource(R.mipmap.iv_edittext_activate);

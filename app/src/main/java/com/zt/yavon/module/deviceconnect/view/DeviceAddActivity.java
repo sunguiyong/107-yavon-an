@@ -9,16 +9,17 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.data.DeviceBean;
+import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.deviceconnect.adapter.DeviceAdapter;
 import com.zt.yavon.module.deviceconnect.adapter.DeviceTypeAdapter;
+import com.zt.yavon.module.deviceconnect.contract.AddDevContract;
+import com.zt.yavon.module.deviceconnect.presenter.AddDevPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class DeviceAddActivity extends BaseActivity {
+public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements AddDevContract.View{
 
     @BindView(R.id.re_device_type)
     EasyRecyclerView reDeviceType;
@@ -34,76 +35,47 @@ public class DeviceAddActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this);
     }
 
     @Override
     public void initView() {
+        setTitle("设备添加");
         reDeviceType.setLayoutManager(new LinearLayoutManager(this));
         deviceTypeAdapter = new DeviceTypeAdapter(this);
-        deviceTypeAdapter.setPostion(0);
-        List<String> list = new ArrayList<String>();
-        list.add("智能灯系列");
-        list.add("智能锁系列");
-        list.add("升降桌系列");
-        deviceTypeAdapter.addAll(list);
         reDeviceType.setAdapter(deviceTypeAdapter);
         reDevice.setLayoutManager(new GridLayoutManager(this, 3));
         deviceAdapter = new DeviceAdapter(this);
-        DeviceBean bean = new DeviceBean();
-        bean.setDeviceName("智能灯");
-        bean.setDeviceType("0");
-        deviceAdapter.add(bean);
         reDevice.setAdapter(deviceAdapter);
         deviceTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                DevTypeBean bean = deviceTypeAdapter.getItem(position);
                 deviceAdapter.clear();
                 deviceTypeAdapter.setPostion(position);
                 deviceTypeAdapter.notifyDataSetChanged();
-                DeviceBean bean = new DeviceBean();
-                switch (position) {
-                    case 0:
-                        bean.setDeviceName("智能灯");
-                        bean.setDeviceType("0");
-                        deviceAdapter.add(bean);
-                        break;
-                    case 1:
-                        bean.setDeviceName("智能锁");
-                        bean.setDeviceType("1");
-                        deviceAdapter.add(bean);
-                        DeviceBean bean2 = new DeviceBean();
-                        bean2.setDeviceName("蓝牙锁");
-                        bean2.setDeviceType("3");
-                        deviceAdapter.add(bean2);
-                        break;
-                    case 2:
-                        bean.setDeviceName("智能升降桌");
-                        bean.setDeviceType("2");
-                        deviceAdapter.add(bean);
-                        break;
-                }
+                deviceAdapter.addAll(bean.getTypes());
             }
         });
         deviceAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                switch (deviceAdapter.getAllData().get(position).getDeviceType()) {
-                    case "0":
-                        WifiDeviceActivity.start(DeviceAddActivity.this);
+                DevTypeBean.TYPE bean = deviceAdapter.getItem(position);
+                switch (bean.type) {
+                    case "wifi":
+//                        WifiDeviceActivity.start(DeviceAddActivity.this);
+                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LAMP);
                         break;
-                    case "1":
+                    case "blueTooth":
+                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LAMP);
+                        break;
+                    case "scan":
                         ScanCodeActivity.start(DeviceAddActivity.this);
-                        break;
-                    case "2":
-
-                        break;
-                    case "3":
-                        BluetoothActivity.start(DeviceAddActivity.this);
                         break;
                 }
             }
         });
+        mPresenter.getMachineTypes();
     }
 
     public static void start(Activity activity) {
@@ -111,4 +83,8 @@ public class DeviceAddActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
+    @Override
+    public void returnMachine(List<DevTypeBean> list) {
+        deviceTypeAdapter.addAll(list);
+    }
 }

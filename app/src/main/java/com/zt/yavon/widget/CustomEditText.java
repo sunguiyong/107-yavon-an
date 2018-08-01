@@ -79,7 +79,7 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
 
     private void getArrrs(AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomEditTextStyle);
-
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         passwordTag = typedArray.getBoolean(R.styleable.CustomEditTextStyle_passwordTag, false);
 
         int deleteDrawable = typedArray.getResourceId(R.styleable.CustomEditTextStyle_deleteDrawable,-1);
@@ -91,13 +91,15 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
         String hintText = typedArray.getString(R.styleable.CustomEditTextStyle_customHint);
         editText.setHint(hintText);
         float textSize = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_textSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                14, context.getResources().getDisplayMetrics()));
+                14, metrics));
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
         int paddingLeft = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_drawablePadding,0);
         int marginLeft = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingLeft,0);
         int marginRight = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingRight,0);
-        int paddingTop = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingTop,0);
-        int paddingBottom = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingBottom,0);
+        int paddingTop = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingTop,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                5, metrics));
+        int paddingBottom = typedArray.getDimensionPixelSize(R.styleable.CustomEditTextStyle_paddingBottom,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                5, metrics));
         editText.setPadding(paddingLeft,paddingTop,0,paddingBottom);
         editLayout.setPadding(marginLeft,0,marginRight,0);
         showOrHideDrawableView(drawbleDeleteView, deleteDrawable);

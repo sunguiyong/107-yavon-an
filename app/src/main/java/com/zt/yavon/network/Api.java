@@ -5,6 +5,7 @@ import com.common.base.rx.RxSchedulers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
+import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
@@ -22,7 +23,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-public class Api{
+public class Api {
 //    public static final String HOST = "https://s1.zetadata.com.cn/";//测试
 //    public static final String HOST_H5 = "https://s1.zetadata.com.cn/";//测试
     public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
@@ -199,5 +200,9 @@ public class Api{
 
     public static Observable<List<AddDeviceBean>> getAddDeviceData(String token) {
         return getRxApi().getAddDeviceData(token).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<List<DevTypeBean>> getMachineTypes(String token) {
+        return getRxApi().getMachineTypes(token).compose(RxSchedulers.<List<DevTypeBean>>handleResult());
     }
 }

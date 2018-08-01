@@ -1,6 +1,7 @@
 package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
+import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
@@ -496,4 +497,14 @@ public interface ApiService {
 
     @GET("/api/machines/add_often_list")
     Observable<BaseResponse<List<AddDeviceBean>>> getAddDeviceData(@Query("api_token") String token);
+
+    /**
+     * 设备绑定页面
+     * @param api_token
+     * @return
+     */
+    @GET("api/machines/types")
+    Observable<BaseResponse<List<DevTypeBean>>> getMachineTypes(
+            @Query("api_token") String api_token
+    );
 }

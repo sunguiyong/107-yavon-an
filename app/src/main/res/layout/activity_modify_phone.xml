@@ -68,7 +68,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/verify_hint"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                app:paddingTop="10dp"
+                app:paddingBottom="10dp"
                 app:drawablePadding="5dp"
                 app:textSize="14sp" />
             <com.zt.yavon.widget.CustomEditText
@@ -76,7 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/phone_hint2"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                app:paddingTop="10dp"
+                app:paddingBottom="10dp"
                 app:drawablePadding="5dp"
                 app:textSize="14sp" />
             <com.zt.yavon.widget.CustomEditText
@@ -84,7 +88,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:customHint="@string/phone_hint3"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                app:paddingTop="10dp"
+                app:paddingBottom="10dp"
                 app:drawablePadding="5dp"
                 app:textSize="14sp" />
             <TextView

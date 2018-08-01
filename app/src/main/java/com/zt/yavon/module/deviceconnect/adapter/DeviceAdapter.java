@@ -1,21 +1,18 @@
 package com.zt.yavon.module.deviceconnect.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.zt.yavon.R;
-import com.zt.yavon.module.data.DeviceBean;
-
-import java.util.List;
+import com.zt.yavon.module.data.DevTypeBean;
 
 /**
  * Created by hp on 2017/11/15.
  */
-public class DeviceAdapter extends RecyclerArrayAdapter<DeviceBean> {
+public class DeviceAdapter extends RecyclerArrayAdapter<DevTypeBean.TYPE> {
     private Context context;
     public DeviceAdapter(Context context) {
         super(context);
@@ -33,18 +30,19 @@ public class DeviceAdapter extends RecyclerArrayAdapter<DeviceBean> {
         super.OnBindViewHolder(holder, position);
     }
 
-    public class MyViewHolder extends BaseViewHolder<DeviceBean> {
+    public class MyViewHolder extends BaseViewHolder<DevTypeBean.TYPE> {
         TextView tvName;
 
         public MyViewHolder(ViewGroup itemView) {
             super(itemView, R.layout.item_device);
             tvName = $(R.id.tv_device_name);
+            tvName = $(R.id.iv_dev_type);
 
         }
 
         @Override
-        public void setData(DeviceBean data) {
-          tvName.setText(data.getDeviceName());
+        public void setData(DevTypeBean.TYPE data) {
+          tvName.setText(data.name);
         }
     }
 
