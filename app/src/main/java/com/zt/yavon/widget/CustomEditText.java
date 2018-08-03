@@ -2,7 +2,6 @@ package com.zt.yavon.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,11 +13,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 
 
@@ -144,7 +141,7 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
         }
     }
 
-    public Editable getEditText() {
+    public Editable getText() {
         return editText.getText();
     }
     public EditText getEditTextView() {
@@ -156,7 +153,9 @@ public class CustomEditText extends RelativeLayout implements View.OnClickListen
     public void setHintTextColor(int resColor){
         editText.setHintTextColor(ContextCompat.getColor(getContext(),resColor));
     }
-
+    public void setHint(String text){
+        editText.setHint(text);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -23,6 +23,7 @@
             android:layout_margin="30dp"
             android:gravity="center"
             android:padding="10dp"
+            android:visibility="gone"
             android:text="再次扫描" />
         <LinearLayout
             android:id="@+id/lin_scan_bluetooth"

@@ -15,7 +15,6 @@ import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.account.contract.ResetPwdContract;
 import com.zt.yavon.module.account.presenter.ResetPwdPresenter;
 import com.zt.yavon.module.data.LoginBean;
-import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.utils.SPUtil;
 import com.zt.yavon.widget.CustomEditText;
 
@@ -106,9 +105,9 @@ public class ResetPasswordActivity extends BaseActivity<ResetPwdPresenter> imple
                 break;
             case R.id.tv_confirm_reset:
                 mPresenter.resetPwd(etPhone.getText().toString().trim(),
-                        etVerify.getEditText().toString().trim(),
-                        etPwd.getEditText().toString().trim(),
-                        etPwdConfirm.getEditText().toString().trim());
+                        etVerify.getText().toString().trim(),
+                        etPwd.getText().toString().trim(),
+                        etPwdConfirm.getText().toString().trim());
                 break;
         }
     }

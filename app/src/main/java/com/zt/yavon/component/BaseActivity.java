@@ -235,8 +235,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void setRightMenuTopImage(int resId, float textsize) {
         if (tvRight != null) {
             Drawable drawable = getResources().getDrawable(resId);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvRight.setCompoundDrawables(null, drawable, null, null);
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvRight.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
             tvRight.setTextSize(textsize);
         }
     }

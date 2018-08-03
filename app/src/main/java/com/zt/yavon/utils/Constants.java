@@ -14,4 +14,13 @@ public class Constants {
     //event bus
     public static final String EVENT_ERROR_TOKEN = "invalid token";
     public static final String EVENT_LOGIN_SUCCESS = "login success";
+    public static final String EVENT_BIND_DEV_SUCCESS = "bind dev success";
+
+    //machine type
+    public static final String MACHINE_TYPE_BLUE_LOCK = "BLUE_LOCK";
+    public static final String MACHINE_TYPE_BATTERY_LOCK = "BATTERY_LOCK";
+    public static final String MACHINE_TYPE_LIGHT = "LIGHT";
+    public static final String MACHINE_TYPE_ADJUST_TABLE = "ADJUST_TABLE";
+
+
 }

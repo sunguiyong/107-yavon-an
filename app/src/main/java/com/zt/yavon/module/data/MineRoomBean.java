@@ -1,5 +1,6 @@
 package com.zt.yavon.module.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,10 +36,12 @@ public class MineRoomBean {
         this.machines = machines;
     }
 
-    public class Machine{
+    public class Machine implements Serializable{
         private String machine_id;
+        private String asset_number;
         private String machine_name;
         private String machine_icon;
+        private String machine_type;
         private String user_type;
         private String expire_type;
         private String expire_value;
@@ -89,6 +92,22 @@ public class MineRoomBean {
 
         public void setExpire_value(String expire_value) {
             this.expire_value = expire_value;
+        }
+
+        public String getAsset_number() {
+            return asset_number;
+        }
+
+        public void setAsset_number(String asset_number) {
+            this.asset_number = asset_number;
+        }
+
+        public String getMachine_type() {
+            return machine_type;
+        }
+
+        public void setMachine_type(String machine_type) {
+            this.machine_type = machine_type;
         }
     }
 }

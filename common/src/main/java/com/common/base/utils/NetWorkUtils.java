@@ -75,8 +75,8 @@ public class NetWorkUtils {
     public static String getConnectWifiSsid(Context context){
         WifiManager wifiManager = (WifiManager) context.getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        Log.d("wifiInfo", wifiInfo.toString());
-        Log.d("SSID",wifiInfo.getSSID());
-        return wifiInfo.getSSID();
+//        Log.d("wifiInfo", wifiInfo.toString());
+//        Log.d("SSID",wifiInfo.getSSID());
+        return wifiInfo == null?null:wifiInfo.getSSID();
     }
 }

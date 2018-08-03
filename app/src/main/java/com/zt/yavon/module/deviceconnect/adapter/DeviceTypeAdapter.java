@@ -1,30 +1,22 @@
 package com.zt.yavon.module.deviceconnect.adapter;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
+import com.zt.yavon.component.MyQuickAdapter;
 import com.zt.yavon.module.data.DevTypeBean;
 
 /**
  * Created by hp on 2017/11/15.
  */
-public class DeviceTypeAdapter extends RecyclerArrayAdapter<DevTypeBean> {
-    private Context context;
+public class DeviceTypeAdapter extends MyQuickAdapter<DevTypeBean, BaseViewHolder> {
     private int postion=0;
     public DeviceTypeAdapter(Context context) {
-        super(context);
-        this.context=context;
+        super(R.layout.item_deice_type);
     }
 
-    @Override
-    public MyViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(parent);
-    }
 
     public int getPostion() {
         return postion;
@@ -33,30 +25,16 @@ public class DeviceTypeAdapter extends RecyclerArrayAdapter<DevTypeBean> {
     public void setPostion(int postion) {
         this.postion = postion;
     }
-
-
-    public class MyViewHolder extends BaseViewHolder<DevTypeBean> {
-
-        TextView tvName;
-        View line;
-        public MyViewHolder(ViewGroup itemView) {
-            super(itemView, R.layout.item_deice_type);
-            tvName = $(R.id.tv_device_type);
-            line = $(R.id.line);
-
-        }
-
-        @Override
-        public void setData(DevTypeBean data) {
-          tvName.setText(data.getName());
-          if (postion==getDataPosition()){
-              tvName.setSelected(true);
-              line.setBackgroundResource(R.mipmap.iv_edittext_activate);
-          }else {
-              tvName.setSelected(false);
-              line.setBackgroundResource(R.mipmap.iv_edittext_normal);
-          }
+    @Override
+    protected void convert(BaseViewHolder helper, DevTypeBean data) {
+        TextView tvName = helper.getView(R.id.tv_device_type);
+        tvName.setText(data.getName());
+        if (postion==helper.getAdapterPosition()){
+            tvName.setSelected(true);
+            helper.setBackgroundRes(R.id.line,R.mipmap.iv_edittext_activate);
+        }else {
+            tvName.setSelected(false);
+            helper.setBackgroundRes(R.id.line,R.mipmap.iv_edittext_normal);
         }
     }
-
 }

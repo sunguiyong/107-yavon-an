@@ -1,6 +1,9 @@
 package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
+import com.zt.yavon.module.data.CatogrieBean;
+import com.zt.yavon.module.data.DeskBean;
+import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
@@ -440,7 +443,7 @@ public interface ApiService {
     );
 
     /**
-     * 取消用户设备共享
+     * 设备共享
      *
      * @return
      */
@@ -506,5 +509,134 @@ public interface ApiService {
     @GET("api/machines/types")
     Observable<BaseResponse<List<DevTypeBean>>> getMachineTypes(
             @Query("api_token") String api_token
+    );
+    /**
+     * 设备类型列表
+     * @param api_token
+     * @return
+     */
+    @GET("api/categories")
+    Observable<BaseResponse<List<CatogrieBean>>> getCatogries(
+            @Query("api_token") String api_token,
+            @Query("type") String type
+    );
+    /**
+     * 设备详情
+     * @param api_token
+     * @return
+     */
+    @GET("api/machines/{machine_id}")
+    Observable<BaseResponse<DevDetailBean>> getDevDetail(
+            @Path("machine_id") String machine_id,
+            @Query("api_token") String api_token
+    );
+    /**
+     * 绑定设备
+     * @param api_token
+     * @return
+     */
+    @POST("api/machines/bind")
+    @FormUrlEncoded
+    Observable<BaseResponse<List<CatogrieBean>>> bindDev(
+            @Field("api_token") String api_token,
+            @Field("name") String name,
+            @Field("asset_number") String asset_number,
+            @Field("sn") String sn,
+            @Field("category_id") String category_id,
+            @Field("room_id") String room_id,
+            @Field("type") String type,
+            @Field("locker_id") String locker_id,
+            @Field("password") String password
+    );
+    /**
+     * 申请设备
+     * @param body
+     * @return
+     */
+    @POST("api/machines/apply_machine")
+    Observable<BaseResponse> applyDev(
+            @Body RequestBody body
+    );
+    /**
+     * 操作设备开关
+     * @return
+     */
+    @POST("api/machines/{machine_id}/operate")
+    @FormUrlEncoded
+    Observable<BaseResponse> switchDev(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("status") String status
+    );
+    /**
+     * 获取升降桌当前高度
+     * @return
+     */
+    @GET("api/{machine_id}/height")
+    Observable<BaseResponse<DeskBean>> getDefaultHeiht(
+            @Path("machine_id") String machine_id,
+            @Query("api_token") String api_token
+    );
+    /**
+     * 长按开始运动桌子
+     * @return
+     */
+    @POST("api/machines/{machine_id}/table_start_move")
+    @FormUrlEncoded
+    Observable<BaseResponse<DeskBean>> startDeskMove(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("direction") String direction
+    );
+    /**
+     * 松手停止运动桌子
+     * @return
+     */
+    @POST("api/machines/{machine_id}/table_end_move")
+    @FormUrlEncoded
+    Observable<BaseResponse<DeskBean>> stopDeskMove(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token
+    );
+    /**
+     * 桌子自定义运动
+     * @return
+     */
+    @POST("api/machines/{machine_id}/table_custom_move")
+    @FormUrlEncoded
+    Observable<BaseResponse> setDeskHeight(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("height") String height
+    );
+    /**
+     * 自定义5个高度
+     * @return
+     */
+    @PATCH("api/machines/{machine_id}/custom_table_height")
+    Observable<BaseResponse<DevDetailBean>> setDeskCustomHeightTag(
+            @Path("machine_id") String machine_id,
+            @Body RequestBody body
+    );
+    /**
+     * 久坐时间设置
+     */
+    @PATCH("api/machines/sedentary_time_setting")
+    @FormUrlEncoded
+    Observable<BaseResponse<DevDetailBean>> setSeatTime(
+            @Field("api_token") String api_token,
+            @Field("machine_id") String machine_id,
+            @Field("hour") String hour
+    );
+    /**
+     * 久坐提醒开关设置
+     * @return
+     */
+    @PATCH("api/machines/{machine_id}/button_setting")
+    @FormUrlEncoded
+    Observable<BaseResponse<DevDetailBean>> setDeskRemindSwitch(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("sedentary_reminder") String sedentary_reminder
     );
 }

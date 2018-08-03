@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.common.base.utils.ToastUtil;
+import com.tuya.smart.android.user.api.ILogoutCallback;
+import com.tuya.smart.sdk.TuyaUser;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zhihu.matisse.Matisse;
@@ -173,6 +175,17 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
 //                SPUtil.clearPreferences(this);
                 LoginRegisterActivity.start(this,"login");
                 mRxManager.post(Constants.EVENT_ERROR_TOKEN,"");
+                //退出涂鸦登录
+                TuyaUser.getUserInstance().logout(new ILogoutCallback() {
+                    @Override
+                    public void onSuccess() {
+                        //退出登录成功
+                    }
+
+                    @Override
+                    public void onError(String errorCode, String errorMsg) {
+                    }
+                });
                 break;
         }
     }

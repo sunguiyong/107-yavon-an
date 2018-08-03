@@ -14,6 +14,7 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.device.share.view.ApplyDevActivity;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.PakageUtil;
@@ -28,7 +29,7 @@ public class ScanCodeActivity extends BaseActivity {
     FrameLayout flMyContainer;
     private Dialog dialog;
     private CaptureFragment captureFragment;
-
+    private DevTypeBean.TYPE typeData;
     @Override
     public int getLayoutId() {
         return R.layout.activity_scan_code;
@@ -36,7 +37,7 @@ public class ScanCodeActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-
+        typeData = (DevTypeBean.TYPE) getIntent().getSerializableExtra("typeData");
     }
 
     @Override
@@ -67,6 +68,11 @@ public class ScanCodeActivity extends BaseActivity {
         Intent intent = new Intent(activity, ScanCodeActivity.class);
         activity.startActivity(intent);
     }
+    public static void start(Activity activity, DevTypeBean.TYPE typeData) {
+        Intent intent = new Intent(activity, ScanCodeActivity.class);
+        intent.putExtra("typeData",typeData);
+        activity.startActivity(intent);
+    }
 
     private void initcamera() {
         captureFragment = new CaptureFragment();
@@ -89,8 +95,14 @@ public class ScanCodeActivity extends BaseActivity {
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             LogUtil.d("============result:"+result);
             if(!TextUtils.isEmpty(result)){
-                if(result.startsWith("yisuobao://add")){//yisuobao://add/b47bRunwNufjUuHXzODbJwiLMSmYtp1u
+                if(result.startsWith("yisuobao://add") && typeData != null){//yisuobao://add/b47bRunwNufjUuHXzODbJwiLMSmYtp1u
                     //绑定电池琐
+//                    if(typeData != null){
+                        typeData.sn = result;
+                        DeviceTypeActivity.start(ScanCodeActivity.this,typeData);
+//                    }else{
+//                        ApplyDevActivity.startAction(ScanCodeActivity.this,result,result);
+//                    }
                 }else{
                     ApplyDevActivity.startAction(ScanCodeActivity.this,result,result);
                 }

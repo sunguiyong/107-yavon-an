@@ -95,9 +95,9 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
                 break;
             case R.id.btn_confirm_modify_email:
                 mPresenter.modifyEmail(etPhone.getText().toString().trim(),
-                        etCode.getEditText().toString().trim(),
-                        etEmail.getEditText().toString().trim(),
-                        etEmail2.getEditText().toString().trim());
+                        etCode.getText().toString().trim(),
+                        etEmail.getText().toString().trim(),
+                        etEmail2.getText().toString().trim());
                 break;
         }
     }

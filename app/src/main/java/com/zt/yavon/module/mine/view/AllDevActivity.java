@@ -63,7 +63,7 @@ public class AllDevActivity extends BaseActivity<AllDevPresenter> implements Swi
                 SectionItem item = adapter.getItem(position);
                 if(item.getItemType() == SectionItem.TYPE_DETAIL){
                     MineRoomBean.Machine bean = (MineRoomBean.Machine)item.getData();
-                    ShareSettingActivity.startAction(AllDevActivity.this,bean.getMachine_id());
+                    ShareSettingActivity.startAction(AllDevActivity.this,bean);
                 }
             }
         });

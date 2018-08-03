@@ -1,49 +1,30 @@
 package com.zt.yavon.module.deviceconnect.adapter;
 
-import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
+import com.zt.yavon.component.MyQuickAdapter;
 import com.zt.yavon.module.data.DevTypeBean;
 
 /**
  * Created by hp on 2017/11/15.
  */
-public class DeviceAdapter extends RecyclerArrayAdapter<DevTypeBean.TYPE> {
-    private Context context;
-    public DeviceAdapter(Context context) {
-        super(context);
-        this.context=context;
-    }
-
-    @Override
-    public MyViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(parent);
+public class DeviceAdapter extends MyQuickAdapter<DevTypeBean.TYPE,BaseViewHolder> {
+    public DeviceAdapter() {
+        super(R.layout.item_device,null);
     }
 
 
     @Override
-    public void OnBindViewHolder(BaseViewHolder holder, int position) {
-        super.OnBindViewHolder(holder, position);
+    protected void convert(BaseViewHolder helper, DevTypeBean.TYPE data) {
+            helper.setText(R.id.tv_device_name, data.name);
+            Glide.with(mContext)
+                    .load(data.icon)
+//                    .fitCenter()
+                    .into((ImageView) helper.getView(R.id.iv_dev_type));
     }
 
-    public class MyViewHolder extends BaseViewHolder<DevTypeBean.TYPE> {
-        TextView tvName;
-
-        public MyViewHolder(ViewGroup itemView) {
-            super(itemView, R.layout.item_device);
-            tvName = $(R.id.tv_device_name);
-            tvName = $(R.id.iv_dev_type);
-
-        }
-
-        @Override
-        public void setData(DevTypeBean.TYPE data) {
-          tvName.setText(data.name);
-        }
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.zt.yavon.module.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,11 +27,12 @@ public class DevTypeBean {
         this.types = types;
     }
 
-    public class TYPE{
+    public class TYPE implements Serializable{
         public String name;
         public String icon;
         public String icon_big;
-        public String type;
+        public String type;//BLUE_LOCK蓝牙锁 BATTERY_LOCK电池锁 LIGHT灯 ADJUST_TABLE升降桌
         public String description;
+        public String sn;
     }
 }

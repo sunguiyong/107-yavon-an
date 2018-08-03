@@ -5,6 +5,9 @@ import android.text.TextUtils;
 import com.common.base.rx.BaseResponse;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
+import com.tuya.smart.android.user.api.ILoginCallback;
+import com.tuya.smart.android.user.bean.User;
+import com.tuya.smart.sdk.TuyaUser;
 import com.zt.yavon.module.account.contract.LoginRegisterContract;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.network.Api;
@@ -91,11 +94,23 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                         if(bean != null)
                             bean.setPwd(password);
                         mView.loginRegisterSuccess(bean);
+                        loginTuYa(bean);
                     }
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showShort(mContext,message);
                     }
                 }).getDisposable());
+    }
+    private void loginTuYa(LoginBean bean){
+        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+            @Override
+            public void onSuccess(User user) {
+            }
+
+            @Override
+            public void onError(String code, String error) {
+            }
+        });
     }
 }

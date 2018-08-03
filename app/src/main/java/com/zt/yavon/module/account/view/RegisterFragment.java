@@ -10,9 +10,6 @@ import android.widget.TextView;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.account.view.LoginRegisterActivity;
-import com.zt.yavon.module.data.LoginBean;
-import com.zt.yavon.utils.RegexUtils;
 import com.zt.yavon.widget.CustomEditText;
 
 import butterknife.BindView;
@@ -108,9 +105,9 @@ public class RegisterFragment extends BaseFragment {
             case R.id.tv_register:
                 if (tvAgree.isSelected()){
                     ((LoginRegisterActivity)getActivity()).mPresenter.register(etPhone.getText().toString().trim(),
-                            etNotify.getEditText().toString().trim(),
-                            etPsd.getEditText().toString().trim(),
-                            etPsdAgain.getEditText().toString().trim());
+                            etNotify.getText().toString().trim(),
+                            etPsd.getText().toString().trim(),
+                            etPsdAgain.getText().toString().trim());
                 }else{
                     ToastUtil.showShort(getContext(),"请先同意注册协议");
                 }

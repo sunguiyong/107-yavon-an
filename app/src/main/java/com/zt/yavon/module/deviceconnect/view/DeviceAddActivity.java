@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.zt.yavon.R;
@@ -14,10 +16,12 @@ import com.zt.yavon.module.deviceconnect.adapter.DeviceAdapter;
 import com.zt.yavon.module.deviceconnect.adapter.DeviceTypeAdapter;
 import com.zt.yavon.module.deviceconnect.contract.AddDevContract;
 import com.zt.yavon.module.deviceconnect.presenter.AddDevPresenter;
+import com.zt.yavon.utils.Constants;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements AddDevContract.View{
 
@@ -36,6 +40,12 @@ public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements 
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
+        mRxManager.on(Constants.EVENT_BIND_DEV_SUCCESS, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -45,32 +55,35 @@ public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements 
         deviceTypeAdapter = new DeviceTypeAdapter(this);
         reDeviceType.setAdapter(deviceTypeAdapter);
         reDevice.setLayoutManager(new GridLayoutManager(this, 3));
-        deviceAdapter = new DeviceAdapter(this);
+        deviceAdapter = new DeviceAdapter();
         reDevice.setAdapter(deviceAdapter);
-        deviceTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        deviceTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DevTypeBean bean = deviceTypeAdapter.getItem(position);
-                deviceAdapter.clear();
                 deviceTypeAdapter.setPostion(position);
                 deviceTypeAdapter.notifyDataSetChanged();
-                deviceAdapter.addAll(bean.getTypes());
+                deviceAdapter.setNewData(bean.getTypes());
             }
         });
-        deviceAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        deviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DevTypeBean.TYPE bean = deviceAdapter.getItem(position);
                 switch (bean.type) {
-                    case "wifi":
-//                        WifiDeviceActivity.start(DeviceAddActivity.this);
-                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LAMP);
+                    case Constants.MACHINE_TYPE_BLUE_LOCK:
+                        WifiDeviceActivity.start(DeviceAddActivity.this,bean);
+//                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LOCK1);
                         break;
-                    case "blueTooth":
-                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LAMP);
+                    case Constants.MACHINE_TYPE_BATTERY_LOCK:
+//                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_LOCK2);
+                        ScanCodeActivity.start(DeviceAddActivity.this,bean);
                         break;
-                    case "scan":
-                        ScanCodeActivity.start(DeviceAddActivity.this);
+                    case Constants.MACHINE_TYPE_LIGHT:
+                        WifiDeviceActivity.start(DeviceAddActivity.this,bean);
+                        break;
+                    case Constants.MACHINE_TYPE_ADJUST_TABLE:
+//                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_DESK);
                         break;
                 }
             }
@@ -85,6 +98,7 @@ public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements 
 
     @Override
     public void returnMachine(List<DevTypeBean> list) {
-        deviceTypeAdapter.addAll(list);
+        deviceTypeAdapter.setNewData(list);
+        deviceAdapter.setNewData(list.get(0).getTypes());
     }
 }
