@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.adddevice.model;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -7,7 +8,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddDeviceBean {
+import static com.zt.yavon.module.main.adddevice.adapter.RvAddDevice.ITEM_TYPE_CHILD;
+import static com.zt.yavon.module.main.adddevice.adapter.RvAddDevice.ITEM_TYPE_GROUP;
+
+public class AddDeviceBean implements MultiItemEntity {
 
     /**
      * id : 2
@@ -34,7 +38,12 @@ public class AddDeviceBean {
         return new Gson().fromJson(str, listType);
     }
 
-    public static class MachineBean {
+    @Override
+    public int getItemType() {
+        return ITEM_TYPE_GROUP;
+    }
+
+    public static class MachineBean implements MultiItemEntity {
         /**
          * machine_id : 1
          * machine_name : 蓝牙锁220版
@@ -60,6 +69,11 @@ public class AddDeviceBean {
             }.getType();
 
             return new Gson().fromJson(str, listType);
+        }
+
+        @Override
+        public int getItemType() {
+            return ITEM_TYPE_CHILD;
         }
     }
 }
