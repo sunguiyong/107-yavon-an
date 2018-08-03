@@ -4,6 +4,7 @@ import com.common.base.rx.BaseResponse;
 import com.common.base.rx.RxSchedulers;
 import com.zt.yavon.BuildConfig;
 import com.zt.yavon.module.data.CatogrieBean;
+import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
@@ -219,5 +220,26 @@ public class Api {
     }
     public static Observable<BaseResponse> applyDev(RequestBody body) {
         return getRxApi().applyDev(body).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<DeskBean> getDefaultHeiht(String machine_id,String token) {
+        return getRxApi().getDefaultHeiht(machine_id,token).compose(RxSchedulers.<DeskBean>handleResult());
+    }
+    public static Observable<BaseResponse> startDeskMove(String machine_id,String token,String direction) {
+        return getRxApi().startDeskMove(machine_id,token,direction).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<DeskBean> stopDeskMove(String machine_id,String token) {
+        return getRxApi().stopDeskMove(machine_id,token).compose(RxSchedulers.<DeskBean>handleResult());
+    }
+    public static Observable<BaseResponse> setDeskHeight(String machine_id,String token,String height) {
+        return getRxApi().setDeskHeight(machine_id,token,height).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<DevDetailBean> setDeskCustomHeightTag(String machine_id,RequestBody body) {
+        return getRxApi().setDeskCustomHeightTag(machine_id,body).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+    public static Observable<DevDetailBean> setSeatTime(String token,String machine_id,String hour) {
+        return getRxApi().setSeatTime(token,machine_id,hour).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+    public static Observable<DevDetailBean> setDeskRemindSwitch(String machine_id,String token,String isOn) {
+        return getRxApi().setDeskRemindSwitch(machine_id,token,isOn).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
 }

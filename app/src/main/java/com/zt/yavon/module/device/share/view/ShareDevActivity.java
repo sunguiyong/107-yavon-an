@@ -21,7 +21,9 @@ import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.TimeBean;
 import com.zt.yavon.module.device.share.contract.ShareDevContract;
 import com.zt.yavon.module.device.share.presenter.ShareDevPresenter;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.RegexUtils;
 import com.zt.yavon.widget.calendar.DateSelectActivity;
 import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 
@@ -186,13 +188,20 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
         }
         String phone = etPhone.getText().toString().trim();
         mPresenter.shareDev(machine.getMachine_id(),phone,type,value);
-//        if(machine.get){
-//
-//        }
-        tuyaShare(phone);
+        if(Constants.MACHINE_TYPE_LIGHT.equals(machine.getMachine_type())){
+            tuyaShare(phone);
+        }
     }
 
     private void tuyaShare(String phone) {
+        if(TextUtils.isEmpty(phone)){
+            ToastUtil.showShort(this,"手机号不能为空");
+            return;
+        }
+        if(!RegexUtils.isMobile(phone)){
+            ToastUtil.showShort(this,"手机号不正确");
+            return;
+        }
         List<String> ids = new ArrayList<>();
         ids.add(machine.getAsset_number());
         TuyaDeviceShare.getInstance().addShareUserForDevs("86", phone, ids, new IAddShareForDevsCallback() {
@@ -203,6 +212,7 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
 
             @Override
             public void onError(String code, String error) {
+                LogUtil.d("===========share error,code:"+code+",msg:"+error);
             }
         });
     }

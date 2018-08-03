@@ -180,7 +180,7 @@ public class FmtDevice extends BaseFragment {
                         if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
                             LampDetailActivity.startAction(getContext(),item);
                         } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
-                            DeskDetailActivity.startAction(getContext());
+                            DeskDetailActivity.startAction(getContext(),item);
                         } else{
                             LockDetailActivity.startAction(getContext(),item);
                         }

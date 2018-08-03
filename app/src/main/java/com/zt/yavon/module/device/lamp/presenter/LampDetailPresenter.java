@@ -1,9 +1,10 @@
-package com.zt.yavon.module.device.lock.presenter;
+package com.zt.yavon.module.device.lamp.presenter;
 
 import com.common.base.rx.BaseResponse;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.module.data.DevDetailBean;
-import com.zt.yavon.module.device.lock.contract.DevDetailContract;
+import com.zt.yavon.module.device.lamp.contract.LampDetailContract;
+import com.zt.yavon.module.device.lock.contract.LockDetailContract;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
 import com.zt.yavon.utils.SPUtil;
@@ -12,7 +13,7 @@ import com.zt.yavon.utils.SPUtil;
  * Created by hp on 2018/6/13.
  */
 
-public class DevDetailPresenter extends DevDetailContract.Presenter {
+public class LampDetailPresenter extends LampDetailContract.Presenter {
 
     @Override
     public void getDevDetail(String machine_id) {

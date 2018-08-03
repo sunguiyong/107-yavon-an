@@ -26,7 +26,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
-import com.zt.yavon.module.data.CustomHeightBean;
+import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
 import com.zt.yavon.widget.RvDialogTab;
@@ -286,7 +286,7 @@ public class DialogUtil {
         final EditText etPwd = (EditText) parent.findViewById(R.id.et_pwd_wifi);
         TextView tv_current_wifi = (TextView) parent.findViewById(R.id.tv_current_wifi);
         TextView tv_change_wifi = (TextView) parent.findViewById(R.id.tv_change_wifi);
-        etPwd.setText("zetadata2017");
+//        etPwd.setText("zetadata2017");
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
@@ -316,7 +316,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createCustomHeightDialog(final Context context, final List<CustomHeightBean> defaultList, final OnComfirmListening listener) {
+    public static Dialog createCustomHeightDialog(final Context context, final List<DeskBean> defaultList, final OnComfirmListening listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_set_height, null);
         final EditText etName = (EditText) parent.findViewById(R.id.et_name_dialog);
@@ -334,11 +334,11 @@ public class DialogUtil {
                 }
                 lastSelectPosition = position;
                 for (int i = 0; i < adapterView.getCount(); i++) {
-                    CustomHeightBean item = adapter.getItem(i);
+                    DeskBean item = adapter.getItem(i);
                     if (i == position) {
                         item.setSelect(true);
-                        etName.setText(item.getName());
-                        etHeight.setText(item.getHeight());
+                        etName.setText(item.name);
+                        etHeight.setText(item.height+"");
                     } else {
                         item.setSelect(false);
                     }
@@ -349,9 +349,9 @@ public class DialogUtil {
         });
 
         if (adapter.getCount() > 0) {
-            CustomHeightBean item = adapter.getItem(0);
-            etName.setText(item.getName());
-            etHeight.setText(item.getHeight());
+            DeskBean item = adapter.getItem(0);
+            etName.setText(item.name);
+            etHeight.setText(item.height+"");
             item.setSelect(true);
             gridView.setItemChecked(0, true);
             adapter.notifyDataSetChanged();
@@ -389,10 +389,20 @@ public class DialogUtil {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                int height = 0;
+                try {
+                    height = Integer.parseInt(etHeight.getText().toString().trim());
+                    if(height <0 || height > 100){
+                        throw new Exception("高度范围错误");
+                    }
+                }catch (Exception e){
+                    ToastUtil.showShort(context,"高度必须为0-100");
+                    return;
+                }
                 int position = gridView.getCheckedItemPosition();
                 if (position != -1) {
-                    LogUtil.d("===================setHeight:" + etHeight.getText().toString().trim() + ",position:" + position);
-                    defaultList.get(position).setHeight(etHeight.getText().toString().trim());
+//                    LogUtil.d("===================setHeight:" + etHeight.getText().toString().trim() + ",position:" + position);
+                    defaultList.get(position).setHeight(height);
                 }
             }
         });

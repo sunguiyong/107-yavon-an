@@ -95,12 +95,14 @@ public class ScanCodeActivity extends BaseActivity {
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             LogUtil.d("============result:"+result);
             if(!TextUtils.isEmpty(result)){
-                if(result.startsWith("yisuobao://add")){//yisuobao://add/b47bRunwNufjUuHXzODbJwiLMSmYtp1u
+                if(result.startsWith("yisuobao://add") && typeData != null){//yisuobao://add/b47bRunwNufjUuHXzODbJwiLMSmYtp1u
                     //绑定电池琐
-                    if(typeData != null){
+//                    if(typeData != null){
                         typeData.sn = result;
                         DeviceTypeActivity.start(ScanCodeActivity.this,typeData);
-                    }
+//                    }else{
+//                        ApplyDevActivity.startAction(ScanCodeActivity.this,result,result);
+//                    }
                 }else{
                     ApplyDevActivity.startAction(ScanCodeActivity.this,result,result);
                 }

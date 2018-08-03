@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
+import com.zt.yavon.module.data.DeskBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.List;
 public class CustomHeightAdapter extends BaseAdapter{
     private Context context;
     private LayoutInflater inflater;
-    private List<CustomHeightBean> list ;
-    public CustomHeightAdapter(Context context,List<CustomHeightBean> defaultList){
+    private List<DeskBean> list ;
+    public CustomHeightAdapter(Context context, List<DeskBean> defaultList){
         this.context = context;
         inflater = LayoutInflater.from(context);
         if(defaultList == null){
@@ -36,7 +37,7 @@ public class CustomHeightAdapter extends BaseAdapter{
     }
 
     @Override
-    public CustomHeightBean getItem(int i) {
+    public DeskBean getItem(int i) {
         return list.get(i);
     }
 

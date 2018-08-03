@@ -7,7 +7,7 @@ import com.zt.yavon.module.data.DevDetailBean;
  * Created by lifujun on 2018/7/28.
  */
 
-public interface DevDetailContract {
+public interface LockDetailContract {
     interface View{
         void returnDevDetail(DevDetailBean bean);
     }

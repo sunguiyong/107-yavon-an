@@ -1,12 +1,13 @@
 package com.zt.yavon.module.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lifujun on 2018/8/1.
  */
 
-public class DevDetailBean {
+public class DevDetailBean implements Serializable{
     private String admin_user_id;
     private String share_user_id;
     private String user_id;
@@ -24,7 +25,8 @@ public class DevDetailBean {
     private String locker_id;
     private String password;
     private String machine_status;
-//    private List<Height> adjust_table_height;
+    private int height;
+    private List<DeskBean> adjust_table_height;
 
     public String getAdmin_user_id() {
         return admin_user_id;
@@ -162,8 +164,19 @@ public class DevDetailBean {
         this.machine_status = machine_status;
     }
 
-//    public class Height{
-//        public String name;
-//        public String height;
-//    }
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public List<DeskBean> getAdjust_table_height() {
+        return adjust_table_height;
+    }
+
+    public void setAdjust_table_height(List<DeskBean> adjust_table_height) {
+        this.adjust_table_height = adjust_table_height;
+    }
 }

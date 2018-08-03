@@ -41,6 +41,7 @@ public class MineRoomBean {
         private String asset_number;
         private String machine_name;
         private String machine_icon;
+        private String machine_type;
         private String user_type;
         private String expire_type;
         private String expire_value;
@@ -99,6 +100,14 @@ public class MineRoomBean {
 
         public void setAsset_number(String asset_number) {
             this.asset_number = asset_number;
+        }
+
+        public String getMachine_type() {
+            return machine_type;
+        }
+
+        public void setMachine_type(String machine_type) {
+            this.machine_type = machine_type;
         }
     }
 }
