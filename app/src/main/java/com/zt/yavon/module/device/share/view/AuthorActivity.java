@@ -3,14 +3,13 @@ package com.zt.yavon.module.device.share.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.device.share.contract.AuthorDevContract;
 import com.zt.yavon.module.device.share.presenter.AuthorDevPresenter;
 import com.zt.yavon.utils.DialogUtil;
@@ -19,7 +18,6 @@ import com.zt.yavon.utils.TimeUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,7 +43,8 @@ public class AuthorActivity extends BaseActivity<AuthorDevPresenter> implements 
     private String[] defaultData = new String[3];
     private String[] defaultData2 = new String[3];
     private long startMilTime,endMilTime;
-    private String machineId;
+    private MineRoomBean.Machine machine;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_author;
@@ -54,7 +53,7 @@ public class AuthorActivity extends BaseActivity<AuthorDevPresenter> implements 
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
-        machineId = getIntent().getStringExtra("machine_id");
+        machine = (MineRoomBean.Machine) getIntent().getSerializableExtra("machine");
     }
 
     @Override
@@ -147,16 +146,16 @@ public class AuthorActivity extends BaseActivity<AuthorDevPresenter> implements 
                 });
                 break;
             case R.id.tv_submit_author:
-                mPresenter.shareAuthor(machineId,
+                mPresenter.shareAuthor(machine.getMachine_id(),
                         etPhone.getText().toString().trim(),
                         tvStartTime.getText().toString().trim(),
                         tvEndTime.getText().toString().trim(),startMilTime,endMilTime);
                 break;
         }
     }
-    public static void startAction(Activity context, String machine_id, int reqCode){
+    public static void startAction(Activity context,MineRoomBean.Machine bean,int reqCode){
         Intent intent = new Intent(context, AuthorActivity.class);
-        intent.putExtra("machine_id",machine_id);
+        intent.putExtra("machine",bean);
         context.startActivityForResult(intent,reqCode);
     }
 

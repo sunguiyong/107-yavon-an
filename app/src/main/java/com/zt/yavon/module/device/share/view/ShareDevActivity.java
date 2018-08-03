@@ -11,8 +11,13 @@ import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
+import com.tuya.smart.sdk.TuyaDeviceShare;
+import com.tuya.smart.sdk.api.share.IAddShareForDevsCallback;
+import com.tuya.smart.sdk.bean.AddShareInfoBean;
+import com.tuya.smart.sdk.bean.ShareIdBean;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.TimeBean;
 import com.zt.yavon.module.device.share.contract.ShareDevContract;
 import com.zt.yavon.module.device.share.presenter.ShareDevPresenter;
@@ -45,12 +50,13 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
     @BindViews({R.id.tv_count_apply,R.id.tv_day_apply,R.id.tv_month_apply,R.id.tv_year_apply,R.id.tv_custom_apply,R.id.tv_need_share,R.id.tv_forever_share})
     List<TextView> tabList;
     private Dialog dialog;
-    private String machine_id;
     private List<Integer> dataList;
 //    private List<Integer> countList,dayList,monthList,yearList;
     private int defaultCount,defaultDay,defaultMonth,defaultYear;
     private TimeBean customTime = new TimeBean();
     private String type;
+    private MineRoomBean.Machine machine;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_dev_share;
@@ -58,7 +64,7 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
 
     @Override
     public void initPresenter() {
-        machine_id = getIntent().getStringExtra("machine_id");
+        machine = (MineRoomBean.Machine) getIntent().getSerializableExtra("machine");
         mPresenter.setVM(this);
     }
 
@@ -178,12 +184,37 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
         }else if("CUSTOM".equals(type)){
             value = customTime.toString();
         }
-        mPresenter.shareDev(machine_id,etPhone.getText().toString().trim(),type,value);
+        String phone = etPhone.getText().toString().trim();
+        mPresenter.shareDev(machine.getMachine_id(),phone,type,value);
+//        if(machine.get){
+//
+//        }
+        tuyaShare(phone);
     }
 
-    public static void startAction(Activity context, String machine_id,int reqCode){
+    private void tuyaShare(String phone) {
+        List<String> ids = new ArrayList<>();
+        ids.add(machine.getAsset_number());
+        TuyaDeviceShare.getInstance().addShareUserForDevs("86", phone, ids, new IAddShareForDevsCallback() {
+            @Override
+            public void onSuccess(AddShareInfoBean bean) {
+                LogUtil.d("===========share success");
+            }
+
+            @Override
+            public void onError(String code, String error) {
+            }
+        });
+    }
+
+    //    public static void startAction(Activity context, String machine_id,int reqCode){
+//        Intent intent = new Intent(context, ShareDevActivity.class);
+//        intent.putExtra("machine_id",machine_id);
+//        context.startActivityForResult(intent,reqCode);
+//    }
+    public static void startAction(Activity context,MineRoomBean.Machine bean,int reqCode){
         Intent intent = new Intent(context, ShareDevActivity.class);
-        intent.putExtra("machine_id",machine_id);
+        intent.putExtra("machine",bean);
         context.startActivityForResult(intent,reqCode);
     }
 

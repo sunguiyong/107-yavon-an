@@ -5,6 +5,7 @@
     android:paddingTop="10dp"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/tv_name_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"

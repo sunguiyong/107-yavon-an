@@ -177,12 +177,12 @@ public class FmtDevice extends BaseFragment {
                     ((MainActivity) getActivity()).startActForResult(ActAddDevice.class);
                 } else {
                     if (view.getId() == R.id.ll_center) {
-                        if ("LIGHT".equals(item.machine_type)) {
-                            LampDetailActivity.startAction(getContext());
-                        } else if ("ADJUST_TABLE".equals(item.machine_type)) {
+                        if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
+                            LampDetailActivity.startAction(getContext(),item);
+                        } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
                             DeskDetailActivity.startAction(getContext());
-                        } else if ("BLUE_LOCK".equals(item.machine_type)) {
-                            LockDetailActivity.startAction(getContext());
+                        } else{
+                            LockDetailActivity.startAction(getContext(),item);
                         }
                     }
                 }

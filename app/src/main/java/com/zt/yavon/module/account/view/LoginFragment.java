@@ -3,12 +3,9 @@ package com.zt.yavon.module.account.view;
 import android.view.View;
 import android.widget.TextView;
 
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
-import com.zt.yavon.module.account.view.ResetPasswordActivity;
 import com.zt.yavon.module.data.LoginBean;
-import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.utils.SPUtil;
 import com.zt.yavon.widget.CustomEditText;
 
@@ -69,8 +66,8 @@ public class LoginFragment extends BaseFragment {
                 ResetPasswordActivity.start(getActivity(),ResetPasswordActivity.FLAG_LOGIN);
                 break;
             case R.id.tv_login:
-                ((LoginRegisterActivity)getActivity()).mPresenter.login(etAccount.getEditText().toString().trim(),
-                        etPwd.getEditText().toString().trim());
+                ((LoginRegisterActivity)getActivity()).mPresenter.login(etAccount.getText().toString().trim(),
+                        etPwd.getText().toString().trim());
                 break;
         }
     }

@@ -61,12 +61,16 @@ public class TabBean implements Serializable {
         public String user_type;
         public boolean is_authorized;
         public String from_room;
+        public String asset_number;
+        public String locker_id;
+        public String password;
         public boolean isLastOne;
 
         public boolean isPowerOn() {
             return !TextUtils.isEmpty(status) && status.equals("ON");
         }
 
+        public MachineBean() {}
         public MachineBean(boolean isLastOne) {
             this.isLastOne = isLastOne;
         }

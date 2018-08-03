@@ -95,9 +95,9 @@ public class ModityPhoneActivity extends BaseActivity<ModifyPhonePresenter> impl
                 break;
             case R.id.btn_confirm_modify_phone:
                 mPresenter.modifyPhone(etPhone.getText().toString().trim(),
-                        etCode.getEditText().toString().trim(),
-                        etNewPhone.getEditText().toString().trim(),
-                        etNewPhone2.getEditText().toString().trim());
+                        etCode.getText().toString().trim(),
+                        etNewPhone.getText().toString().trim(),
+                        etNewPhone2.getText().toString().trim());
                 break;
         }
     }

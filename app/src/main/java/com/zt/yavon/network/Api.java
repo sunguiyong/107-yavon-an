@@ -2,9 +2,9 @@ package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
 import com.common.base.rx.RxSchedulers;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.zt.yavon.BuildConfig;
+import com.zt.yavon.module.data.CatogrieBean;
+import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
@@ -28,28 +28,28 @@ public class Api {
 //    public static final String HOST_H5 = "https://s1.zetadata.com.cn/";//测试
     public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
     public static final String HOST_H5 = "https://ecseal.cn/";//正式环境
-    private static Retrofit mRetrofit;
+//    private static Retrofit mRetrofit;
     private static ApiService mAPI;
-    private static Gson mGson;
+//    private static Gson mGson;
 
-    public static ApiService getInstance1() {
-        if (mAPI != null) {
-            return mAPI;
-        }
-
-        String url = "";
-        mRetrofit = new Retrofit.Builder().baseUrl(url).build();
-        mAPI = mRetrofit.create(ApiService.class);
-        return mAPI;
-    }
+//    public static ApiService getInstance1() {
+//        if (mAPI != null) {
+//            return mAPI;
+//        }
+//
+//        String url = "";
+//        mRetrofit = new Retrofit.Builder().baseUrl(url).build();
+//        mAPI = mRetrofit.create(ApiService.class);
+//        return mAPI;
+//    }
 
 
     public static ApiService getRxApi() {
         if (mAPI != null) {
             return mAPI;
         }
-        if(mGson == null)
-        mGson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+//        if(mGson == null)
+//        mGson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         // 用于添加默认请求头的interceptor
 //        Interceptor defaultHeaderInterceptor = new Interceptor() {
@@ -201,8 +201,23 @@ public class Api {
     public static Observable<List<AddDeviceBean>> getAddDeviceData(String token) {
         return getRxApi().getAddDeviceData(token).compose(RxSchedulers.handleResult());
     }
+    public static Observable<List<CatogrieBean>> getCatogries(String token,String type) {
+        return getRxApi().getCatogries(token,type).compose(RxSchedulers.<List<CatogrieBean>>handleResult());
+    }
+    public static Observable<BaseResponse> bindDev(String token,String name,String asset_number,String sn,String category_id,String room_id,String type,String lockId,String password) {
+        return getRxApi().bindDev(token,name,asset_number,sn,category_id,room_id,type,lockId,password).compose(RxSchedulers.<BaseResponse>io_main());
+    }
 
+    public static Observable<DevDetailBean> getDevDetail(String id, String token) {
+        return getRxApi().getDevDetail(id,token).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+    public static Observable<BaseResponse> switchDev(String machine_id, String token,String status) {
+        return getRxApi().switchDev(machine_id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+    }
     public static Observable<List<DevTypeBean>> getMachineTypes(String token) {
         return getRxApi().getMachineTypes(token).compose(RxSchedulers.<List<DevTypeBean>>handleResult());
+    }
+    public static Observable<BaseResponse> applyDev(RequestBody body) {
+        return getRxApi().applyDev(body).compose(RxSchedulers.<BaseResponse>io_main());
     }
 }

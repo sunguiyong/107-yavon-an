@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.common.base.utils.LogUtil;
-import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.CustomHeightBean;
@@ -42,7 +41,33 @@ import java.util.List;
  * Created by hp on 2017/7/4.
  */
 public class DialogUtil {
-
+    public static Dialog createInfoDialogWithListener(Context context, String info, final OnComfirmListening listener) {
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        View rootView = inflaterDl.inflate(R.layout.layout_dialog_info, null);
+        TextView titleTv = (TextView) rootView.findViewById(R.id.title_tv);
+        rootView.findViewById(R.id.cancel_bt).setVisibility(View.GONE);
+        rootView.findViewById(R.id.divier_button).setVisibility(View.GONE);
+        if(!TextUtils.isEmpty(info))
+            titleTv.setText(info);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(rootView, params);
+        TextView confirmBt = (TextView) rootView.findViewById(R.id.confirm_bt);
+        confirmBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm();
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
     /**
      * 全局弹窗提示
      *
@@ -255,20 +280,21 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createWifiDialog(final Context context, final OnComfirmListening listener) {
+    public static Dialog createWifiDialog(final Context context,String ssid, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_wifi, null);
+        final EditText etPwd = (EditText) parent.findViewById(R.id.et_pwd_wifi);
         TextView tv_current_wifi = (TextView) parent.findViewById(R.id.tv_current_wifi);
         TextView tv_change_wifi = (TextView) parent.findViewById(R.id.tv_change_wifi);
-
+        etPwd.setText("zetadata2017");
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
         int width = context.getResources().getDisplayMetrics().widthPixels;
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.85), ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(parent, params);
-        if (!TextUtils.isEmpty(NetWorkUtils.getConnectWifiSsid(context))) {
-            tv_current_wifi.setText(NetWorkUtils.getConnectWifiSsid(context));
+        if (!TextUtils.isEmpty(ssid)) {
+            tv_current_wifi.setText(ssid);
         }
         tv_change_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,6 +307,9 @@ public class DialogUtil {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                if(listener != null){
+                    listener.confirm(etPwd.getText().toString().trim());
+                }
             }
         });
         dialog.show();
@@ -575,7 +604,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createMoveDeviceDialog(Context context, List<TabBean> tabData, OnComfirmListening listener) {
+    public static Dialog createMoveDeviceDialog(Context context, List<TabBean> tabData, final OnComfirmListening listener) {
         LayoutInflater inflaterDl = LayoutInflater.from(context);
         View parent = inflaterDl.inflate(R.layout.dialog_move_device_layout, null);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
@@ -588,7 +617,7 @@ public class DialogUtil {
         TextView cancelBt = (TextView) parent.findViewById(R.id.cancel_bt);
         cancelBt.setText("取消");
         confirmBt.setText("确定");
-        RvDialogTab rvDialogTab = parent.findViewById(R.id.rv_dialog_tab);
+        final RvDialogTab rvDialogTab = parent.findViewById(R.id.rv_dialog_tab);
         rvDialogTab.setData(tabData);
         rvDialogTab.addOnItemTouchListener(new OnItemClickListener() {
             @Override

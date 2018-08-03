@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.device.share.adapter.ShareSettingAdapter;
 import com.zt.yavon.module.device.share.contract.ShareSettingContract;
@@ -38,7 +39,7 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     @BindView(R.id.recyclerview_share_setting)
     RecyclerView recyclerView;
     private ShareSettingAdapter adapter;
-    private String id;
+    private MineRoomBean.Machine machine;
     private final int REQ_SHARE = 0x110;
     @Override
     public int getLayoutId() {
@@ -48,7 +49,7 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
-        id = getIntent().getStringExtra("id");
+        machine = (MineRoomBean.Machine) getIntent().getSerializableExtra("machine");
     }
 
     @Override
@@ -69,10 +70,10 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
             @Override
             public void onItemChildClick(BaseQuickAdapter adapterView, View view, int position) {
                 ShareListBean.User user = adapter.getItem(position);
-                mPresenter.cancleDevShare(id,user);
+                mPresenter.cancleDevShare(machine.getMachine_id(),user);
             }
         });
-        mPresenter.getShareList(id);
+        mPresenter.getShareList(machine.getMachine_id());
     }
     @OnClick({R.id.tv_share_setting})
     @Override
@@ -84,16 +85,16 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.tv_share_setting:
-                ShareDevActivity.startAction(this,id,REQ_SHARE);
+                ShareDevActivity.startAction(this,machine,REQ_SHARE);
                 break;
             case R.id.tv_right_header:
-                AuthorActivity.startAction(this,id,REQ_SHARE);
+                AuthorActivity.startAction(this,machine,REQ_SHARE);
                 break;
         }
     }
-    public static void startAction(Context context,String id){
+    public static void startAction(Context context,MineRoomBean.Machine bean){
         Intent intent = new Intent(context, ShareSettingActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("machine",bean);
         context.startActivity(intent);
     }
 
@@ -149,7 +150,7 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQ_SHARE && resultCode == RESULT_OK){
-            mPresenter.getShareList(id);
+            mPresenter.getShareList(machine.getMachine_id());
         }
     }
 }

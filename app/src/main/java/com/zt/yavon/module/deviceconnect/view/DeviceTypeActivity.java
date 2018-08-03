@@ -6,19 +6,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.deviceconnect.adapter.DeviceAdapter;
+import com.zt.yavon.module.data.DevTypeBean;
+import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.deviceconnect.contract.DevTypeContract;
+import com.zt.yavon.module.deviceconnect.presenter.DevTypePresenter;
+import com.zt.yavon.network.YSBResponse;
+import com.zt.yavon.utils.Constants;
+import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
-public class DeviceTypeActivity extends BaseActivity {
-    public static final String BULETOOTH_LOCK = "BULETOOTH_LOCK";
-    public static final String BATTERY_LOCK = "BATTERY_LOCK";
-    public static final String WIFI_LIGHT = "WIFI_LIGHT";
-    public static final String LIFT_TABLES = "LIFT_TABLES";
+public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implements DevTypeContract.View{
     @BindView(R.id.tv_device_name)
     TextView tvDeviceName;
     @BindView(R.id.tv_device_dec)
@@ -31,15 +37,18 @@ public class DeviceTypeActivity extends BaseActivity {
     TextView tvNext;
     @BindView(R.id.tv_device)
     TextView tvDevice;
-    private String type;
-    private DeviceAdapter deviceAdapter;
+    @BindView(R.id.iv_dev_small)
+    ImageView ivDevSmall;
+    private DevTypeBean.TYPE bean;
+    private String accessToken;
+    private TabBean.MachineBean machineBean = new TabBean.MachineBean();
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_device_type;
     }
 
-    public static void start(Activity activity, String type) {
+    public static void start(Activity activity, DevTypeBean.TYPE type) {
         Intent intent = new Intent(activity, DeviceTypeActivity.class);
         intent.putExtra("type", type);
         activity.startActivity(intent);
@@ -47,41 +56,85 @@ public class DeviceTypeActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-        type = getIntent().getStringExtra("type");
+        mRxManager.on(Constants.EVENT_BIND_DEV_SUCCESS, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                finish();
+            }
+        });
+        bean = (DevTypeBean.TYPE) getIntent().getSerializableExtra("type");
+        machineBean.machine_type = bean.type;
+        mPresenter.setVM(this);
     }
 
     @Override
     public void initView() {
-        switch (type) {
-            case BULETOOTH_LOCK:
-              tvDevice.setVisibility(View.GONE);
-              reDevice.setVisibility(View.VISIBLE);
+        setTitle(bean.name);
+        tvDeviceName.setText(bean.name);
+        tvDeviceDec.setText(bean.description);
+        Glide.with(this)
+                .load(bean.icon_big)
+                .into(ivDevice);
+        Glide.with(this)
+                .load(bean.icon)
+                .into(ivDevSmall);
+        switch (bean.type) {
+            case "BLUE_LOCK":
+//                        WifiDeviceActivity.start(DeviceAddActivity.this);
                 break;
-            case BATTERY_LOCK:
-                tvDevice.setVisibility(View.VISIBLE);
-                reDevice.setVisibility(View.GONE);
+            case "BATTERY_LOCK":
+                mPresenter.getToken();
                 break;
-            case WIFI_LIGHT:
-                tvDevice.setVisibility(View.VISIBLE);
-                reDevice.setVisibility(View.GONE);
+            case "LIGHT":
+                tvDevice.setText(bean.sn);
+                machineBean.asset_number = bean.sn;
                 break;
-            case LIFT_TABLES:
-                tvDevice.setVisibility(View.VISIBLE);
-                reDevice.setVisibility(View.GONE);
+            case "ADJUST_TABLE":
                 break;
         }
     }
 
-
     @OnClick({R.id.tv_right_header, R.id.tv_next})
-    public void onViewClicked(View view) {
+    @Override
+    public void doubleClickFilter(View view) {
+        super.doubleClickFilter(view);
+    }
+
+    @Override
+    public void doClick(View view) {
         switch (view.getId()) {
             case R.id.tv_right_header:
 
                 break;
             case R.id.tv_next:
-
+                EditDevActivity.startAction(this,machineBean);
                 break;
         }
+    }
+
+    @Override
+    public void getTokenSuccess(String header) {
+        accessToken  = header;
+        mPresenter.addScanLock(accessToken,bean.sn);
+//        mPresenter.getLockPwd(accessToken,response.getSn());
+//        mPresenter.getLockSN(accessToken,bean.sn);
+    }
+
+    @Override
+    public void addScanLockSuccess(String lockId) {
+        machineBean.locker_id = lockId;
+        mPresenter.getLockSN(accessToken,bean.sn);
+    }
+
+    @Override
+    public void getLockSNSuccess(YSBResponse response) {
+        tvDevice.setText(response.getSn());
+        machineBean.asset_number = response.getSn();
+        mPresenter.getLockPwd(accessToken,response.getSn());
+    }
+
+    @Override
+    public void returnLockPwd(YSBResponse response) {
+        machineBean.password = response.getData();
     }
 }

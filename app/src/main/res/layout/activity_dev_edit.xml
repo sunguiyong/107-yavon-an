@@ -37,7 +37,7 @@
             android:padding="10dp"
             android:drawableRight="@mipmap/arrow_down"
             android:drawablePadding="10dp"
-            android:text="选择房间"
+            android:hint="选择房间"
             />
         <TextView
             android:id="@+id/tv_room_add_edit"
@@ -68,12 +68,18 @@
         android:overScrollMode="never"
         android:minHeight="100dp"
         android:padding="10dp"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
       <LinearLayout
+          android:id="@+id/layout_type_edit"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:paddingLeft="25dp"
           android:paddingRight="25dp"
           android:background="@color/black2"
+          android:paddingBottom="80dp"
           android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -88,16 +94,21 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               />
-          <TextView
-              android:id="@+id/tv_submit_edit"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="10dp"
-              android:gravity="center"
-              android:background="@drawable/shape_stroke_green"
-              android:textColor="@color/mainGreen"
-              android:layout_marginTop="15dp"
-              android:layout_marginBottom="15dp"
-              android:text="确定"/>
       </LinearLayout>
+    <TextView
+        android:id="@+id/tv_submit_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/shape_stroke_green"
+        android:textColor="@color/mainGreen"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_gravity="bottom"
+        android:text="确定"/>
+
+    </FrameLayout>
 </LinearLayout>
