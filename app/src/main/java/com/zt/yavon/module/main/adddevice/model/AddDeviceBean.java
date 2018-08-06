@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.adddevice.model;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +12,7 @@ import java.util.List;
 import static com.zt.yavon.module.main.adddevice.adapter.RvAddDevice.ITEM_TYPE_CHILD;
 import static com.zt.yavon.module.main.adddevice.adapter.RvAddDevice.ITEM_TYPE_GROUP;
 
-public class AddDeviceBean implements MultiItemEntity {
+public class AddDeviceBean extends AbstractExpandableItem<AddDeviceBean.MachineBean> implements MultiItemEntity {
 
     /**
      * id : 2
@@ -40,6 +41,11 @@ public class AddDeviceBean implements MultiItemEntity {
 
     @Override
     public int getItemType() {
+        return ITEM_TYPE_GROUP;
+    }
+
+    @Override
+    public int getLevel() {
         return ITEM_TYPE_GROUP;
     }
 
@@ -74,6 +80,18 @@ public class AddDeviceBean implements MultiItemEntity {
         @Override
         public int getItemType() {
             return ITEM_TYPE_CHILD;
+        }
+
+        public String getStatus() {
+            return "ON".equals(status) ? "设备开启" : "设备关闭";
+        }
+
+        public boolean isTurnedOn() {
+            return "ON".equals(status);
+        }
+
+        public void setTurnedOn(boolean turnedOn) {
+            status = (turnedOn ? "ON" : "OFF");
         }
     }
 }

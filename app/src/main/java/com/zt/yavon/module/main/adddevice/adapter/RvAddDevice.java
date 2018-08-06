@@ -5,13 +5,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.zt.yavon.R;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
-import com.zt.yavon.widget.RvBaseMulti;
+import com.zt.yavon.widget.RvBaseExpandable;
 
-public class RvAddDevice extends RvBaseMulti<AddDeviceBean> {
+public class RvAddDevice extends RvBaseExpandable<MultiItemEntity> {
 
     public static final int ITEM_TYPE_GROUP = 0;
     public static final int ITEM_TYPE_CHILD = 1;
@@ -42,11 +47,40 @@ public class RvAddDevice extends RvBaseMulti<AddDeviceBean> {
     }
 
     @Override
-    public void customConvert(BaseViewHolder holder, AddDeviceBean bean) {
-        if (bean.getItemType() == ITEM_TYPE_GROUP) {
-        } else if (bean.getItemType() == ITEM_TYPE_CHILD) {
+    public void customConvert(BaseViewHolder holder, Object bean) {
+        CheckBox checkBox = holder.getView(R.id.checkbox);
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setChecked(false);
+        if (holder.getItemViewType() == ITEM_TYPE_GROUP) {
+            AddDeviceBean item = (AddDeviceBean) bean;
+            holder.setText(R.id.tv_name, ((AddDeviceBean) bean).name);
+            checkBox.setChecked(item.is_all_often);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    item.is_all_often = isChecked;
+                    for (AddDeviceBean.MachineBean childItem : item.machines) {
+                        childItem.setTurnedOn(isChecked);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        } else if (holder.getItemViewType() == ITEM_TYPE_CHILD) {
+            AddDeviceBean.MachineBean item = (AddDeviceBean.MachineBean) bean;
+            holder.setText(R.id.tv_name, item.machine_name)
+                    .setText(R.id.tv_status, item.getStatus());
+            checkBox.setChecked(item.isTurnedOn());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    item.setTurnedOn(isChecked);
+
+                }
+            });
+            ImageView ivIcon = holder.getView(R.id.iv_icon);
+            Glide.with(getContext()).load(((AddDeviceBean.MachineBean) bean).machine_icon).into(ivIcon);
         } else {
-            throw new IllegalStateException("没有此ItemType " + bean.getItemType());
+            throw new IllegalStateException("没有此ItemType ");
         }
     }
 }

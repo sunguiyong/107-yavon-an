@@ -1,6 +1,7 @@
 package com.zt.yavon.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -23,18 +24,18 @@ import java.util.List;
 /**
  * Created by tangjd on 2016/9/23.
  */
-public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerView {
+public abstract class RvBaseExpandable<MultiItemEntity> extends RecyclerView {
     public View mLoadingView, mEmptyView, mErrorView;
 
-    public RvBaseMulti(Context context) {
+    public RvBaseExpandable(Context context) {
         this(context, null);
     }
 
-    public RvBaseMulti(Context context, @Nullable AttributeSet attrs) {
+    public RvBaseExpandable(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RvBaseMulti(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public RvBaseExpandable(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
         setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
@@ -42,8 +43,6 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
 
     public void init(Context context) {
         setLayoutManager(customSetLayoutManager(context));
-        mAdapter = instanceCustomAdapter();
-        setAdapter(mAdapter);
 
         mLoadingView = LayoutInflater.from(context).inflate(R.layout.rv_loading_layout, this, false);
         mEmptyView = LayoutInflater.from(context).inflate(R.layout.rv_empty_data_layout, this, false);
@@ -87,37 +86,38 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         }
     }
 
-    public BaseQuickAdapter<T, BaseViewHolder> instanceCustomAdapter() {
-        return new CustomAdapter(null);
+    public BaseQuickAdapter<MultiItemEntity, BaseViewHolder> instanceCustomAdapter(List<MultiItemEntity> data) {
+        return new CustomAdapter(data);
     }
 
     public abstract LayoutManager customSetLayoutManager(Context context);
 
     public abstract SparseIntArray customSetItemLayoutIds();
 
-    public abstract void customConvert(BaseViewHolder holder, T bean);
+    public abstract void customConvert(BaseViewHolder holder, Object bean);
 
-    public void setData(List<T> data) {
-        mAdapter.setNewData(data);
+    public void setData(List<MultiItemEntity> data) {
+        mAdapter = instanceCustomAdapter(data);
+        setAdapter(mAdapter);
         if (data == null || data.size() == 0) {
             showEmptyView();
         }
     }
 
-    public void addData(T bean) {
-        List<T> newData = new ArrayList<>();
+    public void addData(MultiItemEntity bean) {
+        List<MultiItemEntity> newData = new ArrayList<>();
         newData.add(bean);
         addData(newData);
     }
 
-    public void addData(List<T> data) {
+    public void addData(List<MultiItemEntity> data) {
         mAdapter.addData(data);
     }
 
-    public BaseQuickAdapter<T, BaseViewHolder> mAdapter;
+    public BaseQuickAdapter<MultiItemEntity, BaseViewHolder> mAdapter;
 
-    public class CustomAdapter extends BaseMultiItemQuickAdapter<T, BaseViewHolder> {
-        public CustomAdapter(List<T> data) {
+    public class CustomAdapter extends BaseMultiItemQuickAdapter {
+        public CustomAdapter(List<MultiItemEntity> data) {
             super(data);
             SparseIntArray layouts = customSetItemLayoutIds();
             for (int i = 0; i < layouts.size(); i++) {
@@ -126,7 +126,7 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         }
 
         @Override
-        protected void convert(BaseViewHolder baseViewHolder, T t) {
+        protected void convert(BaseViewHolder baseViewHolder, Object t) {
             customConvert(baseViewHolder, t);
         }
     }
@@ -167,7 +167,7 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         mErrorView.setOnClickListener(listener);
     }
 
-    public void onGetDataSuccess(List<T> beans) {
+    public void onGetDataSuccess(List<MultiItemEntity> beans) {
         setData(beans);
         if (beans == null) {
             // showErrorView("数据出错", true);
@@ -179,12 +179,12 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         }
     }
 
-    public void onGetDataSuccess(boolean hasMore, List<T> beans) {
+    public void onGetDataSuccess(boolean hasMore, List<MultiItemEntity> beans) {
         setHasMore(hasMore);
         onGetDataSuccess(beans);
     }
 
-    public void onGetDataSuccess(boolean hasMore, List<T> beans, BaseQuickAdapter.RequestLoadMoreListener loadMoreListener) {
+    public void onGetDataSuccess(boolean hasMore, List<MultiItemEntity> beans, BaseQuickAdapter.RequestLoadMoreListener loadMoreListener) {
         setHasMore(hasMore);
         onGetDataSuccess(beans);
         if (hasMore) {
@@ -196,7 +196,7 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         showErrorView(content, withRetryTip);
     }
 
-    public void onLoadMoreSuccess(List<T> beans) {
+    public void onLoadMoreSuccess(List<MultiItemEntity> beans) {
         if (beans == null) {
             mAdapter.loadMoreFail();
         } else if (beans.size() == 0) {
@@ -207,7 +207,7 @@ public abstract class RvBaseMulti<T extends MultiItemEntity> extends RecyclerVie
         }
     }
 
-    public void onLoadMoreSuccess(boolean hasMore, List<T> beans) {
+    public void onLoadMoreSuccess(boolean hasMore, List<MultiItemEntity> beans) {
         setHasMore(hasMore);
         onLoadMoreSuccess(beans);
     }
