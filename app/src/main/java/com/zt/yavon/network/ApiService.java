@@ -676,5 +676,5 @@ public interface ApiService {
 
     @POST("api/room/add")
     @FormUrlEncoded
-    Observable<RoomItemBean> addRoom(@Field("api_token") String token, @Field("name") String roomName, @Field("icon_id") int roomResId);
+    Observable<BaseResponse<RoomItemBean>> addRoom(@Field("api_token") String token, @Field("name") String roomName, @Field("icon_id") int roomResId);
 }

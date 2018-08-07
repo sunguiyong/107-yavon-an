@@ -253,6 +253,6 @@ public class Api {
     }
 
     public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
-        return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.io_main());
+        return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());
     }
 }

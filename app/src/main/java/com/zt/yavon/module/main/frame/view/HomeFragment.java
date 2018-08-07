@@ -3,7 +3,6 @@ package com.zt.yavon.module.main.frame.view;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.renderscript.ScriptC;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -86,8 +85,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                                 @Override
                                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                     BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                                    /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                                    drawable.setBounds(0, 0, 60, 60);
+                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
                                     slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
                                 }
                             });
@@ -126,7 +125,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                            drawable.setBounds(0, 0, 60, 60);
+                            slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
+                            // slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
                         }
                     });

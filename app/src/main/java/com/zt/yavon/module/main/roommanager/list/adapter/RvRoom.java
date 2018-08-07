@@ -49,7 +49,8 @@ public class RvRoom extends RvBase<TabBean> {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         BitmapDrawable drawable = new BitmapDrawable(getContext().getResources(), resource);
-                        tvName.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                        drawable.setBounds(0, 0, 60, 60);
+                        tvName.setCompoundDrawables(drawable, null, null, null);
                     }
                 });
     }

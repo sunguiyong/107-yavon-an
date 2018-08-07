@@ -87,7 +87,7 @@ public class ActRoomSetting extends BaseActivity<RoomSettingPresenter> implement
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(tvRoomName.getText().toString())) {
+                if (TextUtils.isEmpty(tvRoomName.getText().toString()) || tvRoomName.getText().toString().equals("请输入房间名称")) {
                     ToastUtil.showLong(ActRoomSetting.this, "请输入房间名");
                     return;
                 }
