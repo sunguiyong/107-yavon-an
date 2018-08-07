@@ -94,5 +94,8 @@ public class Api2 {
     public static Observable<YSBResponse> getLockPwd(String author, String sn) {
         return getRxApi().getLockPwd(author,sn).compose(RxSchedulers.<YSBResponse>io_main());
     }
+    public static Observable<YSBResponse> deleteLock(String author, String lock_id) {
+        return getRxApi().deleteLock(author,lock_id).compose(RxSchedulers.<YSBResponse>io_main());
+    }
 
 }

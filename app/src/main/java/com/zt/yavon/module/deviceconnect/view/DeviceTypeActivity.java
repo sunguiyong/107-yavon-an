@@ -2,11 +2,14 @@ package com.zt.yavon.module.deviceconnect.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.common.base.utils.LogUtil;
+import com.common.base.utils.ToastUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -42,7 +45,6 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
     private DevTypeBean.TYPE bean;
     private String accessToken;
     private TabBean.MachineBean machineBean = new TabBean.MachineBean();
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_device_type;
@@ -63,6 +65,7 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
             }
         });
         bean = (DevTypeBean.TYPE) getIntent().getSerializableExtra("type");
+        LogUtil.d("==============DeviceTypeActivity,type:"+bean.type+",sn:"+bean.sn);
         machineBean.machine_type = bean.type;
         mPresenter.setVM(this);
     }
@@ -79,17 +82,23 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
                 .load(bean.icon)
                 .into(ivDevSmall);
         switch (bean.type) {
-            case "BLUE_LOCK":
+            case Constants.MACHINE_TYPE_BLUE_LOCK:
+                tvDevice.setText(bean.sn);
+                machineBean.asset_number = bean.sn;
 //                        WifiDeviceActivity.start(DeviceAddActivity.this);
                 break;
-            case "BATTERY_LOCK":
+            case Constants.MACHINE_TYPE_BATTERY_LOCK:
+                machineBean.from_room = bean.sn;//扫码字符串，添加易琐宝后台要用
                 mPresenter.getToken();
                 break;
-            case "LIGHT":
+            case Constants.MACHINE_TYPE_LIGHT:
                 tvDevice.setText(bean.sn);
                 machineBean.asset_number = bean.sn;
                 break;
-            case "ADJUST_TABLE":
+            case Constants.MACHINE_TYPE_ADJUST_TABLE:
+//                84f3ebb3a4b4
+                tvDevice.setText(bean.sn);
+                machineBean.asset_number = bean.sn;
                 break;
         }
     }
@@ -107,6 +116,12 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
 
                 break;
             case R.id.tv_next:
+//                if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(bean.type)){
+//                    if(TextUtils.isEmpty(machineBean.password)){
+//                        ToastUtil.showShort(this,"添加失败，请重试！");
+//                        return;
+//                    }
+//                }
                 EditDevActivity.startAction(this,machineBean);
                 break;
         }
@@ -115,26 +130,26 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
     @Override
     public void getTokenSuccess(String header) {
         accessToken  = header;
-        mPresenter.addScanLock(accessToken,bean.sn);
+//        mPresenter.addScanLock(accessToken,bean.sn);
 //        mPresenter.getLockPwd(accessToken,response.getSn());
-//        mPresenter.getLockSN(accessToken,bean.sn);
-    }
-
-    @Override
-    public void addScanLockSuccess(String lockId) {
-        machineBean.locker_id = lockId;
         mPresenter.getLockSN(accessToken,bean.sn);
     }
+//
+//    @Override
+//    public void addScanLockSuccess(String lockId) {
+//        machineBean.locker_id = lockId;
+//        mPresenter.getLockSN(accessToken,bean.sn);
+//    }
 
     @Override
     public void getLockSNSuccess(YSBResponse response) {
         tvDevice.setText(response.getSn());
         machineBean.asset_number = response.getSn();
-        mPresenter.getLockPwd(accessToken,response.getSn());
+//        mPresenter.getLockPwd(accessToken,response.getSn());
     }
 
-    @Override
-    public void returnLockPwd(YSBResponse response) {
-        machineBean.password = response.getData();
-    }
+//    @Override
+//    public void returnLockPwd(YSBResponse response) {
+//        machineBean.password = response.getData();
+//    }
 }

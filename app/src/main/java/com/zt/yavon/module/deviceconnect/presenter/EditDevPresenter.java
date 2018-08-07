@@ -5,10 +5,10 @@ import com.common.base.utils.ToastUtil;
 import com.zt.yavon.module.data.CatogrieBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.deviceconnect.contract.EditDevContract;
-import com.zt.yavon.module.deviceconnect.view.EditDevActivity;
 import com.zt.yavon.network.Api;
+import com.zt.yavon.network.Api2;
 import com.zt.yavon.network.RxSubscriber;
-import com.zt.yavon.utils.Constants;
+import com.zt.yavon.network.YSBResponse;
 import com.zt.yavon.utils.SPUtil;
 
 import java.util.List;
@@ -18,7 +18,51 @@ import java.util.List;
  */
 
 public class EditDevPresenter extends EditDevContract.Presenter {
+    @Override
+    public void bindBatteryLock(String name,String category_id,String room_id,TabBean.MachineBean machineBean) {
+        mRxManage.add(Api2.getToken()
+                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(YSBResponse response) {
+                        addScanLock(response.getHeader(),name,category_id,room_id,machineBean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
 
+    private void addScanLock(String author, String name,String category_id,String room_id,TabBean.MachineBean machineBean) {
+        mRxManage.add(Api2.addScanLock(author,machineBean.from_room)
+                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(YSBResponse response) {
+                        machineBean.locker_id = response.getLock_id();
+                        getLockPwd(author,name,category_id,room_id,machineBean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
+
+
+    private void getLockPwd(String author,String name,String category_id,String room_id,TabBean.MachineBean machineBean) {
+        mRxManage.add(Api2.getLockPwd(author,machineBean.asset_number)
+                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(YSBResponse response) {
+                        machineBean.password = response.getData();
+                        bindDev(name,category_id,room_id,machineBean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
     @Override
     public void getRoomList() {
         mRxManage.add(Api.getTabData(SPUtil.getToken(mContext))
@@ -49,12 +93,29 @@ public class EditDevPresenter extends EditDevContract.Presenter {
                 }).getDisposable());
     }
 
+//    @Override
+//    public void deleteLockById(String lock_id) {
+//        mRxManage.add(Api2.deleteLock(SPUtil.getToken(mContext), lock_id)
+//                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
+//                    @Override
+//                    protected void _onNext(YSBResponse response) {
+//
+//                    }
+//                    @Override
+//                    protected void _onError(String message) {
+//                        ToastUtil.showShort(mContext,message);
+//                    }
+//                }).getDisposable());
+//    }
+
     @Override
-    public void bindDev(String name, String asset_number, String sn, String category_id, String room_id, String type,String lockId, String password) {
-        if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(type)){
-            asset_number = null;
-        }
-        mRxManage.add(Api.bindDev(SPUtil.getToken(mContext),name,asset_number,sn,category_id,room_id,type,lockId,password)
+    public void bindDev(String name,String category_id,String room_id,TabBean.MachineBean machineBean) {
+//        if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(type)){
+//            asset_number = null;
+//        }
+        mRxManage.add(Api.bindDev(SPUtil.getToken(mContext),name,machineBean.asset_number,
+                machineBean.asset_number,machineBean.asset_number,category_id,room_id,
+                machineBean.machine_type,machineBean.locker_id,machineBean.password)
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
@@ -62,6 +123,9 @@ public class EditDevPresenter extends EditDevContract.Presenter {
                     }
                     @Override
                     protected void _onError(String message) {
+//                        if(!TextUtils.isEmpty(message) && message.contains("设备已被绑定")){
+//                            mView.devExist();
+//                        }
                         ToastUtil.showShort(mContext,message);
                     }
                 }).getDisposable());

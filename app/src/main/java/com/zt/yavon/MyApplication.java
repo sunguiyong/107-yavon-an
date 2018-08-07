@@ -23,19 +23,20 @@ public class MyApplication extends MultiDexApplication{
         ZXingLibrary.initDisplayOpinion(this);
         TuyaSdk.init(this);
         LoginBean bean = SPUtil.getAccount(this);
-        TuyaSdk.setOnNeedLoginListener(new INeedLoginListener() {
-            @Override
-            public void onNeedLogin(Context context) {
-                TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
-                    @Override
-                    public void onSuccess(User user) {
-                    }
-
-                    @Override
-                    public void onError(String code, String error) {
-                    }
-                });
-            }
-        });
+//        TuyaSdk.setOnNeedLoginListener(new INeedLoginListener() {
+//            @Override
+//            public void onNeedLogin(Context context) {
+//                if(bean != null)
+//                TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+//                    @Override
+//                    public void onSuccess(User user) {
+//                    }
+//
+//                    @Override
+//                    public void onError(String code, String error) {
+//                    }
+//                });
+//            }
+//        });
     }
 }

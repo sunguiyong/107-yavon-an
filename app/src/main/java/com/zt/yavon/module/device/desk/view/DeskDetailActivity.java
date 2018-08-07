@@ -1,31 +1,40 @@
 package com.zt.yavon.module.device.desk.view;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
+import com.espressif.iot.esptouch.EsptouchTask;
+import com.espressif.iot.esptouch.IEsptouchResult;
+import com.espressif.iot.esptouch.IEsptouchTask;
+import com.espressif.iot.esptouch.task.__IEsptouchTask;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.component.LeakSafeHandler;
-import com.zt.yavon.module.data.CustomHeightBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.contract.DeskDetailContract;
 import com.zt.yavon.module.device.desk.presenter.DeskDetailPresenter;
-import com.zt.yavon.module.device.lock.contract.LockDetailContract;
-import com.zt.yavon.module.device.lock.presenter.LockDetailPresenter;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.widget.MyTextView;
 import com.zt.yavon.widget.VerticalSeekBar;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +47,8 @@ import butterknife.OnTouch;
  */
 
 public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implements DeskDetailContract.View{
+    public static final int HEIGHT_BOTTOM = 86;
+    public static final int HEIGHT_TOP = 126;
     private int WHAT_SET = 0x21;
     @BindView(R.id.progress_desk)
     VerticalSeekBar seekBar;
@@ -57,35 +68,37 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     private List<DeskBean> heightList;
     private DevDetailBean bean;
     private int REQ_SETTING = 0x100;
-//    private LeakSafeHandler<DeskDetailActivity> mHandler = new LeakSafeHandler<DeskDetailActivity>(this){
-//        @Override
-//        public void onMessageReceived(DeskDetailActivity activity, Message msg) {
-//            if(activity.timer == null) return;
-//            if(msg.what == activity.WHAT_SET){
-//                //延时提交
-//                activity.timer.cancel();
-//                activity.timer.start();
-//            }
-//        }
-//    };
-//    private CountDownTimer timer = new CountDownTimer(700,50) {
-//        int lastProgress = -1;
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//            //设置桌子高度
-//            int curProgress = seekBar.getProgress();
-//            if(seekBar.getProgress() != lastProgress){
-//                lastProgress = curProgress;
-//                LogUtil.d("=====================send data");
-//            }
-//        }
-//    };
-//    private MyTimer2 timer2 = new MyTimer2(100,50);
+    private LeakSafeHandler<DeskDetailActivity> mHandler = new LeakSafeHandler<DeskDetailActivity>(this){
+        @Override
+        public void onMessageReceived(DeskDetailActivity activity, Message msg) {
+            if(activity.timer == null) return;
+            if(msg.what == activity.WHAT_SET){
+                //延时提交
+                activity.timer.cancel();
+                activity.timer.start();
+            }
+        }
+    };
+    private CountDownTimer timer = new CountDownTimer(1000,50) {
+        int lastProgress = -1;
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            //设置桌子高度
+            int curProgress = seekBar.getProgress();
+            if(seekBar.getProgress() != lastProgress){
+                lastProgress = curProgress;
+                LogUtil.d("=====================send data");
+            }
+        }
+    };
+    private MyTimer2 timer2 = new MyTimer2(1000,50);
     private TabBean.MachineBean machineBean;
+    private long curMills;
+    private int delta = 1;
 
     @Override
     public int getLayoutId() {
@@ -106,7 +119,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         seekBar.setOnSeekBarChangeListener(new VerticalSeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(VerticalSeekBar verticalSeekBar, int p, boolean fromUser) {
-                tvProgress.setText(p+"");
+                tvProgress.setText(HEIGHT_BOTTOM+p+"");
             }
 
             @Override
@@ -116,7 +129,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             @Override
             public void onStopTrackingTouch(VerticalSeekBar verticalSeekBar) {
 //                mHandler.sendEmptyMessage(WHAT_SET);
-                mPresenter.setDeskHeight(machineBean.id+"",seekBar.getProgress()+"");
+                mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
             }
         });
         heightList = new ArrayList<>();
@@ -216,23 +229,30 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     public boolean doTouch(MotionEvent event,View view) {
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
+            curMills = SystemClock.elapsedRealtime();
                 switch (view.getId()){
                     case R.id.btn_up_desk:
-//                        seekBar.setProgress(seekBar.getProgress()+1);
-//                        timer2.setDelta(1);
-                        mPresenter.startDeskMove(machineBean.id+"",true);
+                        delta = 1;
                         break;
                     case R.id.btn_down_desk:
-//                        seekBar.setProgress(seekBar.getProgress()-1);
-                        mPresenter.startDeskMove(machineBean.id+"",true);
-//                        timer2.setDelta(-1);
+                        delta = -1;
                         break;
                 }
-//                timer2.start();
+                timer2.setDelta(delta);
+                timer2.start();
         }else if(action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
-//            timer2.cancel();
-//            mHandler.sendEmptyMessage(WHAT_SET);
-            mPresenter.stopDeskMove(machineBean.id+"");
+            timer2.cancel();
+            if(SystemClock.elapsedRealtime() - curMills <1000){
+                //click
+                int curProgress = seekBar.getProgress()+delta;
+                if(curProgress >= 0 && curProgress <= 40){
+                    seekBar.setProgress(curProgress);
+                    mHandler.sendEmptyMessage(WHAT_SET);
+                }
+            }else{
+                //stop move
+                mPresenter.stopDeskMove(machineBean.id+"");
+            }
         }
 
         return super.onTouchEvent(event);
@@ -245,6 +265,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             setSeekBarProgress(bean.getHeight());
             heightList.clear();
             heightList.addAll(bean.getAdjust_table_height());
+            updateCustomButtonName();
         }
     }
 
@@ -253,35 +274,47 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         setSeekBarProgress(bean.height);
     }
 
-//    public class MyTimer2 extends CountDownTimer{
-//        int delta = 1;
-//        public MyTimer2(long millisInFuture, long countDownInterval) {
-//            super(millisInFuture, countDownInterval);
-//        }
-//
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//            //设置桌子高度
-//            seekBar.setProgress(seekBar.getProgress()+delta);
-//            start();
-//        }
-//        public void setDelta(int delta){
-//            this.delta = delta;
-//        }
-//    }
+    public class MyTimer2 extends CountDownTimer{
+        boolean isFistTime = true;
+        int delta = 1;
+        public MyTimer2(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            //设置桌子高度
+            int curProgress = seekBar.getProgress()+delta;
+            seekBar.setProgress(curProgress);
+            if(isFistTime){
+                isFistTime = false;
+                mPresenter.startDeskMove(machineBean.id+"",delta > 0?true:false);
+            }
+            if(curProgress <=0 || curProgress >=40){
+                mPresenter.stopDeskMove(machineBean.id+"");
+            }else{
+                start();
+            }
+        }
+        public void setDelta(int delta){
+            this.delta = delta;
+            isFistTime = true;
+        }
+    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQ_SETTING && resultCode == RESULT_OK){
-            if(bean != null)
-            bean.setSedentary_time(data.getStringExtra("time"));
-            bean.setSedentary_reminder(data.getBooleanExtra("reminder",false));
+            if(bean != null && data != null){
+                bean.setSedentary_time(data.getStringExtra("time"));
+                bean.setSedentary_reminder(data.getBooleanExtra("reminder",false));
+            }
         }
     }
 
@@ -291,9 +324,14 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         super.onDestroy();
     }
     private void setSeekBarProgress(int progress){
-        if(progress <0 || progress > 100){
-            return ;
+        if(progress <HEIGHT_BOTTOM){
+            tvProgress.setText(HEIGHT_BOTTOM+"");
+            seekBar.setProgress(0);
+        }else if(progress > HEIGHT_TOP){
+            seekBar.setProgress(HEIGHT_TOP-HEIGHT_BOTTOM);
+        }else{
+            seekBar.setProgress(progress-HEIGHT_BOTTOM);
         }
-        seekBar.setProgress(progress);
     }
+
 }

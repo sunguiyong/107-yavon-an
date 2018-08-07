@@ -7,10 +7,14 @@ import java.io.Serializable;
  */
 
 public class DeskBean implements Serializable {
-    private boolean isSelect;
+//    private boolean isSelect;
     public String name;
     public int height;
-
+    public DeskBean(){}
+    public DeskBean(String name,int height){
+        this.name = name;
+        this.height = height;
+    }
     public String getName() {
         return name;
     }
@@ -27,11 +31,11 @@ public class DeskBean implements Serializable {
         this.height = height;
     }
 
-    public boolean isSelect() {
-        return isSelect;
-    }
-
-    public void setSelect(boolean select) {
-        isSelect = select;
-    }
+//    public boolean isSelect() {
+//        return isSelect;
+//    }
+//
+//    public void setSelect(boolean select) {
+//        isSelect = select;
+//    }
 }

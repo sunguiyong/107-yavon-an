@@ -79,12 +79,21 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:paddingLeft="20dp"
-            android:checked="true"
             android:text=""
             android:textColorHint="@color/white_tran"
             android:hint="@string/tip_time"
             android:paddingTop="15dp"
             android:gravity="right"
+            android:paddingBottom="15dp"/>
+        <TextView
+            android:id="@+id/tv_unit_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="h"
+            android:textColorHint="@color/white_tran"
+            android:visibility="gone"
+            android:paddingTop="15dp"
             android:paddingBottom="15dp"/>
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch_remind_desk"

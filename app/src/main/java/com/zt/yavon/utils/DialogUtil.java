@@ -29,6 +29,7 @@ import com.zt.yavon.R;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.adapter.CustomHeightAdapter;
+import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.widget.RvDialogTab;
 import com.zt.yavon.widget.wheelview.adapter.MyWheelAdapter;
 import com.zt.yavon.widget.wheelview.widget.WheelView;
@@ -51,7 +52,7 @@ public class DialogUtil {
             titleTv.setText(info);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
         int width = context.getResources().getDisplayMetrics().widthPixels;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(rootView, params);
@@ -204,7 +205,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createEtDialog(final Context context, String title, String hint, final OnComfirmListening2 listener) {
+    public static Dialog createEtDialog(final Context context, boolean autoDismiss,String title, String hint, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_edit_text, null);
         final EditText etTime = (EditText) parent.findViewById(R.id.et_time_dialog);
@@ -230,6 +231,7 @@ public class DialogUtil {
                     ToastUtil.showShort(context, "请输入内容");
                     return;
                 }
+                if(autoDismiss)
                 dialog.dismiss();
                 if (listener != null) {
                     listener.confirm(data);
@@ -280,7 +282,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createWifiDialog(final Context context,String ssid, final OnComfirmListening2 listener) {
+    public static Dialog createWifiDialog(final Context context,String ssid,String pwd, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_wifi, null);
         final EditText etPwd = (EditText) parent.findViewById(R.id.et_pwd_wifi);
@@ -295,6 +297,9 @@ public class DialogUtil {
         dialog.setContentView(parent, params);
         if (!TextUtils.isEmpty(ssid)) {
             tv_current_wifi.setText(ssid);
+        }
+        if (!TextUtils.isEmpty(pwd)) {
+            etPwd.setText(pwd);
         }
         tv_change_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,12 +322,16 @@ public class DialogUtil {
     }
 
     public static Dialog createCustomHeightDialog(final Context context, final List<DeskBean> defaultList, final OnComfirmListening listener) {
+        List<DeskBean> tempList = new ArrayList<>();
+        for(DeskBean bean:defaultList){
+            tempList.add(new DeskBean(bean.name,bean.height));
+        }
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_set_height, null);
         final EditText etName = (EditText) parent.findViewById(R.id.et_name_dialog);
         final EditText etHeight = (EditText) parent.findViewById(R.id.et_height_dialog);
         final GridView gridView = (GridView) parent.findViewById(R.id.grid_desk_dialog);
-        final CustomHeightAdapter adapter = new CustomHeightAdapter(context, defaultList);
+        final CustomHeightAdapter adapter = new CustomHeightAdapter(context, tempList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             int lastSelectPosition = 0;
@@ -336,14 +345,12 @@ public class DialogUtil {
                 for (int i = 0; i < adapterView.getCount(); i++) {
                     DeskBean item = adapter.getItem(i);
                     if (i == position) {
-                        item.setSelect(true);
+                        adapter.setSelectPostion(position);
                         etName.setText(item.name);
                         etHeight.setText(item.height+"");
-                    } else {
-                        item.setSelect(false);
                     }
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
 //                LogUtil.d("===============posiont:" + position + ",ischeckd:" + gridView.isItemChecked(position) + ",checked ids:" + Arrays.toString(gridView.getCheckedItemIds()) + ",checked position:" + gridView.getCheckedItemPosition());
             }
         });
@@ -352,9 +359,9 @@ public class DialogUtil {
             DeskBean item = adapter.getItem(0);
             etName.setText(item.name);
             etHeight.setText(item.height+"");
-            item.setSelect(true);
+//            adapter.setSelectPostion(true);
             gridView.setItemChecked(0, true);
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
         }
         etName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -371,8 +378,8 @@ public class DialogUtil {
             public void afterTextChanged(Editable editable) {
                 int position = gridView.getCheckedItemPosition();
                 if (position != -1) {
-                    LogUtil.d("===================setName:" + etName.getText().toString().trim() + ",position:" + position);
-                    defaultList.get(position).setName(etName.getText().toString().trim());
+//                    LogUtil.d("===================setName:" + etName.getText().toString().trim() + ",position:" + position);
+                    tempList.get(position).setName(etName.getText().toString().trim());
                 }
             }
         });
@@ -392,17 +399,14 @@ public class DialogUtil {
                 int height = 0;
                 try {
                     height = Integer.parseInt(etHeight.getText().toString().trim());
-                    if(height <0 || height > 100){
-                        throw new Exception("高度范围错误");
-                    }
                 }catch (Exception e){
-                    ToastUtil.showShort(context,"高度必须为0-100");
+                    ToastUtil.showShort(context,"高度必须为数字："+DeskDetailActivity.HEIGHT_BOTTOM+"-"+DeskDetailActivity.HEIGHT_TOP);
                     return;
                 }
                 int position = gridView.getCheckedItemPosition();
                 if (position != -1) {
 //                    LogUtil.d("===================setHeight:" + etHeight.getText().toString().trim() + ",position:" + position);
-                    defaultList.get(position).setHeight(height);
+                    tempList.get(position).setHeight(height);
                 }
             }
         });
@@ -423,6 +427,15 @@ public class DialogUtil {
             public void onClick(View v) {
                 dialog.dismiss();
                 if (listener != null) {
+                    for(int i = 0;i<tempList.size();i++){
+                        DeskBean bean = tempList.get(i);
+                        if(bean.height < DeskDetailActivity.HEIGHT_BOTTOM || bean.height > DeskDetailActivity.HEIGHT_TOP){
+                            ToastUtil.showShort(context,"自定义"+(i+1)+"高度超出范围:"+DeskDetailActivity.HEIGHT_BOTTOM+"-"+DeskDetailActivity.HEIGHT_TOP);
+                            return;
+                        }
+                    }
+                    defaultList.clear();
+                    defaultList.addAll(tempList);
                     listener.confirm();
                 }
             }
@@ -614,7 +627,7 @@ public class DialogUtil {
         return dialog;
     }
 
-    public static Dialog createMoveDeviceDialog(Context context, List<TabBean> tabData, final OnComfirmListening listener) {
+    public static Dialog createMoveDeviceDialog(Context context, List<TabBean> tabData, final OnComfirmListening2 listener) {
         LayoutInflater inflaterDl = LayoutInflater.from(context);
         View parent = inflaterDl.inflate(R.layout.dialog_move_device_layout, null);
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
@@ -644,9 +657,13 @@ public class DialogUtil {
         confirmBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(rvDialogTab.getSelectPosition() == -1){
+                    ToastUtil.showShort(context,"请选择房间");
+                    return;
+                }
                 dialog.dismiss();
                 if (listener != null) {
-                    listener.confirm();
+                    listener.confirm(tabData.get(rvDialogTab.getSelectPosition()).id+"");
                 }
             }
         });

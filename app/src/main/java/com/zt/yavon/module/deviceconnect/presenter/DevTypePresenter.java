@@ -27,20 +27,6 @@ public class DevTypePresenter extends DevTypeContract.Presenter {
                 }).getDisposable());
     }
 
-    @Override
-    public void addScanLock(String author, String scanString) {
-        mRxManage.add(Api2.addScanLock(author,scanString)
-                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
-                    @Override
-                    protected void _onNext(YSBResponse response) {
-                        mView.addScanLockSuccess(response.getLock_id());
-                    }
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
-                    }
-                }).getDisposable());
-    }
 
     @Override
     public void getLockSN(String author, String scanString) {
@@ -57,20 +43,6 @@ public class DevTypePresenter extends DevTypeContract.Presenter {
                 }).getDisposable());
     }
 
-    @Override
-    public void getLockPwd(String author, String sn) {
-        mRxManage.add(Api2.getLockPwd(author,sn)
-                .subscribeWith(new RxSubscriber<YSBResponse>(mContext,true) {
-                    @Override
-                    protected void _onNext(YSBResponse response) {
-                        mView.returnLockPwd(response);
-                    }
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
-                    }
-                }).getDisposable());
-    }
 
 
 }

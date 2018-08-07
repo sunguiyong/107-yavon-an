@@ -45,7 +45,7 @@ public class ActRoomDetail extends BaseActivity {
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.createEtDialog(ActRoomDetail.this, "重命名", bean.mName, new DialogUtil.OnComfirmListening2() {
+                DialogUtil.createEtDialog(ActRoomDetail.this,false, "重命名", bean.mName, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
                         tvRoomName.setText(data);

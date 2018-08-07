@@ -2,25 +2,29 @@ package com.zt.yavon.module.deviceconnect.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.NetWorkUtils;
 import com.common.base.utils.ToastUtil;
-import com.google.gson.Gson;
-import com.tuya.smart.android.common.log.LogBean;
+import com.espressif.iot.esptouch.EsptouchTask;
+import com.espressif.iot.esptouch.IEsptouchResult;
+import com.espressif.iot.esptouch.IEsptouchTask;
+import com.espressif.iot.esptouch.util.ByteUtil;
+import com.espressif.iot.esptouch.util.EspNetUtil;
 import com.tuya.smart.android.device.utils.WiFiUtil;
 import com.tuya.smart.android.user.api.ILoginCallback;
 import com.tuya.smart.android.user.api.IRegisterCallback;
-import com.tuya.smart.android.user.api.IValidateCallback;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.sdk.TuyaActivator;
 import com.tuya.smart.sdk.TuyaUser;
@@ -38,6 +42,9 @@ import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.SPUtil;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,6 +65,8 @@ public class WifiDeviceActivity extends BaseActivity {
     private DevTypeBean.TYPE typeData;
     private ITuyaActivator iTuyaActivator;
     private String accessToken;
+    private EsptouchAsyncTask mTask;
+    private String defaultPwd;
     @Override
     public int getLayoutId() {
         return R.layout.activity_wifi_device;
@@ -81,10 +90,11 @@ public class WifiDeviceActivity extends BaseActivity {
         if (NetWorkUtils.isWifiConnected(this) && ssid != null){
             ssid = ssid.replaceAll("\"","");
             DialogUtil.dismiss(dialog);
-            dialog = DialogUtil.createWifiDialog(this, ssid,new DialogUtil.OnComfirmListening2() {
+            dialog = DialogUtil.createWifiDialog(this, ssid,defaultPwd,new DialogUtil.OnComfirmListening2() {
                 @Override
                 public void confirm(String pwd) {
 //                 linSearchNothing.setVisibility(View.VISIBLE);
+                    defaultPwd = pwd;
                     try {
                         choosePeiWangType(pwd);
                     }catch (Exception e){
@@ -139,6 +149,16 @@ public class WifiDeviceActivity extends BaseActivity {
                     }
                 }
             });
+        }else if(Constants.MACHINE_TYPE_ADJUST_TABLE.equals(typeData.type)){
+            WifiInfo info = ((WifiManager)getApplicationContext().getSystemService(WIFI_SERVICE)).getConnectionInfo();
+            if(mTask != null) {
+                mTask.cancelEsptouch();
+            }
+            mTask = new EsptouchAsyncTask(this);
+            byte[] ssid = ByteUtil.getBytesByString(WiFiUtil.getCurrentSSID(this));
+            byte[] password = ByteUtil.getBytesByString(pwd);
+            byte [] bssid = EspNetUtil.parseBssid2bytes(info.getBSSID());
+            mTask.execute(ssid, bssid, password, "0".getBytes());
         }
     }
     private void tuya(User user,String pwd){
@@ -189,10 +209,13 @@ public class WifiDeviceActivity extends BaseActivity {
             public void onActiveSuccess(DeviceBean deviceBean) {
                 iTuyaActivator.stop();
                 DialogUtil.dismiss(dialog);
-                dialog = DialogUtil.createInfoDialogWithListener(WifiDeviceActivity.this, "成功", new DialogUtil.OnComfirmListening() {
+                dialog = DialogUtil.createInfoDialogWithListener(WifiDeviceActivity.this, "配网成功", new DialogUtil.OnComfirmListening() {
                     @Override
                     public void confirm() {
                         typeData.sn = deviceBean.getDevId();
+                        if(!TextUtils.isEmpty(typeData.sn) && typeData.sn.length() >= 12){
+                            typeData.sn = typeData.sn.substring(typeData.sn.length() -12);
+                        }
                         DeviceTypeActivity.start(WifiDeviceActivity.this,typeData);
                         finish();
                     }
@@ -241,5 +264,149 @@ public class WifiDeviceActivity extends BaseActivity {
         }
         DialogUtil.dismiss(dialog);
         super.onDestroy();
+    }
+    private static class EsptouchAsyncTask extends AsyncTask<byte[], Void, List<IEsptouchResult>> {
+        private WeakReference<WifiDeviceActivity> mActivity;
+
+        // without the lock, if the user tap confirm and cancel quickly enough,
+        // the bug will arise. the reason is follows:
+        // 0. task is starting created, but not finished
+        // 1. the task is cancel for the task hasn't been created, it do nothing
+        // 2. task is created
+        // 3. Oops, the task should be cancelled, but it is running
+        private final Object mLock = new Object();
+        private IEsptouchTask mEsptouchTask;
+
+        EsptouchAsyncTask(WifiDeviceActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        void cancelEsptouch() {
+            WifiDeviceActivity activity = mActivity.get();
+            cancel(true);
+            if(activity != null)
+            DialogUtil.dismiss(activity.dialog);
+            if (mEsptouchTask != null) {
+                mEsptouchTask.interrupt();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            WifiDeviceActivity activity = mActivity.get();
+            if(activity != null){
+                DialogUtil.dismiss(activity.dialog);
+                activity.dialog = LoadingDialog.showDialogForLoading(activity, "配网中...", true, new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        synchronized (mLock) {
+//                        if (__IEsptouchTask.DEBUG) {
+//                            Log.i(TAG, "progress dialog back pressed canceled");
+//                        }
+                            if (mEsptouchTask != null) {
+                                mEsptouchTask.interrupt();
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        @Override
+        protected List<IEsptouchResult> doInBackground(byte[]... params) {
+            WifiDeviceActivity activity = mActivity.get();
+            int taskResultCount;
+            synchronized (mLock) {
+                // !!!NOTICE
+                byte[] apSsid = params[0];
+                byte[] apBssid = params[1];
+                byte[] apPassword = params[2];
+                byte[] deviceCountData = params[3];
+                taskResultCount = deviceCountData.length == 0 ? -1 : Integer.parseInt(new String(deviceCountData));
+                Context context = activity.getApplicationContext();
+                mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, null, context);
+//                mEsptouchTask.setEsptouchListener(activity.myListener);
+            }
+            return mEsptouchTask.executeForResults(taskResultCount);
+        }
+
+        @Override
+        protected void onPostExecute(List<IEsptouchResult> result) {
+            WifiDeviceActivity activity = mActivity.get();
+            if(activity == null){
+                return;
+            }
+            DialogUtil.dismiss(activity.dialog);
+            if (result == null) {
+                activity.dialog = DialogUtil.createInfoDialogWithListener(activity, "配网失败,请重试", new DialogUtil.OnComfirmListening() {
+                    @Override
+                    public void confirm() {
+                        activity.initDialog();
+                    }
+                });
+                return;
+            }
+
+            IEsptouchResult firstResult = result.get(0);
+            // check whether the task is cancelled and no results received
+            if (!firstResult.isCancelled()) {
+                int count = 0;
+                // max results to be displayed, if it is more than maxDisplayCount,
+                // just show the count of redundant ones
+                final int maxDisplayCount = 5;
+                // the task received some results including cancelled while
+                // executing before receiving enough results
+                if (firstResult.isSuc()) {
+                    StringBuilder sb = new StringBuilder();
+//                    for (IEsptouchResult resultInList : result) {
+//                        sb.append("Esptouch success, bssid = ")
+//                                .append(resultInList.getBssid())
+//                                .append(", InetAddress = ")
+//                                .append(resultInList.getInetAddress().getHostAddress())
+//                                .append("\n");
+//                        count++;
+//                        if (count >= maxDisplayCount) {
+//                            break;
+//                        }
+//                    }
+//                    if (count < result.size()) {
+//                        sb.append("\nthere's ")
+//                                .append(result.size() - count)
+//                                .append(" more result(s) without showing\n");
+//                    }
+                    if(result.size() > 0){
+                        activity.dialog = DialogUtil.createInfoDialogWithListener(activity, "配网成功", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                String bssid = result.get(0).getBssid();
+                                activity.typeData.sn = bssid;
+                                DeviceTypeActivity.start(activity,activity.typeData);
+                                LogUtil.d("============onActiveSuccess,token:"+bssid);
+                                activity.finish();
+                            }
+                        });
+
+                    }else{
+                        activity.dialog = DialogUtil.createInfoDialogWithListener(activity, "配网失败,请重试", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                activity.initDialog();
+                            }
+                        });
+                    }
+                } else {
+                    if (result == null) {
+                        activity.dialog = DialogUtil.createInfoDialogWithListener(activity, "配网失败,请重试", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                activity.initDialog();
+                            }
+                        });
+                    }
+                }
+            }
+
+            activity.mTask = null;
+        }
     }
 }

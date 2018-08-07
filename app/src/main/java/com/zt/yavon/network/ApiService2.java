@@ -1,9 +1,11 @@
 package com.zt.yavon.network;
 
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -50,6 +52,16 @@ public interface ApiService2 {
     Observable<YSBResponse> getLockSN(
             @Header("Authorization") String authorization,
             @Field("qrcode_data") String qrcode_data
+    );
+    /**
+     * 删除锁
+     * @return
+     */
+    @HTTP(method = "DELETE", path = "open-api/lock", hasBody = true)
+    @FormUrlEncoded
+    Observable<YSBResponse> deleteLock(
+            @Header("Authorization") String authorization,
+            @Field("lock_id") String lock_id
     );
     /**
      * 获取蓝牙锁管理员密码

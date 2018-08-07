@@ -41,8 +41,8 @@ public class RvDialogTab extends RvBase<TabBean> {
     @Override
     public void customConvert(BaseViewHolder holder, TabBean bean) {
         CheckBox checkBox = holder.getView(R.id.checkbox);
-        checkBox.setChecked(mSelectItem == holder.getLayoutPosition());
-        String resUrl = (mSelectItem == holder.getLayoutPosition() ? bean.icon_select : bean.icon);
+        checkBox.setChecked(mSelectItem == holder.getAdapterPosition());
+        String resUrl = (mSelectItem == holder.getAdapterPosition() ? bean.icon_select : bean.icon);
         Glide.with(getContext()).load(resUrl).asBitmap().
                 into(new SimpleTarget<Bitmap>() {
                     @Override
@@ -60,5 +60,8 @@ public class RvDialogTab extends RvBase<TabBean> {
     public void setSelection(int position) {
         mSelectItem = position;
         mAdapter.notifyDataSetChanged();
+    }
+    public int getSelectPosition(){
+        return mSelectItem;
     }
 }
