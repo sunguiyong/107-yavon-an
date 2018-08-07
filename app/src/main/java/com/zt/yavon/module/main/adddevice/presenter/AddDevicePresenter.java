@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.adddevice.presenter;
 
+import com.common.base.rx.BaseResponse;
 import com.zt.yavon.module.main.adddevice.contract.AddDeviceContract;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.network.Api;
@@ -25,6 +26,22 @@ public class AddDevicePresenter extends AddDeviceContract.Presenter {
                     @Override
                     protected void _onError(String message) {
                         mView.errorAddDeviceData(message);
+                    }
+                }).getDisposable());
+    }
+
+    @Override
+    public void setAddDeviceData(String selectMachineIds) {
+        mRxManage.add(Api.setAddDeviceData(SPUtil.getToken(mContext), selectMachineIds)
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
+                    @Override
+                    protected void _onNext(BaseResponse baseResponse) {
+                        mView.returnSetDeviceData();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        mView.errorSetDeviceData(message);
                     }
                 }).getDisposable());
     }

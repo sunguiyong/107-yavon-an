@@ -1,17 +1,22 @@
 package com.zt.yavon.module.main.roommanager.list.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
-import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.widget.RvBase;
 
-public class RvRoom extends RvBase<RoomBean> {
+public class RvRoom extends RvBase<TabBean> {
     public RvRoom(Context context) {
         this(context, null);
     }
@@ -35,10 +40,17 @@ public class RvRoom extends RvBase<RoomBean> {
     }
 
     @Override
-    public void customConvert(BaseViewHolder holder, RoomBean bean) {
-        holder.setText(R.id.tv_name, bean.mName)
-                .setText(R.id.device_count, "设备：" + bean.mDeviceCount + "");
+    public void customConvert(BaseViewHolder holder, TabBean bean) {
+        holder.setText(R.id.tv_name, bean.name)
+                .setText(R.id.device_count, "设备：" + bean.getMachineSize() + "");
         TextView tvName = holder.getView(R.id.tv_name);
-        tvName.setCompoundDrawablesWithIntrinsicBounds(bean.mResId, 0, 0, 0);
+        Glide.with(getContext()).load(bean.icon_select).asBitmap().
+                into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        BitmapDrawable drawable = new BitmapDrawable(getContext().getResources(), resource);
+                        tvName.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                    }
+                });
     }
 }

@@ -41,6 +41,13 @@ public class TabBean implements Serializable {
         return new Gson().fromJson(str, listType);
     }
 
+    public int getMachineSize() {
+        if (machines == null) {
+            return 0;
+        }
+        return machines.size();
+    }
+
     public static class MachineBean implements Serializable {
         /**
          * id : 4
@@ -70,7 +77,9 @@ public class TabBean implements Serializable {
             return !TextUtils.isEmpty(status) && status.equals("ON");
         }
 
-        public MachineBean() {}
+        public MachineBean() {
+        }
+
         public MachineBean(boolean isLastOne) {
             this.isLastOne = isLastOne;
         }

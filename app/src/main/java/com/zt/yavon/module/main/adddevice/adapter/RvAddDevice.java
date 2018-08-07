@@ -16,6 +16,8 @@ import com.zt.yavon.R;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.widget.RvBaseExpandable;
 
+import java.util.List;
+
 public class RvAddDevice extends RvBaseExpandable<MultiItemEntity> {
 
     public static final int ITEM_TYPE_GROUP = 0;
@@ -54,13 +56,25 @@ public class RvAddDevice extends RvBaseExpandable<MultiItemEntity> {
         if (holder.getItemViewType() == ITEM_TYPE_GROUP) {
             AddDeviceBean item = (AddDeviceBean) bean;
             holder.setText(R.id.tv_name, ((AddDeviceBean) bean).name);
-            checkBox.setChecked(item.is_all_often);
+            boolean isAllOften = true;
+            List<AddDeviceBean.MachineBean> childs = item.getSubItems();
+            if (childs != null) {
+                for (AddDeviceBean.MachineBean childItem : childs) {
+                    if (!childItem.is_often) {
+                        isAllOften = false;
+                        break;
+                    }
+                }
+            } else {
+                isAllOften = false;
+            }
+            checkBox.setChecked(isAllOften);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     item.is_all_often = isChecked;
                     for (AddDeviceBean.MachineBean childItem : item.machines) {
-                        childItem.setTurnedOn(isChecked);
+                        childItem.is_often = isChecked;
                     }
                     mAdapter.notifyDataSetChanged();
                 }
@@ -69,12 +83,12 @@ public class RvAddDevice extends RvBaseExpandable<MultiItemEntity> {
             AddDeviceBean.MachineBean item = (AddDeviceBean.MachineBean) bean;
             holder.setText(R.id.tv_name, item.machine_name)
                     .setText(R.id.tv_status, item.getStatus());
-            checkBox.setChecked(item.isTurnedOn());
+            checkBox.setChecked(item.is_often);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    item.setTurnedOn(isChecked);
-
+                    item.is_often = isChecked;
+                    mAdapter.notifyDataSetChanged();
                 }
             });
             ImageView ivIcon = holder.getView(R.id.iv_icon);

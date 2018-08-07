@@ -46,7 +46,7 @@ public class AddDeviceBean extends AbstractExpandableItem<AddDeviceBean.MachineB
 
     @Override
     public int getLevel() {
-        return ITEM_TYPE_GROUP;
+        return 0;
     }
 
     public static class MachineBean implements MultiItemEntity {
@@ -84,14 +84,6 @@ public class AddDeviceBean extends AbstractExpandableItem<AddDeviceBean.MachineB
 
         public String getStatus() {
             return "ON".equals(status) ? "设备开启" : "设备关闭";
-        }
-
-        public boolean isTurnedOn() {
-            return "ON".equals(status);
-        }
-
-        public void setTurnedOn(boolean turnedOn) {
-            status = (turnedOn ? "ON" : "OFF");
         }
     }
 }

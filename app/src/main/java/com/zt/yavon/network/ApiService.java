@@ -11,6 +11,7 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
+import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 
 import java.util.List;
 
@@ -495,14 +496,15 @@ public interface ApiService {
             @Field("status") String status
     );
 
-    @GET("/api/user/homepage")
+    @GET("api/user/homepage")
     Observable<BaseResponse<List<TabBean>>> getTabData(@Query("api_token") String token);
 
-    @GET("/api/machines/add_often_list")
+    @GET("api/machines/add_often_list")
     Observable<BaseResponse<List<AddDeviceBean>>> getAddDeviceData(@Query("api_token") String token);
 
     /**
      * 设备绑定页面
+     *
      * @param api_token
      * @return
      */
@@ -510,8 +512,10 @@ public interface ApiService {
     Observable<BaseResponse<List<DevTypeBean>>> getMachineTypes(
             @Query("api_token") String api_token
     );
+
     /**
      * 设备类型列表
+     *
      * @param api_token
      * @return
      */
@@ -520,8 +524,10 @@ public interface ApiService {
             @Query("api_token") String api_token,
             @Query("type") String type
     );
+
     /**
      * 设备详情
+     *
      * @param api_token
      * @return
      */
@@ -530,8 +536,10 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Query("api_token") String api_token
     );
+
     /**
      * 绑定设备
+     *
      * @param api_token
      * @return
      */
@@ -548,8 +556,10 @@ public interface ApiService {
             @Field("locker_id") String locker_id,
             @Field("password") String password
     );
+
     /**
      * 申请设备
+     *
      * @param body
      * @return
      */
@@ -557,8 +567,10 @@ public interface ApiService {
     Observable<BaseResponse> applyDev(
             @Body RequestBody body
     );
+
     /**
      * 操作设备开关
+     *
      * @return
      */
     @POST("api/machines/{machine_id}/operate")
@@ -568,8 +580,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("status") String status
     );
+
     /**
      * 获取升降桌当前高度
+     *
      * @return
      */
     @GET("api/{machine_id}/height")
@@ -577,8 +591,10 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Query("api_token") String api_token
     );
+
     /**
      * 长按开始运动桌子
+     *
      * @return
      */
     @POST("api/machines/{machine_id}/table_start_move")
@@ -588,8 +604,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("direction") String direction
     );
+
     /**
      * 松手停止运动桌子
+     *
      * @return
      */
     @POST("api/machines/{machine_id}/table_end_move")
@@ -598,8 +616,10 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Field("api_token") String api_token
     );
+
     /**
      * 桌子自定义运动
+     *
      * @return
      */
     @POST("api/machines/{machine_id}/table_custom_move")
@@ -609,8 +629,10 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("height") String height
     );
+
     /**
      * 自定义5个高度
+     *
      * @return
      */
     @PATCH("api/machines/{machine_id}/custom_table_height")
@@ -618,6 +640,7 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Body RequestBody body
     );
+
     /**
      * 久坐时间设置
      */
@@ -628,8 +651,10 @@ public interface ApiService {
             @Field("machine_id") String machine_id,
             @Field("hour") String hour
     );
+
     /**
      * 久坐提醒开关设置
+     *
      * @return
      */
     @PATCH("api/machines/{machine_id}/button_setting")
@@ -639,4 +664,17 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("sedentary_reminder") String sedentary_reminder
     );
+
+    @POST("api/machines/add_often")
+    @FormUrlEncoded
+    Observable<BaseResponse> setAddDeviceData(
+            @Field("api_token") String token,
+            @Field("machine_ids") String selectMachineIds);
+
+    @GET("api/room/icons")
+    Observable<BaseResponse<List<RoomItemBean>>> getAllRoomData(@Query("api_token") String token);
+
+    @POST("api/room/add")
+    @FormUrlEncoded
+    Observable<RoomItemBean> addRoom(@Field("api_token") String token, @Field("name") String roomName, @Field("icon_id") int roomResId);
 }

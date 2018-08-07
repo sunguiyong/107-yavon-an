@@ -13,6 +13,7 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
+import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -241,5 +242,17 @@ public class Api {
     }
     public static Observable<DevDetailBean> setDeskRemindSwitch(String machine_id,String token,String isOn) {
         return getRxApi().setDeskRemindSwitch(machine_id,token,isOn).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+
+    public static Observable<BaseResponse> setAddDeviceData(String token, String selectMachineIds) {
+        return getRxApi().setAddDeviceData(token, selectMachineIds).compose(RxSchedulers.io_main());
+    }
+
+    public static Observable<List<RoomItemBean>> getAllRoomData(String token) {
+        return getRxApi().getAllRoomData(token).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
+        return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.io_main());
     }
 }

@@ -39,17 +39,26 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
         findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                List<DeviceItemBean> checkedBeans = new ArrayList<>();
-//                if (cb1.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-//                if (cb2.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-//                if (cb3.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-//                if (cb4.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-//                setResult(RESULT_OK, (Serializable) checkedBeans);
-//                finish();
+                StringBuilder sb = new StringBuilder();
+                List<AddDeviceBean> items = rvAddDevice.mAdapter.getData();
+                if (items != null) {
+                    for (int i = 0; i < items.size(); i++) {
+                        AddDeviceBean item = items.get(i);
+                        List<AddDeviceBean.MachineBean> childItems = item.getSubItems();
+                        if (childItems != null) {
+                            for (int j = 0; j < childItems.size(); j++) {
+                                AddDeviceBean.MachineBean childItem = childItems.get(j);
+                                if (j == childItems.size() - 1) {
+                                    sb.append(childItem.machine_id);
+                                } else {
+                                    sb.append(childItem.machine_id);
+                                    sb.append(",");
+                                }
+                            }
+                        }
+                    }
+                }
+                mPresenter.setAddDeviceData(sb.toString());
             }
         });
         mPresenter.getAddDeviceData();
@@ -60,10 +69,7 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
         List<MultiItemEntity> beans = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             AddDeviceBean bean = data.get(i);
-            for (int j = 0; j < bean.machines.size(); j++) {
-                bean.addSubItem(bean.machines.get(i));
-            }
-//            bean.setSubItems(bean.machines);
+            bean.setSubItems(bean.machines);
             beans.add(bean);
         }
         rvAddDevice.setData(beans);
@@ -71,6 +77,17 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
 
     @Override
     public void errorAddDeviceData(String message) {
+        ToastUtil.showLong(this, message);
+    }
+
+    @Override
+    public void returnSetDeviceData() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void errorSetDeviceData(String message) {
         ToastUtil.showLong(this, message);
     }
 }

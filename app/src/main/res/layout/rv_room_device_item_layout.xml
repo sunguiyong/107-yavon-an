@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="12dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/ic_item_lock" />
 
         <LinearLayout

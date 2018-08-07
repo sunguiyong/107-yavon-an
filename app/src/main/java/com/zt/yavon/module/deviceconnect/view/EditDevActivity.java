@@ -19,7 +19,7 @@ import com.zt.yavon.module.deviceconnect.adapter.EditTypeAdapter;
 import com.zt.yavon.module.deviceconnect.adapter.RoomNameAdapter;
 import com.zt.yavon.module.deviceconnect.contract.EditDevContract;
 import com.zt.yavon.module.deviceconnect.presenter.EditDevPresenter;
-import com.zt.yavon.module.main.roommanager.add.view.ActAddRoom;
+import com.zt.yavon.module.main.roommanager.add.view.ActAllRoom;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.widget.CustomEditText;
 
@@ -127,7 +127,7 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
         switch (view.getId()){
             case R.id.tv_room_add_edit:
                 //添加房间
-                startActForResult(ActAddRoom.class);
+                startActForResult(ActAllRoom.class);
                 break;
             case R.id.tv_submit_edit:
                 String name = etDevName.getText().toString().trim();
