@@ -1,6 +1,7 @@
 package com.zt.yavon.module.main.frame.view;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -191,6 +192,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         viewPager.getAdapter().notifyDataSetChanged();
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
             String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
+            int textColor = i == 0 ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
             int finalI = i;
             Glide.with(getActivity()).load(resUrl).asBitmap().
                     into(new SimpleTarget<Bitmap>() {
@@ -201,6 +203,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
                             // slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
+                            slidingTabLayout.getTitleView(finalI).setTextColor(textColor);
                         }
                     });
         }

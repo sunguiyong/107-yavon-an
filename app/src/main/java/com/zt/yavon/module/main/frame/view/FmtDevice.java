@@ -3,6 +3,7 @@ package com.zt.yavon.module.main.frame.view;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,16 @@ import com.zt.yavon.utils.DialogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceContract.View {
+    @BindView(R.id.rv_devices)
+    RvDevices mRvDevices;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout srl;
     private TabBean mTabItemBean;
-    private RvDevices mRvDevices;
     private MainActivity mActivity;
     public MenuWidget mMenuWidget;
     private LinearLayout mLlTitle;
@@ -71,7 +79,12 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
     @Override
     protected void initView() {
-        mRvDevices = (RvDevices) rootView;
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fmtHome.refreshData();
+            }
+        });
         mRvDevices.setIsOften(mIsOften);
         mActivity = (MainActivity) getActivity();
         mMenuWidget = mActivity.findViewById(R.id.menu_widget);
@@ -251,5 +264,4 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         DialogUtil.dismiss(dialog);
         super.onDestroy();
     }
-
 }
