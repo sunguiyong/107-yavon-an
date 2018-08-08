@@ -188,7 +188,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             ToastUtil.showLong(mActivity, "未选择设备");
             return;
         }
-        
+
         MineRoomBean.Machine machine = new MineRoomBean.Machine();
         machine.setMachine_id(mPresenter.getIds(beans));
         ShareDevActivity.startAction(getContext(),machine);
