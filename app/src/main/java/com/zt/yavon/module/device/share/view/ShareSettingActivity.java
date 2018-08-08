@@ -54,7 +54,12 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
 
     @Override
     public void initView() {
-        setTitle("共享设置");
+        if("ADMIN".equals(machine.getUser_type())){
+            setTitle("共享设置");
+        }else{
+            setTitle("授权设置");
+        }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ShareSettingAdapter();
 //        View empView = getLayoutInflater().inflate(R.layout.view_empty,null);
@@ -85,10 +90,12 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.tv_share_setting:
-                ShareDevActivity.startAction(this,machine,REQ_SHARE);
-                break;
             case R.id.tv_right_header:
-                AuthorActivity.startAction(this,machine,REQ_SHARE);
+                if("ADMIN".equals(machine.getUser_type())){
+                    ShareDevActivity.startAction(this,machine,REQ_SHARE);
+                }else{
+                    AuthorActivity.startAction(this,machine,REQ_SHARE);
+                }
                 break;
         }
     }
@@ -113,25 +120,30 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
 //                    .fitCenter()
                     .into(ivDev);
             List<ShareListBean.User> list = bean.getUsers();
+            String rightMenu = "";
             if("ADMIN".equals(bean.getMachine().getUser_type())){
                 //管理员
                 tvUser.setText("使用者");
-                setRightMenuText("");
-                if(list == null || list.isEmpty()){
-                    tvShare.setVisibility(View.VISIBLE);
-                }else{
-                    tvShare.setVisibility(View.GONE);
-                    adapter.setNewData(list);
-                }
+                rightMenu = "共享";
             }else if("FIRST_USER".equals(bean.getMachine().getUser_type())){
                 //一级用户
                 tvUser.setText("使用者");
-                setRightMenuText("临时授权");
+                rightMenu = "临时授权";
             }else{
                 //二级用户
                 tvUser.setText("管理员");
-                setRightMenuText("临时授权");
+                rightMenu = "";
                 tvDo.setVisibility(View.GONE);
+            }
+
+            tvShare.setText(rightMenu);
+            if(list == null || list.isEmpty()){
+                tvShare.setVisibility(View.VISIBLE);
+                setRightMenuText("");
+            }else{
+                tvShare.setVisibility(View.GONE);
+                setRightMenuText(rightMenu);
+                adapter.setNewData(list);
             }
         }
     }

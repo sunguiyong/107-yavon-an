@@ -44,7 +44,7 @@ public class RvRoomDevice extends RvBase<TabBean.MachineBean> {
         holder.setOnClickListener(R.id.iv_del, new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.remove(holder.getLayoutPosition());
+                mAdapter.remove(holder.getAdapterPosition());
             }
         });
     }

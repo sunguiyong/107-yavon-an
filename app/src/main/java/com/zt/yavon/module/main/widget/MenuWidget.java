@@ -80,6 +80,12 @@ public class MenuWidget extends LinearLayout implements View.OnClickListener {
     public void setRenameEnable(boolean enable) {
         ((TextView) findViewById(R.id.menu_rename)).setEnabled(enable);
     }
+    public void setShareEnable(boolean enable) {
+        ((TextView) findViewById(R.id.menu_share)).setEnabled(enable);
+    }
+    public void setReportEnable(boolean enable) {
+        ((TextView) findViewById(R.id.menu_report)).setEnabled(enable);
+    }
 
     public interface OnItemClickListener {
         void onRecentClick();
