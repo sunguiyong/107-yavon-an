@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.DeskBean;
@@ -210,7 +209,10 @@ public class DialogUtil {
         View parent = inflater.inflate(R.layout.dialog_edit_text, null);
         final EditText etTime = (EditText) parent.findViewById(R.id.et_time_dialog);
         ((TextView) parent.findViewById(R.id.title_dialog)).setText(title);
-        etTime.setHint(hint);
+        if(!TextUtils.isEmpty(hint)){
+            etTime.setText(hint);
+            etTime.setSelection(hint.length());
+        }
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
@@ -250,8 +252,10 @@ public class DialogUtil {
         etTime.setInputType(InputType.TYPE_CLASS_TEXT);
         etTime.setHint(R.string.nickname_hint);
         parent.findViewById(R.id.tv_unit_dialog).setVisibility(View.GONE);
-        if (!TextUtils.isEmpty(defaultValue))
+        if (!TextUtils.isEmpty(defaultValue)){
             etTime.setText(defaultValue);
+            etTime.setSelection(defaultValue.length());
+        }
         final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
@@ -300,6 +304,7 @@ public class DialogUtil {
         }
         if (!TextUtils.isEmpty(pwd)) {
             etPwd.setText(pwd);
+            etPwd.setSelection(pwd.length());
         }
         tv_change_wifi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,7 +352,9 @@ public class DialogUtil {
                     if (i == position) {
                         adapter.setSelectPostion(position);
                         etName.setText(item.name);
+                        etName.setSelection(item.name.length());
                         etHeight.setText(item.height+"");
+                        etHeight.setSelection((item.height+"").length());
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -358,7 +365,9 @@ public class DialogUtil {
         if (adapter.getCount() > 0) {
             DeskBean item = adapter.getItem(0);
             etName.setText(item.name);
+            etName.setSelection(item.name.length());
             etHeight.setText(item.height+"");
+            etHeight.setSelection((item.height+"").length());
 //            adapter.setSelectPostion(true);
             gridView.setItemChecked(0, true);
 //            adapter.notifyDataSetChanged();

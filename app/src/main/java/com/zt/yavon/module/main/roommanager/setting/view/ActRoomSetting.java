@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.roommanager.setting.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,7 +34,7 @@ public class ActRoomSetting extends BaseActivity<RoomSettingPresenter> implement
     Button btnOk;
     @BindView(R.id.fl_icon)
     FrameLayout flIcon;
-
+    Dialog dialog;
     RoomItemBean mSelectRoomItemBean;
 
     @Override
@@ -69,7 +70,7 @@ public class ActRoomSetting extends BaseActivity<RoomSettingPresenter> implement
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.createEtDialog(ActRoomSetting.this, false, "重命名", mRoomItemBean == null ? "" : mRoomItemBean.name, new DialogUtil.OnComfirmListening2() {
+                dialog = DialogUtil.createEtDialog(ActRoomSetting.this, true, "重命名", mRoomItemBean == null ? "" : mRoomItemBean.name, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
                         tvRoomName.setText(data);
@@ -131,5 +132,11 @@ public class ActRoomSetting extends BaseActivity<RoomSettingPresenter> implement
     @Override
     public void errorAddRoomData(String message) {
         ToastUtil.showLong(this, message);
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.dismiss(dialog);
+        super.onDestroy();
     }
 }

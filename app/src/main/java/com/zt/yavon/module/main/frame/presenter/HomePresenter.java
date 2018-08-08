@@ -30,6 +30,7 @@ public class HomePresenter extends HomeContract.Presenter {
 
                     @Override
                     protected void _onError(String message) {
+                        mView.returnTabData(null);
                         mView.errorTabData(message);
                     }
                 }).getDisposable());

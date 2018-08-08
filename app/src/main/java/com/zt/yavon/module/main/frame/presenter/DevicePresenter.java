@@ -119,6 +119,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
                         .subscribeWith(new RxSubscriber<DevDetailBean>(mContext, true) {
                             @Override
                             protected void _onNext(DevDetailBean bean) {
+                                DialogUtil.dismiss(dialog);
                                 machineBean.name = data;
                                 mView.renameSuccess(machineBean);
                             }
@@ -154,6 +155,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
                         .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
                             @Override
                             protected void _onNext(BaseResponse response) {
+                                DialogUtil.dismiss(dialog);
                                 mView.uploadFaultSuccess();
                             }
 

@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.zt.yavon.R;
@@ -40,11 +43,13 @@ import io.reactivex.functions.Consumer;
  * Created by hp on 2018/6/11.
  */
 
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View,SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.sliding_tab_layout)
     public SlidingTabLayout slidingTabLayout;
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
+    @BindView(R.id.swipe_home)
+    public SwipeRefreshLayout refreshLayout;
     MenuWidget mMenuWidget;
     Unbinder unbinder;
     @BindView(R.id.iv_setting)
@@ -76,6 +81,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void initView() {
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(this);
         ivSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,8 +166,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void returnTabData(List<TabBean> data) {
+        if(refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+        if(data == null){
+            ToastUtil.showShort(getContext(),"数据加载失败，请重试！");
+            return;
+        }
         mTabData = data;
-        fmts = new ArrayList<>();
+        if(fmts == null){
+            fmts = new ArrayList<>();
+        }else if(fmts.size() > 0){
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            for(Fragment fragment:fmts){
+                transaction.remove(fragment);
+            }
+            transaction.commitNowAllowingStateLoss();
+            fmts.clear();
+        }
         String[] titles = new String[data.size()];
 
         for (int i = 0; i < data.size(); i++) {
@@ -208,7 +231,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-    @OnClick({R.id.iv_scan, R.id.iv_add, R.id.layout_msg})
+    @OnClick({R.id.iv_scan, R.id.iv_add, R.id.layout_msg,R.id.title_ok,R.id.title_select_all})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -218,13 +241,21 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void doClick(View view) {
         switch (view.getId()) {
             case R.id.iv_scan:
-                ScanCodeActivity.start(getActivity());
+                mPresenter.getTabData();
+//                ScanCodeActivity.start(getActivity());
                 break;
             case R.id.iv_add:
-                DeviceAddActivity.start(getActivity());
+                mPresenter.getTabData();
+//                DeviceAddActivity.start(getActivity());
                 break;
             case R.id.layout_msg:
                 MessageListActivity.startAction(getActivity(), MessageListActivity.TYPE_INTERNAL);
+                break;
+            case R.id.title_ok:
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onSelectCompleteClick();
+                break;
+            case R.id.title_select_all:
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onSelectAllClick();
                 break;
         }
     }
@@ -233,4 +264,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mPresenter.getTabData();
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.getTabData();
+    }
 }

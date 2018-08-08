@@ -48,6 +48,7 @@ public class RoomActivity extends BaseActivity {
             localBean.icon = item.icon;
             rvRoom.addData(localBean);
             setResult(RESULT_OK, item);
+
         } else if (requestCode == REQUEST_CODE_MODIFY_ROOM && resultCode == RESULT_OK) {
             TabBean item;
             try {
@@ -60,6 +61,7 @@ public class RoomActivity extends BaseActivity {
             } else {
                 rvRoom.mAdapter.notifyItemChanged(mSelectPosition, item);
             }
+            setResult(RESULT_OK, item);
         }
     }
 

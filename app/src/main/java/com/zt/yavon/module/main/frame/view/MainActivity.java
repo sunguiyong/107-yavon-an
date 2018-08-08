@@ -112,16 +112,20 @@ public class MainActivity extends BaseActivity {
 //                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
 //                FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
 //                fmtDevice.addData(beans);
+                onRefresh();
                 // TODO refresh ttt
             } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
 //                RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+//                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
 //                TabItemBean bean = new TabItemBean("", item.mName, item.mCheckedResId, item.mUncheckedResId);
-                fmtHome.addTab();
+//                fmtHome.addTab();
+                onRefresh();
             }
         }
     }
-
+    public void onRefresh(){
+        mRxManager.post(Constants.EVENT_REFRESH_HOME,0);
+    }
     public static void startAction(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

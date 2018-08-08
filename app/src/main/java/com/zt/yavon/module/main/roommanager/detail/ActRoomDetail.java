@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.roommanager.detail;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -38,7 +39,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     TabBean mTabBean;
     RoomDetailBean mRoomDetailBean;
     int mTempIconId;
-
+    Dialog dialog;
     @Override
     public int getLayoutId() {
         return R.layout.act_room_detail_layout;
@@ -61,7 +62,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
+                dialog = DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
                         if (TextUtils.isEmpty(data)) {
@@ -101,6 +102,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
 
     @Override
     public void returnModifyRoomData(TabBean data) {
+        DialogUtil.dismiss(dialog);
         setResult(RESULT_OK, data);
         mTabBean = data;
         mRoomDetailBean.name = data.name;
@@ -146,5 +148,11 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     @Override
     public void errorDelDevice(String message) {
         ToastUtil.showLong(this, message);
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.dismiss(dialog);
+        super.onDestroy();
     }
 }

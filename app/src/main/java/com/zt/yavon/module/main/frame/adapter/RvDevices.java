@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -24,7 +22,8 @@ import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.widget.RvBase;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +64,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
 //        checkBox.setOnCheckedChangeListener(null);
         if (mSelectMode) {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_check, 0, 0);
-            cbPower.setChecked(mSelectIndex == holder.getAdapterPosition());
+            cbPower.setChecked(mSelectList.contains(holder.getAdapterPosition()));
         } else {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_power, 0, 0);
             cbPower.setChecked(bean.isPowerOn());
@@ -81,7 +80,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (mSelectMode) {
-                            mSelectMap.put(holder.getAdapterPosition(), isChecked);
+//                            LogUtil.d("============on checked change:"+isChecked+",position:"+holder.getAdapterPosition());
+                            if(isChecked){
+                                mSelectList.add(holder.getAdapterPosition());
+                            }else{
+                                mSelectList.remove(holder.getAdapterPosition());
+                            }
                             HomeFragment fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
                             FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
                             int count = getSelectCount();
@@ -100,43 +104,37 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         }
     }
 
-    public Hashtable<Integer, Boolean> mSelectMap = new Hashtable<>();
+    public HashSet<Integer> mSelectList = new HashSet<>();
     private boolean mSelectMode = false;
-    private int mSelectIndex = -1;
     public boolean isSelectMode(){
         return mSelectMode;
     }
     public int getSelectCount() {
-        int selectCount = 0;
-        for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
-            if (item.getValue()) {
-                selectCount++;
-            }
-        }
-        LogUtil.d("======selectCount:"+selectCount);
-        return selectCount;
+//        int selectCount = 0;
+//        for (Integer item : mSelectList) {
+//            selectCount++;
+//        }
+//        LogUtil.d("======selectCount:"+mSelectList.size()+",data:"+ Arrays.toString(mSelectList.toArray()));
+        return mSelectList.size();
     }
 
     public void enterMultiSelectMode(int selectIndex) {
         mSelectMode = true;
-        mSelectMap.clear();
-        mSelectMap.put(selectIndex, true);
-        mSelectIndex = selectIndex;
+        mSelectList.clear();
+        mSelectList.add(selectIndex);
         mAdapter.notifyDataSetChanged();
     }
 
     public void exitMultiSelectMode() {
-        mSelectIndex = -1;
+//        mSelectIndex = -1;
         mSelectMode = false;
         mAdapter.notifyDataSetChanged();
     }
 
     public List<TabBean.MachineBean> getSelectBeans() {
         List<TabBean.MachineBean> beans = new ArrayList<>();
-        for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
-            if (item.getValue()) {
-                beans.add(mAdapter.getItem(item.getKey()));
-            }
+        for (int item : mSelectList) {
+            beans.add(mAdapter.getItem(item));
         }
         return beans;
     }
@@ -147,5 +145,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_power);
             checkBox.setChecked(!checkBox.isChecked());
         }
+    }
+    public void selectAll(){
+//        LogUtil.d("=============size:"+mAdapter.getItemCount());
+        for(int i = 0;i< mAdapter.getItemCount()-1;i++){
+            mSelectList.add(i);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }

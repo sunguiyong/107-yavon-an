@@ -15,8 +15,8 @@ android {
         applicationId "com.zt.yavon"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180802
-        versionName "0.0.3"
+        versionCode 20180808
+        versionName "0.0.4"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a","x86"
@@ -85,6 +85,7 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:26.0.2'
 //    compile 'com.android.support:design:26.0.2'
     compile project(':common')
+    compile project(':esptouch')
     implementation(name: 'tuyasmart-1.13.12', ext: 'aar')
     compile 'com.alibaba:fastjson:1.1.45.android'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
