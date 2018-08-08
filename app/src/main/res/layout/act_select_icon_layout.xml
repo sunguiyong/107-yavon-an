@@ -14,27 +14,17 @@
         android:paddingBottom="30dp"
         android:paddingTop="30dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_top"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="选择房间编辑并创建"
-            android:textColor="#aaaaaa" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:text="例如：一楼办公室-添加智能锁"
-            android:textColor="#666666"
-            android:textSize="10sp" />
+            android:background="#141313"
+            android:padding="10dp" />
 
     </LinearLayout>
 
-    <com.zt.yavon.module.main.roommanager.add.adapter.RvRoomAdd
+    <com.zt.yavon.module.main.roommanager.selecticon.adapter.RvSelectIcon
         android:id="@+id/rv_room_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

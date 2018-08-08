@@ -10,9 +10,15 @@ public interface AddDeviceContract {
         void returnAddDeviceData(List<AddDeviceBean> data);
 
         void errorAddDeviceData(String message);
+
+        void returnSetDeviceData();
+
+        void errorSetDeviceData(String message);
     }
 
     abstract class Presenter extends BasePresenter<View> {
         public abstract void getAddDeviceData();
+
+        public abstract void setAddDeviceData(String selectMachineIds);
     }
 }

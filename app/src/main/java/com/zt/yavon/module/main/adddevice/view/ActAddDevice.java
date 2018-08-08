@@ -1,32 +1,25 @@
 package com.zt.yavon.module.main.adddevice.view;
 
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.main.adddevice.adapter.RvAddDevice;
 import com.zt.yavon.module.main.adddevice.contract.AddDeviceContract;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.adddevice.presenter.AddDevicePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
 public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements AddDeviceContract.View {
-    @BindView(R.id.cb_1)
-    CheckBox cb1;
-    @BindView(R.id.cb_2)
-    CheckBox cb2;
-    @BindView(R.id.cb_3)
-    CheckBox cb3;
-    @BindView(R.id.cb_4)
-    CheckBox cb4;
-    @BindView(R.id.cb_group_1)
-    CheckBox cbGroup1;
-    @BindView(R.id.cb_group_2)
-    CheckBox cbGroup2;
+
+    @BindView(R.id.rv_add_device)
+    RvAddDevice rvAddDevice;
 
     @Override
     public int getLayoutId() {
@@ -38,92 +31,63 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
         mPresenter.setVM(this);
     }
 
-    private CompoundButton.OnCheckedChangeListener mCbGroup1Listener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            cb1.setChecked(isChecked);
-            cb2.setChecked(isChecked);
-        }
-    };
-    private CompoundButton.OnCheckedChangeListener mCbGroup2Listener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            cb3.setChecked(isChecked);
-            cb4.setChecked(isChecked);
-        }
-    };
 
     @Override
     public void initView() {
         setTitle("添加设备");
         setRightMenuText("完成");
-        cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
-        cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
-        cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    cbGroup1.setOnCheckedChangeListener(null);
-                    cbGroup1.setChecked(false);
-                    cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
-                }
-            }
-        });
-        cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    cbGroup1.setOnCheckedChangeListener(null);
-                    cbGroup1.setChecked(false);
-                    cbGroup1.setOnCheckedChangeListener(mCbGroup1Listener);
-                }
-            }
-        });
-        cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    cbGroup2.setOnCheckedChangeListener(null);
-                    cbGroup2.setChecked(false);
-                    cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
-                }
-            }
-        });
-        cb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    cbGroup2.setOnCheckedChangeListener(null);
-                    cbGroup2.setChecked(false);
-                    cbGroup2.setOnCheckedChangeListener(mCbGroup2Listener);
-                }
-            }
-        });
         findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                List<DeviceItemBean> checkedBeans = new ArrayList<>();
-//                if (cb1.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-//                if (cb2.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "办公室", true, DeviceEnum.Lamp));
-//                if (cb3.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-//                if (cb4.isChecked())
-//                    checkedBeans.add(new DeviceItemBean("", "会议室", true, DeviceEnum.Lamp));
-//                setResult(RESULT_OK, (Serializable) checkedBeans);
-//                finish();
+                StringBuilder sb = new StringBuilder();
+                List<AddDeviceBean> items = rvAddDevice.mAdapter.getData();
+                if (items != null) {
+                    for (int i = 0; i < items.size(); i++) {
+                        AddDeviceBean item = items.get(i);
+                        List<AddDeviceBean.MachineBean> childItems = item.getSubItems();
+                        if (childItems != null) {
+                            for (int j = 0; j < childItems.size(); j++) {
+                                AddDeviceBean.MachineBean childItem = childItems.get(j);
+                                if (j == childItems.size() - 1) {
+                                    sb.append(childItem.machine_id);
+                                } else {
+                                    sb.append(childItem.machine_id);
+                                    sb.append(",");
+                                }
+                            }
+                        }
+                    }
+                }
+                mPresenter.setAddDeviceData(sb.toString());
             }
         });
+        mPresenter.getAddDeviceData();
     }
 
     @Override
     public void returnAddDeviceData(List<AddDeviceBean> data) {
-
+        List<MultiItemEntity> beans = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            AddDeviceBean bean = data.get(i);
+            bean.setSubItems(bean.machines);
+            beans.add(bean);
+        }
+        rvAddDevice.setData(beans);
     }
 
     @Override
     public void errorAddDeviceData(String message) {
+        ToastUtil.showLong(this, message);
+    }
 
+    @Override
+    public void returnSetDeviceData() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void errorSetDeviceData(String message) {
+        ToastUtil.showLong(this, message);
     }
 }

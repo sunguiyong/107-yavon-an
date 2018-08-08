@@ -27,6 +27,7 @@ import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         ivSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).startActForResult(RoomActivity.class, MainActivity.REQUEST_CODE_ADD_ROOM);
+                ((MainActivity) getActivity()).startActForResult(RoomActivity.class, MainActivity.REQUEST_CODE_ADD_ROOM, (Serializable) mTabData);
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -98,8 +99,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                                 @Override
                                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                     BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                                    /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                                    drawable.setBounds(0, 0, 60, 60);
+                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
                                     slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
                                 }
                             });
@@ -178,8 +179,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                            /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                            drawable.setBounds(0, 0, 60, 60);
+                            slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
+                            // slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
                         }
                     });

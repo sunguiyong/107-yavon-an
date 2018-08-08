@@ -1,8 +1,6 @@
-package com.zt.yavon.module.main.roommanager.add.adapter;
+package com.zt.yavon.module.main.roommanager.selecticon.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.AttributeSet;
@@ -10,8 +8,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
@@ -21,16 +17,16 @@ import com.zt.yavon.widget.RvBase;
  * Author: Administrator
  * Date: 2018/7/17
  */
-public class RvRoomAdd extends RvBase<RoomItemBean> {
-    public RvRoomAdd(Context context) {
+public class RvSelectIcon extends RvBase<RoomItemBean> {
+    public RvSelectIcon(Context context) {
         super(context);
     }
 
-    public RvRoomAdd(Context context, @Nullable AttributeSet attrs) {
+    public RvSelectIcon(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RvRoomAdd(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public RvSelectIcon(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -54,11 +50,7 @@ public class RvRoomAdd extends RvBase<RoomItemBean> {
             Glide.with(getContext()).load(bean.icon_select).into(iv);
             cb.setChecked(true);
         } else {
-            if (holder.getLayoutPosition() == mAdapter.getItemCount() - 1) {
-                Glide.with(getContext()).load(R.mipmap.ic_add).into(iv);
-            } else {
-                Glide.with(getContext()).load(bean.icon).into(iv);
-            }
+            Glide.with(getContext()).load(bean.icon).into(iv);
         }
     }
 

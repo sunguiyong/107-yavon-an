@@ -5,9 +5,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.main.roommanager.list.model.RoomBean;
+import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
@@ -37,17 +38,18 @@ public class ActRoomDetail extends BaseActivity {
     @Override
     public void initView() {
         setTitle("房间详情");
-        RoomBean bean = (RoomBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-        tvRoomName.setText(bean.mName);
-        ivRoom.setImageResource(bean.mResId);
-        // TODO setData
-//        rvRoomDevice.setData(DeviceItemBean.data);
+        TabBean tabBean = (TabBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+        tvRoomName.setText(tabBean.name);
+        Glide.with(this).load(tabBean.icon_select).into(ivRoom);
+        rvRoomDevice.setData(tabBean.machines);
+        tvCount.setText("已移入" + tabBean.getMachineSize() + "个设备");
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.createEtDialog(ActRoomDetail.this,false, "重命名", bean.mName, new DialogUtil.OnComfirmListening2() {
+                DialogUtil.createEtDialog(ActRoomDetail.this,false, "重命名", tabBean.name, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
+                        // TODO call api
                         tvRoomName.setText(data);
                     }
                 });

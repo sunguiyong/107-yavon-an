@@ -27,6 +27,7 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
     public static final int REQUEST_CODE_ADD_ROOM = 20001;
+    public static final int REQUEST_CODE_ADD_DEVICE = 20002;
     @BindView(android.R.id.tabhost)
     MyFragmentTabHost fragmentTabHost;
     public static final String texts[] = new String[3];
@@ -106,11 +107,12 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_COMMON) {
-                List<TabBean.MachineBean> beans = (List<TabBean.MachineBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
-                FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
-                fmtDevice.addData(beans);
+            if (requestCode == REQUEST_CODE_ADD_DEVICE) {
+//                List<TabBean.MachineBean> beans = (List<TabBean.MachineBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+//                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+//                FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
+//                fmtDevice.addData(beans);
+                // TODO refresh ttt
             } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
 //                RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
                 HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);

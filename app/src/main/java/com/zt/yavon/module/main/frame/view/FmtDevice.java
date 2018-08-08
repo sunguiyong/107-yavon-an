@@ -85,7 +85,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
                 if (item.isLastOne) {
-                    ((MainActivity) getActivity()).startActForResult(ActAddDevice.class);
+                    ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
                 } else {
                     if (view.getId() == R.id.ll_center) {
                         if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {

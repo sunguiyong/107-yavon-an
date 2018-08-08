@@ -13,6 +13,7 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
+import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 
 import java.io.IOException;
 import java.util.List;
@@ -259,6 +260,18 @@ public class Api {
         return getRxApi().getRoomList(token,from).compose(RxSchedulers.<List<TabBean>>handleResult());
     }
     public static Observable<DevDetailBean> renameDev(String token,String id,String name) {
-        return getRxApi().renameDev(token,id,name).compose(RxSchedulers.<DevDetailBean>handleResult());
+        return getRxApi().renameDev(token, id, name).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+
+    public static Observable<BaseResponse> setAddDeviceData(String token, String selectMachineIds) {
+        return getRxApi().setAddDeviceData(token, selectMachineIds).compose(RxSchedulers.io_main());
+    }
+
+    public static Observable<List<RoomItemBean>> getAllRoomData(String token) {
+        return getRxApi().getAllRoomData(token).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
+        return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());
     }
 }
