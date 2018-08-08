@@ -176,14 +176,30 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             return;
         }
         mTabData = data;
+        if (viewPager.getAdapter() != null) {
+            FragmentManager fm = mActivity.getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
+                Fragment item = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(i);
+                ft.remove(item);
+            }
+            ft.commitNowAllowingStateLoss();
+            viewPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.getAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+
         if(fmts == null){
             fmts = new ArrayList<>();
         }else if(fmts.size() > 0){
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            for(Fragment fragment:fmts){
-                transaction.remove(fragment);
-            }
-            transaction.commitNowAllowingStateLoss();
+//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//            for(Fragment fragment:fmts){
+//                transaction.remove(fragment);
+//            }
+//            transaction.commitNowAllowingStateLoss();
             fmts.clear();
         }
         String[] titles = new String[data.size()];
@@ -201,22 +217,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             fmt.setArguments(bundle);
             fmts.add(fmt);
         }
-        if (viewPager.getAdapter() != null) {
-            FragmentManager fm = mActivity.getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
-                Fragment item = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(i);
-                ft.remove(item);
-            }
-            ft.commitNowAllowingStateLoss();
-        }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
-        viewPager.post(new Runnable() {
-            @Override
-            public void run() {
-                viewPager.getAdapter().notifyDataSetChanged();
-            }
-        });
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
             String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
             int textColor = i == 0 ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
@@ -262,12 +263,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void doClick(View view) {
         switch (view.getId()) {
             case R.id.iv_scan:
-                mPresenter.getTabData();
-//                ScanCodeActivity.start(getActivity());
+                ScanCodeActivity.start(getActivity());
                 break;
             case R.id.iv_add:
                 mPresenter.getTabData();
-//                DeviceAddActivity.start(getActivity());
+                DeviceAddActivity.start(getActivity());
                 break;
             case R.id.layout_msg:
                 MessageListActivity.startAction(getActivity(), MessageListActivity.TYPE_INTERNAL);
