@@ -12,9 +12,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.roommanager.detail.ActRoomDetail;
+import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
 import com.zt.yavon.widget.RvBase;
 
-public class RvRoomDevice extends RvBase<TabBean.MachineBean> {
+public class RvRoomDevice extends RvBase<RoomDetailBean.MachinesBean> {
     public int mSelectIndex = -1;
 
     public RvRoomDevice(Context context) {
@@ -40,7 +41,7 @@ public class RvRoomDevice extends RvBase<TabBean.MachineBean> {
     }
 
     @Override
-    public void customConvert(BaseViewHolder holder, TabBean.MachineBean bean) {
+    public void customConvert(BaseViewHolder holder, RoomDetailBean.MachinesBean bean) {
         holder.setText(R.id.tv_name, bean.name)
                 .setText(R.id.tv_status, bean.isPowerOn() ? "设备开启" : "设备关闭");
         Glide.with(getContext()).load(bean.icon).into((ImageView) holder.getView(R.id.iv_icon));
