@@ -12,7 +12,7 @@ public class RoomDetailPresenter extends RoomDetailContract.Presenter {
 
     @Override
     public void modifyRoom(int roomId, String newName, int newIconId) {
-        mRxManage.add(Api.modifyRoom(SPUtil.getToken(mContext), roomId, newName, newIconId)
+        mRxManage.add(Api.modifyRoom(roomId, SPUtil.getToken(mContext), newName, newIconId)
                 .subscribeWith(new RxSubscriber<TabBean>(mContext, true) {
                     @Override
                     protected void _onNext(TabBean response) {

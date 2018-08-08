@@ -321,7 +321,7 @@ public class Api {
         return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());
     }
 
-    public static Observable<TabBean> modifyRoom(String token, int roomId, String newName, int newIconId) {
+    public static Observable<TabBean> modifyRoom(int roomId, String token, String newName, int newIconId) {
         return getRxApi().modifyRoom(roomId, token, newName, newIconId).compose(RxSchedulers.handleResult());
     }
 
@@ -335,5 +335,9 @@ public class Api {
 
     public static Observable<BaseResponse> delDevice(String token, int deviceId) {
         return getRxApi().delDevice(token, deviceId).compose(RxSchedulers.io_main());
+    }
+
+    public static Observable<List<TabBean>> getRoomData(String token, String from) {
+        return getRxApi().getRoomData(token, from).compose(RxSchedulers.handleResult());
     }
 }

@@ -1,5 +1,7 @@
 package com.zt.yavon.module.main.roommanager.detail.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -62,6 +64,10 @@ public class RoomDetailBean {
             }.getType();
 
             return new Gson().fromJson(str, listType);
+        }
+
+        public boolean isPowerOn() {
+            return !TextUtils.isEmpty(status) && status.equals("ON");
         }
     }
 }

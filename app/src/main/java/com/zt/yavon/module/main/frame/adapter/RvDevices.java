@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.frame.view.FmtDevice;
@@ -22,10 +21,8 @@ import com.zt.yavon.module.main.frame.view.MainActivity;
 import com.zt.yavon.widget.RvBase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 public class RvDevices extends RvBase<TabBean.MachineBean> {
     private MainActivity mActivity;
@@ -46,6 +43,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     public void init(Context context) {
         super.init(context);
         mActivity = (MainActivity) context;
+    }
+
+    private boolean mIsOften;
+
+    public void setIsOften(boolean isOften) {
+        mIsOften = isOften;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
             cbPower.setChecked(bean.isPowerOn());
         }
 
-        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne)
+        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne && mIsOften)
                 .setGone(R.id.cb_power, !bean.isLastOne)
                 .setGone(R.id.tv_status, !bean.isLastOne);
         holder.setText(R.id.tv_name, bean.isLastOne ? "添加设备" : bean.name)
@@ -106,9 +109,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
 
     public HashSet<Integer> mSelectList = new HashSet<>();
     private boolean mSelectMode = false;
-    public boolean isSelectMode(){
+    private int mSelectIndex = -1;
+
+    public boolean isSelectMode() {
         return mSelectMode;
     }
+
     public int getSelectCount() {
 //        int selectCount = 0;
 //        for (Integer item : mSelectList) {
@@ -140,7 +146,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     }
 
     public void setItemSelect(int position) {
-        if(mSelectMode){
+        if (mSelectMode) {
             View view = getLayoutManager().findViewByPosition(position);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_power);
             checkBox.setChecked(!checkBox.isChecked());

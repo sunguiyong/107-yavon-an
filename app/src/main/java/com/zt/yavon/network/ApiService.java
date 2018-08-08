@@ -762,7 +762,7 @@ public interface ApiService {
 
     @PATCH("api/room/{room_id}")
     @FormUrlEncoded
-    Observable<BaseResponse<TabBean>> modifyRoom(@Path("room_id") int roomId, @Field("api_token") String token, @Field("api_token") String newName, @Field("api_token") int newIconId);
+    Observable<BaseResponse<TabBean>> modifyRoom(@Path("room_id") int roomId, @Field("api_token") String token, @Field("name") String newName, @Field("icon_id") int newIconId);
 
     @GET("api/room/{room_id}")
     Observable<BaseResponse<RoomDetailBean>> getRoomDetail(@Path("room_id") int roomId, @Query("api_token") String token);
@@ -774,4 +774,10 @@ public interface ApiService {
     @HTTP(method = "DELETE", path = "api/machines/delete", hasBody = true)
     @FormUrlEncoded
     Observable<BaseResponse> delDevice(@Field("api_token") String token, @Field("machine_ids") int deviceId);
+
+    @GET("api/room")
+    Observable<BaseResponse<List<TabBean>>> getRoomData(
+            @Query("api_token") String api_token,
+            @Query("from") String from
+    );
 }

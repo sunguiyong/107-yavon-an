@@ -40,6 +40,8 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     RoomDetailBean mRoomDetailBean;
     int mTempIconId;
     Dialog dialog;
+    int mDeviceCount;
+
     @Override
     public int getLayoutId() {
         return R.layout.act_room_detail_layout;
@@ -56,8 +58,8 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         mTabBean = (TabBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
         tvRoomName.setText(mTabBean.name);
         Glide.with(this).load(mTabBean.icon_select).into(ivRoom);
-        rvRoomDevice.setData(mTabBean.machines);
-        tvCount.setText("已移入" + mTabBean.getMachineSize() + "个设备");
+        mDeviceCount = mTabBean.getMachineSize();
+        tvCount.setText("已移入" + mDeviceCount + "个设备");
         mPresenter.getRoomDetail(mTabBean.id);
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +121,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     @Override
     public void returnRoomDetailData(RoomDetailBean data) {
         mRoomDetailBean = data;
+        rvRoomDevice.setData(mRoomDetailBean.machines);
     }
 
     @Override
@@ -141,7 +144,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     @Override
     public void returnDelDevice(BaseResponse data) {
         rvRoomDevice.mAdapter.remove(rvRoomDevice.mSelectIndex);
-        mTabBean.machines = null;
+        tvCount.setText("已移入" + (--mDeviceCount) + "个设备");
         setResult(RESULT_OK, mTabBean);
     }
 

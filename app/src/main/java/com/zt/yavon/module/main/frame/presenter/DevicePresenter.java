@@ -112,7 +112,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
             return;
         }
         TabBean.MachineBean machineBean = beans.get(0);
-        dialog = DialogUtil.createEtDialog(mContext,false, "重命名", machineBean.name, new DialogUtil.OnComfirmListening2() {
+        dialog = DialogUtil.createEtDialog(mContext,true, "重命名", machineBean.name, new DialogUtil.OnComfirmListening2() {
             @Override
             public void confirm(String data) {
                 mRxManage.add(Api.renameDev(SPUtil.getToken(mContext),beans.get(0).id+"",data)
@@ -148,7 +148,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
             ToastUtil.showLong(mContext, "设备管理员不需要上报故障");
             return;
         }
-        dialog = DialogUtil.createEtDialog(mContext,false, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
+        dialog = DialogUtil.createEtDialog(mContext,true, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
             @Override
             public void confirm(String data) {
                 mRxManage.add(Api.uploadFault(SPUtil.getToken(mContext),machineBean.id+"",data)

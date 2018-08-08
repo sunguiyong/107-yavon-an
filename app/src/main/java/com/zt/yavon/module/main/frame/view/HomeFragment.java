@@ -1,9 +1,12 @@
 package com.zt.yavon.module.main.frame.view;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,7 +31,6 @@ import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
-import com.zt.yavon.utils.DialogUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,7 +99,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
             @Override
             public void onPageSelected(int position) {
-                ((FmtDevice)fmts.get(position)).exitMultiSelectMode();
+                ((FmtDevice) fmts.get(position)).exitMultiSelectMode();
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
                     String resUrl = (i == position ? mTabData.get(i).icon_select : mTabData.get(i).icon);
                     int finalI = i;
@@ -131,32 +133,32 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mMenuWidget.setOnItemClickListener(new MenuWidget.OnItemClickListener() {
             @Override
             public void onRecentClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onRecentClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onRecentClick();
             }
 
             @Override
             public void onMoveClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onMoveClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onMoveClick();
             }
 
             @Override
             public void onRenameClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onRenameClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onRenameClick();
             }
 
             @Override
             public void onShareClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onShareClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onShareClick();
             }
 
             @Override
             public void onDelClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onDelClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onDelClick();
             }
 
             @Override
             public void onReportClick() {
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onReportClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onReportClick();
             }
         });
         mPresenter.getTabData();
@@ -194,12 +196,25 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             titles[i] = showName;
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, data.get(i));
-            Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
+//            Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
+            Fragment fmt = new FmtDevice();
+            fmt.setArguments(bundle);
             fmts.add(fmt);
         }
+        if (viewPager.getAdapter() != null) {
+            FragmentManager fm = mActivity.getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
+                Fragment item = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(i);
+                ft.remove(item);
+            }
+            ft.commitNowAllowingStateLoss();
+        }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
+        viewPager.getAdapter().notifyDataSetChanged();
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
             String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
+            int textColor = i == 0 ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
             int finalI = i;
             Glide.with(getActivity()).load(resUrl).asBitmap().
                     into(new SimpleTarget<Bitmap>() {
@@ -210,6 +225,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
                             // slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
+                            slidingTabLayout.getTitleView(finalI).setTextColor(textColor);
                         }
                     });
         }

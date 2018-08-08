@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -15,13 +14,10 @@ import com.common.base.utils.DensityUtil;
 import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.mall.MallFragment;
 import com.zt.yavon.module.mine.view.MineFragment;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.widget.MyFragmentTabHost;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -34,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private Class fragmentArray[] = {HomeFragment.class, MallFragment.class, MineFragment.class};
     private int[] imageButton = {R.drawable.selector_hometab_home, R.drawable.selector_hometab_mall, R.drawable.selector_hometab_mine};
     private String selectTab;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -59,7 +56,7 @@ public class MainActivity extends BaseActivity {
         fragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                LogUtil.d("=============tab select:"+tabId);
+                LogUtil.d("=============tab select:" + tabId);
                 selectTab = tabId;
             }
         });
@@ -107,20 +104,26 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_ADD_DEVICE) {
+            onRefresh();
+//            if (requestCode == REQUEST_CODE_ADD_DEVICE) {
 //                List<TabBean.MachineBean> beans = (List<TabBean.MachineBean>) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
 //                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
 //                FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
 //                fmtDevice.addData(beans);
-                onRefresh();
+//                onRefresh();
                 // TODO refresh ttt
-            } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
+//            } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
 //                RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
 //                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
 //                TabItemBean bean = new TabItemBean("", item.mName, item.mCheckedResId, item.mUncheckedResId);
 //                fmtHome.addTab();
-                onRefresh();
-            }
+//                onRefresh();
+//                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+//                fmtHome.refreshData();
+//            } else if (requestCode == REQUEST_CODE_ADD_ROOM) {
+//                HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+//                fmtHome.refreshData();
+//            }
         }
     }
     public void onRefresh(){
@@ -134,10 +137,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
-        if(fmtHome != null && fmtHome.isVisible()){
-            if(fmtHome.fmts != null){
+        if (fmtHome != null && fmtHome.isVisible()) {
+            if (fmtHome.fmts != null) {
                 FmtDevice fmtDev = (FmtDevice) fmtHome.fmts.get(fmtHome.viewPager.getCurrentItem());
-                if(fmtDev != null && fmtDev.isMenuShown()){
+                if (fmtDev != null && fmtDev.isMenuShown()) {
                     fmtDev.exitMultiSelectMode();
                     return;
                 }
