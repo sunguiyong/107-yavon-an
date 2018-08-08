@@ -1,4 +1,4 @@
-package com.zt.yavon.module.main.roommanager.detail;
+package com.zt.yavon.module.main.roommanager.detail.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -11,9 +11,12 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.main.roommanager.detail.ActRoomDetail;
 import com.zt.yavon.widget.RvBase;
 
 public class RvRoomDevice extends RvBase<TabBean.MachineBean> {
+    public int mSelectIndex = -1;
+
     public RvRoomDevice(Context context) {
         super(context);
     }
@@ -44,7 +47,8 @@ public class RvRoomDevice extends RvBase<TabBean.MachineBean> {
         holder.setOnClickListener(R.id.iv_del, new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.remove(holder.getLayoutPosition());
+                mSelectIndex = holder.getLayoutPosition();
+                ((ActRoomDetail) getContext()).mPresenter.delDevice(bean.id);
             }
         });
     }

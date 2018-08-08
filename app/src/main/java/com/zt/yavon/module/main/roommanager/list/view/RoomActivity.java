@@ -21,6 +21,9 @@ import butterknife.BindView;
 
 public class RoomActivity extends BaseActivity {
 
+    private static final int REQUEST_CODE_ADD_ROOM = 2001;
+    private static final int REQUEST_CODE_MODIFY_ROOM = 2002;
+
     @BindView(R.id.rv_room)
     RvRoom rvRoom;
 
@@ -36,7 +39,7 @@ public class RoomActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_COMMON && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ADD_ROOM && resultCode == RESULT_OK) {
             RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
             TabBean localBean = new TabBean();
             localBean.id = item.id;
@@ -45,6 +48,18 @@ public class RoomActivity extends BaseActivity {
             localBean.icon = item.icon;
             rvRoom.addData(localBean);
             setResult(RESULT_OK, item);
+        } else if (requestCode == REQUEST_CODE_MODIFY_ROOM && resultCode == RESULT_OK) {
+            TabBean item;
+            try {
+                item = (TabBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+            } catch (Exception e) {
+                item = null;
+            }
+            if (item == null) {
+                rvRoom.mAdapter.remove(mSelectPosition);
+            } else {
+                rvRoom.mAdapter.notifyItemChanged(mSelectPosition, item);
+            }
         }
     }
 
@@ -57,17 +72,20 @@ public class RoomActivity extends BaseActivity {
     public void initPresenter() {
     }
 
+    private int mSelectPosition = -1;
+
     @Override
     public void initView() {
         setTitle("房间管理");
         setRightMenuText("添加房间");
         findViewById(R.id.tv_right_header).setOnClickListener(v -> {
-            startActForResult(ActAllRoom.class);
+            startActForResult(ActAllRoom.class, REQUEST_CODE_ADD_ROOM);
         });
         rvRoom.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startAct(ActRoomDetail.class, (TabBean) adapter.getItem(position));
+                mSelectPosition = position;
+                startActForResult(ActRoomDetail.class, REQUEST_CODE_MODIFY_ROOM, (TabBean) adapter.getItem(position));
             }
         });
     }

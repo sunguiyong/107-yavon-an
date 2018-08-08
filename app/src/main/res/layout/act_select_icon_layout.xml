@@ -43,6 +43,5 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/shape_stroke_green"
         android:text="确定"
-        android:textColor="#4EC9BA"
-        android:visibility="gone" />
+        android:textColor="#4EC9BA" />
 </LinearLayout>

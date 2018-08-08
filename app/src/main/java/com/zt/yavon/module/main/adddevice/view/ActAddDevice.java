@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.adddevice.view;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.zt.yavon.module.main.adddevice.adapter.RvAddDevice.ITEM_TYPE_CHILD;
 
 public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements AddDeviceContract.View {
 
@@ -40,25 +43,23 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
             @Override
             public void onClick(View v) {
                 StringBuilder sb = new StringBuilder();
-                List<AddDeviceBean> items = rvAddDevice.mAdapter.getData();
+                List<MultiItemEntity> items = rvAddDevice.mAdapter.getData();
                 if (items != null) {
                     for (int i = 0; i < items.size(); i++) {
-                        AddDeviceBean item = items.get(i);
-                        List<AddDeviceBean.MachineBean> childItems = item.getSubItems();
-                        if (childItems != null) {
-                            for (int j = 0; j < childItems.size(); j++) {
-                                AddDeviceBean.MachineBean childItem = childItems.get(j);
-                                if (j == childItems.size() - 1) {
-                                    sb.append(childItem.machine_id);
-                                } else {
-                                    sb.append(childItem.machine_id);
-                                    sb.append(",");
-                                }
-                            }
+                        MultiItemEntity item = items.get(i);
+                        if (item.getItemType() == ITEM_TYPE_CHILD) {
+                            AddDeviceBean.MachineBean childItem = (AddDeviceBean.MachineBean) item;
+                            sb.append(childItem.machine_id);
+                            sb.append(",");
+                        } else {
+                            continue;
                         }
                     }
                 }
-                mPresenter.setAddDeviceData(sb.toString());
+                String ids = sb.toString();
+                if (!TextUtils.isEmpty(ids)) {
+                    mPresenter.setAddDeviceData(sb.toString().substring(0, ids.length() - 1));
+                }
             }
         });
         mPresenter.getAddDeviceData();

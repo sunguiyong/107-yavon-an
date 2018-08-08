@@ -12,12 +12,14 @@ import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
+import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -677,4 +679,19 @@ public interface ApiService {
     @POST("api/room/add")
     @FormUrlEncoded
     Observable<BaseResponse<RoomItemBean>> addRoom(@Field("api_token") String token, @Field("name") String roomName, @Field("icon_id") int roomResId);
+
+    @PATCH("api/room/{room_id}")
+    @FormUrlEncoded
+    Observable<BaseResponse<TabBean>> modifyRoom(@Path("room_id") int roomId, @Field("api_token") String token, @Field("api_token") String newName, @Field("api_token") int newIconId);
+
+    @GET("api/room/{room_id}")
+    Observable<BaseResponse<RoomDetailBean>> getRoomDetail(@Path("room_id") int roomId, @Query("api_token") String token);
+
+    @HTTP(method = "DELETE", path = "api/room/{room_id}", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> delRoom(@Path("room_id") int roomId, @Field("api_token") String token);
+
+    @HTTP(method = "DELETE", path = "api/machines/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> delDevice(@Field("api_token") String token, @Field("machine_ids") int deviceId);
 }

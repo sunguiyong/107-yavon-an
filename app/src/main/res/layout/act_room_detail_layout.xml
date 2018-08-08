@@ -85,7 +85,7 @@
         android:text="已移入2个设备"
         android:textColor="#ababab" />
 
-    <com.zt.yavon.module.main.roommanager.detail.RvRoomDevice
+    <com.zt.yavon.module.main.roommanager.detail.adapter.RvRoomDevice
         android:id="@+id/rv_room_device"
         android:layout_width="match_parent"
         android:layout_height="0dip"

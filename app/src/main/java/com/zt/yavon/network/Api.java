@@ -14,6 +14,7 @@ import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
+import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,11 +27,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class Api {
-//    public static final String HOST = "https://s1.zetadata.com.cn/";//测试
+    //    public static final String HOST = "https://s1.zetadata.com.cn/";//测试
 //    public static final String HOST_H5 = "https://s1.zetadata.com.cn/";//测试
     public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
     public static final String HOST_H5 = "https://ecseal.cn/";//正式环境
-//    private static Retrofit mRetrofit;
+    //    private static Retrofit mRetrofit;
     private static ApiService mAPI;
 //    private static Gson mGson;
 
@@ -105,95 +106,125 @@ public class Api {
                 .create(ApiService.class);
         return mAPI;
     }
-    public static Observable<BaseResponse> sendCode(String account,String type,String api_token) {
-        return getRxApi().sendCode(account, type,api_token).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> sendCode(String account, String type, String api_token) {
+        return getRxApi().sendCode(account, type, api_token).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<LoginBean> register(String mobile,String code,String password,String confirmPwd) {
-        return getRxApi().register(mobile, code,password,confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> register(String mobile, String code, String password, String confirmPwd) {
+        return getRxApi().register(mobile, code, password, confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<BaseResponse> resetPwd(String account,String code,String password,String confirmPwd) {
-        return getRxApi().resetPwd(account, code,password,confirmPwd).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> resetPwd(String account, String code, String password, String confirmPwd) {
+        return getRxApi().resetPwd(account, code, password, confirmPwd).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<LoginBean> login(String account,String pwd) {
-        return getRxApi().login(account,pwd).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> login(String account, String pwd) {
+        return getRxApi().login(account, pwd).compose(RxSchedulers.<LoginBean>handleResult());
     }
+
     public static Observable<LoginBean> personalInfo(String token) {
         return getRxApi().personalInfo(token).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> bindEmail(String token,String email) {
-        return getRxApi().bindEmail(token,email).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> bindEmail(String token, String email) {
+        return getRxApi().bindEmail(token, email).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> modifyEmail(String token,String account,String code,String email,String emailConfirm) {
-        return getRxApi().modifyEmail(token,account,code,email,emailConfirm).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> modifyEmail(String token, String account, String code, String email, String emailConfirm) {
+        return getRxApi().modifyEmail(token, account, code, email, emailConfirm).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> modifyPhone(String token,String account,String code,String mobile,String mobileConfirm) {
-        return getRxApi().modifyPhone(token,account,code,mobile,mobileConfirm).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> modifyPhone(String token, String account, String code, String mobile, String mobileConfirm) {
+        return getRxApi().modifyPhone(token, account, code, mobile, mobileConfirm).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> modifyNickname(String token,String nickname) {
-        return getRxApi().modifyNickname(token,nickname).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> modifyNickname(String token, String nickname) {
+        return getRxApi().modifyNickname(token, nickname).compose(RxSchedulers.<LoginBean>handleResult());
     }
-    public static Observable<LoginBean> sysSetting(String token,String msgSwitch,String updateSwitch) {
-        return getRxApi().sysSetting(token,msgSwitch,updateSwitch).compose(RxSchedulers.<LoginBean>handleResult());
+
+    public static Observable<LoginBean> sysSetting(String token, String msgSwitch, String updateSwitch) {
+        return getRxApi().sysSetting(token, msgSwitch, updateSwitch).compose(RxSchedulers.<LoginBean>handleResult());
     }
+
     public static Observable<List<MsgBean>> getInternalMsgList(String token, String page, String per_page) {
         return getRxApi().getInternalMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
+
     public static Observable<List<MsgBean>> getSysMsgList(String token, String page, String per_page) {
-        return getRxApi().getSysMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+        return getRxApi().getSysMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
+
     public static Observable<List<MsgBean>> getFaultsMsgList(String token, String page, String per_page) {
-        return getRxApi().getFaultsMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+        return getRxApi().getFaultsMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
+
     public static Observable<List<MsgBean>> getShareMsgList(String token, String page, String per_page) {
-        return getRxApi().getShareMsgList(token,page,per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
+        return getRxApi().getShareMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
+
     public static Observable<List<MsgBean>> getNotifications(String token) {
         return getRxApi().getNotifications(token).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
-    public static Observable<BaseResponse> setAvatar(String token,String base64String) {
-        return getRxApi().setAvatar(token,base64String).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> setAvatar(String token, String base64String) {
+        return getRxApi().setAvatar(token, base64String).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> deleteInternalMsg(String token,String ids) {
-        return getRxApi().deleteInternalMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> deleteInternalMsg(String token, String ids) {
+        return getRxApi().deleteInternalMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> deleteSystemMsg(String token,String ids) {
-        return getRxApi().deleteSystemMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> deleteSystemMsg(String token, String ids) {
+        return getRxApi().deleteSystemMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> deleteFaultMsg(String token,String ids) {
-        return getRxApi().deleteFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> deleteFaultMsg(String token, String ids) {
+        return getRxApi().deleteFaultMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> readInternalMsg(String token,String ids) {
-        return getRxApi().readInternalMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> readInternalMsg(String token, String ids) {
+        return getRxApi().readInternalMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> readSystemMsg(String token,String ids) {
-        return getRxApi().readSystemMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> readSystemMsg(String token, String ids) {
+        return getRxApi().readSystemMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> doFaultMsg(String id,String token,String status) {
-        return getRxApi().doFaultMsg(id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> doFaultMsg(String id, String token, String status) {
+        return getRxApi().doFaultMsg(id, token, status).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> doShareMsg(String id,String token,String status) {
-        return getRxApi().doShareMsg(id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> doShareMsg(String id, String token, String status) {
+        return getRxApi().doShareMsg(id, token, status).compose(RxSchedulers.<BaseResponse>io_main());
     }
+
     public static Observable<List<MineRoomBean>> getAllDevs(String token) {
         return getRxApi().getAllDevs(token).compose(RxSchedulers.<List<MineRoomBean>>handleResult());
     }
-    public static Observable<ShareListBean> getShareList(String token,String machineId) {
-        return getRxApi().getShareList(machineId,token).compose(RxSchedulers.<ShareListBean>handleResult());
+
+    public static Observable<ShareListBean> getShareList(String token, String machineId) {
+        return getRxApi().getShareList(machineId, token).compose(RxSchedulers.<ShareListBean>handleResult());
     }
+
     public static Observable<BaseResponse> shareDev(RequestBody expire_value) {
         return getRxApi().shareDev(expire_value).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> shareAuthor(String token,String machineId,String mobile,String start,String end) {
-        return getRxApi().shareAuthor(token,machineId,mobile,start,end).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> shareAuthor(String token, String machineId, String mobile, String start, String end) {
+        return getRxApi().shareAuthor(token, machineId, mobile, start, end).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> cancleDevShare(String token,String machineId,String userId) {
-        return getRxApi().cancleDevShare(machineId,userId,token).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> cancleDevShare(String token, String machineId, String userId) {
+        return getRxApi().cancleDevShare(machineId, userId, token).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> readFaultMsg(String token,String ids) {
-        return getRxApi().readFaultMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> readFaultMsg(String token, String ids) {
+        return getRxApi().readFaultMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<BaseResponse> readShareMsg(String token,String ids) {
-        return getRxApi().readShareMsg(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> readShareMsg(String token, String ids) {
+        return getRxApi().readShareMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
 
     public static Observable<List<TabBean>> getTabData(String token) {
@@ -203,45 +234,57 @@ public class Api {
     public static Observable<List<AddDeviceBean>> getAddDeviceData(String token) {
         return getRxApi().getAddDeviceData(token).compose(RxSchedulers.handleResult());
     }
-    public static Observable<List<CatogrieBean>> getCatogries(String token,String type) {
-        return getRxApi().getCatogries(token,type).compose(RxSchedulers.<List<CatogrieBean>>handleResult());
+
+    public static Observable<List<CatogrieBean>> getCatogries(String token, String type) {
+        return getRxApi().getCatogries(token, type).compose(RxSchedulers.<List<CatogrieBean>>handleResult());
     }
-    public static Observable<BaseResponse> bindDev(String token,String name,String asset_number,String sn,String category_id,String room_id,String type,String lockId,String password) {
-        return getRxApi().bindDev(token,name,asset_number,sn,category_id,room_id,type,lockId,password).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> bindDev(String token, String name, String asset_number, String sn, String category_id, String room_id, String type, String lockId, String password) {
+        return getRxApi().bindDev(token, name, asset_number, sn, category_id, room_id, type, lockId, password).compose(RxSchedulers.<BaseResponse>io_main());
     }
 
     public static Observable<DevDetailBean> getDevDetail(String id, String token) {
-        return getRxApi().getDevDetail(id,token).compose(RxSchedulers.<DevDetailBean>handleResult());
+        return getRxApi().getDevDetail(id, token).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
-    public static Observable<BaseResponse> switchDev(String machine_id, String token,String status) {
-        return getRxApi().switchDev(machine_id,token,status).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> switchDev(String machine_id, String token, String status) {
+        return getRxApi().switchDev(machine_id, token, status).compose(RxSchedulers.<BaseResponse>io_main());
     }
+
     public static Observable<List<DevTypeBean>> getMachineTypes(String token) {
         return getRxApi().getMachineTypes(token).compose(RxSchedulers.<List<DevTypeBean>>handleResult());
     }
+
     public static Observable<BaseResponse> applyDev(RequestBody body) {
         return getRxApi().applyDev(body).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<DeskBean> getDefaultHeiht(String machine_id,String token) {
-        return getRxApi().getDefaultHeiht(machine_id,token).compose(RxSchedulers.<DeskBean>handleResult());
+
+    public static Observable<DeskBean> getDefaultHeiht(String machine_id, String token) {
+        return getRxApi().getDefaultHeiht(machine_id, token).compose(RxSchedulers.<DeskBean>handleResult());
     }
-    public static Observable<BaseResponse> startDeskMove(String machine_id,String token,String direction) {
-        return getRxApi().startDeskMove(machine_id,token,direction).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> startDeskMove(String machine_id, String token, String direction) {
+        return getRxApi().startDeskMove(machine_id, token, direction).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<DeskBean> stopDeskMove(String machine_id,String token) {
-        return getRxApi().stopDeskMove(machine_id,token).compose(RxSchedulers.<DeskBean>handleResult());
+
+    public static Observable<DeskBean> stopDeskMove(String machine_id, String token) {
+        return getRxApi().stopDeskMove(machine_id, token).compose(RxSchedulers.<DeskBean>handleResult());
     }
-    public static Observable<BaseResponse> setDeskHeight(String machine_id,String token,String height) {
-        return getRxApi().setDeskHeight(machine_id,token,height).compose(RxSchedulers.<BaseResponse>io_main());
+
+    public static Observable<BaseResponse> setDeskHeight(String machine_id, String token, String height) {
+        return getRxApi().setDeskHeight(machine_id, token, height).compose(RxSchedulers.<BaseResponse>io_main());
     }
-    public static Observable<DevDetailBean> setDeskCustomHeightTag(String machine_id,RequestBody body) {
-        return getRxApi().setDeskCustomHeightTag(machine_id,body).compose(RxSchedulers.<DevDetailBean>handleResult());
+
+    public static Observable<DevDetailBean> setDeskCustomHeightTag(String machine_id, RequestBody body) {
+        return getRxApi().setDeskCustomHeightTag(machine_id, body).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
-    public static Observable<DevDetailBean> setSeatTime(String token,String machine_id,String hour) {
-        return getRxApi().setSeatTime(token,machine_id,hour).compose(RxSchedulers.<DevDetailBean>handleResult());
+
+    public static Observable<DevDetailBean> setSeatTime(String token, String machine_id, String hour) {
+        return getRxApi().setSeatTime(token, machine_id, hour).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
-    public static Observable<DevDetailBean> setDeskRemindSwitch(String machine_id,String token,String isOn) {
-        return getRxApi().setDeskRemindSwitch(machine_id,token,isOn).compose(RxSchedulers.<DevDetailBean>handleResult());
+
+    public static Observable<DevDetailBean> setDeskRemindSwitch(String machine_id, String token, String isOn) {
+        return getRxApi().setDeskRemindSwitch(machine_id, token, isOn).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
 
     public static Observable<BaseResponse> setAddDeviceData(String token, String selectMachineIds) {
@@ -254,5 +297,21 @@ public class Api {
 
     public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
         return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<TabBean> modifyRoom(String token, int roomId, String newName, int newIconId) {
+        return getRxApi().modifyRoom(roomId, token, newName, newIconId).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<RoomDetailBean> getRoomDetail(String token, int roomId) {
+        return getRxApi().getRoomDetail(roomId, token).compose(RxSchedulers.handleResult());
+    }
+
+    public static Observable<BaseResponse> delRoom(String token, int roomId) {
+        return getRxApi().delRoom(roomId, token).compose(RxSchedulers.io_main());
+    }
+
+    public static Observable<BaseResponse> delDevice(String token, int deviceId) {
+        return getRxApi().delDevice(token, deviceId).compose(RxSchedulers.io_main());
     }
 }

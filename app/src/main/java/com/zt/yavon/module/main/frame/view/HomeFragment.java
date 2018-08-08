@@ -110,7 +110,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         String[] titles = new String[data.size()];
 
         for (int i = 0; i < data.size(); i++) {
-            titles[i] = data.get(i).name;
+            String showName = data.get(i).name;
+            if (showName.length() > 3) {
+                showName = showName.substring(0, 3) + "...";
+            }
+            titles[i] = showName;
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, data.get(i));
             Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
