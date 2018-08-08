@@ -48,8 +48,8 @@ public class RvDialogTab extends RvBase<TabBean> {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         BitmapDrawable drawable = new BitmapDrawable(getContext().getResources(), resource);
-                        /// 这一步必须要做,否则不会显示.                  drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-                        checkBox.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                        drawable.setBounds(0, 0, 60, 60);
+                        checkBox.setCompoundDrawables(drawable, null, null, null);
                     }
                 });
         holder.setText(R.id.checkbox, bean.name);
@@ -61,7 +61,8 @@ public class RvDialogTab extends RvBase<TabBean> {
         mSelectItem = position;
         mAdapter.notifyDataSetChanged();
     }
-    public int getSelectPosition(){
+
+    public int getSelectPosition() {
         return mSelectItem;
     }
 }

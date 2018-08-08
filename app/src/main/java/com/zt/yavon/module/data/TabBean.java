@@ -27,6 +27,7 @@ public class TabBean implements Serializable {
     public String icon_select;
     public String type;
     public List<MachineBean> machines;
+    public int machine_total;
 
     public static TabBean objectFromData(String str) {
 
@@ -42,10 +43,7 @@ public class TabBean implements Serializable {
     }
 
     public int getMachineSize() {
-        if (machines == null) {
-            return 0;
-        }
-        return machines.size();
+        return machine_total;
     }
 
     public static class MachineBean implements Serializable {

@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -49,6 +47,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         mActivity = (MainActivity) context;
     }
 
+    private boolean mIsOften;
+
+    public void setIsOften(boolean isOften) {
+        mIsOften = isOften;
+    }
+
     @Override
     public LayoutManager customSetLayoutManager(Context context) {
         return new GridLayoutManager(context, 2);
@@ -71,7 +75,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
             cbPower.setChecked(bean.isPowerOn());
         }
 
-        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne)
+        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne && mIsOften)
                 .setGone(R.id.cb_power, !bean.isLastOne)
                 .setGone(R.id.tv_status, !bean.isLastOne);
         holder.setText(R.id.tv_name, bean.isLastOne ? "添加设备" : bean.name)
@@ -103,9 +107,11 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     public Hashtable<Integer, Boolean> mSelectMap = new Hashtable<>();
     private boolean mSelectMode = false;
     private int mSelectIndex = -1;
-    public boolean isSelectMode(){
+
+    public boolean isSelectMode() {
         return mSelectMode;
     }
+
     public int getSelectCount() {
         int selectCount = 0;
         for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
@@ -113,7 +119,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                 selectCount++;
             }
         }
-        LogUtil.d("======selectCount:"+selectCount);
+        LogUtil.d("======selectCount:" + selectCount);
         return selectCount;
     }
 
@@ -142,7 +148,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     }
 
     public void setItemSelect(int position) {
-        if(mSelectMode){
+        if (mSelectMode) {
             View view = getLayoutManager().findViewByPosition(position);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_power);
             checkBox.setChecked(!checkBox.isChecked());

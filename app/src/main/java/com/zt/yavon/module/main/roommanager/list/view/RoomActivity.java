@@ -7,19 +7,21 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.TabBean;
-import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.add.view.ActAllRoom;
 import com.zt.yavon.module.main.roommanager.detail.ActRoomDetail;
 import com.zt.yavon.module.main.roommanager.list.adapter.RvRoom;
+import com.zt.yavon.module.main.roommanager.list.contract.RoomContract;
+import com.zt.yavon.module.main.roommanager.list.presenter.RoomPresenter;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class RoomActivity extends BaseActivity {
+public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomContract.View {
 
     private static final int REQUEST_CODE_ADD_ROOM = 2001;
     private static final int REQUEST_CODE_MODIFY_ROOM = 2002;
@@ -27,40 +29,49 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.rv_room)
     RvRoom rvRoom;
 
-    List<TabBean> mTabBeans;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTabBeans = (List<TabBean>) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-        rvRoom.setData(mTabBeans);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_ROOM && resultCode == RESULT_OK) {
-            RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-            TabBean localBean = new TabBean();
-            localBean.id = item.id;
-            localBean.name = item.name;
-            localBean.icon_select = item.icon_select;
-            localBean.icon = item.icon;
-            rvRoom.addData(localBean);
-            setResult(RESULT_OK, item);
-        } else if (requestCode == REQUEST_CODE_MODIFY_ROOM && resultCode == RESULT_OK) {
-            TabBean item;
-            try {
-                item = (TabBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
-            } catch (Exception e) {
-                item = null;
-            }
-            if (item == null) {
-                rvRoom.mAdapter.remove(mSelectPosition);
-            } else {
-                rvRoom.mAdapter.notifyItemChanged(mSelectPosition, item);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_ADD_ROOM || requestCode == REQUEST_CODE_MODIFY_ROOM) {
+                mPresenter.getRoomData();
+                setResult(RESULT_OK);
             }
         }
+//        if (requestCode == REQUEST_CODE_ADD_ROOM && resultCode == RESULT_OK) {
+//            RoomItemBean item = (RoomItemBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+//            TabBean localBean = new TabBean();
+//            localBean.id = item.id;
+//            localBean.name = item.name;
+//            localBean.icon_select = item.icon_select;
+//            localBean.icon = item.icon;
+//            rvRoom.addData(localBean);
+//            setResult(RESULT_OK, item);
+//        } else if (requestCode == REQUEST_CODE_MODIFY_ROOM && resultCode == RESULT_OK) {
+//            TabBean item;
+//            try {
+//                item = (TabBean) data.getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
+//            } catch (Exception e) {
+//                item = null;
+//            }
+//            TabBean finalItem = item;
+//            rvRoom.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (finalItem == null) {
+//                        rvRoom.mAdapter.remove(mSelectPosition);
+//                    } else {
+//                        rvRoom.mAdapter.notifyItemChanged(mSelectPosition, finalItem);
+//                    }
+//                }
+//            });
+//
+//        }
     }
 
     @Override
@@ -70,6 +81,7 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
+        mPresenter.setVM(this);
     }
 
     private int mSelectPosition = -1;
@@ -88,5 +100,17 @@ public class RoomActivity extends BaseActivity {
                 startActForResult(ActRoomDetail.class, REQUEST_CODE_MODIFY_ROOM, (TabBean) adapter.getItem(position));
             }
         });
+        mPresenter.getRoomData();
+    }
+
+    @Override
+    public void returnRoomData(List<TabBean> data) {
+        rvRoom.setData(data);
+    }
+
+    @Override
+    public void errorRoomData(String message) {
+        ToastUtil.showLong(this, message);
+        finish();
     }
 }
