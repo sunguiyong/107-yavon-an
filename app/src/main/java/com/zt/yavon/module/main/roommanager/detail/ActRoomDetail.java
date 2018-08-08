@@ -61,7 +61,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.createEtDialog(ActRoomDetail.this, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
+                DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
                     @Override
                     public void confirm(String data) {
                         if (TextUtils.isEmpty(data)) {

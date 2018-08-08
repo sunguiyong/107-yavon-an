@@ -34,6 +34,8 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
     SwitchCompat switchRemind;
     @BindView(R.id.tv_time_set)
     TextView tvTime;
+    @BindView(R.id.tv_unit_set)
+    TextView tvUnit;
     private Dialog dialog;
     private DevDetailBean machine;
     @Override
@@ -51,7 +53,12 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
     public void initView() {
         setTitle(getString(R.string.title_more));
 //        setRightMenuImage(R.mipmap.more_right);
-        tvTime.setText(machine.getSedentary_time());
+        if(TextUtils.isEmpty(machine.getSedentary_time())){
+            tvUnit.setVisibility(View.GONE);
+        }else{
+            tvTime.setText(machine.getSedentary_time());
+            tvUnit.setVisibility(View.VISIBLE);
+        }
         switchRemind.setChecked(machine.isSedentary_reminder());
     }
 
@@ -108,6 +115,7 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
     @Override
     public void setTimeSuccess(String hour) {
         tvTime.setText(hour);
+        tvUnit.setVisibility(View.VISIBLE);
     }
 
     private void setResultData(){

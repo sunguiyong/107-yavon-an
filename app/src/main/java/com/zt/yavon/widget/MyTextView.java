@@ -34,7 +34,7 @@ public class MyTextView extends TextView{
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        LogUtil.d("==========setText:"+text.toString());
+//        LogUtil.d("==========setText:"+text.toString());
         if(!TextUtils.isEmpty(text.toString()) && text.toString().indexOf("\n") != 4){
             StringBuilder sb = new StringBuilder(text.toString());
             for(int i = 0;i<sb.length();i++){

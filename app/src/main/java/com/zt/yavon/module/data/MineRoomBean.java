@@ -36,7 +36,7 @@ public class MineRoomBean {
         this.machines = machines;
     }
 
-    public class Machine implements Serializable{
+    public static class Machine implements Serializable{
         private String machine_id;
         private String asset_number;
         private String machine_name;

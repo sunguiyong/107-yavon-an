@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.LogUtil;
 import com.tuya.smart.sdk.TuyaDevice;
 import com.tuya.smart.sdk.TuyaUser;
 import com.tuya.smart.sdk.api.IDevListener;
@@ -60,6 +61,8 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
         setTitle(getString(R.string.title_lamp));
         setRightMenuImage(R.mipmap.more_right);
         DeviceBean deviceBean = TuyaUser.getDeviceInstance().getDev(machineBean.asset_number);
+        LogUtil.d("=============asset_number:"+machineBean.asset_number);
+        LogUtil.d("=============deviceBean:"+JSONObject.toJSONString(deviceBean));
         if (deviceBean != null) {
             Boolean isopen = (Boolean) deviceBean.getDps().get("1");
             updateView(isopen);
@@ -111,10 +114,15 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
             case R.id.tv_switch_lamp:
                 DialogUtil.dismiss(dialog);
                 dialog = LoadingDialog.showDialogForLoading(LampDetailActivity.this,"操作中...",true,null);
-                if (tvSwith.isSelected()) {
-                    closeLamp();
-                } else {
-                    openLamp();
+                try{
+                    if (tvSwith.isSelected()) {
+                        closeLamp();
+                    } else {
+                        openLamp();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    DialogUtil.dismiss(dialog);
                 }
                 break;
             case R.id.tv_right_header:

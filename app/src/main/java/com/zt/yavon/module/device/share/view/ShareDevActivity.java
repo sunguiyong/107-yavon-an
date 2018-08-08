@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.tuya.smart.sdk.TuyaDeviceShare;
+import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.api.share.IAddShareForDevsCallback;
 import com.tuya.smart.sdk.bean.AddShareInfoBean;
 import com.tuya.smart.sdk.bean.ShareIdBean;
@@ -188,9 +189,9 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
         }
         String phone = etPhone.getText().toString().trim();
         mPresenter.shareDev(machine.getMachine_id(),phone,type,value);
-        if(Constants.MACHINE_TYPE_LIGHT.equals(machine.getMachine_type())){
-            tuyaShare(phone);
-        }
+//        if(Constants.MACHINE_TYPE_LIGHT.equals(machine.getMachine_type())){
+//            tuyaShare(phone);
+//        }
     }
 
     private void tuyaShare(String phone) {
@@ -204,17 +205,29 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
         }
         List<String> ids = new ArrayList<>();
         ids.add(machine.getAsset_number());
-        TuyaDeviceShare.getInstance().addShareUserForDevs("86", phone, ids, new IAddShareForDevsCallback() {
-            @Override
-            public void onSuccess(AddShareInfoBean bean) {
-                LogUtil.d("===========share success");
-            }
+        TuyaDeviceShare.getInstance().addDevShare(machine.getAsset_number(), Long.parseLong(phone), new IResultCallback() {
 
             @Override
             public void onError(String code, String error) {
                 LogUtil.d("===========share error,code:"+code+",msg:"+error);
             }
+
+            @Override
+            public void onSuccess() {
+                LogUtil.d("===========share success");
+            }
         });
+//        TuyaDeviceShare.getInstance().addShareUserForDevs("86", phone, ids, new IAddShareForDevsCallback() {
+//            @Override
+//            public void onSuccess(AddShareInfoBean bean) {
+//                LogUtil.d("===========share success");
+//            }
+//
+//            @Override
+//            public void onError(String code, String error) {
+//                LogUtil.d("===========share error,code:"+code+",msg:"+error);
+//            }
+//        });
     }
 
     //    public static void startAction(Activity context, String machine_id,int reqCode){
@@ -226,6 +239,11 @@ public class ShareDevActivity extends BaseActivity<ShareDevPresenter> implements
         Intent intent = new Intent(context, ShareDevActivity.class);
         intent.putExtra("machine",bean);
         context.startActivityForResult(intent,reqCode);
+    }
+    public static void startAction(Context context,MineRoomBean.Machine bean){
+        Intent intent = new Intent(context, ShareDevActivity.class);
+        intent.putExtra("machine",bean);
+        context.startActivity(intent);
     }
 
     @Override

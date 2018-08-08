@@ -16,12 +16,16 @@ import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -55,12 +59,12 @@ public class Api {
 //        mGson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         // 用于添加默认请求头的interceptor
-//        Interceptor defaultHeaderInterceptor = new Interceptor() {
-//            @Override
-//            public Response intercept(Interceptor.Chain chain) throws IOException {
-//                Request original = chain.request();
-//
-//                // 添加默认请求头
+        Interceptor defaultHeaderInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Interceptor.Chain chain) throws IOException {
+                Request original = chain.request();
+
+                // 添加默认请求头
 //                String appVersion = DeviceInfoUtil.getVersionName(PuApp.getInstance());//app版本
 //                String clientDevBrand = DeviceInfoUtil.getCarrier();//手机品牌
 //                String clientDevType = DeviceInfoUtil.getModel();//手机机型
@@ -68,23 +72,23 @@ public class Api {
 //                String clientOSVersion = DeviceInfoUtil.getSystemVersion();//系统版本
 //                String clientLong = "0";// 经度 todo
 //                String clientLat = "0";//纬度 todo
-//                //String ip = DeviceInfoUtil.getNetIp();//ip地址
-//
-//                Request.Builder requestBuilder = original.newBuilder()
+                //String ip = DeviceInfoUtil.getNetIp();//ip地址
+
+                Request.Builder requestBuilder = original.newBuilder()
 //                        .addHeader("pu-version", appVersion)
 //                        .addHeader("client-dev-brand", clientDevBrand)
 //                        .addHeader("client-dev-type", clientDevType)
 //                        .addHeader("client-os-type", clientOSType)
 //                        .addHeader("client-os-version", clientOSVersion)
 //                        .addHeader("client-long", clientLong)
-//                        .addHeader("client-lat", clientLat);
-//
-//                Request request = requestBuilder.build();
-////                LogUtil.d("request headers:" + request.headers().toString());
-//                return chain.proceed(request);
-//            }
-//        };
-//        builder.addInterceptor(defaultHeaderInterceptor);
+                        .addHeader("terminal", "android");
+
+                Request request = requestBuilder.build();
+//                LogUtil.d("request headers:" + request.headers().toString());
+                return chain.proceed(request);
+            }
+        };
+        builder.addInterceptor(defaultHeaderInterceptor);
         if (BuildConfig.DEBUG) {
             // Log信息拦截器
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -239,8 +243,8 @@ public class Api {
         return getRxApi().getCatogries(token, type).compose(RxSchedulers.<List<CatogrieBean>>handleResult());
     }
 
-    public static Observable<BaseResponse> bindDev(String token, String name, String asset_number, String sn, String category_id, String room_id, String type, String lockId, String password) {
-        return getRxApi().bindDev(token, name, asset_number, sn, category_id, room_id, type, lockId, password).compose(RxSchedulers.<BaseResponse>io_main());
+    public static Observable<BaseResponse> bindDev(String token, String name, String asset_number, String mac, String sn, String category_id, String room_id, String type, String lockId, String password) {
+        return getRxApi().bindDev(token, name, asset_number, mac, sn, category_id, room_id, type, lockId, password).compose(RxSchedulers.<BaseResponse>io_main());
     }
 
     public static Observable<DevDetailBean> getDevDetail(String id, String token) {
@@ -285,6 +289,21 @@ public class Api {
 
     public static Observable<DevDetailBean> setDeskRemindSwitch(String machine_id, String token, String isOn) {
         return getRxApi().setDeskRemindSwitch(machine_id, token, isOn).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+    public static Observable<BaseResponse> deleteDevice(String token,String ids) {
+        return getRxApi().deleteDevice(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> setOften(String token,String ids) {
+        return getRxApi().setOften(token,ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> moveDev(String token,String ids,String roomId) {
+        return getRxApi().moveDev(token,ids,roomId).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<List<TabBean>> getRoomList(String token,String from) {
+        return getRxApi().getRoomList(token,from).compose(RxSchedulers.<List<TabBean>>handleResult());
+    }
+    public static Observable<DevDetailBean> renameDev(String token,String id,String name) {
+        return getRxApi().renameDev(token, id, name).compose(RxSchedulers.<DevDetailBean>handleResult());
     }
 
     public static Observable<BaseResponse> setAddDeviceData(String token, String selectMachineIds) {

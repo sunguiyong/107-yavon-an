@@ -83,7 +83,7 @@ public class DeviceAddActivity extends BaseActivity<AddDevPresenter> implements 
                         WifiDeviceActivity.start(DeviceAddActivity.this,bean);
                         break;
                     case Constants.MACHINE_TYPE_ADJUST_TABLE:
-//                        EditDevActivity.startAction(DeviceAddActivity.this,EditDevActivity.TYPE_DESK);
+                        WifiDeviceActivity.start(DeviceAddActivity.this,bean);
                         break;
                 }
             }

@@ -12,6 +12,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.common.base.utils.DensityUtil;
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.TabBean;
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity {
     public static final String texts[] = new String[3];
     private Class fragmentArray[] = {HomeFragment.class, MallFragment.class, MineFragment.class};
     private int[] imageButton = {R.drawable.selector_hometab_home, R.drawable.selector_hometab_mall, R.drawable.selector_hometab_mine};
-
+    private String selectTab;
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity {
         texts[0] = getString(R.string.tab_main);
         texts[1] = getString(R.string.tab_mall);
         texts[2] = getString(R.string.tab_mine);
+        selectTab = texts[0];
         fragmentTabHost.setup(this, getSupportFragmentManager(), R.id.mainContainer);
         for (int i = 0; i < texts.length; i++) {
             TabHost.TabSpec spec = fragmentTabHost.newTabSpec(texts[i]).setIndicator(getView(i));
@@ -57,15 +59,8 @@ public class MainActivity extends BaseActivity {
         fragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-//                LogUtil.d("=============tab select:"+tabId);
-//                mPresenter.getUnreadCount();
-//                if(parentPageIndex == 1){
-//                    if(childPageIndex == 0){
-//                        parentPageIndex = 0;
-//                    }else{
-//                        mHandler.sendEmptyMessageDelayed(WHAT_JUMP_PAGE,500);
-//                    }
-//                }
+                LogUtil.d("=============tab select:"+tabId);
+                selectTab = tabId;
             }
         });
     }
@@ -132,4 +127,18 @@ public class MainActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
+        if(fmtHome != null && fmtHome.isVisible()){
+            if(fmtHome.fmts != null){
+                FmtDevice fmtDev = (FmtDevice) fmtHome.fmts.get(fmtHome.viewPager.getCurrentItem());
+                if(fmtDev != null && fmtDev.isMenuShown()){
+                    fmtDev.exitMultiSelectMode();
+                    return;
+                }
+            }
+        }
+        super.onBackPressed();
+    }
 }

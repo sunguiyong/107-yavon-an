@@ -94,7 +94,7 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                         if(bean != null)
                             bean.setPwd(password);
                         mView.loginRegisterSuccess(bean);
-                        loginTuYa(bean);
+//                        loginTuYa(bean);
                     }
                     @Override
                     protected void _onError(String message) {

@@ -22,8 +22,10 @@ import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
 import com.zt.yavon.module.main.frame.presenter.HomePresenter;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
+import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
+import com.zt.yavon.utils.DialogUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by hp on 2018/6/11.
@@ -42,6 +45,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public SlidingTabLayout slidingTabLayout;
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
+    MenuWidget mMenuWidget;
     Unbinder unbinder;
     @BindView(R.id.iv_setting)
     ImageView ivSetting;
@@ -50,6 +54,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private int curPage = 1;
 
     public List<TabBean> mTabData;
+    public ArrayList<Fragment> fmts;
+    private MainActivity mActivity;
 
     @Override
     protected int getLayoutResource() {
@@ -59,6 +65,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
+        mRxManager.on(Constants.EVENT_REFRESH_HOME, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                mPresenter.getTabData();
+            }
+        });
+
     }
 
     @Override
@@ -77,6 +90,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
             @Override
             public void onPageSelected(int position) {
+                ((FmtDevice)fmts.get(position)).exitMultiSelectMode();
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
                     String resUrl = (i == position ? mTabData.get(i).icon_select : mTabData.get(i).icon);
                     int finalI = i;
@@ -98,6 +112,46 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
             }
         });
+        mActivity = (MainActivity) getActivity();
+        mMenuWidget = mActivity.findViewById(R.id.menu_widget);
+        mActivity.findViewById(R.id.menu_recent).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_move).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_rename).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_share).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_more).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_del).setOnClickListener(mMenuWidget);
+        mActivity.findViewById(R.id.menu_report).setOnClickListener(mMenuWidget);
+        mMenuWidget.setOnItemClickListener(new MenuWidget.OnItemClickListener() {
+            @Override
+            public void onRecentClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onRecentClick();
+            }
+
+            @Override
+            public void onMoveClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onMoveClick();
+            }
+
+            @Override
+            public void onRenameClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onRenameClick();
+            }
+
+            @Override
+            public void onShareClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onShareClick();
+            }
+
+            @Override
+            public void onDelClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onDelClick();
+            }
+
+            @Override
+            public void onReportClick() {
+                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onReportClick();
+            }
+        });
         mPresenter.getTabData();
 
     }
@@ -106,7 +160,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void returnTabData(List<TabBean> data) {
         mTabData = data;
-        ArrayList<Fragment> fmts = new ArrayList<>();
+        fmts = new ArrayList<>();
         String[] titles = new String[data.size()];
 
         for (int i = 0; i < data.size(); i++) {
@@ -178,4 +232,5 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void addTab() {
         mPresenter.getTabData();
     }
+
 }

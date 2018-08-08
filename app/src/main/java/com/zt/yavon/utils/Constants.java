@@ -12,6 +12,7 @@ public class Constants {
 
 
     //event bus
+    public static final String EVENT_REFRESH_HOME = "refresh home";
     public static final String EVENT_ERROR_TOKEN = "invalid token";
     public static final String EVENT_LOGIN_SUCCESS = "login success";
     public static final String EVENT_BIND_DEV_SUCCESS = "bind dev success";

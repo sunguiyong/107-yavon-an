@@ -540,6 +540,17 @@ public interface ApiService {
     );
 
     /**
+     * 房间列表
+     * @param api_token
+     * @param from 页面来源：ROOM_MANAGE房间管理页面， ADD_ROOM添加房间页面，REMOVE_MACHINE移动设备页面
+     * @return
+     */
+    @GET("api/room")
+    Observable<BaseResponse<List<TabBean>>> getRoomList(
+            @Query("api_token") String api_token,
+            @Query("from") String from
+    );
+    /**
      * 绑定设备
      *
      * @param api_token
@@ -551,6 +562,7 @@ public interface ApiService {
             @Field("api_token") String api_token,
             @Field("name") String name,
             @Field("asset_number") String asset_number,
+            @Field("mac") String mac,
             @Field("sn") String sn,
             @Field("category_id") String category_id,
             @Field("room_id") String room_id,
@@ -665,6 +677,60 @@ public interface ApiService {
             @Path("machine_id") String machine_id,
             @Field("api_token") String api_token,
             @Field("sedentary_reminder") String sedentary_reminder
+    );
+    /**
+     * 删除设备
+     *
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE", path = "api/machines/delete", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> deleteDevice(
+            @Field("api_token") String api_token,
+            @Field("machine_ids") String ids
+    );
+    /**
+     * 设为常用设备（首页）
+     *
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @POST("api/machines/set_often")
+    @FormUrlEncoded
+    Observable<BaseResponse> setOften(
+            @Field("api_token") String api_token,
+            @Field("machine_ids") String ids
+    );
+    /**
+     * 移动设备（批量）
+     *
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @PATCH("api/machines/remove")
+    @FormUrlEncoded
+    Observable<BaseResponse> moveDev(
+            @Field("api_token") String api_token,
+            @Field("machine_ids") String ids,
+            @Field("room_id") String room_id
+    );
+    /**
+     * 设备重命名
+     *
+     * @param api_token
+     * @param id
+     * @return
+     */
+    @PATCH("api/machines/rename")
+    @FormUrlEncoded
+    Observable<BaseResponse<DevDetailBean>> renameDev(
+            @Field("api_token") String api_token,
+            @Field("machine_id") String id,
+            @Field("machine_name") String name
     );
 
     @POST("api/machines/add_often")

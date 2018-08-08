@@ -96,7 +96,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         holder.addOnClickListener(R.id.ll_center).addOnClickListener(R.id.cb_power);
     }
 
-    public static Hashtable<Integer, Boolean> mSelectMap = new Hashtable<>();
+    public Hashtable<Integer, Boolean> mSelectMap = new Hashtable<>();
     private boolean mSelectMode = false;
     private int mSelectIndex = -1;
 

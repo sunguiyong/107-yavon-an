@@ -22,7 +22,8 @@
     <com.zt.yavon.widget.RvDialogTab
         android:id="@+id/rv_dialog_tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <View
         android:layout_width="match_parent"

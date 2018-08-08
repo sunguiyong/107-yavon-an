@@ -142,7 +142,11 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
                 if(!TextUtils.isEmpty(tvRoomName.getText().toString().trim())){
                     roomId = defaultRoomId;
                 }
-                mPresenter.bindDev(name,machineBean.asset_number,machineBean.asset_number,catagoryId,roomId,machineBean.machine_type,machineBean.locker_id,machineBean.password);
+                if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(machineBean.machine_type)){
+                    mPresenter.bindBatteryLock(name,catagoryId,roomId,machineBean);
+                }else{
+                    mPresenter.bindDev(name,catagoryId,roomId,machineBean);
+                }
                 break;
         }
     }
@@ -176,4 +180,20 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
         mRxManager.post(Constants.EVENT_BIND_DEV_SUCCESS,1);
         finish();
     }
+
+//    @Override
+//    public void devExist() {
+//        switch (machineBean.machine_type){
+//            case Constants.MACHINE_TYPE_BLUE_LOCK:
+//                break;
+//            case Constants.MACHINE_TYPE_BATTERY_LOCK:
+//                //删除琐
+//                mPresenter.deleteLockById(machineBean.locker_id);
+//                break;
+//            case Constants.MACHINE_TYPE_LIGHT:
+//                break;
+//            case Constants.MACHINE_TYPE_ADJUST_TABLE:
+//                break;
+//        }
+//    }
 }

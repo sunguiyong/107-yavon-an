@@ -22,6 +22,7 @@ public class CustomHeightAdapter extends BaseAdapter{
     private Context context;
     private LayoutInflater inflater;
     private List<DeskBean> list ;
+    private int selectPostion;
     public CustomHeightAdapter(Context context, List<DeskBean> defaultList){
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -30,6 +31,9 @@ public class CustomHeightAdapter extends BaseAdapter{
         }else{
             list = defaultList;
         }
+    }
+    public void setSelectPostion(int postion){
+        selectPostion = postion;
     }
     @Override
     public int getCount() {
@@ -58,7 +62,7 @@ public class CustomHeightAdapter extends BaseAdapter{
            vh = (ViewHolder) view.getTag();
         }
         vh.tv.setText("自定义"+(i+1));
-        vh.tv.setSelected(list.get(i).isSelect());
+        vh.tv.setSelected(i == selectPostion?true:false);
         return view;
     }
     class ViewHolder{
