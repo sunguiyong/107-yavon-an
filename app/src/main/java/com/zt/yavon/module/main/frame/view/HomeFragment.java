@@ -165,7 +165,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     }
 
-
+    private int mSelectIndex = 0;
     @Override
     public void returnTabData(List<TabBean> data) {
         if(refreshLayout.isRefreshing()){
@@ -175,6 +175,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             ToastUtil.showShort(getContext(),"数据加载失败，请重试！");
             return;
         }
+        mSelectIndex = viewPager.getCurrentItem();
         mTabData = data;
         if (viewPager.getAdapter() != null) {
             FragmentManager fm = mActivity.getSupportFragmentManager();
@@ -212,15 +213,21 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             titles[i] = showName;
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, data.get(i));
-//            Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
-            Fragment fmt = new FmtDevice();
-            fmt.setArguments(bundle);
+            Fragment fmt = Fragment.instantiate(getActivity(), FmtDevice.class.getName(), bundle);
+//            Fragment fmt = new FmtDevice();
+//            fmt.setArguments(bundle);
             fmts.add(fmt);
         }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(mSelectIndex);
+            }
+        });
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
-            String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
-            int textColor = i == 0 ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
+            String resUrl = (i == mSelectIndex ? mTabData.get(i).icon_select : mTabData.get(i).icon);
+            int textColor = i == mSelectIndex ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
             int finalI = i;
             Glide.with(getActivity()).load(resUrl).asBitmap().
                     into(new SimpleTarget<Bitmap>() {
