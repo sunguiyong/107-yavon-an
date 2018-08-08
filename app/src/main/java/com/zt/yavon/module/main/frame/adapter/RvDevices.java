@@ -7,12 +7,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.frame.view.FmtDevice;
@@ -62,7 +65,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
 //        checkBox.setOnCheckedChangeListener(null);
         if (mSelectMode) {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_check, 0, 0);
-            cbPower.setChecked(mSelectIndex == holder.getLayoutPosition());
+            cbPower.setChecked(mSelectIndex == holder.getAdapterPosition());
         } else {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_power, 0, 0);
             cbPower.setChecked(bean.isPowerOn());
@@ -78,11 +81,13 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (mSelectMode) {
-                            mSelectMap.put(holder.getLayoutPosition(), isChecked);
-
+                            mSelectMap.put(holder.getAdapterPosition(), isChecked);
                             HomeFragment fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
                             FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
-                            fmtDevice.mMenuWidget.setRenameEnable(getSelectCount() == 1);
+                            int count = getSelectCount();
+                            fmtDevice.mMenuWidget.setRenameEnable(count == 1);
+                            fmtDevice.mMenuWidget.setShareEnable(count == 1);
+                            fmtDevice.mMenuWidget.setReportEnable(count == 1);
                         } else {
                         }
                     }
@@ -93,13 +98,14 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         } else {
             Glide.with(getContext()).load(bean.icon).into(ivIcon);
         }
-        holder.addOnClickListener(R.id.ll_center).addOnClickListener(R.id.cb_power);
     }
 
     public Hashtable<Integer, Boolean> mSelectMap = new Hashtable<>();
     private boolean mSelectMode = false;
     private int mSelectIndex = -1;
-
+    public boolean isSelectMode(){
+        return mSelectMode;
+    }
     public int getSelectCount() {
         int selectCount = 0;
         for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
@@ -107,7 +113,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                 selectCount++;
             }
         }
-        Log.e("TTTTTT", selectCount + "");
+        LogUtil.d("======selectCount:"+selectCount);
         return selectCount;
     }
 
@@ -133,5 +139,13 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
             }
         }
         return beans;
+    }
+
+    public void setItemSelect(int position) {
+        if(mSelectMode){
+            View view = getLayoutManager().findViewByPosition(position);
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_power);
+            checkBox.setChecked(!checkBox.isChecked());
+        }
     }
 }

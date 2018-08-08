@@ -50,11 +50,11 @@ public class RvRoomAdd extends RvBase<RoomItemBean> {
         cb.setChecked(false);
         cb.setText(bean.name);
         ImageView iv = holder.getView(R.id.iv_icon);
-        if (holder.getLayoutPosition() == mCheckedPosition && mCheckedPosition != mAdapter.getItemCount() - 1) {
+        if (holder.getAdapterPosition() == mCheckedPosition && mCheckedPosition != mAdapter.getItemCount() - 1) {
             Glide.with(getContext()).load(bean.icon_select).into(iv);
             cb.setChecked(true);
         } else {
-            if (holder.getLayoutPosition() == mAdapter.getItemCount() - 1) {
+            if (holder.getAdapterPosition() == mAdapter.getItemCount() - 1) {
                 Glide.with(getContext()).load(R.mipmap.ic_add).into(iv);
             } else {
                 Glide.with(getContext()).load(bean.icon).into(iv);

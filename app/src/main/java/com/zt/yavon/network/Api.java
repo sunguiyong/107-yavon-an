@@ -299,6 +299,9 @@ public class Api {
     public static Observable<BaseResponse> moveDev(String token,String ids,String roomId) {
         return getRxApi().moveDev(token,ids,roomId).compose(RxSchedulers.<BaseResponse>io_main());
     }
+    public static Observable<BaseResponse> uploadFault(String token,String ids,String content) {
+        return getRxApi().uploadFault(token,ids,content).compose(RxSchedulers.<BaseResponse>io_main());
+    }
     public static Observable<List<TabBean>> getRoomList(String token,String from) {
         return getRxApi().getRoomList(token,from).compose(RxSchedulers.<List<TabBean>>handleResult());
     }

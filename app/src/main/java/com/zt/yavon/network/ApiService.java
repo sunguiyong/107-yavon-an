@@ -705,6 +705,20 @@ public interface ApiService {
             @Field("machine_ids") String ids
     );
     /**
+     * 故障上报
+     *
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @POST("api/machines/fault")
+    @FormUrlEncoded
+    Observable<BaseResponse> uploadFault(
+            @Field("api_token") String api_token,
+            @Field("machine_ids") String ids,
+            @Field("content") String content
+    );
+    /**
      * 移动设备（批量）
      *
      * @param api_token

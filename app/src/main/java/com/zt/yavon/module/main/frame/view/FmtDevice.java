@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
+import com.zt.yavon.module.device.share.view.AuthorActivity;
 import com.zt.yavon.module.device.share.view.ShareDevActivity;
 import com.zt.yavon.module.main.adddevice.view.ActAddDevice;
 import com.zt.yavon.module.main.frame.adapter.RvDevices;
@@ -79,30 +81,34 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                 exitMultiSelectMode();
             }
         });
-
-        mRvDevices.addOnItemTouchListener(new OnItemChildClickListener() {
+        mRvDevices.mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(mRvDevices.isSelectMode()){
+                    mRvDevices.setItemSelect(position);
+                    return;
+                }
                 TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
                 if (item.isLastOne) {
                     ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
                 } else {
-                    if (view.getId() == R.id.ll_center) {
-                        if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
-                            LampDetailActivity.startAction(getContext(),item);
-                        } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
-                            DeskDetailActivity.startAction(getContext(),item);
-                        } else{
-                            LockDetailActivity.startAction(getContext(),item);
-                        }
+                    if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
+                        LampDetailActivity.startAction(getContext(),item);
+                    } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
+                        DeskDetailActivity.startAction(getContext(),item);
+                    } else{
+                        LockDetailActivity.startAction(getContext(),item);
                     }
                 }
             }
         });
-        mRvDevices.addOnItemTouchListener(new OnItemLongClickListener() {
+        mRvDevices.mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
-            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                enterMultiSelectMode(position);
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
+                if(!item.isLastOne)
+                    enterMultiSelectMode(position);
+                return true;
             }
         });
 
@@ -124,7 +130,9 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     }
 
     private void enterMultiSelectMode(int position) {
-
+        mMenuWidget.setRenameEnable(true);
+        mMenuWidget.setShareEnable(true);
+        mMenuWidget.setReportEnable(true);
         mRvDevices.enterMultiSelectMode(position);
         mMenuWidget.setVisibility(View.VISIBLE);
         mLlTitle.setVisibility(View.VISIBLE);
@@ -164,22 +172,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     }
 
     public void onRenameClick() {
-        List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
-        if (beans.isEmpty()) {
-            ToastUtil.showLong(mActivity, "未选择设备");
-            return;
-        }
-        if (beans.size() > 1) {
-            ToastUtil.showLong(mActivity, "只能选择一个设备重命名");
-            return;
-        }
-        dialog = DialogUtil.createEtDialog(mActivity,false, "重命名", beans.get(0).name, new DialogUtil.OnComfirmListening2() {
-            @Override
-            public void confirm(String data) {
-                mPresenter.renameDev(mRvDevices.getSelectBeans().get(0),data);
-            }
-        });
-
+        mPresenter.renameDev(mRvDevices.getSelectBeans());
     }
 
     public void onShareClick() {
@@ -188,11 +181,17 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             ToastUtil.showLong(mActivity, "未选择设备");
             return;
         }
-
+        if (beans.size() > 1) {
+            ToastUtil.showLong(mActivity, "只能选择一个设备共享");
+            return;
+        }
         MineRoomBean.Machine machine = new MineRoomBean.Machine();
         machine.setMachine_id(mPresenter.getIds(beans));
-        ShareDevActivity.startAction(getContext(),machine);
-
+        if("ADMIN".equals(beans.get(0).user_type)){
+            ShareDevActivity.startAction(getContext(),machine);
+        }else{
+            AuthorActivity.startAction(getContext(),machine);
+        }
     }
 
     public void onDelClick() {
@@ -200,17 +199,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     }
 
     public void onReportClick() {
-        List<TabBean.MachineBean> beans = mRvDevices.getSelectBeans();
-        if (beans.isEmpty()) {
-            ToastUtil.showLong(mActivity, "未选择设备");
-            return;
-        }
-        DialogUtil.createEtDialog(mActivity,false, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
-            @Override
-            public void confirm(String data) {
-                exitMultiSelectMode();
-            }
-        });
+       mPresenter.uploadFault(mRvDevices.getSelectBeans());
     }
     @Override
     public void deleteSuccess(List<TabBean.MachineBean> beans) {
@@ -234,6 +223,13 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     public void renameSuccess(TabBean.MachineBean bean) {
         DialogUtil.dismiss(dialog);
         mRvDevices.mAdapter.notifyItemChanged(mRvDevices.mAdapter.getData().indexOf(bean));
+        exitMultiSelectMode();
+    }
+
+    @Override
+    public void uploadFaultSuccess() {
+        DialogUtil.dismiss(dialog);
+        ToastUtil.showShort(getContext(),"上报成功");
         exitMultiSelectMode();
     }
 

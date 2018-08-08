@@ -102,20 +102,69 @@ public class DevicePresenter extends DeviceContract.Presenter {
     }
 
     @Override
-    public void renameDev(TabBean.MachineBean machineBean, String name) {
-        mRxManage.add(Api.renameDev(SPUtil.getToken(mContext),machineBean.id+"",name)
-                .subscribeWith(new RxSubscriber<DevDetailBean>(mContext, true) {
-                    @Override
-                    protected void _onNext(DevDetailBean bean) {
-                        machineBean.name = name;
-                        mView.renameSuccess(machineBean);
-                    }
+    public void renameDev(List<TabBean.MachineBean> beans) {
+        if (beans.isEmpty()) {
+            ToastUtil.showLong(mContext, "未选择设备");
+            return;
+        }
+        if (beans.size() > 1) {
+            ToastUtil.showLong(mContext, "只能选择一个设备重命名");
+            return;
+        }
+        TabBean.MachineBean machineBean = beans.get(0);
+        dialog = DialogUtil.createEtDialog(mContext,false, "重命名", machineBean.name, new DialogUtil.OnComfirmListening2() {
+            @Override
+            public void confirm(String data) {
+                mRxManage.add(Api.renameDev(SPUtil.getToken(mContext),beans.get(0).id+"",data)
+                        .subscribeWith(new RxSubscriber<DevDetailBean>(mContext, true) {
+                            @Override
+                            protected void _onNext(DevDetailBean bean) {
+                                machineBean.name = data;
+                                mView.renameSuccess(machineBean);
+                            }
 
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
-                    }
-                }).getDisposable());
+                            @Override
+                            protected void _onError(String message) {
+                                ToastUtil.showShort(mContext,message);
+                            }
+                        }).getDisposable());
+            }
+        });
+    }
+
+    @Override
+    public void uploadFault(List<TabBean.MachineBean> beans) {
+        if (beans.isEmpty()) {
+            ToastUtil.showLong(mContext, "未选择设备");
+            return;
+        }
+        if (beans.size() > 1) {
+            ToastUtil.showLong(mContext, "只能选择一个设备共享");
+            return;
+        }
+        TabBean.MachineBean machineBean = beans.get(0);
+        if ("ADMIN".equals(machineBean.user_type)) {
+            ToastUtil.showLong(mContext, "设备管理员不需要上报故障");
+            return;
+        }
+        dialog = DialogUtil.createEtDialog(mContext,false, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
+            @Override
+            public void confirm(String data) {
+                mRxManage.add(Api.uploadFault(SPUtil.getToken(mContext),machineBean.id+"",data)
+                        .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
+                            @Override
+                            protected void _onNext(BaseResponse response) {
+                                mView.uploadFaultSuccess();
+                            }
+
+                            @Override
+                            protected void _onError(String message) {
+                                ToastUtil.showShort(mContext,message);
+                            }
+                        }).getDisposable());
+            }
+        });
+
     }
 
     public String getIds(List<TabBean.MachineBean> beans){

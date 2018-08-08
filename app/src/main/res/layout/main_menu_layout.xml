@@ -22,7 +22,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="设为常用"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="移动"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="重命名"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="共享"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="更多"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -110,7 +110,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="删除"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView
@@ -125,7 +125,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="故障上报"
-            android:textColor="#999999"
+            android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
 
         <TextView

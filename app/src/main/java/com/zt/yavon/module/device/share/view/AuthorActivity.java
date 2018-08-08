@@ -2,6 +2,7 @@ package com.zt.yavon.module.device.share.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
@@ -157,6 +158,11 @@ public class AuthorActivity extends BaseActivity<AuthorDevPresenter> implements 
         Intent intent = new Intent(context, AuthorActivity.class);
         intent.putExtra("machine",bean);
         context.startActivityForResult(intent,reqCode);
+    }
+    public static void startAction(Context context, MineRoomBean.Machine bean){
+        Intent intent = new Intent(context, AuthorActivity.class);
+        intent.putExtra("machine",bean);
+        context.startActivity(intent);
     }
 
     @Override
