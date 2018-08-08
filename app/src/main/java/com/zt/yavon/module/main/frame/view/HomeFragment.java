@@ -189,7 +189,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             ft.commit();
         }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
-        viewPager.getAdapter().notifyDataSetChanged();
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
             String resUrl = (i == 0 ? mTabData.get(i).icon_select : mTabData.get(i).icon);
             int textColor = i == 0 ? Color.parseColor("#3eac9b") : Color.parseColor("#AAffffff");
