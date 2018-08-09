@@ -144,7 +144,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
         List<TabBean.MachineBean> machines = new ArrayList<>();
         machines.addAll(mTabItemBean.machines);
-        if (!mIsOften) {
+        if (mIsOften) {
             machines.add(new TabBean.MachineBean(true));
         }
         mRvDevices.setData(machines);

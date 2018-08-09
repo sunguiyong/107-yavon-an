@@ -76,7 +76,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne && mIsOften)
                 .setGone(R.id.cb_power, !bean.isLastOne)
                 .setGone(R.id.tv_status, !bean.isLastOne);
-        holder.setText(R.id.tv_name, bean.isLastOne ? "添加设备" : bean.name)
+        holder.setText(R.id.tv_name, bean.isLastOne ? "添加常用设备" : bean.name)
                 .setText(R.id.tv_status, bean.isLastOne ? "" : (bean.isPowerOn() ? "设备开启" : "设备关闭"))
                 .setText(R.id.tv_location, bean.isLastOne ? "" : bean.from_room)
                 .setOnCheckedChangeListener(R.id.cb_power, new CompoundButton.OnCheckedChangeListener() {

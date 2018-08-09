@@ -185,12 +185,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 ft.remove(item);
             }
             ft.commitNowAllowingStateLoss();
-            viewPager.post(new Runnable() {
-                @Override
-                public void run() {
-                    viewPager.getAdapter().notifyDataSetChanged();
-                }
-            });
         }
 
         if(fmts == null){
@@ -223,6 +217,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             @Override
             public void run() {
                 viewPager.setCurrentItem(mSelectIndex);
+            }
+        });
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.getAdapter().notifyDataSetChanged();
             }
         });
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
