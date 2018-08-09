@@ -5,13 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.common.base.utils.DensityUtil;
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
 
@@ -64,5 +69,28 @@ public class RvDialogTab extends RvBase<TabBean> {
 
     public int getSelectPosition() {
         return mSelectItem;
+    }
+
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec) {
+//        LogUtil.d("==============onMeasure");
+        if (mAdapter != null && mAdapter.getItemCount() > 5) {
+            int realHeight = 0;
+//                    for(int i = 0;i < count; i++){
+//            View view = getLayoutManager().finF(0);
+//            if (view != null) {
+//                measureChild(view, widthSpec, heightSpec);
+                int measuredWidth = View.MeasureSpec.getSize(widthSpec);
+//                int measuredHeight = view.getMeasuredHeight();
+//                int measuredHeight = view.getMeasuredHeight();
+//                            realWidth = realWidth > measuredWidth ? realWidth : measureWidth;
+//                realHeight = (int) (measuredHeight*4.5);
+                realHeight = (int) (DensityUtil.getScreenHeight(getContext())*0.3);
+//                LogUtil.d("===============height:"+realHeight);
+                setMeasuredDimension(measuredWidth,realHeight );
+//            }
+        } else {
+            super.onMeasure(widthSpec, heightSpec);
+        }
     }
 }

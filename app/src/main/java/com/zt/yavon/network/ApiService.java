@@ -1,6 +1,7 @@
 package com.zt.yavon.network;
 
 import com.common.base.rx.BaseResponse;
+import com.zt.yavon.module.data.AssetNumbBean;
 import com.zt.yavon.module.data.CatogrieBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
@@ -551,6 +552,19 @@ public interface ApiService {
             @Query("from") String from
     );
     /**
+     * 获取设备资产编号
+     * @param api_token
+     * @param mac
+     * @param type LIGHT灯 ADJUST_TABLE升降桌 BLUE_LOCK蓝牙锁
+     * @return
+     */
+    @GET("api/machines/asset_number")
+    Observable<BaseResponse<AssetNumbBean>> getAssetNumber(
+            @Query("api_token") String api_token,
+            @Query("mac") String mac,
+            @Query("type") String type
+    );
+    /**
      * 绑定设备
      *
      * @param api_token
@@ -558,17 +572,17 @@ public interface ApiService {
      */
     @POST("api/machines/bind")
     @FormUrlEncoded
-    Observable<BaseResponse<List<CatogrieBean>>> bindDev(
+    Observable<BaseResponse> bindDev(
             @Field("api_token") String api_token,
             @Field("name") String name,
             @Field("asset_number") String asset_number,
             @Field("mac") String mac,
             @Field("sn") String sn,
+            @Field("qrcode_data") String qrcode_data,
+            @Field("light_device_id") String light_device_id,
             @Field("category_id") String category_id,
             @Field("room_id") String room_id,
-            @Field("type") String type,
-            @Field("locker_id") String locker_id,
-            @Field("password") String password
+            @Field("type") String type
     );
 
     /**

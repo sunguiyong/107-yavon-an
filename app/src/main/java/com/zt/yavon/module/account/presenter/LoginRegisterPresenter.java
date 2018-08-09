@@ -94,7 +94,7 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                         if(bean != null)
                             bean.setPwd(password);
                         mView.loginRegisterSuccess(bean);
-//                        loginTuYa(bean);
+                        loginTuYa(bean);
                     }
                     @Override
                     protected void _onError(String message) {
@@ -103,13 +103,17 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                 }).getDisposable());
     }
     private void loginTuYa(LoginBean bean){
-        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+//        TuyaUser.getUserInstance().loginWithPhonePassword("86",  "15556092750", "123456", new ILoginCallback() {
+//        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+        TuyaUser.getUserInstance().loginWithUid("86",  "15556092750", "1111111", new ILoginCallback() {
             @Override
             public void onSuccess(User user) {
+                LogUtil.d("==================loginTuYa success");
             }
 
             @Override
             public void onError(String code, String error) {
+                LogUtil.d("==================loginTuYa error,code:"+code+",error:"+error);
             }
         });
     }

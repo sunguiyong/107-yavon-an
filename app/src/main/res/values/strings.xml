@@ -50,7 +50,7 @@
     <string name="more_record">使用记录</string>
     <string name="more_share">共享设置</string>
     <string name="more_lock_auto">自动开琐</string>
-    <string name="more_lock_low">低电量手动开琐</string>
+    <string name="more_lock_low">低电量自动开琐</string>
     <!--智能灯-->
     <string name="title_lamp">智能灯</string>
     <!--智能桌-->

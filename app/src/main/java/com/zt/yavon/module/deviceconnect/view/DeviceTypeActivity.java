@@ -8,11 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.common.base.utils.LogUtil;
-import com.common.base.utils.ToastUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevTypeBean;
@@ -21,7 +17,6 @@ import com.zt.yavon.module.deviceconnect.contract.DevTypeContract;
 import com.zt.yavon.module.deviceconnect.presenter.DevTypePresenter;
 import com.zt.yavon.network.YSBResponse;
 import com.zt.yavon.utils.Constants;
-import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,7 +60,7 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
             }
         });
         bean = (DevTypeBean.TYPE) getIntent().getSerializableExtra("type");
-        LogUtil.d("==============DeviceTypeActivity,type:"+bean.type+",sn:"+bean.sn);
+//        LogUtil.d("==============DeviceTypeActivity,type:"+bean.type+",sn:"+bean.sn);
         machineBean.machine_type = bean.type;
         mPresenter.setVM(this);
     }
@@ -94,11 +89,18 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
             case Constants.MACHINE_TYPE_LIGHT:
                 tvDevice.setText(bean.sn);
                 machineBean.asset_number = bean.sn;
+                if(!TextUtils.isEmpty(bean.sn) && bean.sn.length() >= 12){
+                    String mac = bean.sn.substring(bean.sn.length() -12);
+                    mPresenter.getAssetNumber(mac,bean.type);
+                }else{
+                    tvDevice.setText(bean.sn);
+                }
                 break;
             case Constants.MACHINE_TYPE_ADJUST_TABLE:
 //                84f3ebb3a4b4
-                tvDevice.setText(bean.sn);
+//                tvDevice.setText(bean.sn);
                 machineBean.asset_number = bean.sn;
+                mPresenter.getAssetNumber(bean.sn,bean.type);
                 break;
         }
     }
@@ -146,6 +148,11 @@ public class DeviceTypeActivity extends BaseActivity<DevTypePresenter> implement
         tvDevice.setText(response.getSn());
         machineBean.asset_number = response.getSn();
 //        mPresenter.getLockPwd(accessToken,response.getSn());
+    }
+
+    @Override
+    public void returnAssetNumb(String assetNumb) {
+        tvDevice.setText(assetNumb);
     }
 
 //    @Override

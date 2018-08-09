@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
         fragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                LogUtil.d("=============tab select:" + tabId);
+//                LogUtil.d("=============tab select:" + tabId);
                 selectTab = tabId;
             }
         });

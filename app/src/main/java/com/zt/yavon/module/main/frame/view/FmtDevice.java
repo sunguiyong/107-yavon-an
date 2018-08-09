@@ -1,6 +1,7 @@
 package com.zt.yavon.module.main.frame.view;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yeeloc.elocsdk.ble.BleEngine;
+import com.yeeloc.elocsdk.ble.BleStatus;
+import com.yeeloc.elocsdk.ble.UnlockMode;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.data.MineRoomBean;
@@ -27,8 +35,10 @@ import com.zt.yavon.module.main.frame.presenter.DevicePresenter;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.PakageUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,7 +46,7 @@ import butterknife.BindView;
 public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceContract.View {
     @BindView(R.id.rv_devices)
     RvDevices mRvDevices;
-//    @BindView(R.id.srl)
+    //    @BindView(R.id.srl)
 //    SwipeRefreshLayout srl;
     private TabBean mTabItemBean;
     private MainActivity mActivity;
@@ -105,33 +115,34 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
-                if(mRvDevices.isSelectMode()){
-                    if (!item.isLastOne)
                 if (mRvDevices.isSelectMode()) {
-                    mRvDevices.setItemSelect(position);
-                    return;
-                }
-
-                if (item.isLastOne) {
-                    ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
+                    if (!item.isLastOne)
+                        mRvDevices.setItemSelect(position);
                 } else {
-                    if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
-                        LampDetailActivity.startAction(getContext(), item);
-                    } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
-                        DeskDetailActivity.startAction(getContext(), item);
+                    if (item.isLastOne) {
+                        ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
                     } else {
-                        LockDetailActivity.startAction(getContext(), item);
+                        if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
+                            LampDetailActivity.startAction(getContext(), item);
+                        } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
+                            DeskDetailActivity.startAction(getContext(), item);
+                        } else {
+                            if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                                BluetoothAdapter.getDefaultAdapter().enable();
+                            } else {
+                                initPermission(false,item);
+                            }
+                        }
                     }
                 }
-            }
             }
         });
         mRvDevices.mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                if(!mRvDevices.isSelectMode()){
+                if (!mRvDevices.isSelectMode()) {
                     TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
-                    if(!item.isLastOne){
+                    if (!item.isLastOne) {
                         enterMultiSelectMode(position);
                     }
                 }
@@ -149,17 +160,67 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         }
         mRvDevices.setData(machines);
     }
-
+    private void initPermission(boolean isDo,TabBean.MachineBean item) {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.Group.LOCATION)
+                .onGranted(permissions -> {
+                    if(!isDo){
+                        LockDetailActivity.startAction(getContext(), item);
+                        return;
+                    }
+//                    engine.getDevice(bean.getAsset_number(), new BleEngine.Callback() {
+//                        @Override
+//                        public void onReceive(int i, Object o) {
+//
+//                        }
+//                    });
+//                    DialogUtil.dismiss(dialog);
+//                    dialog = LoadingDialog.showDialogForLoading(getContext(),"操作中...",true,null);
+//                    engine.unlock(bean.getAsset_number(), bean.getPassword(), UnlockMode.MODE_TOGGLE, new BleEngine.Callback() {
+//                        @Override
+//                        public void onReceive(int status, Object data) {
+//                            switch (status) {
+//                                case BleStatus.LOCK_COMPLETE:
+//                                    DialogUtil.dismiss(dialog);
+////                                    LogUtil.d("============LOCK_COMPLETE,data:" + data);
+//                                    updateView(false);
+//                                    mPresenter.switchDev(machineBean.id + "", false);
+//                                    break;
+//                                case BleStatus.UNLOCK_COMPLETE:
+//                                    DialogUtil.dismiss(dialog);
+////                                    LogUtil.d("============UNLOCK_COMPLETE,data:" + data);
+//                                    updateView(true);
+//                                    mPresenter.switchDev(machineBean.id + "", true);
+//                                    break;
+//                            }
+//                        }
+//                    });
+                })
+                .onDenied(permissions -> {
+                    LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
+                    DialogUtil.create2BtnInfoDialog(getContext(), "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            PakageUtil.startAppSettings(getContext());
+                        }
+                    });
+                })
+                .start();
+    }
     public void addData(List<TabBean.MachineBean> beans) {
         mRvDevices.mAdapter.getData().addAll(mRvDevices.mAdapter.getItemCount() - 1, beans);
         mRvDevices.mAdapter.notifyDataSetChanged();
     }
-    public void onSelectAllClick(){
+
+    public void onSelectAllClick() {
         mRvDevices.selectAll();
     }
-    public void onSelectCompleteClick(){
+
+    public void onSelectCompleteClick() {
         exitMultiSelectMode();
     }
+
     public void exitMultiSelectMode() {
         try {
             mLlTitle.setVisibility(View.GONE);
@@ -189,6 +250,11 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             dialog = DialogUtil.createInfoDialogWithListener(getContext(), "没有可移动的房间", null);
             exitMultiSelectMode();
         } else {
+            list.addAll(list);
+            list.addAll(list);
+            list.addAll(list);
+            list.addAll(list);
+            list.addAll(list);
             dialog = DialogUtil.createMoveDeviceDialog(mActivity, list, new DialogUtil.OnComfirmListening2() {
                 @Override
                 public void confirm(String roomId) {

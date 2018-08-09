@@ -69,6 +69,7 @@ public class TabBean implements Serializable {
         public String asset_number;
         public String locker_id;
         public String password;
+        public String light_device_id;
         public boolean isLastOne;
 
         public boolean isPowerOn() {

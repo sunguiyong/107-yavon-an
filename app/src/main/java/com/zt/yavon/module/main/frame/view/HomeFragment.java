@@ -171,7 +171,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if(refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
-        if(data == null){
+        if(data == null || data.isEmpty()){
             ToastUtil.showShort(getContext(),"数据加载失败，请重试！");
             return;
         }

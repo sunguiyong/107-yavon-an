@@ -1,5 +1,7 @@
 package com.zt.yavon.module.deviceconnect.presenter;
 
+import android.text.TextUtils;
+
 import com.common.base.rx.BaseResponse;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.module.data.CatogrieBean;
@@ -114,19 +116,20 @@ public class EditDevPresenter extends EditDevContract.Presenter {
 //            asset_number = null;
 //        }
         mRxManage.add(Api.bindDev(SPUtil.getToken(mContext),name,machineBean.asset_number,
-                machineBean.asset_number,machineBean.asset_number,category_id,room_id,
-                machineBean.machine_type,machineBean.locker_id,machineBean.password)
+                machineBean.asset_number,machineBean.asset_number,machineBean.from_room,machineBean.asset_number,category_id,room_id,
+                machineBean.machine_type)
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
-                        mView.bindSuccess();
+                        mView.bindSuccess(true,null);
                     }
                     @Override
                     protected void _onError(String message) {
-//                        if(!TextUtils.isEmpty(message) && message.contains("设备已被绑定")){
-//                            mView.devExist();
-//                        }
-                        ToastUtil.showShort(mContext,message);
+                        if(!TextUtils.isEmpty(message) && message.contains("已被绑定")){
+                            mView.bindSuccess(false,message);
+                        }else{
+                            ToastUtil.showShort(mContext,message);
+                        }
                     }
                 }).getDisposable());
     }

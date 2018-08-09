@@ -125,26 +125,34 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
                 //管理员
                 tvUser.setText("使用者");
                 rightMenu = "共享";
+                if(list == null || list.isEmpty()){
+                    tvShare.setVisibility(View.VISIBLE);
+                    setRightMenuText("");
+                }else{
+                    tvShare.setVisibility(View.GONE);
+                    setRightMenuText(rightMenu);
+                    adapter.setNewData(list);
+                }
             }else if("FIRST_USER".equals(bean.getMachine().getUser_type())){
                 //一级用户
                 tvUser.setText("使用者");
                 rightMenu = "临时授权";
+                if(list == null || list.isEmpty()){
+                    tvShare.setVisibility(View.VISIBLE);
+                    setRightMenuText("");
+                }else{
+                    tvShare.setVisibility(View.GONE);
+                    setRightMenuText(rightMenu);
+                    adapter.setNewData(list);
+                }
             }else{
                 //二级用户
                 tvUser.setText("管理员");
                 rightMenu = "";
                 tvDo.setVisibility(View.GONE);
-            }
-
-            tvShare.setText(rightMenu);
-            if(list == null || list.isEmpty()){
-                tvShare.setVisibility(View.VISIBLE);
-                setRightMenuText("");
-            }else{
                 tvShare.setVisibility(View.GONE);
-                setRightMenuText(rightMenu);
-                adapter.setNewData(list);
             }
+            tvShare.setText(rightMenu);
         }
     }
 
