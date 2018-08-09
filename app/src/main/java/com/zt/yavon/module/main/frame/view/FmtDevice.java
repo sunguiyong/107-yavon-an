@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.TuYaLampSDK;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,27 +54,12 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     private MainActivity mActivity;
     public MenuWidget mMenuWidget;
     private LinearLayout mLlTitle;
-    private TextView mBtnSelectAll;
-    private TextView mBtnOk;
     private Dialog dialog;
 
     private HomeFragment fmtHome;
 
     private boolean mIsOften = false;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mTabItemBean = (TabBean) getArguments().getSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN);
-        mIsOften = mTabItemBean.type.equals("OFTEN");
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        return view;
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -82,6 +69,9 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
+        mTabItemBean = (TabBean) getArguments().getSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN);
+        mIsOften = mTabItemBean.type.equals("OFTEN");
+        LogUtil.d("=============name:"+mTabItemBean.name+",type:"+mTabItemBean.type);
     }
 
     @Override
@@ -97,17 +87,9 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         mMenuWidget = mActivity.findViewById(R.id.menu_widget);
         fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
         mLlTitle = fmtHome.rootView.findViewById(R.id.ll_title);
-//        mBtnOk = fmtHome.rootView.findViewById(R.id.title_ok);
-//        mBtnOk.setOnClickListener(new View.OnClickListener() {
+//        mRvDevices.setOnCheckedChangeListener(new RvDevices.OnSwitchStateChangeListener() {
 //            @Override
-//            public void onClick(View v) {
-//                exitMultiSelectMode();
-//            }
-//        });
-//        mBtnSelectAll = fmtHome.rootView.findViewById(R.id.title_select_all);
-//        mBtnSelectAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+//            public void onSwitchStateChange(boolean isChecked, TabBean.MachineBean bean) {
 //
 //            }
 //        });
@@ -152,7 +134,34 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                 return true;
             }
         });
-
+        mRvDevices.mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.cb_power){
+                    TabBean.MachineBean bean = (TabBean.MachineBean) adapter.getItem(position);
+                    boolean isChecked = !view.isSelected();
+                    if (mRvDevices.isSelectMode()) {
+//                            LogUtil.d("============on checked change:"+isChecked+",position:"+holder.getAdapterPosition());
+                        view.setSelected(isChecked);
+                        if(isChecked){
+                            mRvDevices.addSelection(position);
+                        }else{
+                            mRvDevices.removeSelection(position);
+                        }
+//                        HomeFragment fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
+//                        FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
+                        int count = mRvDevices.getSelectCount();
+                        if(mMenuWidget != null){
+                            mMenuWidget.setRenameEnable(count == 1);
+                            mMenuWidget.setShareEnable(count == 1);
+                            mMenuWidget.setReportEnable(count == 1);
+                        }
+                    } else{
+                        mPresenter.switchDevice(view,isChecked,bean);
+                    }
+                }
+            }
+        });
         List<TabBean.MachineBean> machines = new ArrayList<>();
         machines.addAll(mTabItemBean.machines);
         if (mIsOften) {
@@ -250,11 +259,6 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             dialog = DialogUtil.createInfoDialogWithListener(getContext(), "没有可移动的房间", null);
             exitMultiSelectMode();
         } else {
-            list.addAll(list);
-            list.addAll(list);
-            list.addAll(list);
-            list.addAll(list);
-            list.addAll(list);
             dialog = DialogUtil.createMoveDeviceDialog(mActivity, list, new DialogUtil.OnComfirmListening2() {
                 @Override
                 public void confirm(String roomId) {

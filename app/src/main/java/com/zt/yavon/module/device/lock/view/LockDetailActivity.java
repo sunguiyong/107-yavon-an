@@ -25,11 +25,13 @@ import com.zt.yavon.module.device.lock.presenter.LockDetailPresenter;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.YisuobaoSDK;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by lifujun on 2018/7/10.
@@ -41,9 +43,26 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
     @BindView(R.id.tv_switch_lock)
     TextView tvSwith;
     private TabBean.MachineBean machineBean;
-    private BleEngine engine;
+
     private DevDetailBean bean;
     private Dialog dialog;
+
+    private YisuobaoSDK ysbSDK;
+    private YisuobaoSDK.YisuobaoListener listener = new YisuobaoSDK.YisuobaoListener(){
+        @Override
+        public void onBatteryPowerChanged(String power) {
+            mPresenter.reportLowBatteryLock(bean.getMachine_id(),power);
+        }
+
+        @Override
+        public void onLockStateChanged(boolean isOpen) {
+            DialogUtil.dismiss(dialog);
+            updateView(isOpen);
+            if(ysbSDK != null)
+            mPresenter.switchDev(machineBean.id + "", isOpen);
+        }
+    };
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_lock_detail;
@@ -53,67 +72,41 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
     public void initPresenter() {
         mPresenter.setVM(this);
         machineBean = (TabBean.MachineBean) getIntent().getSerializableExtra("machineBean");
+        mRxManager.on(Constants.EVENT_AUTO_LOCK, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if(ysbSDK != null)
+                    ysbSDK.autoLock((Boolean) o);
+            }
+        });
+        mRxManager.on(Constants.EVENT_AUTO_UNLOCK_LOW, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if(ysbSDK != null)
+                    ysbSDK.autoLowBatUnLock((Boolean) o);
+            }
+        });
     }
+
 
     @Override
     public void initView() {
         setTitle(getString(R.string.title_lock));
         setRightMenuImage(R.mipmap.more_right);
         updateView("ON".equals(machineBean.status));
-        mPresenter.getDevDetail(machineBean.id + "");
         try {
             initSDK();
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        mPresenter.getDevDetail(machineBean.id + "");
     }
+
+
 
     private void initSDK(){
         if (Constants.MACHINE_TYPE_BATTERY_LOCK.equals(machineBean.machine_type)) {
-            engine = ElocSDK.getBleEngine(this);
-//            engine.setGlobalCallback(new BleEngine.Callback() {
-//                @Override
-//                public void onReceive(int status, Object data) {
-//                    switch (status) {
-//                        case BleStatus.BATTERY_POWER:
-//                            LogUtil.d("============BATTERY_POWER,data:" + data.toString());
-//                            break;
-//                        case BleStatus.DEVICE_BUSY:
-//                            LogUtil.d("============DEVICE_BUSY,data:" + data.toString());
-//                            break;
-//                        case BleStatus.INVALID_OPCODE:
-//                            LogUtil.d("============INVALID_OPCODE,data:" + data.toString());
-//                            break;
-//                        case BleStatus.GET_TIME:
-//                            LogUtil.d("============GET_TIME,data:" + data.toString());
-//                            break;
-//                        case BleStatus.GRANT_EXPIRE:
-//                            LogUtil.d("============GRANT_EXPIRE,data:" + data.toString());
-//                            break;
-//                        case BleStatus.LOCK_START:
-//                            LogUtil.d("============LOCK_START,data:" + data.toString());
-//                            break;
-//                        case BleStatus.LOCK_STATE:
-//                            LogUtil.d("============LOCK_STATE,data:" + data.toString());
-////                            updateView(!(Boolean) data);
-//                            break;
-//                        case BleStatus.REQUEST_FOR_TIME:
-//                            LogUtil.d("============REQUEST_FOR_TIME,data:" + data.toString());
-//                            break;
-//                        case BleStatus.SCAN_FAILED:
-//                            LogUtil.d("============SCAN_FAILED,data:" + data.toString());
-//                            break;
-//                        case BleStatus.SIGN_INVALID:
-//                            LogUtil.d("============SIGN_INVALID,data:" + data.toString());
-//                            break;
-//                        case BleStatus.UNLOCK_START:
-//                            LogUtil.d("============UNLOCK_START,data:" + data.toString());
-//                            break;
-//                        default:
-//                    }
-//                }
-//            });
+            ysbSDK = new YisuobaoSDK(this,machineBean.asset_number,machineBean.password,listener);
         }
     }
 
@@ -147,33 +140,9 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
                     if(bean == null){
                         return;
                     }
-//                    engine.getDevice(bean.getAsset_number(), new BleEngine.Callback() {
-//                        @Override
-//                        public void onReceive(int i, Object o) {
-//
-//                        }
-//                    });
                     DialogUtil.dismiss(dialog);
                     dialog = LoadingDialog.showDialogForLoading(LockDetailActivity.this,"操作中...",true,null);
-                    engine.unlock(bean.getAsset_number(), bean.getPassword(), UnlockMode.MODE_TOGGLE, new BleEngine.Callback() {
-                        @Override
-                        public void onReceive(int status, Object data) {
-                            switch (status) {
-                                case BleStatus.LOCK_COMPLETE:
-                                    DialogUtil.dismiss(dialog);
-//                                    LogUtil.d("============LOCK_COMPLETE,data:" + data);
-                                    updateView(false);
-                                    mPresenter.switchDev(machineBean.id + "", false);
-                                    break;
-                                case BleStatus.UNLOCK_COMPLETE:
-                                    DialogUtil.dismiss(dialog);
-//                                    LogUtil.d("============UNLOCK_COMPLETE,data:" + data);
-                                    updateView(true);
-                                    mPresenter.switchDev(machineBean.id + "", true);
-                                    break;
-                            }
-                        }
-                    });
+                    ysbSDK.switchLock();
                 })
                 .onDenied(permissions -> {
                     LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
@@ -192,19 +161,18 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
         intent.putExtra("machineBean", machineBean);
         context.startActivity(intent);
     }
-
     @Override
     public void returnDevDetail(DevDetailBean bean) {
         this.bean = bean;
-//        updateView("ON".equals(bean.getMachine_status()));
-        engine.getLockState(bean.getAsset_number(), bean.getPassword(), new BleEngine.Callback() {
-            @Override
-            public void onReceive(int i, Object data) {
-                if (i == BleStatus.LOCK_STATE) {
-                    updateView((Boolean) data);
-                }
-            }
-        });
+        if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(bean.getMachine_type())){
+            ivLock.setImageResource(R.drawable.selector_lock2_dev);
+        }else{
+            ivLock.setImageResource(R.drawable.selector_lock1_dev);
+        }
+        updateView("ON".equals(bean.getMachine_status()));
+//        ysbSDK.autoLock(bean.isAuto_lock());
+//        ysbSDK.autoLowBatUnLock(bean.isLowpower_hand_unlock());
+        ysbSDK.getLockState();
     }
     private void updateView(boolean isOn){
         tvSwith.setSelected(isOn);
@@ -213,8 +181,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
 
     @Override
     protected void onDestroy() {
-        if(engine != null)
-        engine.release();
+        ysbSDK.release();
         DialogUtil.dismiss(dialog);
         super.onDestroy();
     }

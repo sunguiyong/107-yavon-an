@@ -182,6 +182,7 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
         if(result){
             ToastUtil.showShort(this,"绑定成功");
             mRxManager.post(Constants.EVENT_BIND_DEV_SUCCESS,1);
+            mRxManager.post(Constants.EVENT_REFRESH_HOME,0);
             finish();
         }else{
            dialog = DialogUtil.createInfoDialogWithListener(this, "设备已被绑定，您可以申请设备", new DialogUtil.OnComfirmListening() {

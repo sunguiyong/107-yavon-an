@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <CheckBox
+    <ImageView
         android:id="@+id/cb_power"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,5 +73,6 @@
         android:button="@null"
         android:drawableTop="@drawable/selector_cb_power"
         android:padding="12dp"
+        android:clickable="true"
         android:textSize="0sp" />
 </FrameLayout>

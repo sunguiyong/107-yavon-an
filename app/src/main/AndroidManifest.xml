@@ -35,10 +35,10 @@
         <!--tuya-->
         <meta-data
             android:name="TUYA_SMART_APPKEY"
-            android:value="8seh5jf3kg8rcgd8f9rm" />
+            android:value="h4yg4fnn4yt9d4sqr4u4" />
         <meta-data
             android:name="TUYA_SMART_SECRET"
-            android:value="fht8gcramsgckcssdy5v8u7w5ckx9yna" />
+            android:value="u3tnfh8j4gxcu95wrwg8kxcvcvwcemrf" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <receiver android:name="com.tuya.smart.android.base.broadcast.NetworkBroadcastReceiver">

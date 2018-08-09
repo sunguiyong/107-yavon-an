@@ -20,7 +20,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -769,6 +768,16 @@ public interface ApiService {
 
     @GET("api/room/icons")
     Observable<BaseResponse<List<RoomItemBean>>> getAllRoomData(@Query("api_token") String token);
+
+    /**
+     * 上报电池锁低电量
+     * @param token
+     * @return
+     */
+    @GET("api/machines/{machine_id}/report_low_power")
+    Observable<BaseResponse> reportLowBatteryLock(
+            @Path("machine_id") String machine_id,
+            @Query("api_token") String token);
 
     @POST("api/room/add")
     @FormUrlEncoded

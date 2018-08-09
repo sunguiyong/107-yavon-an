@@ -103,7 +103,7 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                 }).getDisposable());
     }
     private void loginTuYa(LoginBean bean){
-//        TuyaUser.getUserInstance().loginWithPhonePassword("86",  "15556092750", "123456", new ILoginCallback() {
+//        TuyaUser.getUserInstance().loginWithPhonePassword("86",  "18106223213", "123456", new ILoginCallback() {
 //        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
         TuyaUser.getUserInstance().loginWithUid("86",  "15556092750", "1111111", new ILoginCallback() {
             @Override

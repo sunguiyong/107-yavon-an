@@ -37,7 +37,7 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
 
     @Override
     public void initView() {
-        setTitle("添加设备");
+        setTitle("添加常用设备");
         setRightMenuText("完成");
         findViewById(R.id.tv_right_header).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +58,10 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
                         }
                     }
                 }
-                String ids = sb.toString();
-                if (!TextUtils.isEmpty(ids)) {
-                    mPresenter.setAddDeviceData(sb.toString().substring(0, ids.length() - 1));
+                if (sb.length() != 0) {
+                   sb.setLength(sb.length() -1);
                 }
+                mPresenter.setAddDeviceData(sb.toString());
             }
         });
         mPresenter.getAddDeviceData();

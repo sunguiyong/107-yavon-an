@@ -14,5 +14,6 @@ public interface LockDetailContract {
     abstract class Presenter extends BasePresenter<View>{
         public abstract void getDevDetail(String machine_id);
         public abstract void switchDev(String machine_id,boolean isOn);
+        public abstract void reportLowBatteryLock(String machine_id,String power);
     }
 }

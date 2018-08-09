@@ -22,6 +22,7 @@ public class MyApplication extends MultiDexApplication{
         super.onCreate();
         ZXingLibrary.initDisplayOpinion(this);
         TuyaSdk.init(this);
+        TuyaSdk.setDebugMode(true);
         LoginBean bean = SPUtil.getAccount(this);
 //        TuyaSdk.setOnNeedLoginListener(new INeedLoginListener() {
 //            @Override

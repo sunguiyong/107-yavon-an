@@ -320,6 +320,9 @@ public class Api {
     public static Observable<List<RoomItemBean>> getAllRoomData(String token) {
         return getRxApi().getAllRoomData(token).compose(RxSchedulers.handleResult());
     }
+    public static Observable<BaseResponse> reportLowBatteryLock(String machineId,String token) {
+        return getRxApi().reportLowBatteryLock(machineId,token).compose(RxSchedulers.io_main());
+    }
 
     public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
         return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());

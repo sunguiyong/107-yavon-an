@@ -42,4 +42,28 @@ public class LockDetailPresenter extends LockDetailContract.Presenter {
                     }
                 }).getDisposable());
     }
+
+    @Override
+    public void reportLowBatteryLock(String machine_id,String power) {
+        boolean needReport = false;
+        try {
+            int intPower = Integer.parseInt(power);
+            if(intPower < 30){
+                needReport = true;
+            }
+        }catch (Exception e){
+           e.printStackTrace();
+        }
+        if(needReport)
+        mRxManage.add(Api.reportLowBatteryLock(machine_id,SPUtil.getToken(mContext))
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                    }
+                    @Override
+                    protected void _onError(String message) {
+//                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
 }

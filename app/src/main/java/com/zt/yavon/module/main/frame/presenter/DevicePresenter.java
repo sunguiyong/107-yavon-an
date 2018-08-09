@@ -1,17 +1,30 @@
 package com.zt.yavon.module.main.frame.presenter;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
+import android.view.View;
 
 import com.common.base.rx.BaseResponse;
+import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
+import com.tuya.smart.sdk.api.IDevListener;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.main.frame.contract.DeviceContract;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.PakageUtil;
 import com.zt.yavon.utils.SPUtil;
+import com.zt.yavon.utils.TuYaLampSDK;
+import com.zt.yavon.utils.YisuobaoSDK;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -184,5 +197,72 @@ public class DevicePresenter extends DeviceContract.Presenter {
     public void onDestroy() {
         DialogUtil.dismiss(dialog);
         super.onDestroy();
+    }
+    public void switchDevice(View view, boolean isChecked, TabBean.MachineBean bean){
+
+        switch (bean.machine_type){
+            case Constants.MACHINE_TYPE_LIGHT:
+                dialog = LoadingDialog.showDialogForLoading(mContext,"操作中...",true,null);
+                TuYaLampSDK tuYaLampSDK = new TuYaLampSDK(bean.light_device_id, new TuYaLampSDK.TuYaListener(){
+                    @Override
+                    public void onSwitchChanged(boolean isOn) {
+                        DialogUtil.dismiss(dialog);
+                        view.setSelected(isOn);
+                        reportServerDevSwitch(bean.id+"",isOn);
+                    }
+                });
+                tuYaLampSDK.switchLamp(isChecked);
+//                tuYaLampSDK.release();
+                break;
+            case Constants.MACHINE_TYPE_BATTERY_LOCK:
+                switchBatteryLock(view,isChecked,bean);
+                break;
+        }
+
+    }
+    private void switchBatteryLock(View view, boolean isChecked, TabBean.MachineBean bean){
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            BluetoothAdapter.getDefaultAdapter().enable();
+        } else {
+            AndPermission.with(mContext)
+                    .runtime()
+                    .permission(Permission.Group.LOCATION)
+                    .onGranted(permissions -> {
+                        DialogUtil.dismiss(dialog);
+                        dialog = LoadingDialog.showDialogForLoading(mContext,"操作中...",true,null);
+                        YisuobaoSDK yisuobaoSDK = new YisuobaoSDK(mContext,bean.asset_number,bean.password,new YisuobaoSDK.YisuobaoListener(){
+                            @Override
+                            public void onLockStateChanged(boolean isOpen) {
+                                DialogUtil.dismiss(dialog);
+                                view.setSelected(isOpen);
+                                reportServerDevSwitch(bean.id+"",isOpen);
+                            }
+                        });
+                        yisuobaoSDK.switchLock();
+//                yisuobaoSDK.release();
+                    })
+                    .onDenied(permissions -> {
+                        LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
+                        DialogUtil.create2BtnInfoDialog(mContext, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                PakageUtil.startAppSettings(mContext);
+                            }
+                        });
+                    })
+                    .start();
+        }
+    }
+    private void reportServerDevSwitch(String machine_id,boolean isOn) {
+        mRxManage.add(Api.switchDev(machine_id,SPUtil.getToken(mContext),isOn?"ON":"OFF")
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
     }
 }

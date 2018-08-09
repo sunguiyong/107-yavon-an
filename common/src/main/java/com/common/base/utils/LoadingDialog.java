@@ -2,7 +2,9 @@ package com.common.base.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,7 +27,7 @@ public class LoadingDialog {
      * @param msg 对话框显示内容
      * @param cancelable 对话框是否可以取消
      */
-    public static Dialog showDialogForLoading(Activity context, String msg, boolean cancelable, final DialogInterface.OnCancelListener listener) {
+    public static Dialog showDialogForLoading(Context context, String msg, boolean cancelable, final DialogInterface.OnCancelListener listener) {
 //        if(mLoadingDialog != null && mLoadingDialog.isShowing()){
 //            mLoadingDialog.dismiss();
 //        }

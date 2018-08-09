@@ -24,6 +24,7 @@ import com.zt.yavon.module.device.lock.contract.LockDetailContract;
 import com.zt.yavon.module.device.lock.presenter.LockDetailPresenter;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.TuYaLampSDK;
 
 import java.util.HashMap;
 
@@ -39,12 +40,18 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     ImageView ivLamp;
     @BindView(R.id.tv_switch_lamp)
     TextView tvSwith;
-    public static final String STHEME_LAMP_DPID_1 = "1"; //灯开关
     private TabBean.MachineBean machineBean;
-    private TuyaDevice mDevice;
-    private DevDetailBean bean;
     private Dialog dialog;
-
+    private TuYaLampSDK tuyaSDK;
+    private DevDetailBean bean;
+    private TuYaLampSDK.TuYaListener listener = new TuYaLampSDK.TuYaListener(){
+        @Override
+        public void onSwitchChanged(boolean isOn) {
+            DialogUtil.dismiss(dialog);
+            updateView(isOn);
+            mPresenter.switchDev(machineBean.id+"",isOn);
+        }
+    };
     @Override
     public int getLayoutId() {
         return R.layout.activity_lamp_detail;
@@ -60,45 +67,13 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     public void initView() {
         setTitle(getString(R.string.title_lamp));
         setRightMenuImage(R.mipmap.more_right);
-        DeviceBean deviceBean = TuyaUser.getDeviceInstance().getDev(machineBean.light_device_id);
-        LogUtil.d("=============asset_number:"+machineBean.light_device_id);
-        LogUtil.d("=============deviceBean:"+JSONObject.toJSONString(deviceBean));
+        tuyaSDK = new TuYaLampSDK(machineBean.light_device_id,listener);
+        DeviceBean deviceBean = tuyaSDK.getDeviceBean();
         if (deviceBean != null) {
             Boolean isopen = (Boolean) deviceBean.getDps().get("1");
             updateView(isopen);
         }
-        mDevice = new TuyaDevice(machineBean.asset_number);
-        mDevice.registerDevListener(new IDevListener() {
-            @Override
-            public void onDpUpdate(String devId, String dpStr) {
-//                LogUtil.d("=======dpstr:"+dpStr);
-                DialogUtil.dismiss(dialog);
-                boolean isOn = dpStr.contains("true");
-                updateView(isOn);
-                mPresenter.switchDev(machineBean.id+"",isOn);
-                //dp数据更新:devId 和相应dp数据
-            }
-
-            @Override
-            public void onRemoved(String devId) {
-                //设备被移除
-            }
-
-            @Override
-            public void onStatusChanged(String devId, boolean online) {
-                //设备在线状态，online
-            }
-
-            @Override
-            public void onNetworkStatusChanged(String devId, boolean status) {
-                //网络状态监听
-            }
-
-            @Override
-            public void onDevInfoUpdate(String devId) {
-                //设备信息变更，目前只有设备名称变化，会调用该接口
-            }
-        });
+        updateView("ON".equals(machineBean.status));
         mPresenter.getDevDetail(machineBean.id+"");
     }
 
@@ -115,11 +90,7 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
                 DialogUtil.dismiss(dialog);
                 dialog = LoadingDialog.showDialogForLoading(LampDetailActivity.this,"操作中...",true,null);
                 try{
-                    if (tvSwith.isSelected()) {
-                        closeLamp();
-                    } else {
-                        openLamp();
-                    }
+                    tuyaSDK.switchLamp(!tvSwith.isSelected());
                 }catch (Exception e){
                     e.printStackTrace();
                     DialogUtil.dismiss(dialog);
@@ -148,24 +119,10 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
         ivLamp.setSelected(isOn);
     }
 
-    public void openLamp() {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(STHEME_LAMP_DPID_1, true);
-        mDevice.publishDps(JSONObject.toJSONString(hashMap), null);
-    }
-
-    public void closeLamp() {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(STHEME_LAMP_DPID_1, false);
-        mDevice.publishDps(JSONObject.toJSONString(hashMap), null);
-    }
 
     @Override
     protected void onDestroy() {
-        if (mDevice != null) {
-            mDevice.unRegisterDevListener();
-            mDevice.onDestroy();
-        }
+        tuyaSDK.release();
         DialogUtil.dismiss(dialog);
         super.onDestroy();
     }
