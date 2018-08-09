@@ -45,7 +45,7 @@ import io.reactivex.functions.Consumer;
  * Created by hp on 2018/6/11.
  */
 
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View,SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.sliding_tab_layout)
     public SlidingTabLayout slidingTabLayout;
     @BindView(R.id.view_pager)
@@ -166,13 +166,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     private int mSelectIndex = 0;
+
     @Override
     public void returnTabData(List<TabBean> data) {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        if(data == null || data.isEmpty()){
-            ToastUtil.showShort(getContext(),"数据加载失败，请重试！");
+        if (data == null || data.isEmpty()) {
+            ToastUtil.showShort(getContext(), "数据加载失败，请重试！");
             return;
         }
         mSelectIndex = viewPager.getCurrentItem();
@@ -187,9 +188,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             ft.commitNowAllowingStateLoss();
         }
 
-        if(fmts == null){
+        if (fmts == null) {
             fmts = new ArrayList<>();
-        }else if(fmts.size() > 0){
+        } else if (fmts.size() > 0) {
 //            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //            for(Fragment fragment:fmts){
 //                transaction.remove(fragment);
@@ -213,16 +214,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             fmts.add(fmt);
         }
         slidingTabLayout.setViewPager(viewPager, titles, getActivity(), fmts);
-        viewPager.post(new Runnable() {
-            @Override
-            public void run() {
-                viewPager.setCurrentItem(mSelectIndex);
-            }
-        });
+
         viewPager.post(new Runnable() {
             @Override
             public void run() {
                 viewPager.getAdapter().notifyDataSetChanged();
+                viewPager.setCurrentItem(mSelectIndex);
             }
         });
         for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
@@ -260,7 +257,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-    @OnClick({R.id.iv_scan, R.id.iv_add, R.id.layout_msg,R.id.title_ok,R.id.title_select_all})
+    @OnClick({R.id.iv_scan, R.id.iv_add, R.id.layout_msg, R.id.title_ok, R.id.title_select_all})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -280,10 +277,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 MessageListActivity.startAction(getActivity(), MessageListActivity.TYPE_INTERNAL);
                 break;
             case R.id.title_ok:
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onSelectCompleteClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onSelectCompleteClick();
                 break;
             case R.id.title_select_all:
-                ((FmtDevice)fmts.get(viewPager.getCurrentItem())).onSelectAllClick();
+                ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onSelectAllClick();
                 break;
         }
     }
