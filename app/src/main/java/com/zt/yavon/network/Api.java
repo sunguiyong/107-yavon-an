@@ -3,6 +3,7 @@ package com.zt.yavon.network;
 import com.common.base.rx.BaseResponse;
 import com.common.base.rx.RxSchedulers;
 import com.zt.yavon.BuildConfig;
+import com.zt.yavon.module.data.AssetNumbBean;
 import com.zt.yavon.module.data.CatogrieBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
@@ -243,12 +244,15 @@ public class Api {
         return getRxApi().getCatogries(token, type).compose(RxSchedulers.<List<CatogrieBean>>handleResult());
     }
 
-    public static Observable<BaseResponse> bindDev(String token, String name, String asset_number, String mac, String sn, String category_id, String room_id, String type, String lockId, String password) {
-        return getRxApi().bindDev(token, name, asset_number, mac, sn, category_id, room_id, type, lockId, password).compose(RxSchedulers.<BaseResponse>io_main());
+    public static Observable<BaseResponse> bindDev(String token, String name, String asset_number, String mac, String sn,String qrcode,String lightId, String category_id, String room_id, String type) {
+        return getRxApi().bindDev(token, name, asset_number, mac, sn, qrcode,lightId,category_id, room_id, type).compose(RxSchedulers.<BaseResponse>io_main());
     }
 
     public static Observable<DevDetailBean> getDevDetail(String id, String token) {
         return getRxApi().getDevDetail(id, token).compose(RxSchedulers.<DevDetailBean>handleResult());
+    }
+    public static Observable<AssetNumbBean> getAssetNumber(String token, String mac, String type) {
+        return getRxApi().getAssetNumber(token,mac,type).compose(RxSchedulers.<AssetNumbBean>handleResult());
     }
 
     public static Observable<BaseResponse> switchDev(String machine_id, String token, String status) {

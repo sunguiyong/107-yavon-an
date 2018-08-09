@@ -15,7 +15,7 @@ public interface EditDevContract {
     interface View{
         void returnRoomList(List<TabBean> list);
         void returnCatogries(List<CatogrieBean> list);
-        void bindSuccess();
+        void bindSuccess(boolean isSuccess,String msg);
 //        void devExist();
     }
     abstract class Presenter extends BasePresenter<View>{

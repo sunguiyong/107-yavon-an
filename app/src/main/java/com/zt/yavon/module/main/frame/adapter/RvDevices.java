@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RvDevices extends RvBase<TabBean.MachineBean> {
     private MainActivity mActivity;
-
+    private OnSwitchStateChangeListener checkedChangeListener;
     public RvDevices(Context context) {
         super(context);
     }
@@ -38,7 +38,9 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     public RvDevices(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
+    public void setOnCheckedChangeListener(OnSwitchStateChangeListener checkedChangeListener){
+        this.checkedChangeListener = checkedChangeListener;
+    }
     @Override
     public void init(Context context) {
         super.init(context);
@@ -64,7 +66,7 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     @Override
     public void customConvert(BaseViewHolder holder, TabBean.MachineBean bean) {
         CheckBox cbPower = holder.getView(R.id.cb_power);
-//        checkBox.setOnCheckedChangeListener(null);
+        cbPower.setOnCheckedChangeListener(null);
         if (mSelectMode) {
             cbPower.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.selector_cb_check, 0, 0);
             cbPower.setChecked(mSelectList.contains(holder.getAdapterPosition()));
@@ -92,10 +94,13 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                             HomeFragment fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
                             FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
                             int count = getSelectCount();
-                            fmtDevice.mMenuWidget.setRenameEnable(count == 1);
-                            fmtDevice.mMenuWidget.setShareEnable(count == 1);
-                            fmtDevice.mMenuWidget.setReportEnable(count == 1);
-                        } else {
+                            if(fmtDevice.mMenuWidget != null){
+                                fmtDevice.mMenuWidget.setRenameEnable(count == 1);
+                                fmtDevice.mMenuWidget.setShareEnable(count == 1);
+                                fmtDevice.mMenuWidget.setReportEnable(count == 1);
+                            }
+                        } else if(checkedChangeListener != null){
+                            checkedChangeListener.onSwitchStateChange(isChecked,bean);
                         }
                     }
                 });
@@ -154,9 +159,14 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     }
     public void selectAll(){
 //        LogUtil.d("=============size:"+mAdapter.getItemCount());
-        for(int i = 0;i< mAdapter.getItemCount()-1;i++){
-            mSelectList.add(i);
+        int i = 0;
+        for(TabBean.MachineBean item: mAdapter.getData()){
+            if(!item.isLastOne)
+            mSelectList.add(i++);
         }
         mAdapter.notifyDataSetChanged();
+    }
+    public interface OnSwitchStateChangeListener{
+        void onSwitchStateChange(boolean isChecked,TabBean.MachineBean bean);
     }
 }

@@ -60,8 +60,8 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     public void initView() {
         setTitle(getString(R.string.title_lamp));
         setRightMenuImage(R.mipmap.more_right);
-        DeviceBean deviceBean = TuyaUser.getDeviceInstance().getDev(machineBean.asset_number);
-        LogUtil.d("=============asset_number:"+machineBean.asset_number);
+        DeviceBean deviceBean = TuyaUser.getDeviceInstance().getDev(machineBean.light_device_id);
+        LogUtil.d("=============asset_number:"+machineBean.light_device_id);
         LogUtil.d("=============deviceBean:"+JSONObject.toJSONString(deviceBean));
         if (deviceBean != null) {
             Boolean isopen = (Boolean) deviceBean.getDps().get("1");

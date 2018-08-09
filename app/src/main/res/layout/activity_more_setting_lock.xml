@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_auto_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -65,7 +66,7 @@
             android:text="@string/more_lock_auto"
             android:paddingLeft="20dp"
             android:theme="@style/MySwitch"
-            android:checked="true"
+            android:checked="false"
             android:paddingRight="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"/>
@@ -74,6 +75,7 @@
             android:layout_height="5dp"
             android:background="@mipmap/divider_white"/>
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_low_open"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"

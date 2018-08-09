@@ -24,6 +24,7 @@ public class DevDetailBean implements Serializable{
     private String sedentary_time;
     private String locker_id;
     private String password;
+    private String light_device_id;
     private String machine_status;
     private int height;
     private List<DeskBean> adjust_table_height;
@@ -178,5 +179,13 @@ public class DevDetailBean implements Serializable{
 
     public void setAdjust_table_height(List<DeskBean> adjust_table_height) {
         this.adjust_table_height = adjust_table_height;
+    }
+
+    public String getLight_device_id() {
+        return light_device_id;
+    }
+
+    public void setLight_device_id(String light_device_id) {
+        this.light_device_id = light_device_id;
     }
 }

@@ -16,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 20180808
-        versionName "0.0.4"
+        versionName "0.0.5"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a","x86"

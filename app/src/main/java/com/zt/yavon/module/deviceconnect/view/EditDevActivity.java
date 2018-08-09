@@ -1,5 +1,6 @@
 package com.zt.yavon.module.deviceconnect.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,6 +22,7 @@ import com.zt.yavon.module.deviceconnect.contract.EditDevContract;
 import com.zt.yavon.module.deviceconnect.presenter.EditDevPresenter;
 import com.zt.yavon.module.main.roommanager.add.view.ActAllRoom;
 import com.zt.yavon.utils.Constants;
+import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.widget.CustomEditText;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
     private String defaultName;
     private String defaultRoomId;
     private String typeString;
+    private Dialog dialog;
     private TabBean.MachineBean machineBean;
     @Override
     public int getLayoutId() {
@@ -142,11 +145,11 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
                 if(!TextUtils.isEmpty(tvRoomName.getText().toString().trim())){
                     roomId = defaultRoomId;
                 }
-                if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(machineBean.machine_type)){
-                    mPresenter.bindBatteryLock(name,catagoryId,roomId,machineBean);
-                }else{
+//                if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(machineBean.machine_type)){
+//                    mPresenter.bindBatteryLock(name,catagoryId,roomId,machineBean);
+//                }else{
                     mPresenter.bindDev(name,catagoryId,roomId,machineBean);
-                }
+//                }
                 break;
         }
     }
@@ -175,10 +178,21 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
     }
 
     @Override
-    public void bindSuccess() {
-        ToastUtil.showShort(this,"绑定成功");
-        mRxManager.post(Constants.EVENT_BIND_DEV_SUCCESS,1);
-        finish();
+    public void bindSuccess(boolean result,String msg) {
+        if(result){
+            ToastUtil.showShort(this,"绑定成功");
+            mRxManager.post(Constants.EVENT_BIND_DEV_SUCCESS,1);
+            finish();
+        }else{
+           dialog = DialogUtil.createInfoDialogWithListener(this, "设备已被绑定，您可以申请设备", new DialogUtil.OnComfirmListening() {
+               @Override
+               public void confirm() {
+                   ScanCodeActivity.start(EditDevActivity.this);
+                   mRxManager.post(Constants.EVENT_BIND_DEV_SUCCESS,1);
+                   finish();
+               }
+           });
+        }
     }
 
 //    @Override
@@ -196,4 +210,10 @@ public class EditDevActivity extends BaseActivity<EditDevPresenter> implements E
 //                break;
 //        }
 //    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.dismiss(dialog);
+        super.onDestroy();
+    }
 }

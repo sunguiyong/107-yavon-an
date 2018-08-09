@@ -133,7 +133,8 @@ public class WifiDeviceActivity extends BaseActivity {
                     //账号已存在
                     if("IS_EXISTS".equals(msg)){//登录
                         LogUtil.d("============registerAccountWithPhone,error:账号已经存在");
-                        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+//                        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
+                        TuyaUser.getUserInstance().loginWithUid("86",  "15556092750", "1111111", new ILoginCallback() {
                             @Override
                             public void onSuccess(User user) {
                                 tuya(user,pwd);
@@ -213,9 +214,6 @@ public class WifiDeviceActivity extends BaseActivity {
                     @Override
                     public void confirm() {
                         typeData.sn = deviceBean.getDevId();
-                        if(!TextUtils.isEmpty(typeData.sn) && typeData.sn.length() >= 12){
-                            typeData.sn = typeData.sn.substring(typeData.sn.length() -12);
-                        }
                         DeviceTypeActivity.start(WifiDeviceActivity.this,typeData);
                         finish();
                     }

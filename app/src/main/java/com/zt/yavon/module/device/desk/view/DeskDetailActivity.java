@@ -91,7 +91,8 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             int curProgress = seekBar.getProgress();
             if(seekBar.getProgress() != lastProgress){
                 lastProgress = curProgress;
-                LogUtil.d("=====================send data");
+                mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
+//                LogUtil.d("=====================send data");
             }
         }
     };
