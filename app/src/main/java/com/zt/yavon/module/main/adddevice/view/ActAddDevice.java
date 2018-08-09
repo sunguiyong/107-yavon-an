@@ -49,8 +49,10 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
                         MultiItemEntity item = items.get(i);
                         if (item.getItemType() == ITEM_TYPE_CHILD) {
                             AddDeviceBean.MachineBean childItem = (AddDeviceBean.MachineBean) item;
-                            sb.append(childItem.machine_id);
-                            sb.append(",");
+                            if (childItem.is_often) {
+                                sb.append(childItem.machine_id);
+                                sb.append(",");
+                            }
                         } else {
                             continue;
                         }
