@@ -239,18 +239,16 @@ public class WifiDeviceActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initDialog();
     }
 
     @OnClick({R.id.tv_scan, R.id.tv_disconnect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_scan:
-
-                finish();
+                initDialog();
                 break;
             case R.id.tv_disconnect:
-                WebviewActivity.start(this,"www.baidu.com");
+//                WebviewActivity.start(this,"www.baidu.com");
                 break;
         }
     }

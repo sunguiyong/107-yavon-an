@@ -3,14 +3,20 @@ package com.zt.yavon.network;
 import com.common.base.rx.BaseResponse;
 import com.zt.yavon.module.data.AssetNumbBean;
 import com.zt.yavon.module.data.CatogrieBean;
+import com.zt.yavon.module.data.CityLocation;
+import com.zt.yavon.module.data.CountBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
+import com.zt.yavon.module.data.ElectricDayBean;
+import com.zt.yavon.module.data.ElectricMonthBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.data.UserRecordBean;
+import com.zt.yavon.module.data.WeatherBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
@@ -221,6 +227,16 @@ public interface ApiService {
     );
 
     /**
+     * 内部消息未读数量
+     *
+     * @param api_token
+     * @return
+     */
+    @GET("api/notifications/insides/unread_count")
+    Observable<BaseResponse<CountBean>> getInternalMsgUnreadCount(
+            @Query("api_token") String api_token
+    );
+    /**
      * 内部消息列表
      *
      * @param api_token
@@ -303,6 +319,20 @@ public interface ApiService {
     Observable<BaseResponse> deleteInternalMsg(
             @Field("api_token") String api_token,
             @Field("ids") String ids
+    );
+
+    /**
+     * 移除常用设备
+     *
+     * @param api_token
+     * @param ids
+     * @return
+     */
+    @HTTP(method = "DELETE", path = "api/machines/remove_often", hasBody = true)
+    @FormUrlEncoded
+    Observable<BaseResponse> removeOften(
+            @Field("api_token") String api_token,
+            @Field("machine_ids") String ids
     );
 
     /**
@@ -759,6 +789,58 @@ public interface ApiService {
             @Field("machine_id") String id,
             @Field("machine_name") String name
     );
+    /**
+     * 自动开锁设置
+     *
+     * @param api_token
+     * @param machine_id
+     * @return
+     */
+    @PATCH("api/machines/{machine_id}/button_setting")
+    @FormUrlEncoded
+    Observable<BaseResponse<DevDetailBean>> autoLock(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("auto_lock") String auto_lock
+    );
+    /**
+     * 低电量手动开锁设置
+     *
+     * @param api_token
+     * @param machine_id
+     * @return
+     */
+    @PATCH("api/machines/{machine_id}/button_setting")
+    @FormUrlEncoded
+    Observable<BaseResponse<DevDetailBean>> lowBatteryUnlock(
+            @Path("machine_id") String machine_id,
+            @Field("api_token") String api_token,
+            @Field("lowpower_hand_unlock") String lowpower_hand_unlock
+    );
+    /**
+     * 电量统计（天）
+     *
+     * @param api_token
+     * @param machine_id
+     * @return
+     */
+    @GET("api/statistics/day_power")
+    Observable<BaseResponse<List<ElectricDayBean>>> getDayPower(
+            @Query("api_token") String api_token,
+            @Query("machine_id") String machine_id
+            );
+    /**
+     * 电量统计（月）
+     *
+     * @param api_token
+     * @param machine_id
+     * @return
+     */
+    @GET("api/statistics/month_power")
+    Observable<BaseResponse<List<ElectricMonthBean>>> getMonthPower(
+            @Query("api_token") String api_token,
+            @Query("machine_id") String machine_id
+            );
 
     @POST("api/machines/add_often")
     @FormUrlEncoded
@@ -778,6 +860,17 @@ public interface ApiService {
     Observable<BaseResponse> reportLowBatteryLock(
             @Path("machine_id") String machine_id,
             @Query("api_token") String token);
+    /**
+     * 设备使用记录
+     * @param token
+     * @return
+     */
+    @GET("api/machines/{machine_id}/get_operate_record")
+    Observable<BaseResponse<UserRecordBean>> getUseRecord(
+            @Path("machine_id") String machine_id,
+            @Query("api_token") String token,
+            @Query("page") int page,
+            @Query("per_page") int per_page);
 
     @POST("api/room/add")
     @FormUrlEncoded
@@ -802,5 +895,16 @@ public interface ApiService {
     Observable<BaseResponse<List<TabBean>>> getRoomData(
             @Query("api_token") String api_token,
             @Query("from") String from
+    );
+    @GET("http://api.map.baidu.com/geocoder")
+    Observable<CityLocation> getCity(
+            @Query("output") String output,
+            @Query("location") String location,
+            @Query("key") String key
+    );
+    @GET("https://way.jd.com/he/freeweather")
+    Observable<WeatherBean> getWeather(
+            @Query("city") String city,
+            @Query("appkey") String appkey
     );
 }

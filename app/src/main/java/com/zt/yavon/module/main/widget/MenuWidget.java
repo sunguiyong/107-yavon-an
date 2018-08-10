@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
-import com.zt.yavon.module.main.frame.view.MainActivity;
 
 public class MenuWidget extends LinearLayout implements View.OnClickListener {
+    public TextView tvOften,tvMove,tvRename,tvShare,tvMore,tvDel,tvReport;
     private Context mContext;
 
     public MenuWidget(Context context) {
@@ -31,7 +32,38 @@ public class MenuWidget extends LinearLayout implements View.OnClickListener {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        tvOften = (TextView) findViewById(R.id.menu_recent);
+        tvMove = (TextView) findViewById(R.id.menu_move);
+        tvRename = (TextView) findViewById(R.id.menu_rename);
+        tvShare = (TextView) findViewById(R.id.menu_share);
+        tvMore = (TextView) findViewById(R.id.menu_more);
+        tvDel = (TextView) findViewById(R.id.menu_del);
+        tvReport = (TextView) findViewById(R.id.menu_report);
+    }
+
+
+    private void reset(){
+        tvMove.setText("移动");
+        tvOften.setEnabled(true);
+        tvMore.setEnabled(true);
+        tvRename.setEnabled(true);
+        tvShare.setEnabled(true);
+        tvDel.setEnabled(true);
+        tvReport.setEnabled(true);
+        tvOften.setSelected(false);
+        tvMove.setSelected(false);
+        tvRename.setSelected(false);
+        tvShare.setSelected(false);
+        tvDel.setSelected(false);
+        tvReport.setSelected(false);
+    }
+    @Override
     public void setVisibility(int visibility) {
+        if(visibility == VISIBLE){
+            reset();
+        }
         super.setVisibility(visibility);
         if (visibility == VISIBLE) {
             findViewById(R.id.ll_more).setVisibility(GONE);
@@ -44,21 +76,45 @@ public class MenuWidget extends LinearLayout implements View.OnClickListener {
             case R.id.menu_recent:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onRecentClick();
+                    tvOften.setSelected(true);
+                    tvMove.setSelected(false);
+                    tvRename.setSelected(false);
+                    tvShare.setSelected(false);
+                    tvDel.setSelected(false);
+                    tvReport.setSelected(false);
                 }
                 break;
             case R.id.menu_move:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onMoveClick();
+                    tvOften.setSelected(false);
+                    tvMove.setSelected(true);
+                    tvRename.setSelected(false);
+                    tvShare.setSelected(false);
+                    tvDel.setSelected(false);
+                    tvReport.setSelected(false);
                 }
                 break;
             case R.id.menu_rename:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onRenameClick();
+                    tvOften.setSelected(false);
+                    tvMove.setSelected(false);
+                    tvRename.setSelected(true);
+                    tvShare.setSelected(false);
+                    tvDel.setSelected(false);
+                    tvReport.setSelected(false);
                 }
                 break;
             case R.id.menu_share:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onShareClick();
+                    tvOften.setSelected(false);
+                    tvMove.setSelected(false);
+                    tvRename.setSelected(false);
+                    tvShare.setSelected(true);
+                    tvDel.setSelected(false);
+                    tvReport.setSelected(false);
                 }
                 break;
             case R.id.menu_more:
@@ -67,25 +123,28 @@ public class MenuWidget extends LinearLayout implements View.OnClickListener {
             case R.id.menu_del:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onDelClick();
+                    tvOften.setSelected(false);
+                    tvMove.setSelected(false);
+                    tvRename.setSelected(false);
+                    tvShare.setSelected(false);
+                    tvDel.setSelected(true);
+                    tvReport.setSelected(false);
                 }
                 break;
             case R.id.menu_report:
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onReportClick();
+                    tvOften.setSelected(false);
+                    tvMove.setSelected(false);
+                    tvRename.setSelected(false);
+                    tvShare.setSelected(false);
+                    tvDel.setSelected(false);
+                    tvReport.setSelected(true);
                 }
                 break;
         }
     }
 
-    public void setRenameEnable(boolean enable) {
-        ((TextView) findViewById(R.id.menu_rename)).setEnabled(enable);
-    }
-    public void setShareEnable(boolean enable) {
-        ((TextView) findViewById(R.id.menu_share)).setEnabled(enable);
-    }
-    public void setReportEnable(boolean enable) {
-        ((TextView) findViewById(R.id.menu_report)).setEnabled(enable);
-    }
 
     public interface OnItemClickListener {
         void onRecentClick();

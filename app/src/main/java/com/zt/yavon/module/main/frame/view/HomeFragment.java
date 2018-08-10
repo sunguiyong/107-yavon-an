@@ -1,5 +1,6 @@
 package com.zt.yavon.module.main.frame.view;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,16 +14,22 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.data.WeatherBean;
+import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.deviceconnect.view.DeviceAddActivity;
 import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
@@ -31,9 +38,13 @@ import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.utils.Constants;
+import com.zt.yavon.utils.DialogUtil;
+import com.zt.yavon.utils.LocationUtil;
+import com.zt.yavon.utils.PakageUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,6 +67,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     Unbinder unbinder;
     @BindView(R.id.iv_setting)
     ImageView ivSetting;
+    @BindView(R.id.tv_count_msg)
+    TextView tvMsgCount;
+    @BindView(R.id.tv_air_weather)
+    TextView tvAir;
+    @BindView(R.id.tv_tmp_weather)
+    TextView tvTmp;
+    @BindView(R.id.tv_con_weather)
+    TextView tvCon;
     Unbinder unbinder1;
     private LinearLayoutManager layoutManager;
     private int curPage = 1;
@@ -63,6 +82,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public List<TabBean> mTabData;
     public ArrayList<Fragment> fmts;
     private MainActivity mActivity;
+    private Dialog dialog;
 
     @Override
     protected int getLayoutResource() {
@@ -161,10 +181,36 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onReportClick();
             }
         });
+        initPermission();
         mPresenter.getTabData();
-
+        mPresenter.getInternalMsgUnreadCount();
     }
-
+    private void initPermission() {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.Group.LOCATION)
+                .onGranted(permissions -> {
+                    DialogUtil.dismiss(dialog);
+                    LocationUtil locationUtil = new LocationUtil(getActivity());
+                    locationUtil.setListener(new LocationUtil.LocationChangedListener() {
+                        @Override
+                        public void onLocationChanged(String location) {
+                            mPresenter.getCity(location);
+                        }
+                    });
+                    locationUtil.getLocation();
+                })
+                .onDenied(permissions -> {
+                    LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
+                    dialog = DialogUtil.create2BtnInfoDialog(getActivity(), "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            PakageUtil.startAppSettings(getActivity());
+                        }
+                    });
+                })
+                .start();
+    }
     private int mSelectIndex = 0;
 
     @Override
@@ -246,6 +292,27 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         ToastUtil.showLong(getActivity(), message);
     }
 
+    @Override
+    public void unreadMsgCount(int count) {
+        if(count > 0){
+            tvMsgCount.setVisibility(View.VISIBLE);
+            tvMsgCount.setText(count+"");
+        }else{
+            tvMsgCount.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void updateWeather(WeatherBean bean) {
+        List<WeatherBean.HeWeather> list = bean.result.HeWeather5;
+        if(list != null && !list.isEmpty()){
+            WeatherBean.HeWeather weather = list.get(0);
+            tvTmp.setText(weather.now.tmp);
+            tvCon.setText(weather.now.cond.txt);
+            tvAir.setText("室外空气 "+weather.suggestion.air.brf);
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -291,6 +358,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onRefresh() {
+        initPermission();
         mPresenter.getTabData();
+    }
+
+    @Override
+    public void onDestroy() {
+        DialogUtil.dismiss(dialog);
+        super.onDestroy();
     }
 }

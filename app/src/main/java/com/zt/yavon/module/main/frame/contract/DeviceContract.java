@@ -17,6 +17,7 @@ public interface DeviceContract {
         void moveSuccess(List<TabBean.MachineBean> beans);
         void renameSuccess(TabBean.MachineBean bean);
         void uploadFaultSuccess();
+        void removeOftenSuccess(List<TabBean.MachineBean> beans);
     }
 
     abstract class Presenter extends BasePresenter<View> {
@@ -26,5 +27,6 @@ public interface DeviceContract {
         public abstract void moveDev(List<TabBean.MachineBean> beans,String roomId);
         public abstract void renameDev(List<TabBean.MachineBean> beans);
         public abstract void uploadFault(List<TabBean.MachineBean> beans);
+        public abstract void removeOften(List<TabBean.MachineBean> beans);
     }
 }

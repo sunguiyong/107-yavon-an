@@ -121,9 +121,9 @@ public class CombinedChartManager {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
 //                return xAxisValues.get((int) value % xAxisValues.size());
-                LogUtil.d("============value:"+value);
-
-                return xAxisValues.get((int) value % xAxisValues.size())+"月";
+//                LogUtil.d("============value:"+value);
+                String xValue = xAxisValues.get((int) value % xAxisValues.size());
+                return xValue.lastIndexOf("-") > 5?xValue.substring(5):xValue;
             }
         });
         xAxis.setAxisLineColor(color);

@@ -27,6 +27,7 @@ import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.view.DeskDetailActivity;
 import com.zt.yavon.module.device.lamp.view.LampDetailActivity;
 import com.zt.yavon.module.device.lock.view.LockDetailActivity;
+import com.zt.yavon.module.device.share.view.ApplyDevActivity;
 import com.zt.yavon.module.device.share.view.AuthorActivity;
 import com.zt.yavon.module.device.share.view.ShareDevActivity;
 import com.zt.yavon.module.main.adddevice.view.ActAddDevice;
@@ -98,23 +99,44 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 TabBean.MachineBean item = (TabBean.MachineBean) adapter.getItem(position);
                 if (mRvDevices.isSelectMode()) {
-                    if (!item.isLastOne)
-                        mRvDevices.setItemSelect(position);
+                    if (!item.isLastOne){
+                        boolean isChecked = !mRvDevices.isSelected(position);
+                        mRvDevices.setItemSelect(position,isChecked);
+                        if(isChecked){
+                            mRvDevices.addSelection(position);
+                        }else{
+                            mRvDevices.removeSelection(position);
+                        }
+                        upadteMenu();
+                    }
                 } else {
                     if (item.isLastOne) {
                         ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
                     } else {
-                        if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
-                            LampDetailActivity.startAction(getContext(), item);
-                        } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
-                            DeskDetailActivity.startAction(getContext(), item);
-                        } else {
-                            if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-                                BluetoothAdapter.getDefaultAdapter().enable();
-                            } else {
-                                initPermission(false,item);
-                            }
+                        boolean isWifiDev = false;
+                        if(Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)){
+                            isWifiDev = true;
                         }
+                        if(!isWifiDev || "ONLINE".equals(item.online_status)){
+                            if("ADMIN".equals(item.user_type) || item.is_authorized){
+                                if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
+                                    LampDetailActivity.startAction(getContext(), item);
+                                } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
+                                    DeskDetailActivity.startAction(getContext(), item);
+                                } else {
+                                    if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                                        BluetoothAdapter.getDefaultAdapter().enable();
+                                    } else {
+                                        initPermission(false,item);
+                                    }
+                                }
+                            }else{
+                                showAuthorDialog(item);
+                            }
+                        }else{
+                            showOffLineDialog();
+                        }
+
                     }
                 }
             }
@@ -140,8 +162,10 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                 if(view.getId() == R.id.cb_power){
                     TabBean.MachineBean bean = (TabBean.MachineBean) adapter.getItem(position);
                     boolean isChecked = !view.isSelected();
+//                    boolean isChecked = !mRvDevices.isSelected(position);
                     if (mRvDevices.isSelectMode()) {
 //                            LogUtil.d("============on checked change:"+isChecked+",position:"+holder.getAdapterPosition());
+//                        isChecked = !mRvDevices.isSelected(position);
                         view.setSelected(isChecked);
                         if(isChecked){
                             mRvDevices.addSelection(position);
@@ -150,14 +174,21 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                         }
 //                        HomeFragment fmtHome = (HomeFragment) mActivity.getSupportFragmentManager().findFragmentByTag(MainActivity.texts[0]);
 //                        FmtDevice fmtDevice = (FmtDevice) ((FragmentPagerAdapter) fmtHome.viewPager.getAdapter()).getItem(fmtHome.viewPager.getCurrentItem());
-                        int count = mRvDevices.getSelectCount();
-                        if(mMenuWidget != null){
-                            mMenuWidget.setRenameEnable(count == 1);
-                            mMenuWidget.setShareEnable(count == 1);
-                            mMenuWidget.setReportEnable(count == 1);
-                        }
+                        upadteMenu();
                     } else{
-                        mPresenter.switchDevice(view,isChecked,bean);
+                        boolean isWifiDev = false;
+                        if(Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)){
+                            isWifiDev = true;
+                        }
+                        if(!isWifiDev || "ONLINE".equals(bean.online_status)){
+                            if("ADMIN".equals(bean.user_type) || bean.is_authorized){
+                                mPresenter.switchDevice(view,isChecked,bean);
+                            }else{
+                                showAuthorDialog(bean);
+                            }
+                        }else{
+                            showOffLineDialog();
+                        }
                     }
                 }
             }
@@ -168,6 +199,26 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             machines.add(new TabBean.MachineBean(true));
         }
         mRvDevices.setData(machines);
+    }
+    private void upadteMenu(){
+        int count = mRvDevices.getSelectCount();
+        if(mMenuWidget != null){
+            mMenuWidget.tvRename.setEnabled(count == 1);
+            mMenuWidget.tvShare.setEnabled(count == 1);
+            mMenuWidget.tvReport.setEnabled(count == 1);
+        }
+    }
+    private void showOffLineDialog() {
+        dialog = DialogUtil.createInfoDialogWithListener(getContext(),"设备离线中，请连接设备后刷新页面",null);
+    }
+
+    private void showAuthorDialog(TabBean.MachineBean bean){
+        dialog = DialogUtil.create2BtnInfoDialog(getContext(), "该设备尚未授权或授权已过期", null, "再次申请", new DialogUtil.OnComfirmListening() {
+            @Override
+            public void confirm() {
+                ApplyDevActivity.startAction(getActivity(),bean.name,bean.asset_number);
+            }
+        });
     }
     private void initPermission(boolean isDo,TabBean.MachineBean item) {
         AndPermission.with(this)
@@ -224,6 +275,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
 
     public void onSelectAllClick() {
         mRvDevices.selectAll();
+        upadteMenu();
     }
 
     public void onSelectCompleteClick() {
@@ -234,18 +286,19 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         try {
             mLlTitle.setVisibility(View.GONE);
             mRvDevices.exitMultiSelectMode();
-            mMenuWidget.setVisibility(View.INVISIBLE);
+            mMenuWidget.setVisibility(View.GONE);
         } catch (Exception e) {
 
         }
     }
 
     private void enterMultiSelectMode(int position) {
-        mMenuWidget.setRenameEnable(true);
-        mMenuWidget.setShareEnable(true);
-        mMenuWidget.setReportEnable(true);
         mRvDevices.enterMultiSelectMode(position);
         mMenuWidget.setVisibility(View.VISIBLE);
+        if(mIsOften){
+            mMenuWidget.tvOften.setEnabled(false);
+            mMenuWidget.tvMove.setText("移除");
+        }
         mLlTitle.setVisibility(View.VISIBLE);
     }
 
@@ -279,7 +332,16 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
             ToastUtil.showLong(mActivity, "未选择设备");
             return;
         }
-        mPresenter.getRoomList();
+        if(mIsOften){
+            dialog = DialogUtil.create2BtnInfoDialog(mActivity, "确认将设备从常用列表中移除吗?",null,null, new DialogUtil.OnComfirmListening() {
+                @Override
+                public void confirm() {
+                    mPresenter.removeOften(beans);
+                }
+            });
+        }else{
+            mPresenter.getRoomList();
+        }
     }
 
     public void onRenameClick() {
@@ -341,6 +403,13 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
     @Override
     public void uploadFaultSuccess() {
         ToastUtil.showShort(getContext(), "上报成功");
+        exitMultiSelectMode();
+    }
+
+    @Override
+    public void removeOftenSuccess(List<TabBean.MachineBean> beans) {
+        mRvDevices.mAdapter.getData().removeAll(beans);
+        mRvDevices.mAdapter.notifyDataSetChanged();
         exitMultiSelectMode();
     }
 

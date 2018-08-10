@@ -23,7 +23,7 @@
             android:layout_margin="30dp"
             android:gravity="center"
             android:padding="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:text="再次扫描" />
         <LinearLayout
             android:id="@+id/lin_scan_bluetooth"
@@ -34,7 +34,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="50dp"
                 android:id="@+id/lin_search_nothing"
                 android:gravity="center"
@@ -49,6 +49,7 @@
                     android:id="@+id/tv_disconnect"
                     android:textColor="@color/mainGray"
                     android:text="无法连接设备怎么办?"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

@@ -34,26 +34,29 @@
         android:paddingBottom="15dp"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_content_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="11:45关闭"
+            android:text=""
             />
         <TextView
+            android:id="@+id/tv_from_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="@color/gray_circle"
             android:layout_marginTop="3dp"
-            android:text="来自 管理者操作"
+            android:text=""
             />
         <TextView
+            android:id="@+id/tv_phone_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textColor="@color/gray_circle"
             android:textSize="12sp"
-            android:text="123456789"
+            android:text=""
             android:layout_marginTop="3dp"
             />
     </LinearLayout>

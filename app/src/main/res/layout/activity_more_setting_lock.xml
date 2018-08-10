@@ -39,6 +39,7 @@
         android:layout_height="5dp"
         android:background="@mipmap/divider_white"/>
     <TextView
+        android:id="@+id/tv_share_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"

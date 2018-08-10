@@ -7,25 +7,28 @@
     android:paddingBottom="10dp"
     >
     <TextView
+        android:id="@+id/tv_month_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:text="7月"
+        android:text=""
         />
     <TextView
+        android:id="@+id/tv_day_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:textSize="14sp"
-        android:text="11"
+        android:text=""
         />
     <TextView
+        android:id="@+id/tv_week_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:gravity="right"
         android:textSize="15sp"
-        android:text="星期三"
+        android:text=""
         android:layout_gravity="center_vertical"
         />
 </LinearLayout>

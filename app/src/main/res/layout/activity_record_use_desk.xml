@@ -26,26 +26,33 @@
             android:paddingLeft="18dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_name_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                android:text="智能升降桌"
+                android:text=""
                 />
             <TextView
+                android:id="@+id/iv_status_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:layout_marginTop="7dp"
-                android:text="2018-07-11 11:00:59 设备开启"
+                android:text=""
                 />
         </LinearLayout>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_record_desk"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:overScrollMode="never"/>
+        android:layout_height="match_parent" >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_record_desk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:overScrollMode="never"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

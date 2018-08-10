@@ -2,23 +2,20 @@ package com.zt.yavon.module.device.desk.view;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevDetailBean;
+import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.device.desk.contract.DeskSettingContract;
 import com.zt.yavon.module.device.desk.presenter.DeskSettingPresenter;
-import com.zt.yavon.module.device.lamp.view.LampRecordActivity;
-import com.zt.yavon.module.device.lamp.view.LampUseActivity;
+import com.zt.yavon.module.device.share.view.ShareSettingActivity;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
@@ -62,7 +59,7 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
         switchRemind.setChecked(machine.isSedentary_reminder());
     }
 
-    @OnClick({R.id.tv_time_set,R.id.tv_use_direct_desk,R.id.tv_use_record_desk})
+    @OnClick({R.id.tv_time_set,R.id.tv_use_direct_desk,R.id.tv_use_record_desk,R.id.tv_share_setting})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -84,7 +81,13 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
                 DeskUseActivity.startAction(this);
                 break;
             case R.id.tv_use_record_desk:
-                DeskRecordActivity.startAction(this);
+                DevUseRecordActivity.startAction(this,machine.getMachine_id());
+                break;
+            case R.id.tv_share_setting:
+                MineRoomBean.Machine bean = new MineRoomBean.Machine();
+                bean.setMachine_id(machine.getMachine_id());
+                bean.setUser_type(machine.getUser_type());
+                ShareSettingActivity.startAction(this,bean);
                 break;
         }
     }

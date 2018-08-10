@@ -1,7 +1,5 @@
 package com.zt.yavon.module.device.desk.presenter;
 
-import android.text.TextUtils;
-
 import com.common.base.rx.BaseResponse;
 import com.common.base.utils.ToastUtil;
 import com.zt.yavon.module.data.DeskBean;
@@ -19,8 +17,6 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import retrofit2.http.Field;
-import retrofit2.http.Path;
 
 /**
  * Created by hp on 2018/6/13.
@@ -101,6 +97,7 @@ public class DeskDetailPresenter extends DeskDetailContract.Presenter {
                     }
                 }).getDisposable());
     }
+
 
     @Override
     public void setDeskCustomHeightTag(String machine_id, List<DeskBean> height) {

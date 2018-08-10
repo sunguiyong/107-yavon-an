@@ -15,8 +15,8 @@ android {
         applicationId "com.zt.yavon"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180808
-        versionName "0.0.5"
+        versionCode 201808010
+        versionName "0.0.7"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a","x86"

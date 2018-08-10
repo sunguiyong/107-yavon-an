@@ -97,7 +97,7 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
                 }
                 break;
             case R.id.tv_right_header:
-                LampSettingActivity.startAction(this);
+                LampSettingActivity.startAction(this,bean);
                 break;
         }
     }

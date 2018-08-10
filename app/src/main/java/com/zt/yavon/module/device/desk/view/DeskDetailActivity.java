@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
@@ -54,16 +55,8 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     VerticalSeekBar seekBar;
     @BindView(R.id.tv_progress_desk)
     TextView tvProgress;
-    @BindView(R.id.tv_zdy1_desk)
-    MyTextView tvZDY1;
-    @BindView(R.id.tv_zdy2_desk)
-    MyTextView tvZDY2;
-    @BindView(R.id.tv_zdy3_desk)
-    MyTextView tvZDY3;
-    @BindView(R.id.tv_zdy4_desk)
-    MyTextView tvZDY4;
-    @BindView(R.id.tv_zdy5_desk)
-    MyTextView tvZDY5;
+    @BindViews({R.id.tv_zdy1_desk,R.id.tv_zdy2_desk,R.id.tv_zdy3_desk,R.id.tv_zdy4_desk,R.id.tv_zdy5_desk})
+    List<MyTextView> zdyList;
     private Dialog dialog;
     private List<DeskBean> heightList;
     private DevDetailBean bean;
@@ -120,7 +113,9 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         seekBar.setOnSeekBarChangeListener(new VerticalSeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(VerticalSeekBar verticalSeekBar, int p, boolean fromUser) {
+                LogUtil.d("==============onProgressChanged:"+HEIGHT_BOTTOM+p);
                 tvProgress.setText(HEIGHT_BOTTOM+p+"");
+                updateCustomButtonName();
             }
 
             @Override
@@ -155,7 +150,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
                 DeskSettingActivity.startAction(this,bean,REQ_SETTING);
                 break;
             case R.id.tv_coulometry_desk:
-                ElectricityStatisticsActivity.startAction(this);
+                ElectricityStatisticsActivity.startAction(this,machineBean.id+"");
                 break;
             case R.id.tv_zdy1_desk:
                 if(heightList != null && heightList.size() > 0){
@@ -199,31 +194,14 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         if(heightList == null || heightList.isEmpty()){
             return;
         }
-        String name0 = heightList.get(0).name;
-        if(TextUtils.isEmpty(name0)){
-            name0 = "自定义1";
+        int curProgress = seekBar.getProgress()+HEIGHT_BOTTOM;
+        int index = 0;
+        for(DeskBean bean:heightList){
+            MyTextView mTextView = zdyList.get(index);
+            mTextView.setText(bean.name);
+            mTextView.setSelected(bean.height == curProgress);
+            index++;
         }
-        tvZDY1.setText(name0);
-        String name1 = heightList.get(1).name;
-        if(TextUtils.isEmpty(name1)){
-            name1 = "自定义2";
-        }
-        tvZDY2.setText(name1);
-        String name2 = heightList.get(2).name;
-        if(TextUtils.isEmpty(name2)){
-            name2 = "自定义3";
-        }
-        tvZDY3.setText(name2);
-        String name3 = heightList.get(3).name;
-        if(TextUtils.isEmpty(name3)){
-            name3 = "自定义4";
-        }
-        tvZDY4.setText(name3);
-        String name4 = heightList.get(4).name;
-        if(TextUtils.isEmpty(name4)){
-            name4 = "自定义5";
-        }
-        tvZDY5.setText(name4);
     }
 
     @OnTouch({R.id.btn_up_desk,R.id.btn_down_desk})
@@ -325,14 +303,21 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         super.onDestroy();
     }
     private void setSeekBarProgress(int progress){
+        int realProgress = -1;
         if(progress <HEIGHT_BOTTOM){
-            tvProgress.setText(HEIGHT_BOTTOM+"");
-            seekBar.setProgress(0);
+            realProgress = 0;
         }else if(progress > HEIGHT_TOP){
-            seekBar.setProgress(HEIGHT_TOP-HEIGHT_BOTTOM);
+            realProgress = HEIGHT_TOP-HEIGHT_BOTTOM;
         }else{
-            seekBar.setProgress(progress-HEIGHT_BOTTOM);
+            realProgress = progress-HEIGHT_BOTTOM;
+        }
+        if(realProgress == seekBar.getProgress()){
+            tvProgress.setText(HEIGHT_BOTTOM+seekBar.getProgress()+"");
+            updateCustomButtonName();
+        }else{
+            seekBar.setProgress(realProgress);
         }
     }
+
 
 }

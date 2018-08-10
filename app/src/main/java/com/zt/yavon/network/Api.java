@@ -5,14 +5,20 @@ import com.common.base.rx.RxSchedulers;
 import com.zt.yavon.BuildConfig;
 import com.zt.yavon.module.data.AssetNumbBean;
 import com.zt.yavon.module.data.CatogrieBean;
+import com.zt.yavon.module.data.CityLocation;
+import com.zt.yavon.module.data.CountBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
+import com.zt.yavon.module.data.ElectricDayBean;
+import com.zt.yavon.module.data.ElectricMonthBean;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.data.UserRecordBean;
+import com.zt.yavon.module.data.WeatherBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
 import com.zt.yavon.module.main.roommanager.detail.model.RoomDetailBean;
@@ -115,6 +121,12 @@ public class Api {
     public static Observable<BaseResponse> sendCode(String account, String type, String api_token) {
         return getRxApi().sendCode(account, type, api_token).compose(RxSchedulers.<BaseResponse>io_main());
     }
+    public static Observable<CityLocation> getCity(String location) {
+        return getRxApi().getCity("json", location, "LRCNlmj6eRo0SDCSyrRBIGLfllQzvLbm").compose(RxSchedulers.io_main());
+    }
+    public static Observable<WeatherBean> getWeather(String city) {
+        return getRxApi().getWeather(city, "77e8c0241ae8d1ba71869fa61d615ca1").compose(RxSchedulers.io_main());
+    }
 
     public static Observable<LoginBean> register(String mobile, String code, String password, String confirmPwd) {
         return getRxApi().register(mobile, code, password, confirmPwd).compose(RxSchedulers.<LoginBean>handleResult());
@@ -152,6 +164,9 @@ public class Api {
         return getRxApi().sysSetting(token, msgSwitch, updateSwitch).compose(RxSchedulers.<LoginBean>handleResult());
     }
 
+    public static Observable<CountBean> getInternalMsgUnreadCount(String token) {
+        return getRxApi().getInternalMsgUnreadCount(token).compose(RxSchedulers.handleResult());
+    }
     public static Observable<List<MsgBean>> getInternalMsgList(String token, String page, String per_page) {
         return getRxApi().getInternalMsgList(token, page, per_page).compose(RxSchedulers.<List<MsgBean>>handleResult());
     }
@@ -320,9 +335,6 @@ public class Api {
     public static Observable<List<RoomItemBean>> getAllRoomData(String token) {
         return getRxApi().getAllRoomData(token).compose(RxSchedulers.handleResult());
     }
-    public static Observable<BaseResponse> reportLowBatteryLock(String machineId,String token) {
-        return getRxApi().reportLowBatteryLock(machineId,token).compose(RxSchedulers.io_main());
-    }
 
     public static Observable<RoomItemBean> addRoom(String token, String roomName, int roomResId) {
         return getRxApi().addRoom(token, roomName, roomResId).compose(RxSchedulers.handleResult());
@@ -339,6 +351,9 @@ public class Api {
     public static Observable<BaseResponse> delRoom(String token, int roomId) {
         return getRxApi().delRoom(roomId, token).compose(RxSchedulers.io_main());
     }
+    public static Observable<BaseResponse> removeOften(String token, String ids) {
+        return getRxApi().removeOften(token,ids).compose(RxSchedulers.io_main());
+    }
 
     public static Observable<BaseResponse> delDevice(String token, int deviceId) {
         return getRxApi().delDevice(token, deviceId).compose(RxSchedulers.io_main());
@@ -346,5 +361,23 @@ public class Api {
 
     public static Observable<List<TabBean>> getRoomData(String token, String from) {
         return getRxApi().getRoomData(token, from).compose(RxSchedulers.handleResult());
+    }
+    public static Observable<BaseResponse> reportLowBatteryLock(String id,String token) {
+        return getRxApi().reportLowBatteryLock(id,token).compose(RxSchedulers.io_main());
+    }
+    public static Observable<BaseResponse> autoLock(String machineId,String token, String auto_lock) {
+        return getRxApi().autoLock(machineId,token, auto_lock).compose(RxSchedulers.io_main());
+    }
+    public static Observable<BaseResponse> lowBatteryUnlock(String machineId,String token, String lowpower_hand_unlock) {
+        return getRxApi().lowBatteryUnlock(machineId,token, lowpower_hand_unlock).compose(RxSchedulers.io_main());
+    }
+    public static Observable<UserRecordBean> getUseRecord(String machineId, String token, int page, int perPage) {
+        return getRxApi().getUseRecord(machineId,token, page,perPage).compose(RxSchedulers.handleResult());
+    }
+    public static Observable<List<ElectricDayBean>> getDayPower(String token, String machineId) {
+        return getRxApi().getDayPower(token,machineId).compose(RxSchedulers.handleResult());
+    }
+    public static Observable<List<ElectricMonthBean>> getMonthPower(String token, String machineId) {
+        return getRxApi().getMonthPower(token,machineId).compose(RxSchedulers.handleResult());
     }
 }

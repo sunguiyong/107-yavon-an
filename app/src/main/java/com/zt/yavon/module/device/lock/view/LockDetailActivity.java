@@ -75,6 +75,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
         mRxManager.on(Constants.EVENT_AUTO_LOCK, new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
+                bean.setAuto_lock((Boolean) o);
                 if(ysbSDK != null)
                     ysbSDK.autoLock((Boolean) o);
             }
@@ -82,6 +83,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
         mRxManager.on(Constants.EVENT_AUTO_UNLOCK_LOW, new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
+                bean.setLowpower_hand_unlock((Boolean) o);
                 if(ysbSDK != null)
                     ysbSDK.autoLowBatUnLock((Boolean) o);
             }
@@ -127,7 +129,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
                 }
                 break;
             case R.id.tv_right_header:
-                LockSettingActivity.startAction(this);
+                LockSettingActivity.startAction(this,bean);
                 break;
         }
     }
@@ -146,7 +148,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
                 })
                 .onDenied(permissions -> {
                     LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
-                    DialogUtil.create2BtnInfoDialog(LockDetailActivity.this, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
+                    dialog = DialogUtil.create2BtnInfoDialog(LockDetailActivity.this, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                         @Override
                         public void confirm() {
                             PakageUtil.startAppSettings(LockDetailActivity.this);

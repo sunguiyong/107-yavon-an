@@ -8,12 +8,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.main.frame.view.MainActivity;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.widget.RvBase;
 
 import java.util.ArrayList;
@@ -64,6 +66,32 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
     public void customConvert(BaseViewHolder holder, TabBean.MachineBean bean) {
 //        CheckBox cbPower = holder.getView(R.id.cb_power);
 //        cbPower.setOnCheckedChangeListener(null);
+
+        if("ONLINE".equals(bean.online_status)){
+            holder.setVisible(R.id.black_frame,false);
+            holder.setText(R.id.tv_status, bean.isPowerOn() ? "设备开启" : "设备关闭");
+        }else{
+            boolean offLine = false;
+            if(Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)){
+                offLine = true;
+            }
+            holder.setVisible(R.id.black_frame,bean.isLastOne ?false:(offLine?true:false));
+            holder.setText(R.id.tv_status, bean.isLastOne ? "" :(offLine? "设备离线":(bean.isPowerOn() ? "设备开启" : "设备关闭")));
+        }
+        TextView tvAuthor = holder.getView(R.id.tv_author_dev);
+        if("ADMIN".equals(bean.user_type)){
+            tvAuthor.setVisibility(GONE);
+        }else if(bean.isLastOne){
+            tvAuthor.setVisibility(GONE);
+        }else{
+            tvAuthor.setVisibility(VISIBLE);
+            tvAuthor.setSelected(bean.is_authorized);
+            if(bean.is_authorized){
+                tvAuthor.setText("已授权");
+            }else{
+                tvAuthor.setText("未授权");
+            }
+        }
         ImageView cbPower = holder.getView(R.id.cb_power);
         if (mSelectMode) {
             cbPower.setImageResource(R.drawable.selector_cb_check);
@@ -77,15 +105,9 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                 .setGone(R.id.cb_power, !bean.isLastOne)
                 .setGone(R.id.tv_status, !bean.isLastOne);
         holder.setText(R.id.tv_name, bean.isLastOne ? "添加常用设备" : bean.name)
-                .setText(R.id.tv_status, bean.isLastOne ? "" : (bean.isPowerOn() ? "设备开启" : "设备关闭"))
                 .setText(R.id.tv_location, bean.isLastOne ? "" : bean.from_room);
         holder.addOnClickListener(R.id.cb_power);
-//                .setOnCheckedChangeListener(R.id.cb_power, new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    }
-//                });
+//        holder.addOnClickListener(R.id.black_frame);
         ImageView ivIcon = holder.getView(R.id.iv_icon);
         if (bean.isLastOne) {
             ivIcon.setImageResource(R.mipmap.ic_item_add);
@@ -131,12 +153,19 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
         }
         return beans;
     }
-
-    public void setItemSelect(int position) {
+    public boolean isSelected(int position){
+        for (int item : mSelectList) {
+            if(item == position){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void setItemSelect(int position,boolean isSelected) {
         if (mSelectMode) {
             View view = getLayoutManager().findViewByPosition(position);
             View checkBox = view.findViewById(R.id.cb_power);
-            checkBox.setSelected(!checkBox.isSelected());
+            checkBox.setSelected(isSelected);
         }
     }
     public void addSelection(int position){

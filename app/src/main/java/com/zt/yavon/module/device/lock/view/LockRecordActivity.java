@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.module.device.lock.adapter.LockRecordAdapter;
+import com.zt.yavon.module.device.desk.adapter.DevRecordAdapter;
 import com.zt.yavon.module.data.SectionItem;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 public class LockRecordActivity extends BaseActivity{
     @BindView(R.id.recycler_record_lock)
     RecyclerView recyclerView;
-    private LockRecordAdapter adapter;
+    private DevRecordAdapter adapter;
 
     //    @BindView(R.id.tv_switch_lock)
 //    TextView tvSwith;
@@ -50,16 +50,16 @@ public class LockRecordActivity extends BaseActivity{
 //        DividerDecoration itemDecoration = new DividerDecoration(ContextCompat.getColor(getContext(),R.color.colorPrimary), DensityUtil.dp2px(getContext(),10f));
 //        itemDecoration.setDrawLastItem(false);
 //        recyclerView.addItemDecoration(itemDecoration);
-        adapter = new LockRecordAdapter();
+        adapter = new DevRecordAdapter();
         adapter.bindToRecyclerView(recyclerView);
         List<SectionItem> list = new ArrayList<>();
-        for(int i = 0;i<50;i++){
-            if(i%7 == 0 || i%5 == 0){
-                list.add(new SectionItem(SectionItem.TYPE_TITLE,new Object()));
-            }else{
-                list.add(new SectionItem(SectionItem.TYPE_DETAIL,new Object()));
-            }
-        }
+//        for(int i = 0;i<50;i++){
+//            if(i%7 == 0 || i%5 == 0){
+//                list.add(new SectionItem(SectionItem.TYPE_TITLE,new Object()));
+//            }else{
+//                list.add(new SectionItem(SectionItem.TYPE_DETAIL,new Object()));
+//            }
+//        }
         adapter.setNewData(list);
     }
 

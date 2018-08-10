@@ -182,6 +182,22 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
     }
 
+    @Override
+    public void removeOften(List<TabBean.MachineBean> beans) {
+        mRxManage.add(Api.removeOften(SPUtil.getToken(mContext),getIds(beans))
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        mView.removeOftenSuccess(beans);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
+
     public String getIds(List<TabBean.MachineBean> beans){
         StringBuilder sb = new StringBuilder();
         for(TabBean.MachineBean bean:beans){

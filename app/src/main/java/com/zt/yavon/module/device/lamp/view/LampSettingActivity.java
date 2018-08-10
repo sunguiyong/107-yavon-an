@@ -7,8 +7,12 @@ import android.view.View;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
+import com.zt.yavon.module.data.DevDetailBean;
+import com.zt.yavon.module.data.MineRoomBean;
+import com.zt.yavon.module.device.desk.view.DevUseRecordActivity;
 import com.zt.yavon.module.device.lock.view.LockRecordActivity;
 import com.zt.yavon.module.device.lock.view.LockUseActivity;
+import com.zt.yavon.module.device.share.view.ShareSettingActivity;
 
 import butterknife.OnClick;
 
@@ -17,7 +21,9 @@ import butterknife.OnClick;
  */
 
 public class LampSettingActivity extends BaseActivity{
-//    @BindView(R.id.iv_lock)
+    private DevDetailBean machine;
+
+    //    @BindView(R.id.iv_lock)
 //    ImageView ivLock;
 //    @BindView(R.id.tv_switch_lock)
 //    TextView tvSwith;
@@ -28,7 +34,7 @@ public class LampSettingActivity extends BaseActivity{
 
     @Override
     public void initPresenter() {
-
+        machine = (DevDetailBean)getIntent().getSerializableExtra("machine");
     }
 
     @Override
@@ -37,7 +43,7 @@ public class LampSettingActivity extends BaseActivity{
 //        setRightMenuImage(R.mipmap.more_right);
     }
 
-    @OnClick({R.id.tv_use_direct_lamp,R.id.tv_use_record_lamp})
+    @OnClick({R.id.tv_use_direct_lamp,R.id.tv_use_record_lamp,R.id.tv_share_setting})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -50,12 +56,20 @@ public class LampSettingActivity extends BaseActivity{
                 LampUseActivity.startAction(this);
                 break;
             case R.id.tv_use_record_lamp:
-                LampRecordActivity.startAction(this);
+                DevUseRecordActivity.startAction(this,machine.getMachine_id());
+//                LampRecordActivity.startAction(this);
+                break;
+            case R.id.tv_share_setting:
+                MineRoomBean.Machine bean = new MineRoomBean.Machine();
+                bean.setMachine_id(machine.getMachine_id());
+                bean.setUser_type(machine.getUser_type());
+                ShareSettingActivity.startAction(this,bean);
                 break;
         }
     }
-    public static void startAction(Context context){
+    public static void startAction(Context context, DevDetailBean devBean){
         Intent intent = new Intent(context,LampSettingActivity.class);
+        intent.putExtra("machine",devBean);
         context.startActivity(intent);
     }
 }

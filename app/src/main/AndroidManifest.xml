@@ -87,7 +87,7 @@
         <activity android:name=".module.device.desk.view.DeskDetailActivity" />
         <activity android:name=".module.device.desk.view.DeskSettingActivity" />
         <activity android:name=".module.device.desk.view.DeskUseActivity" />
-        <activity android:name=".module.device.desk.view.DeskRecordActivity" />
+        <activity android:name=".module.device.desk.view.DevUseRecordActivity" />
         <activity android:name=".module.mine.view.PersonalInfoActivity" />
         <activity android:name=".module.mine.view.BindEmailActivity" />
         <activity android:name=".module.mine.view.ModityEmailActivity" />
