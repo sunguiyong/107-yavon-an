@@ -1,10 +1,13 @@
 package com.zt.yavon.module.main.frame.view;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,24 +15,34 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
+import com.zt.yavon.MyApplication;
 import com.zt.yavon.R;
+import com.zt.yavon.baidumap.LocationService;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.component.LeakSafeHandler;
 import com.zt.yavon.module.data.TabBean;
+import com.zt.yavon.module.data.VersionBean;
 import com.zt.yavon.module.data.WeatherBean;
-import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.deviceconnect.view.DeviceAddActivity;
 import com.zt.yavon.module.deviceconnect.view.ScanCodeActivity;
 import com.zt.yavon.module.main.frame.contract.HomeContract;
@@ -37,10 +50,12 @@ import com.zt.yavon.module.main.frame.presenter.HomePresenter;
 import com.zt.yavon.module.main.roommanager.list.view.RoomActivity;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.module.message.view.MessageListActivity;
+import com.zt.yavon.module.update.DownloadObserver;
+import com.zt.yavon.module.update.UpdateUtils;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.LocationUtil;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +65,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
+
+import static com.tuya.smart.sdk.TuyaSdk.getApplication;
 
 /**
  * Created by hp on 2018/6/11.
@@ -83,7 +101,27 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public ArrayList<Fragment> fmts;
     private MainActivity mActivity;
     private Dialog dialog;
-
+    private DownloadObserver observer;
+    private LeakSafeHandler<HomeFragment> mHandler = new LeakSafeHandler<HomeFragment>(this) {
+        @Override
+        public void onMessageReceived(HomeFragment mActivity, Message msg) {
+            if(msg.what == DownloadObserver.WHAT_PROGRESS){
+                if(msg.arg1 >= 100 && mActivity.dialog != null){
+                    DialogUtil.dismiss(mActivity.dialog);
+                }
+                if(mActivity.tvProgress != null){
+                    mActivity.tvProgress.setText("正在下载："+msg.arg1+"%");
+                }
+                if(mActivity.progressBar != null){
+                    mActivity.progressBar.setProgress(msg.arg1);
+                }
+            }
+        }
+    };
+    private TextView tvProgress;
+    private ProgressBar progressBar;
+    private LocationService locationService;
+    private String city;
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_home;
@@ -95,10 +133,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mRxManager.on(Constants.EVENT_REFRESH_HOME, new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
-                mPresenter.getTabData();
+                mPresenter.getTabData(false);
             }
         });
-
+        mRxManager.on(Constants.EVENT_MSG_COUNT_UPDATE, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if((Integer)o == MessageListActivity.TYPE_INTERNAL){
+                    mPresenter.getInternalMsgUnreadCount();
+                }
+            }
+        });
     }
 
     @Override
@@ -182,30 +227,59 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             }
         });
         initPermission();
-        mPresenter.getTabData();
+        mPresenter.loginTuYa();
+        mPresenter.getTabData(true);
         mPresenter.getInternalMsgUnreadCount();
+        mPresenter.getVersion();
     }
     private void initPermission() {
         AndPermission.with(this)
                 .runtime()
-                .permission(Permission.Group.LOCATION)
+                .permission(Permission.Group.LOCATION,Permission.Group.STORAGE)
                 .onGranted(permissions -> {
                     DialogUtil.dismiss(dialog);
-                    LocationUtil locationUtil = new LocationUtil(getActivity());
-                    locationUtil.setListener(new LocationUtil.LocationChangedListener() {
-                        @Override
-                        public void onLocationChanged(String location) {
-                            mPresenter.getCity(location);
-                        }
-                    });
-                    locationUtil.getLocation();
+//                    LocationUtil locationUtil = new LocationUtil(getActivity());
+//                    locationUtil.setListener(new LocationUtil.LocationChangedListener() {
+//                        @Override
+//                        public void onLocationChanged(String location) {
+//                            mPresenter.getCity(location);
+//                        }
+//                    });
+//                    locationUtil.getLocation();
+                    //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+                    startLocation();
                 })
                 .onDenied(permissions -> {
                     LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
                     dialog = DialogUtil.create2BtnInfoDialog(getActivity(), "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                         @Override
                         public void confirm() {
-                            PakageUtil.startAppSettings(getActivity());
+                            PackageUtil.startAppSettings(getActivity());
+                        }
+                    });
+                })
+                .start();
+    }
+    private void initPermission2(VersionBean bean) {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.Group.STORAGE)
+                .onGranted(permissions -> {
+                    showDownloadProgressDialog(bean.is_force);
+                    UpdateUtils.update(getContext(), bean.version, bean.url, bean.is_force, dialog, new UpdateUtils.DateChangeObserver() {
+                        @Override
+                        public void registerDateChangeObserver(long downloadId) {
+                            observer = new DownloadObserver(getContext(), downloadId, mHandler);
+                            getContext().getContentResolver().registerContentObserver(Uri.parse("content://downloads/"),true,observer);
+                        }
+                    });
+                })
+                .onDenied(permissions -> {
+                    LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
+                    dialog = DialogUtil.create2BtnInfoDialog(getActivity(), "需要SD写入权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            PackageUtil.startAppSettings(getActivity());
                         }
                     });
                 })
@@ -293,10 +367,30 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
+    public void returnVersion(VersionBean bean) {
+        if(bean != null){
+            if(PackageUtil.compareVersion(bean.version,PackageUtil.getAppVersion(getContext())) > 0){
+                //有更新
+                dialog = DialogUtil.createUpdateDialog(getActivity(), "发现新版本：" + bean.version, !bean.is_force, "以后再说", "立即更新", new DialogUtil.OnComfirmListening() {
+                    @Override
+                    public void confirm() {
+                        initPermission2(bean);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
     public void unreadMsgCount(int count) {
-        if(count > 0){
+        if(count > 99){
+            tvMsgCount.setVisibility(View.VISIBLE);
+            tvMsgCount.setText("99+");
+            tvMsgCount.setTextSize(7.5f);
+        }else if(count > 0){
             tvMsgCount.setVisibility(View.VISIBLE);
             tvMsgCount.setText(count+"");
+            tvMsgCount.setTextSize(9);
         }else{
             tvMsgCount.setVisibility(View.GONE);
         }
@@ -309,7 +403,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             WeatherBean.HeWeather weather = list.get(0);
             tvTmp.setText(weather.now.tmp);
             tvCon.setText(weather.now.cond.txt);
-            tvAir.setText("室外空气 "+weather.suggestion.air.brf);
+            tvAir.setText("室外空气 "+weather.aqi.city.qlty);
         }
     }
 
@@ -337,7 +431,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 ScanCodeActivity.start(getActivity());
                 break;
             case R.id.iv_add:
-                mPresenter.getTabData();
                 DeviceAddActivity.start(getActivity());
                 break;
             case R.id.layout_msg:
@@ -352,19 +445,85 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
     }
 
-    public void addTab() {
-        mPresenter.getTabData();
-    }
 
     @Override
     public void onRefresh() {
-        initPermission();
-        mPresenter.getTabData();
+        if(!TextUtils.isEmpty(city)){
+            mPresenter.getWeather(city);
+        }else {
+            initPermission();
+        }
+        mPresenter.getTabData(false);
     }
 
     @Override
     public void onDestroy() {
         DialogUtil.dismiss(dialog);
+        mHandler.clean(DownloadObserver.WHAT_PROGRESS);
+        if(observer != null){
+            getContext().getContentResolver().unregisterContentObserver(observer);
+        }
         super.onDestroy();
+    }
+    /**
+     * 下载进度提示框
+     * @param isForce
+     */
+    private void showDownloadProgressDialog(final boolean isForce){
+        DialogUtil.dismiss(dialog);
+        View view = getLayoutInflater().inflate(R.layout.layout_progress_download, null);
+        tvProgress = (TextView)view.findViewById(R.id.tv_progress_download);
+        progressBar = (ProgressBar)view.findViewById(R.id.progress_download);
+        dialog = new Dialog(getContext(),R.style.CustomProgressDialog);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int width = (int) (metrics.widthPixels*0.88);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(view,params);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if(observer != null){
+                    getContext().getContentResolver().unregisterContentObserver(observer);
+                }
+                tvProgress = null;
+                progressBar = null;
+                if(isForce)
+                    getActivity().finish();
+            }
+        });
+        tvProgress.setText("正在下载：0%");
+        progressBar.setProgress(1);
+        dialog.show();
+    }
+    /*****
+     *
+     * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+     *
+     */
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // TODO Auto-generated method stub
+            LogUtil.d("==========result:"+location.getLocType());
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                city = location.getCity();
+                if(!TextUtils.isEmpty(city))
+                mPresenter.getWeather(city);
+                locationService.unregisterListener(this);
+                locationService.stop();
+                locationService = null;
+            }
+        }
+
+    };
+    private void startLocation(){
+        // -----------location config ------------
+        locationService = new LocationService(getActivity().getApplicationContext());
+        locationService.registerListener(mListener);
+//        locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        locationService.start();
     }
 }

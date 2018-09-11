@@ -11,6 +11,7 @@ import com.common.base.rx.RxBus;
 import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.NetWorkUtils;
+import com.common.base.utils.TUtil;
 import com.common.base.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.zt.yavon.module.account.view.LoginRegisterActivity;
@@ -67,6 +68,7 @@ public abstract class RxSubscriber<T> implements Observer<T> {
 
     @Override
     public void onComplete() {
+        disposable.dispose();
         if (showDialog)
             LoadingDialog.cancelDialogForLoading(dialog);
     }
@@ -97,6 +99,7 @@ public abstract class RxSubscriber<T> implements Observer<T> {
     }
     @Override
     public void onError(Throwable e) {
+        disposable.dispose();
         if (showDialog)
             LoadingDialog.cancelDialogForLoading(dialog);
 //        e.printStackTrace();
@@ -116,7 +119,13 @@ public abstract class RxSubscriber<T> implements Observer<T> {
                 }else{
                     BaseResponse baseResponse = new Gson().fromJson(response.errorBody().string(),BaseResponse.class);
 //                    baseResponse.setCode(response.code());
-                    _onError(baseResponse.getMessage());
+                    String message = null;
+                    if(baseResponse != null){
+                        message = baseResponse.getMessage();
+                    }else{
+                        message = response.errorBody().string();
+                    }
+                    _onError(message);
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();

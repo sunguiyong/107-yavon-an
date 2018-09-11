@@ -6,13 +6,12 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.module.mine.contract.SettingContract;
 import com.zt.yavon.module.mine.presenter.SettingPresenter;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 import com.zt.yavon.utils.SPUtil;
 
 import butterknife.BindView;
@@ -42,7 +41,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void initView() {
         setTitle(getString(R.string.setting));
-        tvVersion.setText("v"+PakageUtil.getAppVersion(this));
+        tvVersion.setText("v"+ PackageUtil.getAppVersion(this));
         LoginBean bean = SPUtil.getAccount(this);
         if(bean != null){
             updateSwitch.setChecked(bean.getOpen_auto_update());

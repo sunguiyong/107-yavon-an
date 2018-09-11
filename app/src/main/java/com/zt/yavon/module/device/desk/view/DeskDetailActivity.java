@@ -1,27 +1,22 @@
 package com.zt.yavon.module.device.desk.view;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
-import com.espressif.iot.esptouch.EsptouchTask;
-import com.espressif.iot.esptouch.IEsptouchResult;
-import com.espressif.iot.esptouch.IEsptouchTask;
-import com.espressif.iot.esptouch.task.__IEsptouchTask;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketException;
+import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
+import com.neovisionaries.ws.client.WebSocketOpcode;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.component.LeakSafeHandler;
@@ -30,29 +25,36 @@ import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.desk.contract.DeskDetailContract;
 import com.zt.yavon.module.device.desk.presenter.DeskDetailPresenter;
+import com.zt.yavon.network.Api;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.widget.MyTextView;
 import com.zt.yavon.widget.VerticalSeekBar;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
+
 /**
  * Created by lifujun on 2018/7/10.
  */
 
 public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implements DeskDetailContract.View{
-    public static final int HEIGHT_BOTTOM = 86;
-    public static final int HEIGHT_TOP = 126;
+    public static final int WHAT_MAC = 0x35;
+    public static final int HEIGHT_BOTTOM = 76;
+    public static final int HEIGHT_TOP = 116;
     private int WHAT_SET = 0x21;
     @BindView(R.id.progress_desk)
     VerticalSeekBar seekBar;
+    @BindView(R.id.guideline1)
+    TextView tvTop;
+    @BindView(R.id.guideline2)
+    TextView tvLow;
     @BindView(R.id.tv_progress_desk)
     TextView tvProgress;
     @BindViews({R.id.tv_zdy1_desk,R.id.tv_zdy2_desk,R.id.tv_zdy3_desk,R.id.tv_zdy4_desk,R.id.tv_zdy5_desk})
@@ -61,6 +63,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     private List<DeskBean> heightList;
     private DevDetailBean bean;
     private int REQ_SETTING = 0x100;
+    private boolean updateHeight = true;
     private LeakSafeHandler<DeskDetailActivity> mHandler = new LeakSafeHandler<DeskDetailActivity>(this){
         @Override
         public void onMessageReceived(DeskDetailActivity activity, Message msg) {
@@ -69,6 +72,12 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
                 //延时提交
                 activity.timer.cancel();
                 activity.timer.start();
+            }else if(msg.what == activity.WHAT_MAC){
+                if(activity.socket != null && activity.socket.isOpen()){
+                    socket.sendText(activity.bean.getWifi_mac());
+                }else{
+                    sendEmptyMessageDelayed(activity.WHAT_MAC,1000);
+                }
             }
         }
     };
@@ -81,6 +90,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         @Override
         public void onFinish() {
             //设置桌子高度
+            updateHeight = true;
             int curProgress = seekBar.getProgress();
             if(seekBar.getProgress() != lastProgress){
                 lastProgress = curProgress;
@@ -93,7 +103,55 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     private TabBean.MachineBean machineBean;
     private long curMills;
     private int delta = 1;
+    private WebSocket socket;
+    private WebSocketAdapter listener = new WebSocketAdapter(){
+        @Override
+        public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception
+        {
+            LogUtil.d("===============连接成功");
+        }
+        @Override
+        public void onConnectError(WebSocket websocket, WebSocketException exception) throws Exception
+        {
+            LogUtil.d("===============连接出错:"+exception.getMessage());
+        }
+        @Override
+        public void onTextMessage(WebSocket websocket, String text) throws Exception
+        {
+//            LogUtil.d("===============收到消息:"+text);
+        }
 
+        @Override
+        public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
+//            LogUtil.d("===============收到frame:"+frame.toString());
+            if(frame.getOpcode() == WebSocketOpcode.BINARY){
+                String height = frame.getPayloadText();
+                if(updateHeight)
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            setSeekBarProgress(Integer.parseInt(height));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                LogUtil.d("===============收到桌子高度:"+height);
+            }
+        }
+
+        @Override
+        public void onFrameSent(WebSocket websocket, WebSocketFrame frame) throws Exception {
+            LogUtil.d("===============发送消息:"+frame.toString());
+        }
+
+        @Override
+        public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
+            super.onDisconnected(websocket, serverCloseFrame, clientCloseFrame, closedByServer);
+            LogUtil.d("===============连接断开");
+        }
+    };
     @Override
     public int getLayoutId() {
         return R.layout.activity_desk_detail;
@@ -107,30 +165,48 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.title_desk));
+        setTitle(machineBean.name);
         setRightMenuImage(R.mipmap.more_right);
         tvProgress.setText(seekBar.getProgress()+"");
+        tvTop.setText(HEIGHT_TOP+"");
+        tvLow.setText(HEIGHT_BOTTOM+"");
+        seekBar.setMax(HEIGHT_TOP-HEIGHT_BOTTOM);
         seekBar.setOnSeekBarChangeListener(new VerticalSeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(VerticalSeekBar verticalSeekBar, int p, boolean fromUser) {
-                LogUtil.d("==============onProgressChanged:"+HEIGHT_BOTTOM+p);
+                LogUtil.d("==============onProgressChanged:"+(HEIGHT_BOTTOM+p));
                 tvProgress.setText(HEIGHT_BOTTOM+p+"");
                 updateCustomButtonName();
             }
 
             @Override
             public void onStartTrackingTouch(VerticalSeekBar verticalSeekBar) {
+                updateHeight = false;
             }
 
             @Override
             public void onStopTrackingTouch(VerticalSeekBar verticalSeekBar) {
 //                mHandler.sendEmptyMessage(WHAT_SET);
+                updateHeight = true;
                 mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
             }
         });
+        initSocket();
         heightList = new ArrayList<>();
         mPresenter.getDevDetail(machineBean.id+"");
     }
+
+    private void initSocket() {
+        try {
+            socket = new WebSocketFactory().createSocket(Api.HOST+":5001/", 10000);
+            socket.addListener(listener);
+            socket.setPingInterval(30 * 1000);
+            socket.connectAsynchronously();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void startAction(Context context, TabBean.MachineBean machineBean) {
         Intent intent = new Intent(context, DeskDetailActivity.class);
         intent.putExtra("machineBean", machineBean);
@@ -155,26 +231,31 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             case R.id.tv_zdy1_desk:
                 if(heightList != null && heightList.size() > 0){
                     setSeekBarProgress(heightList.get(0).height);
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
                 }
                 break;
             case R.id.tv_zdy2_desk:
                 if(heightList != null && heightList.size() > 0){
                     setSeekBarProgress(heightList.get(1).height);
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
                 }
                 break;
             case R.id.tv_zdy3_desk:
                 if(heightList != null && heightList.size() > 0){
                     setSeekBarProgress(heightList.get(2).height);
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
                 }
                 break;
             case R.id.tv_zdy4_desk:
                 if(heightList != null && heightList.size() > 0){
                     setSeekBarProgress(heightList.get(3).height);
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
                 }
                 break;
             case R.id.tv_zdy5_desk:
                 if(heightList != null && heightList.size() > 0){
                     setSeekBarProgress(heightList.get(4).height);
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
                 }
                 break;
             case R.id.iv_setting_height_desk:
@@ -208,6 +289,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     public boolean doTouch(MotionEvent event,View view) {
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
+            updateHeight = false;
             curMills = SystemClock.elapsedRealtime();
                 switch (view.getId()){
                     case R.id.btn_up_desk:
@@ -230,6 +312,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
                 }
             }else{
                 //stop move
+                updateHeight = true;
                 mPresenter.stopDeskMove(machineBean.id+"");
             }
         }
@@ -245,12 +328,13 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             heightList.clear();
             heightList.addAll(bean.getAdjust_table_height());
             updateCustomButtonName();
+            mHandler.sendEmptyMessage(WHAT_MAC);
         }
     }
 
     @Override
     public void returnHeiht(DeskBean bean) {
-        setSeekBarProgress(bean.height);
+//        setSeekBarProgress(bean.height);
     }
 
     public class MyTimer2 extends CountDownTimer{
@@ -300,6 +384,12 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
     @Override
     protected void onDestroy() {
         DialogUtil.dismiss(dialog);
+        if(socket != null){
+            socket.removeListener(listener);
+            socket.disconnect();
+        }
+        mHandler.clean(WHAT_SET);
+        mHandler.clean(WHAT_MAC);
         super.onDestroy();
     }
     private void setSeekBarProgress(int progress){

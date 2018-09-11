@@ -30,7 +30,8 @@ public class YisuobaoSDK {
                     case BleStatus.BATTERY_POWER:
                         LogUtil.d("============BATTERY_POWER,data:" + data);
                         if(listener != null){
-                            listener.onBatteryPowerChanged((String) data);
+                            if(data instanceof Integer)
+                            listener.onBatteryPowerChanged(data+"");
                         }
                         break;
                     case BleStatus.LOCK_COMPLETE:

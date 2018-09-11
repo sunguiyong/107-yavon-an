@@ -1,6 +1,7 @@
 package com.common.base.rx;
 
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -35,15 +36,30 @@ public class RxSchedulers {
      * @param <T>
      * @return
      */
+//    public static <T> ObservableTransformer<BaseResponse<T>, T> handleResult() {
+//        return new ObservableTransformer<BaseResponse<T>, T>() {
+//            @Override
+//            public ObservableSource<T> apply(@NonNull Observable<BaseResponse<T>> tObservable) {
+//                return tObservable
+//                        .flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
+//                    @Override
+//                    public ObservableSource<T> apply(@NonNull BaseResponse<T> result) throws Exception {
+//                        return createData(result.getData());
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+//            }
+//            };
+//    }
     public static <T> ObservableTransformer<BaseResponse<T>, T> handleResult() {
         return new ObservableTransformer<BaseResponse<T>, T>() {
             @Override
             public ObservableSource<T> apply(@NonNull Observable<BaseResponse<T>> tObservable) {
                 return tObservable
-                        .flatMap(new Function<BaseResponse<T>, ObservableSource<T>>() {
+                        .map(new Function<BaseResponse<T>, T>() {
                     @Override
-                    public ObservableSource<T> apply(@NonNull BaseResponse<T> result) throws Exception {
-                        return createData(result.getData());
+                    public T apply(@NonNull BaseResponse<T> result) throws Exception {
+                        return result.getData();
                     }
                 })
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

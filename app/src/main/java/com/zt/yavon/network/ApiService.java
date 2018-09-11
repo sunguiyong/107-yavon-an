@@ -16,6 +16,7 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.data.UserRecordBean;
+import com.zt.yavon.module.data.VersionBean;
 import com.zt.yavon.module.data.WeatherBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
@@ -39,19 +40,18 @@ import retrofit2.http.Query;
  * des:ApiService
  */
 public interface ApiService {
-//    /**
-//     * example
-//     *
-//     * @param token
-//     * @return
-//     */
-//    @POST(Api.BASE_URL_USER)
-//    @FormUrlEncoded
-//    Observable<BaseResponse> setPrivacySetting(
-//            @Header("x-access-token") String token,
-//            @Field("attendedActiveValue") String attendedActiveValue,
-//    );
 
+    /**
+     * 获取最新版本
+     *
+     * @param api_token 如果用户处于登录状态，需要传过来
+     * @return
+     */
+    @GET("api/version")
+    Observable<BaseResponse<VersionBean>> getVersion(
+            @Query("api_token") String api_token,
+            @Query("terminal") String terminal
+            );
     /**
      * 发送验证码
      *
@@ -906,5 +906,15 @@ public interface ApiService {
     Observable<WeatherBean> getWeather(
             @Query("city") String city,
             @Query("appkey") String appkey
+    );
+    @POST("api/jpush/bind")
+    @FormUrlEncoded
+    Observable<BaseResponse> bindJiGuang(
+            @Field("api_token") String api_token,
+            @Field("j_code") String j_code
+    );
+    @GET("/api/jpush/cancel_bind")
+    Observable<BaseResponse> unBindJiGuang(
+            @Query("api_token") String api_token
     );
 }

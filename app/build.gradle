@@ -15,12 +15,25 @@ android {
         applicationId "com.zt.yavon"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 201808010
-        versionName "0.0.7"
+        versionCode 20180906
+        versionName "0.3.2"
         multiDexEnabled true
         ndk {
-            abiFilters "armeabi-v7a","x86"
+            //选择要添加的对应cpu类型的.so库。
+            //            abiFilters "armeabi-v7a","x86"
+            abiFilters 'armeabi', 'armeabi-v7a','x86', 'arm64-v8a', 'x86_64'
+            //'mips', 'mips64'
         }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "39d0d19937eedcc793f75504", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+    }
+    packagingOptions {
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -73,6 +86,12 @@ android {
 //    packagingOptions {
 //        exclude 'META-INF/INDEX.LIST'
 //    }
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+//            jni.srcDirs = []    //disable automatic ndk-build
+        }
+    }
 
 }
 
@@ -116,5 +135,10 @@ dependencies {
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //websocket
+    compile 'com.neovisionaries:nv-websocket-client:2.5'
+    //极光
+    compile 'cn.jiguang.sdk:jpush:3.1.5'  // 此处以JPush 3.1.5
+    compile 'cn.jiguang.sdk:jcore:1.2.3'  // 此处以JCore 1.2.3
 
 }

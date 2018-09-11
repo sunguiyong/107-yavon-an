@@ -1,29 +1,32 @@
 package com.zt.yavon;
 
-import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
-import com.tuya.smart.android.user.api.ILoginCallback;
-import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.sdk.TuyaSdk;
-import com.tuya.smart.sdk.TuyaUser;
-import com.tuya.smart.sdk.api.INeedLoginListener;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
-import com.zt.yavon.module.data.LoginBean;
-import com.zt.yavon.utils.SPUtil;
+import com.zt.yavon.baidumap.LocationService;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by hp on 2018/6/6.
  */
 
 public class MyApplication extends MultiDexApplication{
+    private static MyApplication instance;
+    public static MyApplication getInstance(){
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         ZXingLibrary.initDisplayOpinion(this);
         TuyaSdk.init(this);
-        TuyaSdk.setDebugMode(true);
-        LoginBean bean = SPUtil.getAccount(this);
+        JPushInterface.init(this);
+        JPushInterface.setDebugMode(true);
+//        TuyaSdk.setDebugMode(true);
+//        LoginBean bean = SPUtil.getAccount(this);
 //        TuyaSdk.setOnNeedLoginListener(new INeedLoginListener() {
 //            @Override
 //            public void onNeedLogin(Context context) {
@@ -40,4 +43,5 @@ public class MyApplication extends MultiDexApplication{
 //            }
 //        });
     }
+
 }

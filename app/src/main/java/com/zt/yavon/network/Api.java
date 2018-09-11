@@ -18,6 +18,7 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.data.ShareListBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.data.UserRecordBean;
+import com.zt.yavon.module.data.VersionBean;
 import com.zt.yavon.module.data.WeatherBean;
 import com.zt.yavon.module.main.adddevice.model.AddDeviceBean;
 import com.zt.yavon.module.main.roommanager.add.model.RoomItemBean;
@@ -38,10 +39,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class Api {
-    //    public static final String HOST = "https://s1.zetadata.com.cn/";//测试
-//    public static final String HOST_H5 = "https://s1.zetadata.com.cn/";//测试
-    public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
-    public static final String HOST_H5 = "https://ecseal.cn/";//正式环境
+
+//      public static final String HOST = "http://t27.zetadata.com.cn/";//正式环境
+
+    public static final String HOST = "http://47.99.88.127";//正式环境
     //    private static Retrofit mRetrofit;
     private static ApiService mAPI;
 //    private static Gson mGson;
@@ -121,9 +122,13 @@ public class Api {
     public static Observable<BaseResponse> sendCode(String account, String type, String api_token) {
         return getRxApi().sendCode(account, type, api_token).compose(RxSchedulers.<BaseResponse>io_main());
     }
+    public static Observable<VersionBean> getVersion(String token) {
+        return getRxApi().getVersion(token,"android").compose(RxSchedulers.handleResult());
+    }
     public static Observable<CityLocation> getCity(String location) {
         return getRxApi().getCity("json", location, "LRCNlmj6eRo0SDCSyrRBIGLfllQzvLbm").compose(RxSchedulers.io_main());
     }
+
     public static Observable<WeatherBean> getWeather(String city) {
         return getRxApi().getWeather(city, "77e8c0241ae8d1ba71869fa61d615ca1").compose(RxSchedulers.io_main());
     }
@@ -197,6 +202,9 @@ public class Api {
 
     public static Observable<BaseResponse> deleteSystemMsg(String token, String ids) {
         return getRxApi().deleteSystemMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
+    }
+    public static Observable<BaseResponse> deleteShareMsg(String token, String ids) {
+        return getRxApi().deleteShareMsg(token, ids).compose(RxSchedulers.<BaseResponse>io_main());
     }
 
     public static Observable<BaseResponse> deleteFaultMsg(String token, String ids) {
@@ -379,5 +387,11 @@ public class Api {
     }
     public static Observable<List<ElectricMonthBean>> getMonthPower(String token, String machineId) {
         return getRxApi().getMonthPower(token,machineId).compose(RxSchedulers.handleResult());
+    }
+    public static Observable<BaseResponse> bindJiGuang(String token, String machineId) {
+        return getRxApi().bindJiGuang(token,machineId).compose(RxSchedulers.io_main());
+    }
+    public static Observable<BaseResponse> unBindJiGuang(String token) {
+        return getRxApi().unBindJiGuang(token).compose(RxSchedulers.io_main());
     }
 }

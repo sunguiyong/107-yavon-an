@@ -14,6 +14,6 @@ public interface MsgCenterContract {
         void returnDataList(List<MsgBean> list);
     }
     abstract class Presenter extends BasePresenter<View> {
-        public abstract void getNotifications();
+        public abstract void getNotifications(boolean showLoading);
     }
 }

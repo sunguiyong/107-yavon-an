@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -14,6 +15,7 @@ import com.zt.yavon.module.device.lock.view.LockRecordActivity;
 import com.zt.yavon.module.device.lock.view.LockUseActivity;
 import com.zt.yavon.module.device.share.view.ShareSettingActivity;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -25,8 +27,8 @@ public class LampSettingActivity extends BaseActivity{
 
     //    @BindView(R.id.iv_lock)
 //    ImageView ivLock;
-//    @BindView(R.id.tv_switch_lock)
-//    TextView tvSwith;
+    @BindView(R.id.tv_sn)
+    TextView tvSn;
     @Override
     public int getLayoutId() {
         return R.layout.activity_more_setting_lamp;
@@ -41,6 +43,7 @@ public class LampSettingActivity extends BaseActivity{
     public void initView() {
         setTitle(getString(R.string.title_more));
 //        setRightMenuImage(R.mipmap.more_right);
+        tvSn.setText(machine.getAsset_number());
     }
 
     @OnClick({R.id.tv_use_direct_lamp,R.id.tv_use_record_lamp,R.id.tv_share_setting})

@@ -18,6 +18,7 @@ public class Constants {
     public static final String EVENT_BIND_DEV_SUCCESS = "bind dev success";
     public static final String EVENT_AUTO_LOCK = "auto_lock";
     public static final String EVENT_AUTO_UNLOCK_LOW = "auto_unlock";
+    public static final String EVENT_MSG_COUNT_UPDATE = "msg count update";
 
     //machine type
     public static final String MACHINE_TYPE_BLUE_LOCK = "BLUE_LOCK";

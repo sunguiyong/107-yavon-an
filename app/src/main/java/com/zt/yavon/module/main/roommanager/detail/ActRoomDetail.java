@@ -2,6 +2,7 @@ package com.zt.yavon.module.main.roommanager.detail;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -61,35 +62,49 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         mDeviceCount = mTabBean.getMachineSize();
         tvCount.setText("已移入" + mDeviceCount + "个设备");
         mPresenter.getRoomDetail(mTabBean.id);
+        if("DEFAULT".equals(mTabBean.type)){
+            tvRoomName.setTextColor(ContextCompat.getColor(this,R.color.white_tran));
+        }
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
-                    @Override
-                    public void confirm(String data) {
-                        if (TextUtils.isEmpty(data)) {
-                            ToastUtil.showLong(ActRoomDetail.this, "房间名不能为空");
-                            return;
+                if("DEFAULT".equals(mTabBean.type)){
+                    ToastUtil.showShort(ActRoomDetail.this,"不能修改默认房间名称");
+                }else{
+                    dialog = DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
+                        @Override
+                        public void confirm(String data) {
+                            if (TextUtils.isEmpty(data)) {
+                                ToastUtil.showLong(ActRoomDetail.this, "房间名不能为空");
+                                return;
+                            }
+                            mPresenter.modifyRoom(mTabBean.id, data, mRoomDetailBean.icon_id);
                         }
-                        mPresenter.modifyRoom(mTabBean.id, data, mRoomDetailBean.icon_id);
-                    }
-                });
+                    });
+                }
             }
         });
 
         ivRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActForResult(ActSelectIcon.class);
+                if("DEFAULT".equals(mTabBean.type)){
+                    ToastUtil.showShort(ActRoomDetail.this,"不能修改默认房间图标");
+                }else{
+                    startActForResult(ActSelectIcon.class);
+                }
             }
         });
-
-        btnDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.delRoom(mTabBean.id);
-            }
-        });
+        if("DEFAULT".equals(mTabBean.type)){
+            btnDel.setVisibility(View.GONE);
+        }else {
+            btnDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.delRoom(mTabBean.id);
+                }
+            });
+        }
     }
 
     @Override

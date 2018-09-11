@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/selector_lamp_dev"/>
+            />
     </FrameLayout>
     <View
         android:layout_width="match_parent"

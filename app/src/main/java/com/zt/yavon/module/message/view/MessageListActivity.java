@@ -16,9 +16,11 @@ import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.MsgBean;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.module.message.adapter.MsgListAdapter;
 import com.zt.yavon.module.message.contract.MessageListContract;
 import com.zt.yavon.module.message.presenter.MsgListPresenter;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
     private LinearLayoutManager layoutManager;
     private int curPage = 1;
     private int COUNT_PER_PAGE = 20;
+    boolean updateMsgCountFlag = false;
     @Override
     public int getLayoutId() {
         return R.layout.activity_message_list;
@@ -92,6 +95,8 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                     }
                     adapter.notifyItemChanged(position);
                 }else{
+                    if(type == TYPE_INTERNAL)
+                        MessageDetailActivity.startAction(MessageListActivity.this,bean.getTitle(),bean.getContent());
                     if(!bean.isIs_read())
                     mPresenter.readMsg(type,bean);
                 }
@@ -144,7 +149,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
                 }
             }
         });
-        onRefresh();
+        mPresenter.getMsgList(type,curPage,COUNT_PER_PAGE,true);
     }
     public static void startAction(Context context,int type){
         Intent intent = new Intent(context,MessageListActivity.class);
@@ -180,7 +185,10 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
             changeMode();
             return;
         }
-        super.onHeadBack();
+//        if(updateMsgCountFlag){
+//            mRxManager.post(Constants.EVENT_MSG_COUNT_UPDATE,type);
+//        }
+        finish();
     }
 
     @Override
@@ -189,7 +197,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
             changeMode();
             return;
         }
-        super.onBackPressed();
+        onHeadBack();
     }
 
     private void changeMode(){
@@ -274,6 +282,8 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
     public void readSuccess(MsgBean bean) {
         bean.setIs_read(true);
         adapter.notifyItemChanged(adapter.getData().indexOf(bean));
+        mRxManager.post(Constants.EVENT_MSG_COUNT_UPDATE,type);
+//        updateMsgCountFlag = true;
     }
 
     @Override
@@ -283,6 +293,7 @@ public class MessageListActivity extends BaseActivity<MsgListPresenter> implemen
 
     @Override
     public void onLoadMoreRequested() {
-        mPresenter.getMsgList(type,curPage,COUNT_PER_PAGE);
+        mPresenter.getMsgList(type,curPage,COUNT_PER_PAGE,false);
     }
+
 }

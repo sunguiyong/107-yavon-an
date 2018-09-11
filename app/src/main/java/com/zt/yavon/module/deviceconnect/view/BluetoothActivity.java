@@ -197,7 +197,7 @@ public class BluetoothActivity extends BaseActivity {
             case R.id.tv_right_header:
                 break;
             case R.id.tv_disconnect:
-                WebviewActivity.start(this,"www.baidu.com");
+//                WebviewActivity.start(this,"www.baidu.com",null,null);
                 break;
             case R.id.tv_scan:
                 if (first){

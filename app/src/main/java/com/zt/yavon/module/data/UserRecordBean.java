@@ -6,7 +6,7 @@ import java.util.List;
  * Created by lifujun on 2018/8/10.
  */
 
-public class UserRecordBean {
+public class UserRecordBean{
     public MachineInfo current;
     public List<Record> records;
     public class Record{

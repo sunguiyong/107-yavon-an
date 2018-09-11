@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 
 import butterknife.BindView;
 
@@ -30,7 +30,7 @@ public class AboutActivity extends BaseActivity{
     @Override
     public void initView() {
         setTitle(getString(R.string.setting));
-        tvVersion.setText(getString(R.string.app_name)+"v"+PakageUtil.getAppVersion(this));
+        tvVersion.setText(getString(R.string.app_name)+"v"+ PackageUtil.getAppVersion(this));
     }
     public static void startAction(Context context){
         Intent intent = new Intent(context,AboutActivity.class);

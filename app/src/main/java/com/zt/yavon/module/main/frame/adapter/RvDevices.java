@@ -64,19 +64,31 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
 
     @Override
     public void customConvert(BaseViewHolder holder, TabBean.MachineBean bean) {
-//        CheckBox cbPower = holder.getView(R.id.cb_power);
-//        cbPower.setOnCheckedChangeListener(null);
-
-        if("ONLINE".equals(bean.online_status)){
-            holder.setVisible(R.id.black_frame,false);
-            holder.setText(R.id.tv_status, bean.isPowerOn() ? "设备开启" : "设备关闭");
+        ImageView cbPower = holder.getView(R.id.cb_power);
+        TextView tvStatus = holder.getView(R.id.tv_status);
+        if (mSelectMode) {
+            cbPower.setImageResource(R.drawable.selector_cb_check);
+            cbPower.setSelected(mSelectList.contains(holder.getAdapterPosition()));
+        } else {
+            cbPower.setImageResource(R.drawable.selector_cb_power);
+            cbPower.setSelected(bean.isPowerOn());
+        }
+        boolean onLine = "ONLINE".equals(bean.online_status);
+        if(Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)){
+            cbPower.setVisibility(mSelectMode?View.VISIBLE:View.GONE);
+            holder.setGone(R.id.black_frame,onLine?false:true);
+            tvStatus.setText(onLine? "" : "设备离线");
+        }else if(Constants.MACHINE_TYPE_BATTERY_LOCK.equals(bean.machine_type)){
+            cbPower.setVisibility(View.VISIBLE);
+            holder.setGone(R.id.black_frame,false);
+            tvStatus.setText(bean.isPowerOn() ? "设备开启" : "设备关闭");
+        }else if(Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type)){
+            cbPower.setVisibility(View.VISIBLE);
+            holder.setGone(R.id.black_frame,onLine?false:true);
+            tvStatus.setText(onLine? (bean.isPowerOn() ? "设备开启" : "设备关闭"):"设备离线");
         }else{
-            boolean offLine = false;
-            if(Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)){
-                offLine = true;
-            }
-            holder.setVisible(R.id.black_frame,bean.isLastOne ?false:(offLine?true:false));
-            holder.setText(R.id.tv_status, bean.isLastOne ? "" :(offLine? "设备离线":(bean.isPowerOn() ? "设备开启" : "设备关闭")));
+            cbPower.setVisibility(View.GONE);
+            holder.setGone(R.id.black_frame,false);
         }
         TextView tvAuthor = holder.getView(R.id.tv_author_dev);
         if("ADMIN".equals(bean.user_type)){
@@ -92,22 +104,12 @@ public class RvDevices extends RvBase<TabBean.MachineBean> {
                 tvAuthor.setText("未授权");
             }
         }
-        ImageView cbPower = holder.getView(R.id.cb_power);
-        if (mSelectMode) {
-            cbPower.setImageResource(R.drawable.selector_cb_check);
-            cbPower.setSelected(mSelectList.contains(holder.getAdapterPosition()));
-        } else {
-            cbPower.setImageResource(R.drawable.selector_cb_power);
-            cbPower.setSelected(bean.isPowerOn());
-        }
-
-        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne && mIsOften)
-                .setGone(R.id.cb_power, !bean.isLastOne)
-                .setGone(R.id.tv_status, !bean.isLastOne);
         holder.setText(R.id.tv_name, bean.isLastOne ? "添加常用设备" : bean.name)
                 .setText(R.id.tv_location, bean.isLastOne ? "" : bean.from_room);
+        holder.setGone(R.id.tv_location, !TextUtils.isEmpty(bean.from_room) && !bean.isLastOne && mIsOften)
+                .setGone(R.id.tv_status, !bean.isLastOne);
+
         holder.addOnClickListener(R.id.cb_power);
-//        holder.addOnClickListener(R.id.black_frame);
         ImageView ivIcon = holder.getView(R.id.iv_icon);
         if (bean.isLastOne) {
             ivIcon.setImageResource(R.mipmap.ic_item_add);

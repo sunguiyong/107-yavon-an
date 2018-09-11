@@ -14,10 +14,12 @@ import com.zt.yavon.module.data.MsgBean;
 import com.zt.yavon.module.message.adapter.MsgCenterAdapter;
 import com.zt.yavon.module.message.contract.MsgCenterContract;
 import com.zt.yavon.module.message.presenter.MsgCenterPresenter;
+import com.zt.yavon.utils.Constants;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by lifujun on 2018/7/17.
@@ -37,6 +39,14 @@ public class MessageCenterActivity extends BaseActivity<MsgCenterPresenter> impl
     @Override
     public void initPresenter() {
         mPresenter.setVM(this);
+        mRxManager.on(Constants.EVENT_MSG_COUNT_UPDATE, new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if((Integer)o != MessageListActivity.TYPE_INTERNAL){
+                    onRefresh();
+                }
+            }
+        });
     }
 
     @Override
@@ -62,7 +72,7 @@ public class MessageCenterActivity extends BaseActivity<MsgCenterPresenter> impl
                 MessageListActivity.startAction(MessageCenterActivity.this,type);
             }
         });
-        mPresenter.getNotifications();
+        mPresenter.getNotifications(true);
     }
     public static void startAction(Context context){
         Intent intent = new Intent(context,MessageCenterActivity.class);
@@ -100,7 +110,7 @@ public class MessageCenterActivity extends BaseActivity<MsgCenterPresenter> impl
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
-        mPresenter.getNotifications();
+        mPresenter.getNotifications(false);
     }
 
     @Override

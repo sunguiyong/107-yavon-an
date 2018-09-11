@@ -11,13 +11,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.MineRoomBean;
-import com.zt.yavon.module.data.SectionItem;
 import com.zt.yavon.module.device.share.view.ShareSettingActivity;
 import com.zt.yavon.module.mine.adapter.AllDevAdapter;
 import com.zt.yavon.module.mine.contract.AllDevContract;
 import com.zt.yavon.module.mine.presenter.AllDevPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,14 +58,13 @@ public class AllDevActivity extends BaseActivity<AllDevPresenter> implements Swi
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapterView, View view, int position) {
-                SectionItem item = adapter.getItem(position);
-                if(item.getItemType() == SectionItem.TYPE_DETAIL){
-                    MineRoomBean.Machine bean = (MineRoomBean.Machine)item.getData();
+                if(adapter.getItemViewType(position) == AllDevAdapter.TYPE_DETAIL){
+                    MineRoomBean.Machine bean = (MineRoomBean.Machine)adapter.getItem(position);
                     ShareSettingActivity.startAction(AllDevActivity.this,bean);
                 }
             }
         });
-        onRefresh();
+        mPresenter.getAllDevs(true);
     }
 
 //    @OnClick({R.id.tv_switch_lock,R.id.tv_right_header})
@@ -99,7 +96,7 @@ public class AllDevActivity extends BaseActivity<AllDevPresenter> implements Swi
 
     @Override
     public void onRefresh() {
-        mPresenter.getAllDevs();
+        mPresenter.getAllDevs(false);
     }
 
     @Override
@@ -107,15 +104,8 @@ public class AllDevActivity extends BaseActivity<AllDevPresenter> implements Swi
         if(swipeRefreshLayout.isRefreshing())
         swipeRefreshLayout.setRefreshing(false);
         if(list != null){
-            List<SectionItem> newList = new ArrayList<>();
-            for(MineRoomBean bean:list){
-                newList.add(new SectionItem(SectionItem.TYPE_TITLE,bean.getName()));
-                if(bean.getMachines() != null)
-                for(MineRoomBean.Machine machine:bean.getMachines()){
-                    newList.add(new SectionItem(SectionItem.TYPE_DETAIL,machine));
-                }
-            }
-            adapter.setNewData(newList);
+            adapter.setNewData(list);
+            adapter.expandAll();
         }
     }
 }

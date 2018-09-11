@@ -1,5 +1,10 @@
 package com.zt.yavon.module.data;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
+import com.chad.library.adapter.base.entity.IExpandable;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.zt.yavon.module.mine.adapter.AllDevAdapter;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,11 +12,10 @@ import java.util.List;
  * Created by lifujun on 2018/7/28.
  */
 
-public class MineRoomBean {
+public class MineRoomBean extends AbstractExpandableItem<MineRoomBean.Machine> implements MultiItemEntity{
     private String id;
     private String name;
     private List<Machine> machines;
-
     public String getId() {
         return id;
     }
@@ -32,11 +36,24 @@ public class MineRoomBean {
         return machines;
     }
 
-    public void setMachines(List<Machine> machines) {
-        this.machines = machines;
+
+    @Override
+    public int getItemType() {
+        return AllDevAdapter.TYPE_TITLE;
     }
 
-    public static class Machine implements Serializable{
+    @Override
+    public List<MineRoomBean.Machine> getSubItems() {
+        mSubItems = machines;
+        return super.getSubItems();
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+    public static class Machine implements Serializable,MultiItemEntity{
         private String machine_id;
         private String asset_number;
         private String machine_name;
@@ -46,6 +63,10 @@ public class MineRoomBean {
         private String expire_type;
         private String expire_value;
 
+        @Override
+        public int getItemType() {
+            return AllDevAdapter.TYPE_DETAIL;
+        }
         public String getMachine_id() {
             return machine_id;
         }

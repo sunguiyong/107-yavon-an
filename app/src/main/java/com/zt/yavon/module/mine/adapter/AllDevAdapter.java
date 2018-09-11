@@ -7,24 +7,26 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.zt.yavon.R;
 import com.zt.yavon.module.data.MineRoomBean;
-import com.zt.yavon.module.data.SectionItem;
 
 /**
  * Created by lifujun on 2018/7/11.
  */
 
-public class AllDevAdapter extends BaseMultiItemQuickAdapter<SectionItem,BaseViewHolder>{
+public class AllDevAdapter extends BaseMultiItemQuickAdapter{
+    public static final int TYPE_TITLE = 1;
+    public static final int TYPE_DETAIL = 2;
     public AllDevAdapter() {
         super(null);
-        addItemType(SectionItem.TYPE_TITLE, R.layout.item_dev_room);
-        addItemType(SectionItem.TYPE_DETAIL,R.layout.item_dev_all);
+        addItemType(TYPE_TITLE, R.layout.item_dev_room);
+        addItemType(TYPE_DETAIL,R.layout.item_dev_all);
     }
     @Override
-    protected void convert(BaseViewHolder helper, SectionItem item) {
-        if(item.getItemType() == SectionItem.TYPE_DETAIL){
-            MineRoomBean.Machine bean = (MineRoomBean.Machine)item.getData();
+    protected void convert(BaseViewHolder helper, Object item) {
+        if(helper.getItemViewType() == TYPE_DETAIL){
+            MineRoomBean.Machine bean = (MineRoomBean.Machine) item;
             Glide.with(mContext)
                     .load(bean.getMachine_icon())
                     .centerCrop()
@@ -51,7 +53,8 @@ public class AllDevAdapter extends BaseMultiItemQuickAdapter<SectionItem,BaseVie
             }
             helper.setText(R.id.tv_type_user,userType);
         }else{
-            helper.setText(R.id.tv_name_room,(String)item.getData());
+            MineRoomBean bean = (MineRoomBean) item;
+            helper.setText(R.id.tv_name_room,bean.getName());
         }
     }
 }

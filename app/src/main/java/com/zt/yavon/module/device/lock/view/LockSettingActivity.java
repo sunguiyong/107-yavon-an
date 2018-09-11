@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
@@ -33,6 +34,8 @@ public class LockSettingActivity extends BaseActivity<LockSettingPresenter> impl
     SwitchCompat switch1;
     @BindView(R.id.switch_low_open)
     SwitchCompat switch2;
+    @BindView(R.id.tv_sn)
+    TextView tvSn;
     @Override
     public int getLayoutId() {
         return R.layout.activity_more_setting_lock;
@@ -50,6 +53,7 @@ public class LockSettingActivity extends BaseActivity<LockSettingPresenter> impl
 //        setRightMenuImage(R.mipmap.more_right);
         switch1.setChecked(machine.isAuto_lock());
         switch2.setChecked(machine.isLowpower_hand_unlock());
+        tvSn.setText(machine.getAsset_number());
     }
 
     @OnClick({R.id.tv_use_direct_lock,R.id.tv_use_record_lock,R.id.tv_share_setting})

@@ -8,7 +8,7 @@ import java.lang.ref.SoftReference;
 /**
  * Created by hp on 2017/11/22.
  */
-public class LeakSafeHandler<K extends BaseActivity> extends Handler {
+public class LeakSafeHandler<K> extends Handler {
     private SoftReference<K> activity;
     public LeakSafeHandler(K activity){
         this.activity = new SoftReference(activity);

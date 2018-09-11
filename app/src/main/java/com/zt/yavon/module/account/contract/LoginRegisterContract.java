@@ -11,6 +11,7 @@ public interface LoginRegisterContract {
     interface View{
         void sendCodeResult(String msg);
         void loginRegisterSuccess(LoginBean bean);
+        void bindJiGuangSuccess();
     }
 
     abstract class Presenter extends BasePresenter<View> {

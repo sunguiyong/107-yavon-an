@@ -17,7 +17,7 @@ import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevTypeBean;
 import com.zt.yavon.module.device.share.view.ApplyDevActivity;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 
 import butterknife.BindView;
 
@@ -57,7 +57,7 @@ public class ScanCodeActivity extends BaseActivity {
                     dialog = DialogUtil.create2BtnInfoDialog(ScanCodeActivity.this, getString(R.string.scan_permission), "取消", "开启", new DialogUtil.OnComfirmListening() {
                         @Override
                         public void confirm() {
-                            PakageUtil.startAppSettings(ScanCodeActivity.this);
+                            PackageUtil.startAppSettings(ScanCodeActivity.this);
                         }
                     });
                 })

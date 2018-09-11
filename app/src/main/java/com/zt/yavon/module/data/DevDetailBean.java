@@ -16,6 +16,7 @@ public class DevDetailBean implements Serializable{
     private String machine_type;
     private String asset_number;
     private String machine_name;
+    private String wifi_mac;
     private String user_type;
     private String status;
     private boolean auto_lock;
@@ -187,5 +188,13 @@ public class DevDetailBean implements Serializable{
 
     public void setLight_device_id(String light_device_id) {
         this.light_device_id = light_device_id;
+    }
+
+    public String getWifi_mac() {
+        return wifi_mac;
+    }
+
+    public void setWifi_mac(String wifi_mac) {
+        this.wifi_mac = wifi_mac;
     }
 }

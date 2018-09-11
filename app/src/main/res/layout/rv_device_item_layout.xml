@@ -105,7 +105,7 @@
         android:id="@+id/black_frame"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="@color/alpha_20_black"
+        android:background="@color/alpha_40_black"
         android:visibility="gone"
         />
 </FrameLayout>

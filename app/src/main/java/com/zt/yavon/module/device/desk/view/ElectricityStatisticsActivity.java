@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.zt.yavon.R;
@@ -30,6 +31,8 @@ public class ElectricityStatisticsActivity extends BaseActivity<ElectricityPrese
     public static final int TYPE_MONTH = 3;
     @BindView(R.id.chart)
     CombinedChart mCombinedChart1;
+    @BindView(R.id.type_change_electric)
+    TextView tvSubmit;
     private String machineId;
     private CombinedChartManager combineChartManager;
     private List<ElectricDayBean> dayList;
@@ -82,6 +85,7 @@ public class ElectricityStatisticsActivity extends BaseActivity<ElectricityPrese
         switch (view.getId()){
             case R.id.type_change_electric:
                 if(type == TYPE_DAY){
+                    tvSubmit.setText("按天统计");
                     type = TYPE_MONTH;
                     if(monthList == null){
                         mPresenter.getMonthPower(machineId);
@@ -89,6 +93,7 @@ public class ElectricityStatisticsActivity extends BaseActivity<ElectricityPrese
                         updateChart();
                     }
                 }else{
+                    tvSubmit.setText("按月统计");
                     type = TYPE_DAY;
                     if(dayList == null){
                         mPresenter.getDayPower(machineId);

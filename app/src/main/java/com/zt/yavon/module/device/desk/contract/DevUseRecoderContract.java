@@ -12,6 +12,6 @@ public interface DevUseRecoderContract {
         void returnUseRecord(UserRecordBean bean);
     }
     abstract class Presenter extends BasePresenter<View>{
-        public abstract void getUseRecord(String machine_id,int page,int perPage);
+        public abstract void getUseRecord(String machine_id,int page,int perPage,boolean showLoading);
     }
 }

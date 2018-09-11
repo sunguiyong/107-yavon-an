@@ -17,9 +17,9 @@ import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.SectionItem;
 import com.zt.yavon.module.data.UserRecordBean;
+import com.zt.yavon.module.device.desk.adapter.DevRecordAdapter;
 import com.zt.yavon.module.device.desk.contract.DevUseRecoderContract;
 import com.zt.yavon.module.device.desk.presenter.DevUseRecordPresenter;
-import com.zt.yavon.module.device.desk.adapter.DevRecordAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class DevUseRecordActivity extends BaseActivity<DevUseRecordPresenter> im
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(this,recyclerView);
         adapter.setEnableLoadMore(false);
-        onRefresh();
+        mPresenter.getUseRecord(machineId,curPage,COUNT_PER_PAGE,true);
     }
 
 //    @OnClick({R.id.tv_switch_lock,R.id.tv_right_header})
@@ -132,23 +132,26 @@ public class DevUseRecordActivity extends BaseActivity<DevUseRecordPresenter> im
                     .load(bean.current.icon)
                     .into(ivDev);
         }
-        List<SectionItem> list = converseData(bean.records);
+        List<Object> list = converseData(bean.records);
+//        LogUtil.d("===================size :"+list.get(0));
         if(curPage == 1){
-            adapter.setNewData(list);
+            adapter.setNewData((List<SectionItem>) list.get(1));
         }else{
-            adapter.addData(list);
+            adapter.addData((List<SectionItem>) list.get(1));
         }
         if(curPage == 1){
             adapter.disableLoadMoreIfNotFullPage();
 //        }else if(bean.records != null && bean.records.size() < COUNT_PER_PAGE){
-        }else if(list.size() < COUNT_PER_PAGE){
+        }else if((int) list.get(0) < COUNT_PER_PAGE){
             adapter.loadMoreEnd();
         }else{
             adapter.loadMoreComplete();
         }
         curPage++;
     }
-    private List<SectionItem> converseData(List<UserRecordBean.Record> list){
+    private List<Object> converseData(List<UserRecordBean.Record> list){
+        List<Object> result = new ArrayList<>();
+        int size = 0;
         List<SectionItem> newList = new ArrayList<>();
         if(list != null){
             for(UserRecordBean.Record record:list){
@@ -169,16 +172,19 @@ public class DevUseRecordActivity extends BaseActivity<DevUseRecordPresenter> im
                             detailBean.isFist = true;
                         newList.add(new SectionItem(SectionItem.TYPE_DETAIL,detailBean));
                         tempIndex++;
+                        size++;
                     }
                 }
 
             }
         }
-        return newList;
+        result.add(size);
+        result.add(newList);
+        return result;
     }
     @Override
     public void onLoadMoreRequested() {
-        mPresenter.getUseRecord(machineId,curPage,COUNT_PER_PAGE);
+        mPresenter.getUseRecord(machineId,curPage,COUNT_PER_PAGE,false);
     }
 
     @Override

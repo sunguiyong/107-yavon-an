@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@null"
-            android:drawableTop="@drawable/selector_cb_check"
+            android:drawableTop="@drawable/selector_cb_check2"
             android:padding="12dp"
             android:textSize="0sp" />
     </LinearLayout>

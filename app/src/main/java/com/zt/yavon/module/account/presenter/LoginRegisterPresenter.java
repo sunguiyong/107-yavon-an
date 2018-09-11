@@ -13,6 +13,9 @@ import com.zt.yavon.module.data.LoginBean;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
 import com.zt.yavon.utils.RegexUtils;
+import com.zt.yavon.utils.SPUtil;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by lifujun on 2018/7/25.
@@ -64,6 +67,7 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                         if(bean != null)
                         bean.setPwd(pwd);
                         mView.loginRegisterSuccess(bean);
+                        bindJiGuang(bean.getApi_token());
                     }
                     @Override
                     protected void _onError(String message) {
@@ -94,13 +98,45 @@ public class LoginRegisterPresenter extends LoginRegisterContract.Presenter{
                         if(bean != null)
                             bean.setPwd(password);
                         mView.loginRegisterSuccess(bean);
-                        loginTuYa(bean);
+                        bindJiGuang(bean.getApi_token());
+//                        loginTuYa(bean);
                     }
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showShort(mContext,message);
                     }
                 }).getDisposable());
+    }
+    public void bindJiGuang(String token) {
+        if(TextUtils.isEmpty(JPushInterface.getRegistrationID(mContext))){
+            return;
+        }
+        mRxManage.add(Api.bindJiGuang(token,JPushInterface.getRegistrationID(mContext))
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        JPushInterface.resumePush(mContext);
+                        mView.bindJiGuangSuccess();
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
+    public void unBindJiGuang() {
+        mRxManage.add(Api.unBindJiGuang(SPUtil.getToken(mContext))
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        JPushInterface.onPause(mContext);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+        SPUtil.clearPreferences(mContext);
     }
     private void loginTuYa(LoginBean bean){
 //        TuyaUser.getUserInstance().loginWithPhonePassword("86",  "18106223213", "123456", new ILoginCallback() {

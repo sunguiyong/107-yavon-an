@@ -16,9 +16,9 @@ import java.util.List;
 public class MsgCenterPresenter extends MsgCenterContract.Presenter{
 
     @Override
-    public void getNotifications() {
+    public void getNotifications(boolean showLoading) {
         mRxManage.add(Api.getNotifications(SPUtil.getToken(mContext))
-                .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,showLoading) {
                     @Override
                     protected void _onNext(List<MsgBean> list) {
                         mView.returnDataList(list);

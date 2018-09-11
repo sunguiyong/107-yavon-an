@@ -1,5 +1,8 @@
 package com.zt.yavon.module.message.adapter;
 
+import android.view.View;
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.yavon.R;
@@ -28,11 +31,17 @@ public class MsgCenterAdapter extends BaseQuickAdapter<MsgBean,BaseViewHolder>{
         }
         helper.setText(R.id.tv_title,bean.getTitle());
         helper.setText(R.id.tv_content,bean.getContent());
-        if(bean.getNew_count() > 0){
-            helper.setGone(R.id.tv_count_msg,true);
-            helper.setText(R.id.tv_count_msg,bean.getNew_count()+"");
+        TextView tvCount = helper.getView(R.id.tv_count_msg);
+        if(bean.getNew_count() > 99){
+            tvCount.setVisibility(View.VISIBLE);
+            tvCount.setText("99+");
+            tvCount.setTextSize(7.5f);
+        }else if(bean.getNew_count() > 0){
+            tvCount.setVisibility(View.VISIBLE);
+            tvCount.setText(bean.getNew_count()+"");
+            tvCount.setTextSize(9);
         }else{
-            helper.setGone(R.id.tv_count_msg,false);
+            tvCount.setVisibility(View.GONE);
         }
     }
 }

@@ -65,6 +65,7 @@ public class TabBean implements Serializable {
         public String machine_type;
         public String user_type;
         public boolean is_authorized;
+        public boolean auto_lock;
         public String from_room;
         public String asset_number;
         public String locker_id;

@@ -1,9 +1,12 @@
 package com.zt.yavon.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -19,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -157,6 +161,61 @@ public class DialogUtil {
                 dialog.dismiss();
                 if (listener2 != null) {
                     listener2.confirm();
+                }
+            }
+        });
+        dialog.show();
+        return dialog;
+    }
+    public static Dialog createUpdateDialog(Activity context, String info, boolean cancleable, String cancel, String confirm, final OnComfirmListening listener) {
+        LayoutInflater inflaterDl = LayoutInflater.from(context);
+        View parent = inflaterDl.inflate(R.layout.layout_dialog_info, null);
+        if (!TextUtils.isEmpty(info))
+            ((TextView) parent.findViewById(R.id.title_tv)).setText(info);
+        final Dialog dialog = new Dialog(context, R.style.mDialogStyle_black);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (width * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(parent, params);
+        TextView confirmBt = (TextView) parent.findViewById(R.id.confirm_bt);
+        TextView cancelBt = (TextView) parent.findViewById(R.id.cancel_bt);
+//        View divider = (TextView) parent.findViewById(R.id.divier_button);
+//        if(cancleable){
+            if (TextUtils.isEmpty(cancel)) {
+                cancelBt.setText("取消");
+            } else {
+                cancelBt.setText(cancel);
+            }
+//        }else{
+//            cancelBt.setVisibility(View.GONE);
+//            divider.setVisibility(View.GONE);
+//        }
+        if(!cancleable){
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        context.finish();
+                    }
+                });
+        }
+        if (TextUtils.isEmpty(confirm)) {
+            confirmBt.setText("确定");
+        } else {
+            confirmBt.setText(confirm);
+        }
+        cancelBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        confirmBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                dialog.dismiss();
+                if (listener != null) {
+                    listener.confirm();
                 }
             }
         });
@@ -701,4 +760,5 @@ public class DialogUtil {
     public interface OnSelectCompleteListening2 {
         void onSelectComplete();
     }
+
 }

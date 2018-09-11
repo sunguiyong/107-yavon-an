@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TabHost;
@@ -12,9 +14,11 @@ import android.widget.TextView;
 
 import com.common.base.utils.DensityUtil;
 import com.common.base.utils.LogUtil;
+import com.common.base.utils.ToastUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.mall.MallFragment;
+import com.zt.yavon.module.message.view.MessageListActivity;
 import com.zt.yavon.module.mine.view.MineFragment;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.widget.MyFragmentTabHost;
@@ -30,6 +34,7 @@ public class MainActivity extends BaseActivity {
     private Class fragmentArray[] = {HomeFragment.class, MallFragment.class, MineFragment.class};
     private int[] imageButton = {R.drawable.selector_hometab_home, R.drawable.selector_hometab_mall, R.drawable.selector_hometab_mine};
     private String selectTab;
+    private long lastBack;
 
     @Override
     public int getLayoutId() {
@@ -43,6 +48,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        parseIntentData();
         setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         texts[0] = getString(R.string.tab_main);
         texts[1] = getString(R.string.tab_mall);
@@ -133,6 +139,12 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
+    public static void startAction(Context context,String type) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("type",type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onBackPressed() {
@@ -146,6 +158,50 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
+        long curMilSec = SystemClock.elapsedRealtime();
+        if(curMilSec -lastBack > 1000){
+            lastBack = curMilSec;
+            ToastUtil.showShort(this,"再按一次退出应用");
+            return;
+        }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        parseIntentData();
+    }
+    private void parseIntentData(){
+        Intent intent = getIntent();
+        if(intent == null){
+            return;
+        }
+//        LogUtil.d("====jpush,onNewIntent");
+        String type = intent.getStringExtra("type");
+        if(TextUtils.isEmpty(type)){
+            return;
+        }
+//        LogUtil.d("====jpush,parseIntentData,type:"+type);
+        switch (type){// type(消息类型，SYSTEM系统消息、INSIDE内部消息、FAULT故障消息、SHARE共享消息)
+            case "SYSTEM":
+                MessageListActivity.startAction(this,MessageListActivity.TYPE_SYS);
+                break;
+            case "SHARE":
+                MessageListActivity.startAction(this,MessageListActivity.TYPE_SHARE);
+                break;
+            case "FAULT":
+                MessageListActivity.startAction(this,MessageListActivity.TYPE_ERROR);
+                break;
+            case "INSIDE":
+                MessageListActivity.startAction(this,MessageListActivity.TYPE_INTERNAL);
+                break;
+        }
     }
 }

@@ -17,7 +17,7 @@ public interface MessageListContract {
         void doMsgSuccess(MsgBean bean);
     }
     abstract class Presenter extends BasePresenter<View> {
-        public abstract void getMsgList(int type,int page,int pageSize);
+        public abstract void getMsgList(int type,int page,int pageSize,boolean showDialog);
         public abstract void deleteMsg(int type,List<MsgBean> list);
         public abstract void readMsg(int type,MsgBean bean);
         public abstract void doFaultMsg(MsgBean bean);

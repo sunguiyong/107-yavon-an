@@ -21,6 +21,8 @@ public class WebviewActivity extends BaseActivity {
     @BindView(R.id.webview)
     WebView mWebView;
     private String url;
+    private String data;
+    private String title;
     @Override
     public int getLayoutId() {
         return R.layout.activity_webview;
@@ -34,17 +36,26 @@ public class WebviewActivity extends BaseActivity {
     private void initIntentData(Intent intent) {
         if(intent != null){
             url = intent.getStringExtra("web_url");
+            data = intent.getStringExtra("data");
+            title = intent.getStringExtra("title");
         }
     }
-    public static void start(Activity activity, String url){
+    public static void start(Activity activity, String url, String data,String title){
         Intent intent = new Intent(activity,WebviewActivity.class);
         intent.putExtra("web_url",url);
+        intent.putExtra("data",data);
+        intent.putExtra("title",title);
         activity.startActivity(intent);
     }
     @Override
     public void initView() {
-
         initWebView();
+        if(!TextUtils.isEmpty(title))
+            setTitle(title);
+        if(!TextUtils.isEmpty(url))
+            mWebView.loadUrl(url);
+        if(!TextUtils.isEmpty(data))
+        mWebView.loadData(data, "text/html", "UTF-8") ;
     }
 
     private void initWebView() {
@@ -81,6 +92,9 @@ public class WebviewActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                if(!TextUtils.isEmpty(title)){
+                    return;
+                }
                 String title = view.getTitle();
                 if(!TextUtils.isEmpty(title)){
                     if(title.length()>10){
@@ -91,8 +105,7 @@ public class WebviewActivity extends BaseActivity {
                 super.onPageFinished(view, url);
             }
         });
-        if(!TextUtils.isEmpty(url))
-        mWebView.loadUrl(url);
+
     }
     @OnClick({R.id.btn_back_header})
     public void doClick(){

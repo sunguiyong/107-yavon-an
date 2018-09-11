@@ -8,18 +8,17 @@ import com.common.base.rx.BaseResponse;
 import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
-import com.tuya.smart.sdk.api.IDevListener;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.TabBean;
-import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.module.main.frame.contract.DeviceContract;
+import com.zt.yavon.module.main.widget.GlideCircleTransfrom;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 import com.zt.yavon.utils.SPUtil;
 import com.zt.yavon.utils.TuYaLampSDK;
 import com.zt.yavon.utils.YisuobaoSDK;
@@ -70,7 +69,6 @@ public class DevicePresenter extends DeviceContract.Presenter {
                         }).getDisposable());
             }
         });
-
     }
 
     @Override
@@ -158,7 +156,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
         }
         TabBean.MachineBean machineBean = beans.get(0);
         if ("ADMIN".equals(machineBean.user_type)) {
-            ToastUtil.showLong(mContext, "设备管理员不需要上报故障");
+            ToastUtil.showLong(mContext, "您已是管理员，无需上报");
             return;
         }
         dialog = DialogUtil.createEtDialog(mContext,true, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
@@ -254,6 +252,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
                                 reportServerDevSwitch(bean.id+"",isOpen);
                             }
                         });
+                        yisuobaoSDK.autoLock(bean.auto_lock);
                         yisuobaoSDK.switchLock();
 //                yisuobaoSDK.release();
                     })
@@ -262,7 +261,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
                         DialogUtil.create2BtnInfoDialog(mContext, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                             @Override
                             public void confirm() {
-                                PakageUtil.startAppSettings(mContext);
+                                PackageUtil.startAppSettings(mContext);
                             }
                         });
                     })

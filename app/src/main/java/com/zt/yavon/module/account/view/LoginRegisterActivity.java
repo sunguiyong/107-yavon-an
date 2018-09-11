@@ -39,6 +39,7 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
     private String mode;
+    private boolean unbind;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login_register;
@@ -47,6 +48,13 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     public static void start(Context activity, String mode) {
         Intent intent = new Intent(activity, LoginRegisterActivity.class);
         intent.putExtra("mode", mode);
+//        intent.putExtra("autologin", autologin);
+        activity.startActivity(intent);
+    }
+    public static void start(Context activity, String mode,boolean unbind) {
+        Intent intent = new Intent(activity, LoginRegisterActivity.class);
+        intent.putExtra("mode", mode);
+        intent.putExtra("unbind", unbind);
 //        intent.putExtra("autologin", autologin);
         activity.startActivity(intent);
     }
@@ -60,6 +68,7 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
             }
         });
         mode = getIntent().getStringExtra("mode");
+        unbind = getIntent().getBooleanExtra("unbind",false);
 //        autologin = getIntent().getBooleanExtra("autologin",true);
         mPresenter.setVM(this);
     }
@@ -67,6 +76,9 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     @Override
     public void initView() {
         initFragment();
+        if(unbind){
+            mPresenter.unBindJiGuang();
+        }
     }
 
     private void initFragment() {
@@ -145,7 +157,11 @@ public class LoginRegisterActivity extends BaseActivity<LoginRegisterPresenter> 
     public void loginRegisterSuccess(LoginBean bean) {
         if(bean != null){
             SPUtil.saveAccount(this,bean);
-            MainActivity.startAction(this);
         }
+    }
+
+    @Override
+    public void bindJiGuangSuccess() {
+        MainActivity.startAction(this);
     }
 }

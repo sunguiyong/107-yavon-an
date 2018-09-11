@@ -32,7 +32,7 @@ import com.zt.yavon.module.mine.contract.PersonalInfoContract;
 import com.zt.yavon.module.mine.presenter.PersonalInfoPresenter;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 import com.zt.yavon.utils.SPUtil;
 
 import java.util.List;
@@ -143,7 +143,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                             dialog = DialogUtil.create2BtnInfoDialog(this, msg, null, null, new DialogUtil.OnComfirmListening() {
                                 @Override
                                 public void confirm() {
-                                    PakageUtil.startAppSettings(PersonalInfoActivity.this);
+                                    PackageUtil.startAppSettings(PersonalInfoActivity.this);
                                 }
                             });
                         })
@@ -172,8 +172,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                 });
                 break;
             case R.id.btn_exit_info://注销
-//                SPUtil.clearPreferences(this);
-                LoginRegisterActivity.start(this,"login");
+                LoginRegisterActivity.start(this,"login",true);
                 mRxManager.post(Constants.EVENT_ERROR_TOKEN,"");
                 //退出涂鸦登录
                 TuyaUser.getUserInstance().logout(new ILogoutCallback() {

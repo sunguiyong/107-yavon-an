@@ -18,10 +18,10 @@ import java.util.List;
 public class MsgListPresenter extends MessageListContract.Presenter{
 
     @Override
-    public void getMsgList(int type, int page, int pageSize) {
+    public void getMsgList(int type, int page, int pageSize,boolean showDialog) {
         if(type == MessageListActivity.TYPE_INTERNAL){
             mRxManage.add(Api.getInternalMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
-                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,showDialog) {
                         @Override
                         protected void _onNext(List<MsgBean> list) {
                             mView.returnDataList(list);
@@ -35,7 +35,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
 
         }else if(type == MessageListActivity.TYPE_SHARE){
             mRxManage.add(Api.getShareMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
-                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,showDialog) {
                         @Override
                         protected void _onNext(List<MsgBean> list) {
                             mView.returnDataList(list);
@@ -48,7 +48,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                     }).getDisposable());
         }else if(type == MessageListActivity.TYPE_SYS){
             mRxManage.add(Api.getSysMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
-                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,showDialog) {
                         @Override
                         protected void _onNext(List<MsgBean> list) {
                             mView.returnDataList(list);
@@ -62,7 +62,7 @@ public class MsgListPresenter extends MessageListContract.Presenter{
 
         }else if(type == MessageListActivity.TYPE_ERROR){
             mRxManage.add(Api.getFaultsMsgList(SPUtil.getToken(mContext),page+"", pageSize+"")
-                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,true) {
+                    .subscribeWith(new RxSubscriber<List<MsgBean>>(mContext,showDialog) {
                         @Override
                         protected void _onNext(List<MsgBean> list) {
                             mView.returnDataList(list);
@@ -101,7 +101,17 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                     }).getDisposable());
 
         }else if(type == MessageListActivity.TYPE_SHARE){
-
+            mRxManage.add(Api.deleteShareMsg(SPUtil.getToken(mContext),ids)
+                    .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
+                        @Override
+                        protected void _onNext(BaseResponse response) {
+                            mView.deleteSuccess(list);
+                        }
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtil.showShort(mContext,message);
+                        }
+                    }).getDisposable());
         }else if(type == MessageListActivity.TYPE_SYS){
             mRxManage.add(Api.deleteSystemMsg(SPUtil.getToken(mContext),ids)
                     .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
@@ -205,7 +215,8 @@ public class MsgListPresenter extends MessageListContract.Presenter{
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext,true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
-                        bean.setStatus(agree?"AGREED":"REFUSED");
+                        bean.setStatus(agree?"PASSED":"REFUSED");
+                        bean.setIs_operate(false);
                         mView.doMsgSuccess(bean);
                     }
                     @Override

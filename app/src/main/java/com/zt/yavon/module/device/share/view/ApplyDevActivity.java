@@ -120,6 +120,7 @@ public class ApplyDevActivity extends BaseActivity<ApplyDevPresenter> implements
                         defaultMonth = data;
                     }
                 });
+                break;
             case R.id.tv_year_apply:
                 type = "YEAR";
                 updateTabSelection(viewId);

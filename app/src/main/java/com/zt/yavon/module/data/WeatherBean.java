@@ -13,13 +13,16 @@ public class WeatherBean {
         public List<HeWeather> HeWeather5;
     }
     public class HeWeather{
-//        public AQI aqi;
+        public AQI aqi;
         public NOW now;
-        public SUG suggestion;
+//        public SUG suggestion;
     }
-//    public class AQI{
-//
-//    }
+    public class AQI{
+        public City city;
+    }
+    public class City{
+        public String qlty;
+    }
     public class NOW{
         public COND cond;
         public String tmp;
@@ -27,10 +30,10 @@ public class WeatherBean {
     public class COND{
         public String txt;
     }
-    public class SUG{
-        public AIR air;
-    }
-    public class AIR{
-        public String brf;
-    }
+//    public class SUG{
+//        public AIR air;
+//    }
+//    public class AIR{
+//        public String brf;
+//    }
 }

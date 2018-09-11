@@ -7,12 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.common.base.utils.LoadingDialog;
-import com.common.base.utils.LogUtil;
-import com.tuya.smart.sdk.TuyaDevice;
-import com.tuya.smart.sdk.TuyaUser;
-import com.tuya.smart.sdk.api.IDevListener;
 import com.tuya.smart.sdk.bean.DeviceBean;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -20,13 +15,8 @@ import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.TabBean;
 import com.zt.yavon.module.device.lamp.contract.LampDetailContract;
 import com.zt.yavon.module.device.lamp.presenter.LampDetailPresenter;
-import com.zt.yavon.module.device.lock.contract.LockDetailContract;
-import com.zt.yavon.module.device.lock.presenter.LockDetailPresenter;
-import com.zt.yavon.module.device.lock.view.LockDetailActivity;
 import com.zt.yavon.utils.DialogUtil;
 import com.zt.yavon.utils.TuYaLampSDK;
-
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,6 +42,8 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
             mPresenter.switchDev(machineBean.id+"",isOn);
         }
     };
+//    private Socket socket;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_lamp_detail;
@@ -65,7 +57,7 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.title_lamp));
+        setTitle(machineBean.name);
         setRightMenuImage(R.mipmap.more_right);
         tuyaSDK = new TuYaLampSDK(machineBean.light_device_id,listener);
         DeviceBean deviceBean = tuyaSDK.getDeviceBean();
@@ -73,10 +65,10 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
             Boolean isopen = (Boolean) deviceBean.getDps().get("1");
             updateView(isopen);
         }
-        updateView("ON".equals(machineBean.status));
+//        initSocket();
+//        updateView("ON".equals(machineBean.status));
         mPresenter.getDevDetail(machineBean.id+"");
     }
-
     @OnClick({R.id.tv_switch_lamp, R.id.tv_right_header})
     @Override
     public void doubleClickFilter(View view) {
@@ -111,7 +103,8 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     @Override
     public void returnDevDetail(DevDetailBean bean) {
         this.bean = bean;
-//        updateView("ON".equals(bean.getMachine_status()));
+        ivLamp.setImageResource(R.drawable.selector_lamp_dev);
+        updateView("ON".equals(bean.getMachine_status()));
     }
 
     private void updateView(boolean isOn) {
@@ -124,6 +117,9 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     protected void onDestroy() {
         tuyaSDK.release();
         DialogUtil.dismiss(dialog);
+//        if(socket != null){
+//            socket.disconnect();
+//        }
         super.onDestroy();
     }
 }

@@ -2,24 +2,14 @@ package com.zt.yavon.module.main.frame.view;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yeeloc.elocsdk.ble.BleEngine;
-import com.yeeloc.elocsdk.ble.BleStatus;
-import com.yeeloc.elocsdk.ble.UnlockMode;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
 import com.zt.yavon.module.data.MineRoomBean;
@@ -37,8 +27,7 @@ import com.zt.yavon.module.main.frame.presenter.DevicePresenter;
 import com.zt.yavon.module.main.widget.MenuWidget;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.PakageUtil;
-import com.zt.yavon.utils.TuYaLampSDK;
+import com.zt.yavon.utils.PackageUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +61,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
         mPresenter.setVM(this);
         mTabItemBean = (TabBean) getArguments().getSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN);
         mIsOften = mTabItemBean.type.equals("OFTEN");
-        LogUtil.d("=============name:"+mTabItemBean.name+",type:"+mTabItemBean.type);
+//        LogUtil.d("=============name:"+mTabItemBean.name+",type:"+mTabItemBean.type);
     }
 
     @Override
@@ -117,6 +106,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                         if(Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)){
                             isWifiDev = true;
                         }
+//                        DeskDetailActivity.startAction(getContext(), item);
                         if(!isWifiDev || "ONLINE".equals(item.online_status)){
                             if("ADMIN".equals(item.user_type) || item.is_authorized){
                                 if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
@@ -262,7 +252,7 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                     DialogUtil.create2BtnInfoDialog(getContext(), "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                         @Override
                         public void confirm() {
-                            PakageUtil.startAppSettings(getContext());
+                            PackageUtil.startAppSettings(getContext());
                         }
                     });
                 })

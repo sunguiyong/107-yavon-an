@@ -15,9 +15,9 @@ public class DevUseRecordPresenter extends DevUseRecoderContract.Presenter {
 
 
     @Override
-    public void getUseRecord(String machine_id, int page, int perPage) {
+    public void getUseRecord(String machine_id, int page, int perPage,boolean showLoading) {
         mRxManage.add(Api.getUseRecord(machine_id,SPUtil.getToken(mContext),page,perPage)
-                .subscribeWith(new RxSubscriber<UserRecordBean>(mContext,true) {
+                .subscribeWith(new RxSubscriber<UserRecordBean>(mContext,showLoading) {
                     @Override
                     protected void _onNext(UserRecordBean bean) {
                         mView.returnUseRecord(bean);

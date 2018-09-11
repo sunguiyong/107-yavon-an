@@ -18,9 +18,9 @@ import java.util.List;
 public class AllDevPresenter extends AllDevContract.Presenter {
 
     @Override
-    public void getAllDevs() {
+    public void getAllDevs(boolean showLoading) {
         mRxManage.add(Api.getAllDevs(SPUtil.getToken(mContext))
-                .subscribeWith(new RxSubscriber<List<MineRoomBean>>(mContext,true) {
+                .subscribeWith(new RxSubscriber<List<MineRoomBean>>(mContext,showLoading) {
                     @Override
                     protected void _onNext(List<MineRoomBean> list) {
                         mView.returnDevs(list);

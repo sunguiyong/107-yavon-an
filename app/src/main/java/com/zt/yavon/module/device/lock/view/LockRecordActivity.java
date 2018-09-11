@@ -9,10 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.device.desk.adapter.DevRecordAdapter;
-import com.zt.yavon.module.data.SectionItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -52,7 +48,7 @@ public class LockRecordActivity extends BaseActivity{
 //        recyclerView.addItemDecoration(itemDecoration);
         adapter = new DevRecordAdapter();
         adapter.bindToRecyclerView(recyclerView);
-        List<SectionItem> list = new ArrayList<>();
+//        List<SectionItem> list = new ArrayList<>();
 //        for(int i = 0;i<50;i++){
 //            if(i%7 == 0 || i%5 == 0){
 //                list.add(new SectionItem(SectionItem.TYPE_TITLE,new Object()));
@@ -60,7 +56,7 @@ public class LockRecordActivity extends BaseActivity{
 //                list.add(new SectionItem(SectionItem.TYPE_DETAIL,new Object()));
 //            }
 //        }
-        adapter.setNewData(list);
+//        adapter.setNewData(list);
     }
 
 //    @OnClick({R.id.tv_switch_lock,R.id.tv_right_header})

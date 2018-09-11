@@ -33,6 +33,8 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
     TextView tvTime;
     @BindView(R.id.tv_unit_set)
     TextView tvUnit;
+    @BindView(R.id.tv_sn)
+    TextView tvSn;
     private Dialog dialog;
     private DevDetailBean machine;
     @Override
@@ -56,6 +58,7 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
             tvTime.setText(machine.getSedentary_time());
             tvUnit.setVisibility(View.VISIBLE);
         }
+        tvSn.setText(machine.getAsset_number());
         switchRemind.setChecked(machine.isSedentary_reminder());
     }
 

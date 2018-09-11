@@ -57,9 +57,9 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
         }else{
             ivSelect.setVisibility(View.GONE);
         }
-        helper.setGone(R.id.iv_select,isSelectMode?true:false);
         helper.setGone(R.id.iv_red_point,item.isIs_read()?false:true);
         if(type == MessageListActivity.TYPE_SYS){
+            helper.setGone(R.id.tv_do_msg,false);
             helper.setText(R.id.tv_title,item.getContent());
             helper.setText(R.id.tv_content,item.getTime());
 //            helper.setText(R.id.tv_time,item.getTime());
@@ -84,6 +84,11 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
             }
         }else if(type == MessageListActivity.TYPE_SHARE){
             helper.setText(R.id.tv_title,item.getContent());
+            if(item.isIs_read()){
+                helper.setTextColor(R.id.tv_title,ContextCompat.getColor(mContext,R.color.white_tran));
+            }else {
+                helper.setTextColor(R.id.tv_title,ContextCompat.getColor(mContext,R.color.white));
+            }
             helper.setText(R.id.tv_content,item.getTime()+"  "+item.getMachine_name());
             helper.setGone(R.id.layout_icon,false);
 //            helper.setImageResource(R.id.iv_type,R.mipmap.lock1_small);
@@ -101,18 +106,22 @@ public class MsgListAdapter extends MyQuickAdapter<MsgBean,BaseViewHolder> {
                 tvDo.setTextColor(ContextCompat.getColor(mContext,R.color.white_tran));
                 tvDo.setOnClickListener(null);
             }
-            if("AGREED".equals(item.getStatus())){
+            if("PASSED".equals(item.getStatus())){
                 tvDo.setText("已同意");
             }else if("REFUSED".equals(item.getStatus())){
                 tvDo.setText("已拒绝");
-            }else{
+            }else if("WAIT".equals(item.getStatus())){
                 tvDo.setText("待授权");
+            }else{
+                tvDo.setText("");
             }
         }else if(type == MessageListActivity.TYPE_INTERNAL){
             helper.setText(R.id.tv_title,item.getTitle());
-            helper.setText(R.id.tv_content,item.getContent());
+//            helper.setText(R.id.tv_content,item.getContent());
+            helper.setText(R.id.tv_content,item.getTime());
             helper.setImageResource(R.id.iv_type,R.mipmap.msg_internal);
-            helper.setText(R.id.tv_time,item.getTime());
+            helper.setText(R.id.tv_time,"");
+            helper.setGone(R.id.tv_do_msg,false);
         }
     }
 }

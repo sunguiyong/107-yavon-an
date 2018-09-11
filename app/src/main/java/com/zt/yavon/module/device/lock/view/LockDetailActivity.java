@@ -12,10 +12,6 @@ import com.common.base.utils.LoadingDialog;
 import com.common.base.utils.LogUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yeeloc.elocsdk.ElocSDK;
-import com.yeeloc.elocsdk.ble.BleEngine;
-import com.yeeloc.elocsdk.ble.BleStatus;
-import com.yeeloc.elocsdk.ble.UnlockMode;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevDetailBean;
@@ -24,9 +20,10 @@ import com.zt.yavon.module.device.lock.contract.LockDetailContract;
 import com.zt.yavon.module.device.lock.presenter.LockDetailPresenter;
 import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
-import com.zt.yavon.utils.PakageUtil;
+import com.zt.yavon.utils.PackageUtil;
 import com.zt.yavon.utils.YisuobaoSDK;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -42,6 +39,8 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
     ImageView ivLock;
     @BindView(R.id.tv_switch_lock)
     TextView tvSwith;
+    @BindView(R.id.tv_battery)
+    TextView tvBattery;
     private TabBean.MachineBean machineBean;
 
     private DevDetailBean bean;
@@ -51,13 +50,26 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
     private YisuobaoSDK.YisuobaoListener listener = new YisuobaoSDK.YisuobaoListener(){
         @Override
         public void onBatteryPowerChanged(String power) {
+            LogUtil.d(MessageFormat.format("当前电量：{0}%",power));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvBattery.setText(MessageFormat.format("当前电量：{0}%",power));
+                }
+            });
             mPresenter.reportLowBatteryLock(bean.getMachine_id(),power);
         }
 
         @Override
         public void onLockStateChanged(boolean isOpen) {
-            DialogUtil.dismiss(dialog);
-            updateView(isOpen);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    DialogUtil.dismiss(dialog);
+                    updateView(isOpen);
+                }
+            });
+
             if(ysbSDK != null)
             mPresenter.switchDev(machineBean.id + "", isOpen);
         }
@@ -93,9 +105,9 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.title_lock));
+        setTitle(machineBean.name);
         setRightMenuImage(R.mipmap.more_right);
-        updateView("ON".equals(machineBean.status));
+//        updateView("ON".equals(machineBean.status));
         try {
             initSDK();
         }catch (Exception e){
@@ -151,7 +163,7 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
                     dialog = DialogUtil.create2BtnInfoDialog(LockDetailActivity.this, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                         @Override
                         public void confirm() {
-                            PakageUtil.startAppSettings(LockDetailActivity.this);
+                            PackageUtil.startAppSettings(LockDetailActivity.this);
                         }
                     });
                 })
@@ -171,6 +183,8 @@ public class LockDetailActivity extends BaseActivity<LockDetailPresenter> implem
         }else{
             ivLock.setImageResource(R.drawable.selector_lock1_dev);
         }
+        if(ysbSDK != null)
+            ysbSDK.autoLock(bean.isAuto_lock());
         updateView("ON".equals(bean.getMachine_status()));
 //        ysbSDK.autoLock(bean.isAuto_lock());
 //        ysbSDK.autoLowBatUnLock(bean.isLowpower_hand_unlock());

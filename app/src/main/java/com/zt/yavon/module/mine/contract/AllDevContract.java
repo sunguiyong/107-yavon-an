@@ -15,6 +15,6 @@ public interface AllDevContract {
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        public abstract void getAllDevs();
+        public abstract void getAllDevs(boolean showLoading);
     }
 }
