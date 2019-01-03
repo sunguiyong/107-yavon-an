@@ -5,6 +5,11 @@
     android:orientation="vertical"
     >
     <include layout="@layout/header"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/bg_mall"
+        android:scaleType="centerCrop"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

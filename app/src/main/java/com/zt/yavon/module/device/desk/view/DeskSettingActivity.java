@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevDetailBean;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.device.desk.contract.DeskSettingContract;
 import com.zt.yavon.module.device.desk.presenter.DeskSettingPresenter;
 import com.zt.yavon.module.device.share.view.ShareSettingActivity;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.DialogUtil;
 
 import butterknife.BindView;
@@ -81,7 +84,8 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
                 });
                 break;
             case R.id.tv_use_direct_desk:
-                DeskUseActivity.startAction(this);
+                mPresenter.getDoc(Constants.DOC_TYPE_ADJUST_TABLE_INSTRUCTION);
+//                DeskUseActivity.startAction(this);
                 break;
             case R.id.tv_use_record_desk:
                 DevUseRecordActivity.startAction(this,machine.getMachine_id());
@@ -122,6 +126,11 @@ public class DeskSettingActivity extends BaseActivity<DeskSettingPresenter> impl
     public void setTimeSuccess(String hour) {
         tvTime.setText(hour);
         tvUnit.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void returnDoc(DocBean bean) {
+        WebviewActivity.start(this,bean.url,null,null);
     }
 
     private void setResultData(){

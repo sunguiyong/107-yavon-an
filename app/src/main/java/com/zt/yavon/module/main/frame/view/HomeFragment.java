@@ -237,7 +237,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 .runtime()
                 .permission(Permission.Group.LOCATION,Permission.Group.STORAGE)
                 .onGranted(permissions -> {
-                    DialogUtil.dismiss(dialog);
 //                    LocationUtil locationUtil = new LocationUtil(getActivity());
 //                    locationUtil.setListener(new LocationUtil.LocationChangedListener() {
 //                        @Override

@@ -2,21 +2,21 @@ package com.zt.yavon.module.device.lock.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
 import com.zt.yavon.module.data.DevDetailBean;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.data.MineRoomBean;
 import com.zt.yavon.module.device.desk.view.DevUseRecordActivity;
 import com.zt.yavon.module.device.lock.contract.LockSettingContract;
 import com.zt.yavon.module.device.lock.presenter.LockSettingPresenter;
 import com.zt.yavon.module.device.share.view.ShareSettingActivity;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.utils.Constants;
 
 import butterknife.BindView;
@@ -66,7 +66,12 @@ public class LockSettingActivity extends BaseActivity<LockSettingPresenter> impl
     public void doClick(View view) {
         switch (view.getId()){
             case R.id.tv_use_direct_lock:
-                LockUseActivity.startAction(this);
+//                LockUseActivity.startAction(this);
+                String type = Constants.DOC_TYPE_BATTERY_LOCK_INSTRUCTION;
+                if(machine != null && Constants.DOC_TYPE_BLUE_LOCK_INSTRUCTION.equals(machine.getMachine_type())){
+                    type = Constants.DOC_TYPE_BLUE_LOCK_INSTRUCTION;
+                }
+                mPresenter.getDoc(type);
                 break;
             case R.id.tv_use_record_lock:
                 DevUseRecordActivity.startAction(this,machine.getMachine_id());
@@ -118,5 +123,10 @@ public class LockSettingActivity extends BaseActivity<LockSettingPresenter> impl
     @Override
     public void lowBatteryUnlockSuccess(boolean result) {
         mRxManager.post(Constants.EVENT_AUTO_UNLOCK_LOW,result);
+    }
+
+    @Override
+    public void returnDoc(DocBean bean) {
+        WebviewActivity.start(this,bean.url,null,null);
     }
 }

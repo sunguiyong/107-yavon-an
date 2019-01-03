@@ -149,8 +149,10 @@ public class ShareSettingActivity extends BaseActivity<ShareSettingPresenter> im
                 //二级用户
                 tvUser.setText("管理员");
                 rightMenu = "";
+                setRightMenuText(rightMenu);
                 tvDo.setVisibility(View.GONE);
                 tvShare.setVisibility(View.GONE);
+                adapter.setNewData(list);
             }
             tvShare.setText(rightMenu);
         }

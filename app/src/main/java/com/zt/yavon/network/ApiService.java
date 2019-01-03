@@ -8,6 +8,7 @@ import com.zt.yavon.module.data.CountBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.data.ElectricDayBean;
 import com.zt.yavon.module.data.ElectricMonthBean;
 import com.zt.yavon.module.data.LoginBean;
@@ -916,5 +917,10 @@ public interface ApiService {
     @GET("/api/jpush/cancel_bind")
     Observable<BaseResponse> unBindJiGuang(
             @Query("api_token") String api_token
+    );
+    @GET("api/document")
+    Observable<BaseResponse<DocBean>> getDoc(
+            @Query("api_token") String api_token,
+            @Query("type") String type
     );
 }

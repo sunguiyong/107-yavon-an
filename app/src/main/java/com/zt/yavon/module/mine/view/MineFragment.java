@@ -10,11 +10,14 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.common.base.utils.LogUtil;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseFragment;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.data.LoginBean;
+import com.zt.yavon.module.main.frame.view.WebviewActivity;
 import com.zt.yavon.module.main.widget.GlideCircleTransfrom;
 import com.zt.yavon.module.message.view.MessageCenterActivity;
 import com.zt.yavon.module.mine.contract.MineContract;
 import com.zt.yavon.module.mine.presenter.MinePresenter;
+import com.zt.yavon.utils.Constants;
 import com.zt.yavon.utils.SPUtil;
 
 import butterknife.BindView;
@@ -85,7 +88,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
                 SettingActivity.startAction(getContext());
                 break;
             case R.id.tv_about_setting:
-                AboutActivity.startAction(getContext());
+                mPresenter.getDoc(Constants.DOC_TYPE_ABOUT);
+//                AboutActivity.startAction(getContext());
                 break;
             case R.id.tv_dev_all_mine:
                 AllDevActivity.startAction(getContext());
@@ -106,5 +110,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
             SPUtil.saveAccount(getContext(),bean);
             updatePersonalView(bean);
         }
+    }
+
+    @Override
+    public void returnDoc(DocBean bean) {
+        WebviewActivity.start(getActivity(),bean.url,null,null);
     }
 }

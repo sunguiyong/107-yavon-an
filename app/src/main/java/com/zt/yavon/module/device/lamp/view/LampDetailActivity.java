@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.base.utils.LoadingDialog;
+import com.common.base.utils.ToastUtil;
 import com.tuya.smart.sdk.bean.DeviceBean;
 import com.zt.yavon.R;
 import com.zt.yavon.component.BaseActivity;
@@ -79,6 +80,9 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
     public void doClick(View view) {
         switch (view.getId()) {
             case R.id.tv_switch_lamp:
+                if(!isOnline()){
+                    return;
+                }
                 DialogUtil.dismiss(dialog);
                 dialog = LoadingDialog.showDialogForLoading(LampDetailActivity.this,"操作中...",true,null);
                 try{
@@ -121,5 +125,13 @@ public class LampDetailActivity extends BaseActivity<LampDetailPresenter> implem
 //            socket.disconnect();
 //        }
         super.onDestroy();
+    }
+    private boolean isOnline(){
+        if(machineBean != null && "ONLINE".equals(machineBean.online_status)){
+            return true;
+        }else{
+            ToastUtil.showShort(this,"设备离线状态不能操作");
+            return false;
+        }
     }
 }

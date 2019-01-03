@@ -40,13 +40,13 @@ public class MallFragment extends BaseFragment{
         hideBackButton();
         setTitle(getString(R.string.tab_mall));
     }
-    @OnClick({R.id.btn_lamp,R.id.btn_lock,R.id.btn_desk,R.id.btn_share,R.id.btn_apply,R.id.btn_author})
-    @Override
-    public void doubleClickFilter(View view) {
-        super.doubleClickFilter(view);
-    }
-    @Override
-    public void doClick(View view) {
+//    @OnClick({R.id.btn_lamp,R.id.btn_lock,R.id.btn_desk,R.id.btn_share,R.id.btn_apply,R.id.btn_author})
+//    @Override
+//    public void doubleClickFilter(View view) {
+//        super.doubleClickFilter(view);
+//    }
+//    @Override
+//    public void doClick(View view) {
 //        switch (view.getId()){
 //            case R.id.btn_lamp:
 //                LampDetailActivity.startAction(getActivity(),null);
@@ -67,5 +67,5 @@ public class MallFragment extends BaseFragment{
 //                AuthorActivity.startAction(getActivity(),"",0);
 //                break;
 //        }
-    }
+//    }
 }

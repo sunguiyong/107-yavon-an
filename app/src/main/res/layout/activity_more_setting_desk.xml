@@ -17,12 +17,14 @@
         android:paddingRight="20dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
+        android:visibility="gone"
         />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/divider_white"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/tv_use_record_desk"
         android:layout_width="match_parent"

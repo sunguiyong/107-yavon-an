@@ -33,35 +33,67 @@ public class PackageUtil {
     }
     /**
      * 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
-     * @param version1
+     * @param newVersion
+     * @param oldVersion
      * @return
      */
-    public static int compareVersion(String version1,String version2) {
-        if (version1 == null || version2 == null) {
-            return 0;
+    public static int compareVersion(String newVersion,String oldVersion) {
+            if (newVersion == null || oldVersion == null) {
+                return 0;
 //            throw new Exception("compareVersion error:illegal params.");
-        }
+            }
 
-        if(version1.startsWith("v") || version1.startsWith("V")){
-            version1 = version1.substring(1);
+            if(newVersion.startsWith("v") || newVersion.startsWith("V")){
+                newVersion = newVersion.substring(1);
+            }
+            if(oldVersion.startsWith("v") || oldVersion.startsWith("V")){
+                oldVersion = oldVersion.substring(1);
+            }
+            //返回结果: -2 ,-1 ,0 ,1
+            int result = 0;
+            String matchStr = "[0-9]+(\\.[0-9]+)*";
+            oldVersion = oldVersion.trim();
+            newVersion = newVersion.trim();
+            //非版本号格式,返回error
+            if (!oldVersion.matches(matchStr) || !newVersion.matches(matchStr)) {
+                return -2;
+            }
+            String[] oldVs = oldVersion.split("\\.");
+            String[] newVs = newVersion.split("\\.");
+            int oldLen = oldVs.length;
+            int newLen = newVs.length;
+            int len = oldLen > newLen ? oldLen : newLen;
+            for (int i = 0; i < len; i++) {
+                if (i < oldLen && i < newLen) {
+                    int o = Integer.parseInt(oldVs[i]);
+                    int n = Integer.parseInt(newVs[i]);
+                    if (o > n) {
+                        result = -1;
+                        break;
+                    } else if (o < n) {
+                        result = 1;
+                        break;
+                    }
+                } else {
+                    if (oldLen > newLen) {
+                        for (int j = i; j < oldLen; j++) {
+                            if (Integer.parseInt(oldVs[j]) > 0) {
+                                result = -1;
+                            }
+                        }
+                        break;
+                    } else if (oldLen < newLen) {
+                        for (int j = i; j < newLen; j++) {
+                            if (Integer.parseInt(newVs[j]) > 0) {
+                                result = 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return result;
         }
-        if(version2.startsWith("v") || version2.startsWith("V")){
-            version2 = version2.substring(1);
-        }
-        String[] versionArray1 = version1.split("\\.");//注意此处为正则匹配，不能用"."；
-        String[] versionArray2 = version2.split("\\.");
-        int idx = 0;
-        int minLength = Math.min(versionArray1.length, versionArray2.length);//取最小长度值
-        int diff = 0;
-        while (idx < minLength
-                && (diff = versionArray1[idx].length() - versionArray2[idx].length()) == 0//先比较长度
-                && (diff = versionArray1[idx].compareTo(versionArray2[idx])) == 0) {//再比较字符
-            ++idx;
-        }
-        //如果已经分出大小，则直接返回，如果未分出大小，则再比较位数，有子版本的为大；
-        diff = (diff != 0) ? diff : versionArray1.length - versionArray2.length;
-        return diff;
-    }
     /**
      * 启动当前应用设置页面
      */

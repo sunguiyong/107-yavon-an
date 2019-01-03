@@ -102,31 +102,25 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                     if (item.isLastOne) {
                         ((MainActivity) getActivity()).startActForResult(ActAddDevice.class, MainActivity.REQUEST_CODE_ADD_DEVICE);
                     } else {
-                        boolean isWifiDev = false;
-                        if(Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)){
-                            isWifiDev = true;
-                        }
-//                        DeskDetailActivity.startAction(getContext(), item);
-                        if(!isWifiDev || "ONLINE".equals(item.online_status)){
-                            if("ADMIN".equals(item.user_type) || item.is_authorized){
-                                if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
-                                    LampDetailActivity.startAction(getContext(), item);
-                                } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
-                                    DeskDetailActivity.startAction(getContext(), item);
+//                        boolean isWifiDev = false;
+//                        if(Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)){
+//                            isWifiDev = true;
+//                        }
+                        if(item.is_authorized){
+                            if (Constants.MACHINE_TYPE_LIGHT.equals(item.machine_type)) {
+                                LampDetailActivity.startAction(getContext(), item);
+                            } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(item.machine_type)) {
+                                DeskDetailActivity.startAction(getContext(), item);
+                            } else {
+                                if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                                    BluetoothAdapter.getDefaultAdapter().enable();
                                 } else {
-                                    if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-                                        BluetoothAdapter.getDefaultAdapter().enable();
-                                    } else {
-                                        initPermission(false,item);
-                                    }
+                                    initPermission(false,item);
                                 }
-                            }else{
-                                showAuthorDialog(item);
                             }
                         }else{
-                            showOffLineDialog();
+                            showAuthorDialog(item);
                         }
-
                     }
                 }
             }
@@ -170,14 +164,24 @@ public class FmtDevice extends BaseFragment<DevicePresenter> implements DeviceCo
                         if(Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type) || Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)){
                             isWifiDev = true;
                         }
-                        if(!isWifiDev || "ONLINE".equals(bean.online_status)){
-                            if("ADMIN".equals(bean.user_type) || bean.is_authorized){
+                        if(bean.is_authorized){
+                            if(!isWifiDev || "ONLINE".equals(bean.online_status)){
                                 mPresenter.switchDevice(view,isChecked,bean);
                             }else{
-                                showAuthorDialog(bean);
+                                if (Constants.MACHINE_TYPE_LIGHT.equals(bean.machine_type)) {
+                                    LampDetailActivity.startAction(getContext(), bean);
+                                } else if (Constants.MACHINE_TYPE_ADJUST_TABLE.equals(bean.machine_type)) {
+                                    DeskDetailActivity.startAction(getContext(), bean);
+                                } else {
+                                    if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                                        BluetoothAdapter.getDefaultAdapter().enable();
+                                    } else {
+                                        initPermission(false,bean);
+                                    }
+                                }
                             }
                         }else{
-                            showOffLineDialog();
+                            showAuthorDialog(bean);
                         }
                     }
                 }

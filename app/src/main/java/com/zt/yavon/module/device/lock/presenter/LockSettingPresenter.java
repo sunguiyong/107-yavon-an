@@ -2,6 +2,7 @@ package com.zt.yavon.module.device.lock.presenter;
 
 import com.common.base.rx.BaseResponse;
 import com.common.base.utils.ToastUtil;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.device.lock.contract.LockSettingContract;
 import com.zt.yavon.network.Api;
 import com.zt.yavon.network.RxSubscriber;
@@ -40,6 +41,20 @@ public class LockSettingPresenter extends LockSettingContract.Presenter {
                     @Override
                     protected void _onError(String message) {
 //                        ToastUtil.showShort(mContext,message);
+                    }
+                }).getDisposable());
+    }
+    @Override
+    public void getDoc(String type) {
+        mRxManage.add(Api.getDoc(SPUtil.getToken(mContext),type)
+                .subscribeWith(new RxSubscriber<DocBean>(mContext,true) {
+                    @Override
+                    protected void _onNext(DocBean bean) {
+                        mView.returnDoc(bean);
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext,message);
                     }
                 }).getDisposable());
     }

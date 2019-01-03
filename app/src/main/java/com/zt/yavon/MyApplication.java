@@ -24,7 +24,7 @@ public class MyApplication extends MultiDexApplication{
         ZXingLibrary.initDisplayOpinion(this);
         TuyaSdk.init(this);
         JPushInterface.init(this);
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(false);
 //        TuyaSdk.setDebugMode(true);
 //        LoginBean bean = SPUtil.getAccount(this);
 //        TuyaSdk.setOnNeedLoginListener(new INeedLoginListener() {

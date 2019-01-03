@@ -29,8 +29,8 @@ public class AboutActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.setting));
-        tvVersion.setText(getString(R.string.app_name)+"v"+ PackageUtil.getAppVersion(this));
+        setTitle(getString(R.string.about));
+        tvVersion.setText(getString(R.string.app_name)+" V"+ PackageUtil.getAppVersion(this));
     }
     public static void startAction(Context context){
         Intent intent = new Intent(context,AboutActivity.class);

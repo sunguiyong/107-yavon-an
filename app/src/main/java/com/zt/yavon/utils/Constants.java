@@ -27,4 +27,12 @@ public class Constants {
     public static final String MACHINE_TYPE_ADJUST_TABLE = "ADJUST_TABLE";
 
 
+    //document type
+    public static final String DOC_TYPE_ABOUT = "COMPANY_PROFILE";
+    public static final String DOC_TYPE_BLUE_LOCK_INSTRUCTION = "BLUE_LOCK_INSTRUCTION";
+    public static final String DOC_TYPE_BATTERY_LOCK_INSTRUCTION = "BATTERY_LOCK_INSTRUCTION";
+    public static final String DOC_TYPE_LIGHT_INSTRUCTION = "LIGHT_INSTRUCTION";
+    public static final String DOC_TYPE_ADJUST_TABLE_INSTRUCTION = "ADJUST_TABLE_INSTRUCTION";
+    public static final String DOC_TYPE_CANNOT_CONNECT_BLUE_TOOTH = "CANNOT_CONNECT_BLUE_TOOTH";
+    public static final String DOC_TYPE_CANNOT_SCAN_MACHINE = "CANNOT_SCAN_MACHINE";
 }

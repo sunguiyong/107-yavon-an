@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.common.base.utils.LogUtil;
+import com.common.base.utils.ToastUtil;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -188,7 +189,9 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
             public void onStopTrackingTouch(VerticalSeekBar verticalSeekBar) {
 //                mHandler.sendEmptyMessage(WHAT_SET);
                 updateHeight = true;
-                mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
+                if(isOnline()){
+                    mPresenter.setDeskHeight(machineBean.id+"",HEIGHT_BOTTOM+seekBar.getProgress()+"");
+                }
             }
         });
         initSocket();
@@ -212,7 +215,7 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         intent.putExtra("machineBean", machineBean);
         context.startActivity(intent);
     }
-    @OnClick({R.id.tv_coulometry_desk,R.id.iv_setting_height_desk,R.id.tv_zdy1_desk,R.id.tv_zdy2_desk,R.id.tv_zdy3_desk,R.id.tv_zdy4_desk,R.id.tv_zdy5_desk})
+    @OnClick({R.id.tv_coulometry_desk,R.id.iv_setting_height_desk,R.id.tv_zdy1_desk,R.id.tv_zdy2_desk,R.id.tv_zdy3_desk,R.id.tv_zdy4_desk,R.id.tv_zdy5_desk,R.id.tv_switch_desk})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -227,6 +230,11 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
                 break;
             case R.id.tv_coulometry_desk:
                 ElectricityStatisticsActivity.startAction(this,machineBean.id+"");
+                break;
+            case R.id.tv_switch_desk:
+                if(isOnline()){
+
+                }
                 break;
             case R.id.tv_zdy1_desk:
                 if(heightList != null && heightList.size() > 0){
@@ -287,6 +295,9 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
 
     @OnTouch({R.id.btn_up_desk,R.id.btn_down_desk})
     public boolean doTouch(MotionEvent event,View view) {
+        if(!isOnline()){
+            return false;
+        }
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
             updateHeight = false;
@@ -409,5 +420,12 @@ public class DeskDetailActivity extends BaseActivity<DeskDetailPresenter> implem
         }
     }
 
-
+    private boolean isOnline(){
+        if(machineBean != null && "ONLINE".equals(machineBean.online_status)){
+            return true;
+        }else{
+            ToastUtil.showShort(this,"设备离线状态不能操作");
+            return false;
+        }
+    }
 }

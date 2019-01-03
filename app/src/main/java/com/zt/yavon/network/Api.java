@@ -10,6 +10,7 @@ import com.zt.yavon.module.data.CountBean;
 import com.zt.yavon.module.data.DeskBean;
 import com.zt.yavon.module.data.DevDetailBean;
 import com.zt.yavon.module.data.DevTypeBean;
+import com.zt.yavon.module.data.DocBean;
 import com.zt.yavon.module.data.ElectricDayBean;
 import com.zt.yavon.module.data.ElectricMonthBean;
 import com.zt.yavon.module.data.LoginBean;
@@ -393,5 +394,8 @@ public class Api {
     }
     public static Observable<BaseResponse> unBindJiGuang(String token) {
         return getRxApi().unBindJiGuang(token).compose(RxSchedulers.io_main());
+    }
+    public static Observable<DocBean> getDoc(String token, String type) {
+        return getRxApi().getDoc(token,type).compose(RxSchedulers.handleResult());
     }
 }
