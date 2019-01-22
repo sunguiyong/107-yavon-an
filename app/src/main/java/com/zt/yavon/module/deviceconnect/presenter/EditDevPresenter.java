@@ -67,7 +67,7 @@ public class EditDevPresenter extends EditDevContract.Presenter {
     }
     @Override
     public void getRoomList() {
-        mRxManage.add(Api.getTabData(SPUtil.getToken(mContext))
+        mRxManage.add(Api.getRoomList(SPUtil.getToken(mContext),"REMOVE_MACHINE")
                 .subscribeWith(new RxSubscriber<List<TabBean>>(mContext,true) {
                     @Override
                     protected void _onNext(List<TabBean> list) {
