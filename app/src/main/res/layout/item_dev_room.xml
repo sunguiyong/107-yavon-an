@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="14sp"
-    android:textColor="@color/white_tran"
+    android:textColor="#A2A2A2"
     android:paddingLeft="15dp"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
-    android:background="@color/colorPrimary"
+    android:background="#F7F8F8"
     android:id="@+id/tv_name_room"
     />

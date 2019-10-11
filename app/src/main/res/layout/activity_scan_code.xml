@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zt.yavon.module.deviceconnect.view.ScanCodeActivity">
+    tools:context="com.zt.igreen.module.deviceconnect.view.ScanCodeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <include layout="@layout/header"></include>
+
         <FrameLayout
             android:id="@+id/fl_my_container"
             android:layout_width="match_parent"

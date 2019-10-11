@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomView">
+        <!--小圆半径-->
+        <attr name="Smart_Radius" format="float"/>
+        <!--笔刷宽度-->
+        <attr name="Stroke_Width" format="float"/>
+        <!--大圆半径-->
+        <attr name="Big_Radius" format="float"/>
+
+    </declare-styleable>
+</resources>

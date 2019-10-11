@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/empty_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/whit"
+    >
 
     <TextView
         android:id="@+id/tv_msg"
@@ -11,6 +13,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="没有数据"
-        android:textColor="@android:color/darker_gray"
+
+        android:textColor="@color/black"
         android:textSize="16sp" />
 </FrameLayout>

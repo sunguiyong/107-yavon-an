@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0d0b0c"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
@@ -19,12 +19,11 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:background="#141313"
             android:padding="10dp" />
 
     </LinearLayout>
 
-    <com.zt.yavon.module.main.roommanager.selecticon.adapter.RvSelectIcon
+    <com.zt.igreen.module.main.roommanager.selecticon.adapter.RvSelectIcon
         android:id="@+id/rv_room_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -43,5 +42,5 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/shape_stroke_green"
         android:text="确定"
-        android:textColor="#4EC9BA" />
+        android:textColor="@color/colorPrimary" />
 </LinearLayout>

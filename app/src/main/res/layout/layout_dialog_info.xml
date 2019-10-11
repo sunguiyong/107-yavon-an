@@ -57,7 +57,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="确定"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimary1"
             android:textSize="14sp" />
     </LinearLayout>
 

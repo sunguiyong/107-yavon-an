@@ -33,6 +33,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:singleLine="true"
+            android:textColorHint="#B8B8B8"
             android:textColor="@color/black"
             android:textSize="14sp" />
 

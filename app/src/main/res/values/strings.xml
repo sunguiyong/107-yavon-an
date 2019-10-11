@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Yavon</string>
-    <string name="tab_main">Yavon</string>
-    <string name="tab_mall">发现</string>
+    <string name="app_name">IGREEN</string>
+    <string name="tab_main">IGREEN</string>
+    <string name="tab_mall">材料</string>
     <string name="tab_mine">我的</string>
+    <string name="zhineng">智能</string>
     <string name="cancle">取消</string>
     <string name="confirm">确定</string>
     <string name="complete">完成</string>
@@ -68,4 +69,7 @@
     <string name="scan_permission">未取得您的相机使用权限，此功能无法使用。请前往应用权限设置打开权限。</string>
     <string name="bluetooth_permission">当前手机蓝牙关闭，是否打开以扫描附近蓝牙设备？</string>
     <string name="device_is_used">当前设备正在被其他用户使用，请联\n系管理员</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

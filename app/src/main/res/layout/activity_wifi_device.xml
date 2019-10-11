@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zt.yavon.module.deviceconnect.view.BluetoothActivity">
+    tools:context="com.zt.igreen.module.deviceconnect.view.BluetoothActivity">
 
     <include layout="@layout/header"></include>
 
@@ -15,7 +15,7 @@
 
         <TextView
             android:background="@drawable/shape_stroke_green"
-            android:textColor="@color/mainGreen"
+            android:textColor="@color/white"
             android:id="@+id/tv_scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,12 +43,13 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="未发现附近有可添加设备"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tv_disconnect"
-                    android:textColor="@color/mainGray"
                     android:text="无法连接设备怎么办?"
+                    android:textColor="@color/white"
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -48,7 +49,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="使用者"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -59,7 +60,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="使用时间"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -71,7 +72,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="操作"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
     </LinearLayout>
 

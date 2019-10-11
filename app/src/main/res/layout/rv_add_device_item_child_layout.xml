@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#141313"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <ImageView
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="智能台灯"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_status"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="设备关闭"
-                android:textColor="#deeeee"
+                android:textColor="#D4D5D5"
                 android:textSize="10sp" />
         </LinearLayout>
 

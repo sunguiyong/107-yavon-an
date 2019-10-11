@@ -7,67 +7,75 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <com.zt.yavon.widget.CustomEditText
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <com.zt.igreen.widget.CustomEditText
             android:id="@+id/et_account"
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:iconDrawable="@drawable/selector_account"
-            app:drawablePadding="10dp"
-            app:paddingTop="10dp"
-            app:paddingBottom="10dp"
+            android:layout_marginTop="30dp"
             app:customHint="账号/手机号/邮箱"
+            app:drawablePadding="10dp"
+            app:iconDrawable="@drawable/selector_account"
+            app:paddingBottom="10dp"
+            app:paddingTop="10dp"
             app:textSize="14sp" />
-        <com.zt.yavon.widget.CustomEditText
+
+        <com.zt.igreen.widget.CustomEditText
             android:id="@+id/et_pwd"
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:iconDrawable="@drawable/selector_password"
-            app:visibleDrawable_close="@drawable/selector_eye_close"
-            app:visibleDrawable_open="@drawable/selector_eye_open"
-            app:passwordTag = "true"
-            app:drawablePadding="10dp"
-            app:paddingTop="10dp"
-            app:paddingBottom="10dp"
+            android:layout_marginTop="@dimen/dp_30"
             app:customHint="密码"
-            app:textSize="14sp" />
+            app:drawablePadding="10dp"
+            app:iconDrawable="@drawable/selector_password"
+            app:paddingBottom="10dp"
+            app:paddingTop="10dp"
+            app:passwordTag="true"
+            app:textSize="14sp"
+            app:visibleDrawable_close="@drawable/selector_eye_close"
+            app:visibleDrawable_open="@drawable/selector_eye_open" />
+
         <RelativeLayout
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
+
             <TextView
-                android:drawablePadding="3dp"
-                android:drawableLeft="@drawable/selector_login"
                 android:id="@+id/tv_auto_login"
-                android:padding="5dp"
-                android:textColor="@color/mainGray"
-                android:text="自动登录"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/selector_login"
+                android:drawablePadding="3dp"
+                android:padding="5dp"
+                android:text="自动登录"
+                android:textColor="@color/mainGray" />
+
             <TextView
                 android:id="@+id/tv_forget_psd"
-                android:padding="5dp"
-                android:textColor="@color/mainGray"
-                android:layout_alignParentRight="true"
-                android:text="忘记密码"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:text="忘记密码"
+                android:textColor="@color/mainGray" />
         </RelativeLayout>
+
         <TextView
             android:id="@+id/tv_login"
-            android:padding="10dp"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/mainGreen"
-            android:gravity="center"
-            android:background="@drawable/shape_stroke_green"
-            android:text="登           录"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/existlogin_tv"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="登           录"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

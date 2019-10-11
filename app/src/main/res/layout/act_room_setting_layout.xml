@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="房间名称"
-            android:textColor="#ffffff" />
+            android:textColor="@color/black" />
 
         <Space
             android:layout_width="0dip"
@@ -31,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawablePadding="12dp"
+            android:textColor="@color/black"
             android:drawableRight="@mipmap/ic_goto"
             android:gravity="center_vertical"
             android:text="请输入房间名称" />
@@ -55,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="房间图标"
-            android:textColor="#ffffff" />
+            android:textColor="@color/black" />
 
         <Space
             android:layout_width="0dip"
@@ -105,5 +107,5 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/shape_stroke_green"
         android:text="保存"
-        android:textColor="#4EC9BA" />
+        android:textColor="@color/white" />
 </LinearLayout>

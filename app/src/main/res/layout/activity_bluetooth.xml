@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zt.yavon.module.deviceconnect.view.BluetoothActivity">
+    tools:context="com.zt.igreen.module.deviceconnect.view.BluetoothActivity">
 
     <include layout="@layout/header"></include>
 

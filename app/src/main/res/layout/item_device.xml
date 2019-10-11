@@ -27,6 +27,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="设备名"
+            android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintTop_toBottomOf="@+id/iv_dev_type"
             app:layout_constraintBottom_toBottomOf="parent"

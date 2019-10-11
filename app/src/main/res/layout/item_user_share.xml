@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:lineSpacingMultiplier="1.2"
             android:gravity="center"
             android:text="用户名"/>
@@ -27,7 +28,7 @@
             android:textSize="12sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:gravity="center"
             android:text="时间"/>
         <FrameLayout
@@ -39,9 +40,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:gravity="center"
-                android:background="@drawable/shape_edittext_bk3"
+                android:background="@drawable/shape_edittext_bk4"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="3dp"

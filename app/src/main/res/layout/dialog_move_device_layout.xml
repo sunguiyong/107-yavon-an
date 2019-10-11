@@ -18,7 +18,7 @@
         android:text="移动"
         android:textColor="#000000"
         android:textSize="14sp" />
-    <com.zt.yavon.widget.RvDialogTab
+    <com.zt.igreen.widget.RvDialogTab
         android:id="@+id/rv_dialog_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="确定"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimary1"
             android:textSize="14sp" />
     </LinearLayout>
 

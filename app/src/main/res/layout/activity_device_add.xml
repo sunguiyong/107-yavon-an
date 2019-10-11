@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zt.yavon.module.deviceconnect.view.DeviceAddActivity">
+    android:background="@color/white"
+    tools:context="com.zt.igreen.module.deviceconnect.view.DeviceAddActivity">
 
     <include layout="@layout/header"></include>
 
@@ -21,6 +22,7 @@
             <com.jude.easyrecyclerview.EasyRecyclerView
                 android:id="@+id/re_device_type"
                 android:layout_width="match_parent"
+                android:background="#F4F3F3"
                 android:layout_height="match_parent"></com.jude.easyrecyclerview.EasyRecyclerView>
         </LinearLayout>
         <LinearLayout

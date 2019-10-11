@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whit"
     >
 
     <!--<android.support.v4.widget.SwipeRefreshLayout-->
@@ -10,8 +11,9 @@
         <!--android:layout_height="match_parent"-->
         <!--android:orientation="vertical">-->
 
-        <com.zt.yavon.module.main.frame.adapter.RvDevices
+        <com.zt.igreen.module.main.frame.adapter.RvDevices
             android:id="@+id/rv_devices"
+            android:background="#F1F1F1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->

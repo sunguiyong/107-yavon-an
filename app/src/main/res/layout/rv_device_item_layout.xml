@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/lin_rv"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:background="@drawable/shape_device_item_bg">
-
+    android:background="@drawable/shape_device_item_bg"
+    >
     <LinearLayout
         android:id="@+id/ll_item"
         android:layout_width="match_parent"
@@ -16,10 +17,10 @@
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:background="@mipmap/bg_device_tag"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="20dp"
+            android:textColor="#999999"
             android:text="办公室"
             android:textSize="10sp" />
 
@@ -53,7 +54,7 @@
                     android:maxLength="7"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/colorPrimary1" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,9 +67,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-
                         android:text="设备关闭"
-                        android:textColor="#deeeee"
+                        android:textColor="#D7D8D8"
                         android:textSize="11sp" />
                     <TextView
                         android:id="@+id/tv_author_dev"
@@ -83,10 +83,23 @@
                         android:textSize="11sp"
                         android:background="@drawable/selector_round_3"
                         />
+                    <TextView
+                        android:id="@+id/tv_author_dev1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/switch_text_select11"
+                        android:layout_marginRight="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="1.2dp"
+                        android:paddingBottom="2.2dp"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        android:background="@drawable/selector_round_3"
+                        />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
     <ImageView
@@ -105,7 +118,8 @@
         android:id="@+id/black_frame"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="@color/alpha_40_black"
+        android:background="@drawable/shape_device_item_obg"
         android:visibility="gone"
         />
 </FrameLayout>
+

@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_stroke_green"
-        android:textColor="@color/mainGreen"
+        android:textColor="@color/white"
         android:text="@string/delete"
         android:textSize="14sp"
         android:padding="12dp"

@@ -4,10 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundblack"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".module.account.view.LoginRegisterActivity">
 
-    <include layout="@layout/header"></include>
+    <include
+        layout="@layout/header"
+        android:visibility="gone"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/back_w" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,14 +47,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:textColor="@color/login_text_select"
             android:padding="12dp"
-            android:text="注册账号"
-            android:textColor="@color/login_text_select" />
+            android:text="注册账号" />
     </LinearLayout>
 
     <FrameLayout
-        android:background="@color/alpha_05_white"
         android:id="@+id/fr_login_register"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:background="@color/backgroundblack">
+
+    </FrameLayout>
 </LinearLayout>

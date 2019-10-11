@@ -27,6 +27,7 @@
         android:paddingBottom="8dp"
         android:drawablePadding="10dp"
         android:textColor="@color/black"
+        android:hint="设备不支持5Gwifi"
         android:textSize="14sp"
         android:gravity="center_vertical"
         />

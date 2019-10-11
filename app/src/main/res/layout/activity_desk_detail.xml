@@ -27,7 +27,7 @@
             app:layout_constraintRight_toRightOf="parent"
             />
 
-        <com.zt.yavon.widget.VerticalSeekBar
+        <com.zt.igreen.widget.VerticalSeekBar
             android:id="@+id/progress_desk"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -105,30 +105,30 @@
             android:layout_marginRight="8dp"
             android:orientation="vertical">
 
-            <com.zt.yavon.widget.MyTextView
+            <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy1_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="9"
-                android:textColor="@color/switch_text_select5"
+                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
                 android:lines="2"
                 android:gravity="center"
                 android:textSize="13sp"
                 android:text="自定义1"/>
-            <com.zt.yavon.widget.MyTextView
+            <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy2_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="9"
                 android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select5"
+                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
                 android:lines="2"
                 android:gravity="center"
                 android:text="自定义2"/>
-            <com.zt.yavon.widget.MyTextView
+            <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy3_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,10 +137,10 @@
                 android:lines="2"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select5"
+                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
                 android:text="自定义3"/>
-            <com.zt.yavon.widget.MyTextView
+            <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy4_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,10 +149,10 @@
                 android:lines="2"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select5"
+                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
                 android:text="自定义4"/>
-            <com.zt.yavon.widget.MyTextView
+            <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy5_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                 android:gravity="center"
                 android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select5"
+                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
                 android:text="自定义5"/>
             <View

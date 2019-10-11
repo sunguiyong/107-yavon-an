@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 27
@@ -22,11 +22,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:design:27.1.1'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:27.0.1'
+    compile 'com.android.support:design:27.0.1'
     // Retrofit库
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+   // compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+  /*  compile (deps.converterGson){
+        exclude group : 'com.google.code.gson'
+    }*/
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //rxjava
     compile 'io.reactivex.rxjava2:rxjava:2.1.7'

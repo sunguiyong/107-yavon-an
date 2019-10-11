@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zt.yavon.module.deviceconnect.view.DeviceTypeActivity">
+    android:background="@color/colorPrimary"
+    tools:context="com.zt.igreen.module.deviceconnect.view.DeviceTypeActivity">
 
     <include layout="@layout/header"></include>
 
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="蓝牙锁"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
@@ -31,7 +33,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:lineSpacingMultiplier="1.2"
-            android:textColor="@color/white_tran"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:text="指纹锁只能密码锁家用防盗门锁" />
         <android.support.constraint.ConstraintLayout
@@ -56,7 +58,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black2"
+        android:background="#F7F7F7"
         android:paddingTop="30dp">
        <LinearLayout
            android:paddingLeft="40dp"
@@ -80,7 +82,7 @@
                <TextView
                    android:id="@+id/tv_device"
                    android:gravity="center_vertical"
-                   android:textColor="@color/mainGreen"
+                   android:textColor="@color/black"
                    android:text="设备名称"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -111,6 +113,6 @@
             android:background="@drawable/shape_stroke_green"
             android:gravity="center"
             android:text="下一步"
-            android:textColor="@color/mainGreen" />
+            android:textColor="@color/white" />
     </RelativeLayout>
 </LinearLayout>

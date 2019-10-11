@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
     <include layout="@layout/header"/>
-    <com.zt.yavon.widget.CustomEditText
+    <com.zt.igreen.widget.CustomEditText
         android:id="@+id/et_name_dev"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +35,7 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:padding="10dp"
+            android:textColor="@color/black"
             android:drawableRight="@mipmap/arrow_down"
             android:drawablePadding="10dp"
             android:hint="选择房间"
@@ -78,7 +79,6 @@
           android:layout_height="wrap_content"
           android:paddingLeft="25dp"
           android:paddingRight="25dp"
-          android:background="@color/black2"
           android:paddingBottom="80dp"
           android:orientation="vertical">
         <TextView
@@ -88,6 +88,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:textSize="14sp"
+            android:textColor="@color/black"
             android:text="选择类型"/>
           <android.support.v7.widget.RecyclerView
               android:id="@+id/recyclerview2_dev_edit"
@@ -102,7 +103,7 @@
         android:padding="10dp"
         android:gravity="center"
         android:background="@drawable/shape_stroke_green"
-        android:textColor="@color/mainGreen"
+        android:textColor="@color/white"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="25dp"

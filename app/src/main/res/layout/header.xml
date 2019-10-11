@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="@dimen/dp_55"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
-    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:id="@+id/root_header"
     >
     <LinearLayout
@@ -20,7 +21,7 @@
             android:drawableLeft="@mipmap/back_w"
             android:drawablePadding="10dp"
             android:textSize="14sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             />
@@ -41,7 +42,7 @@
         android:id="@+id/tv_title_header"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:text=""
         android:singleLine="true"
@@ -60,7 +61,88 @@
         android:gravity="center_vertical"
         android:layout_gravity="right"
         android:paddingRight="15dp"
+        android:layout_marginRight="3dp"
         android:paddingLeft="20dp"
         android:clickable="true"
         />
+    <TextView
+        android:id="@+id/tv_right_header1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:text=""
+        android:layout_gravity="right"
+        android:paddingRight="18dp"
+        android:paddingLeft="20dp"
+        android:clickable="true"
+        android:visibility="gone"
+        android:gravity="center|right"
+        />
+    <LinearLayout
+        android:id="@+id/lin_add_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_gravity="center|right"
+        >
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_add_intell"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_gravity="center|right"
+        >
+        <ImageView
+            android:id="@+id/img_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_add"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_dian"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_gravity="center|right"
+        >
+    <ImageView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:background="@drawable/shape_yuan_three"
+        android:layout_gravity="center_vertical"
+        />
+        <ImageView
+
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/shape_yuan_three"
+            android:layout_gravity="center_vertical"
+            />
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/shape_yuan_three"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
 </FrameLayout>

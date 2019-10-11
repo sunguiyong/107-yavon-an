@@ -17,10 +17,11 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/round_30_green_bg"
-        android:textColorHint="@color/gray_text"
+        android:textColorHint="@color/mainGreen"
         android:hint="请输入共享者手机号"
         android:gravity="center"
         android:textSize="14sp"
+        android:textColor="@color/black"
         android:inputType="number"
         android:maxLength="11"
         android:padding="10dp"/>
@@ -28,7 +29,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black2">
+        android:background="@color/white">
 
 
     <LinearLayout
@@ -43,7 +44,7 @@
             android:layout_marginTop="10dp"
             android:padding="20dp"
             android:text="授权方式"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -204,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="设备使用时间："
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="14sp" />
             <TextView
@@ -212,7 +213,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="14sp" />
             <TextView
@@ -220,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -236,7 +237,7 @@
             android:id="@+id/tv_submit_share"
             android:padding="10dp"
             android:layout_marginTop="50dp"
-            android:textColor="@color/mainGreen"
+            android:textColor="@color/white"
             android:gravity="center"
             android:background="@drawable/shape_stroke_green"
             android:text="@string/confirm"

@@ -5,15 +5,40 @@
     android:background="@drawable/shape_dialog"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+    <ImageView
+        android:id="@+id/imgsun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/sun_icon"
+        android:visibility="gone"
+        />
     <TextView
         android:id="@+id/title_dialog"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="14sp"
         android:text="@string/title_dialog_sitdown"
         android:padding="15dp"/>
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_email_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:theme="@style/MySwitch"
+            android:checked="false"
+            android:paddingRight="20dp"
+            android:visibility="gone"
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:singleLine="true"
             android:textColor="@color/black"
             android:hint="@string/tip2_time"
@@ -39,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:text="h"
             />

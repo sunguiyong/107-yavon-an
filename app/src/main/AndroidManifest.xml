@@ -1,41 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zt.yavon">
+    xmlns:tools="http://schemas.android.com/tools"
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    package="com.zt.igreen">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" android:required="false"/>
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"
+        android:required="false" />
+    <!--机智云-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission
+        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.zt.yavon" />
+
+    <permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.zt.igreen"
+        android:protectionLevel="signature"></permission>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" android:required="false" />
-    <!-- SD卡读取权限，用户写入离线定位数据-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.WAKE_LOCK"
+        android:required="false" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.zt.igreen.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/app_nameicon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <!--tuya-->
+        android:theme="@style/AppTheme"
+        >
+
+        <!-- tuya -->
         <meta-data
             android:name="TUYA_SMART_APPKEY"
             android:value="h4yg4fnn4yt9d4sqr4u4" />
@@ -45,6 +80,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="1vRxzKazhWxRnCdnOv6tkF1ljIQRGiv1" />
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <receiver android:name="com.tuya.smart.android.base.broadcast.NetworkBroadcastReceiver">
@@ -69,52 +105,64 @@
             android:label="TCPService">
             <intent-filter>
                 <action android:name="tuya.intent.action.tcp" />
+
                 <category android:name="tuya" />
             </intent-filter>
         </service>
-        <!--tuya end-->
-         <activity android:name=".module.guide.GuideActivity"
-             android:theme="@style/WithLoadingBG">
+        <!-- tuya end -->
+        <!--android:name=".module.account.view.SelectAccountActivity"-->
+        <activity
+            android:name=".module.guide.GuideActivity"
+            android:theme="@style/WithLoadingBG">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".module.account.view.SelectAccountActivity" />
-        <activity android:name=".module.device.lock.view.LockSettingActivity" />
-        <activity android:name=".module.device.lock.view.LockUseActivity" />
-        <activity android:name=".module.device.lock.view.LockRecordActivity" />
-        <activity android:name=".module.device.lock.view.LockDetailActivity" />
-        <activity android:name=".module.device.lamp.view.LampDetailActivity" />
-        <activity android:name=".module.device.lamp.view.LampUseActivity" />
-        <activity android:name=".module.device.lamp.view.LampSettingActivity" />
-        <activity android:name=".module.device.lamp.view.LampRecordActivity" />
-        <activity android:name=".module.device.desk.view.DeskDetailActivity" />
-        <activity android:name=".module.device.desk.view.DeskSettingActivity" />
-        <activity android:name=".module.device.desk.view.DeskUseActivity" />
-        <activity android:name=".module.device.desk.view.DevUseRecordActivity" />
-        <activity android:name=".module.mine.view.PersonalInfoActivity" />
-        <activity android:name=".module.mine.view.BindEmailActivity" />
-        <activity android:name=".module.mine.view.ModityEmailActivity" />
-        <activity android:name=".module.mine.view.ModityPhoneActivity" />
-        <activity android:name=".module.mine.view.SettingActivity" />
-        <activity android:name=".module.mine.view.AboutActivity" />
-        <activity android:name=".module.message.view.MessageCenterActivity" />
-        <activity android:name=".module.message.view.MessageListActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".module.mine.view.AllDevActivity" />
-        <activity android:name=".widget.calendar.DateSelectActivity" />
-        <activity android:name=".module.device.share.view.ShareDevActivity" />
-        <activity android:name=".module.device.share.view.ApplyDevActivity" />
-        <activity android:name=".module.device.share.view.AuthorActivity" />
-        <activity android:name=".module.device.desk.view.ElectricityStatisticsActivity" />
-        <activity android:name=".module.device.share.view.ShareSettingActivity" />
-        <activity android:name=".module.deviceconnect.view.EditDevActivity" />
-        <!--<activity-->
-            <!--android:name="com.yalantis.ucrop.UCropActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme"/>-->
+        <activity android:name="com.zt.igreen.module.device.lock.view.LockSettingActivity" />
+        <activity android:name="com.zt.igreen.module.device.lock.view.LockUseActivity" />
+        <activity android:name="com.zt.igreen.module.device.lock.view.LockRecordActivity" />
+        <activity android:name="com.zt.igreen.module.device.lock.view.LockDetailActivity" />
+        <activity android:name="com.zt.igreen.module.device.lamp.view.LampDetailActivity" />
+        <activity android:name="com.zt.igreen.module.device.lamp.view.LampUseActivity" />
+        <activity android:name="com.zt.igreen.module.device.lamp.view.LampSettingActivity" />
+        <activity android:name="com.zt.igreen.module.device.lamp.view.LampRecordActivity" />
+        <activity android:name="com.zt.igreen.module.device.desk.view.DeskDetailActivity" />
+        <activity android:name="com.zt.igreen.module.device.desk.view.DeskSettingActivity" />
+        <activity android:name="com.zt.igreen.module.device.desk.view.DeskUseActivity" />
+        <activity android:name="com.zt.igreen.module.device.desk.view.DevUseRecordActivity" />
+        <activity android:name="com.zt.igreen.module.mine.view.PersonalInfoActivity" />
+        <activity android:name="com.zt.igreen.module.mine.view.BindEmailActivity"
+            />
+        <activity
+            android:name="com.zt.igreen.module.mine.view.ModityEmailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name="com.zt.igreen.module.mine.view.ModityPhoneActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name="com.zt.igreen.module.mine.view.SettingActivity" />
+        <activity android:name="com.zt.igreen.module.mine.view.AboutActivity" />
+        <activity android:name="com.zt.igreen.module.message.view.MessageCenterActivity" />
+        <activity
+            android:name="com.zt.igreen.module.message.view.MessageListActivity"
+            android:launchMode="singleTop" />
+        <activity android:name="com.zt.igreen.module.mine.view.AllDevActivity" />
+        <activity android:name="com.zt.igreen.widget.calendar.DateSelectActivity" />
+        <activity android:name="com.zt.igreen.module.device.share.view.ShareDevActivity" />
+        <activity android:name="com.zt.igreen.module.device.share.view.ApplyDevActivity" />
+        <activity android:name="com.zt.igreen.module.device.share.view.AuthorActivity" />
+        <activity android:name="com.zt.igreen.module.device.desk.view.ElectricityStatisticsActivity" />
+        <activity android:name="com.zt.igreen.module.device.share.view.ShareSettingActivity" />
+        <activity android:name="com.zt.igreen.module.deviceconnect.view.EditDevActivity" />
+        <activity android:name="com.zt.igreen.module.device.PAU.view.PauActivity" />
+        <activity android:name="com.zt.igreen.module.device.PAU.view.MoreActivity" />
+        <!-- <activity -->
+        <!-- android:name="com.yalantis.ucrop.UCropActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/AppTheme"/> -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -126,32 +174,38 @@
         </provider>
 
         <activity
-            android:name=".module.main.frame.view.MainActivity"
+            android:name="com.zt.igreen.module.main.frame.view.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.account.view.LoginRegisterActivity" />
-        <activity android:name=".module.account.view.ResetPasswordActivity" />
-        <activity android:name=".module.deviceconnect.view.ScanCodeActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".module.deviceconnect.view.BluetoothActivity" />
-        <activity android:name=".module.deviceconnect.view.DeviceTypeActivity" />
-        <activity android:name=".module.deviceconnect.view.DeviceAddActivity"></activity>
-        <activity android:name=".module.deviceconnect.view.WifiDeviceActivity"></activity>
-        <activity android:name=".module.main.roommanager.list.view.RoomActivity" />
-        <activity android:name=".module.main.adddevice.view.ActAddDevice" />
-        <activity android:name=".module.main.roommanager.add.view.ActAllRoom" />
-        <activity android:name=".module.message.view.MessageDetailActivity" />
-        <activity android:name=".module.main.frame.view.WebviewActivity" />
-        <activity android:name=".module.main.roommanager.detail.ActRoomDetail" />
-        <activity android:name=".module.main.roommanager.setting.view.ActRoomSetting" />
-        <activity android:name=".module.main.roommanager.selecticon.view.ActSelectIcon" />
-        <receiver android:name=".module.update.InstallApkBroadCast">
+        <activity android:name="com.zt.igreen.module.account.view.LoginRegisterActivity" />
+        <activity
+            android:name="com.zt.igreen.module.account.view.ResetPasswordActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name="com.zt.igreen.module.deviceconnect.view.ScanCodeActivity"
+            android:launchMode="singleTop" />
+        <activity android:name="com.zt.igreen.module.deviceconnect.view.BluetoothActivity" />
+        <activity android:name="com.zt.igreen.module.deviceconnect.view.DeviceTypeActivity" />
+        <activity android:name="com.zt.igreen.module.deviceconnect.view.DeviceAddActivity" />
+        <activity android:name="com.zt.igreen.module.deviceconnect.view.WifiDeviceActivity" />
+        <activity android:name="com.zt.igreen.module.main.roommanager.list.view.RoomActivity" />
+        <activity android:name="com.zt.igreen.module.main.adddevice.view.ActAddDevice" />
+        <activity android:name="com.zt.igreen.module.main.roommanager.add.view.ActAllRoom" />
+        <activity android:name="com.zt.igreen.module.message.view.MessageDetailActivity" />
+        <activity android:name="com.zt.igreen.module.main.frame.view.WebviewActivity" />
+        <activity android:name="com.zt.igreen.module.main.roommanager.detail.ActRoomDetail" />
+        <activity android:name="com.zt.igreen.module.main.roommanager.setting.view.ActRoomSetting" />
+        <activity android:name="com.zt.igreen.module.main.roommanager.selecticon.view.ActSelectIcon" />
+       <activity android:name=".module.device.health.view.MedicalActivity"></activity>
+        <activity android:name=".module.device.health.view.MedicalOneActivity"></activity>
+        <activity android:name=".module.device.health.view.MedicalTwoActivity"></activity>
+        <receiver android:name="com.zt.igreen.module.update.InstallApkBroadCast">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".push.MyReceiver"
+            android:name="com.zt.igreen.push.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -163,7 +217,59 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <activity android:name="com.zt.igreen.module.mine.view.PersionDataActivity" />
+        <activity android:name="com.zt.igreen.module.mall.view.FavoriteActivity"></activity>
+        <activity android:name="com.zt.igreen.module.device.water.view.view.WaterActivity"></activity>
+        <activity android:name="com.zt.igreen.module.device.water.view.view.RepairActivity"></activity>
+        <activity android:name="com.zt.igreen.module.device.water.view.view.TimeActivity"></activity>
+        <activity android:name=".module.Intelligence.view.AddIntellActivity"
+            android:launchMode="singleTask"
+            ></activity>
+        <activity android:name=".module.Intelligence.view.SetIntellActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:launchMode="singleTask"
+            ></activity>
+        <activity android:name=".module.Intelligence.view.AddImgActivity"></activity>
+        <activity android:name=".module.Intelligence.view.AddDoActivity"
+
+            ></activity>
+        <activity android:name=".module.mall.view.SearchActivity"></activity>
+        <activity android:name=".module.mall.view.SearchResultActivity"></activity>
+        <activity android:name=".module.mall.view.MalDetailsActivity"></activity>
+        <activity android:name=".module.mall.view.WordsActivity"></activity>
+        <activity android:name=".module.deviceconnect.view.BluetoothActivity2"></activity>
+        <activity android:name=".module.device.health.view.HealthActivity"></activity>
+        <activity android:name=".module.device.health.view.HistoryActivity"></activity>
+        <activity android:name=".module.device.health.view.HealthTestActivity">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
+        <activity android:name=".widget.calendar_two.DateSelectActivity_one"
+
+            ></activity>
+        <service
+            android:name="com.qmjk.qmjkcloud.service.DfuService"
+            android:exported="true"
+            android:label="dfuservice" >
+        </service>
+
+        <meta-data
+            android:name="QMJKAPPKEY"
+            android:value="wlpjrwnzesevlonio1fy" />
+        <meta-data
+            android:name="QMJKAPPID"
+            android:value="207682314" />
     </application>
 
 </manifest>

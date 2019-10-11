@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/lin_back"
     android:gravity="center">
 
     <TextView
@@ -18,5 +19,6 @@
         android:id="@+id/line"
         android:background="@drawable/iv_edittext_normal"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="5dp"></View>
 </LinearLayout>

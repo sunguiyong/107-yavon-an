@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusableInTouchMode="true"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@null"
+            android:textColor="@color/white"
+            android:background="@color/backgroundblack"
             android:singleLine="true"
             android:textSize="14sp" />
 

@@ -25,7 +25,7 @@
             android:background="@color/white"
             android:layout_gravity="center"
             />
-        <com.zt.yavon.widget.wheelview.widget.WheelView
+        <com.zt.igreen.widget.wheelview.widget.WheelView
             android:id="@+id/wheelview_dialog"
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"

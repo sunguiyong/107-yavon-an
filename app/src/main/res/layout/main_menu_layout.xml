@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zt.yavon.module.main.widget.MenuWidget xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zt.igreen.module.main.widget.MenuWidget xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimary1"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -174,4 +174,4 @@
             android:textSize="12sp"
             android:visibility="invisible" />
     </LinearLayout>
-</com.zt.yavon.module.main.widget.MenuWidget>
+</com.zt.igreen.module.main.widget.MenuWidget>

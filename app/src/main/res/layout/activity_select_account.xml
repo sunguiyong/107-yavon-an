@@ -3,37 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/guide"
+    android:orientation="vertical"
     tools:context=".module.account.view.SelectAccountActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/iv_select_account">
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:gravity="center" />
 
-        <TextView
-            android:layout_above="@+id/tv_use_have"
-            android:id="@+id/tv_create_new"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/shape_stroke_green"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="创建新账户"
-            android:textColor="@color/mainGreen"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:textColor="@color/white"
-            android:layout_marginBottom="80dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp"
-            android:id="@+id/tv_use_have"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="使用已有的账户登录" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_create_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_use_have"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/newaccount_tv"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="注册"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/tv_use_have"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="80dp"
+                android:background="@drawable/existlogin_tv"
+                android:gravity="center"
+                android:text="登陆"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

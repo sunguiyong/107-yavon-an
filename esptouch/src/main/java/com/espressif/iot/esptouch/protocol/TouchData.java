@@ -1,12 +1,12 @@
 package com.espressif.iot.esptouch.protocol;
 
-import com.espressif.iot.esptouch.util.ByteUtil;
+import com.espressif.iot.esptouch.util.ByteUtil1;
 
 public class TouchData {
     private final byte[] mData;
 
     public TouchData(String string) {
-        mData = ByteUtil.getBytesByString(string);
+        mData = ByteUtil1.getBytesByString(string);
     }
 
     public TouchData(byte[] data) {
