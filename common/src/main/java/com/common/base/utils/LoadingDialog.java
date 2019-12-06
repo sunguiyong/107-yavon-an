@@ -47,7 +47,7 @@ public class LoadingDialog {
                 }
             });
         }
-        mLoadingDialog.show();
+                mLoadingDialog.show();
         return  mLoadingDialog;
     }
     public static Dialog showDialogForLoading(Activity context, String msg, boolean cancelable, boolean canTouchOutCancle) {

@@ -14,11 +14,11 @@ public class DeviceINtell_Info {
     @Id(autoincrement = true)
     Long id;
     //智能情景的id
-    private int  intell_id;
+    private int intell_id;
     //房间名称
     private String room_name;
     //设备图片
-    private String device_img ;
+    private String device_img;
     //背景图
     private String back_img;
     //设备名称
@@ -31,13 +31,13 @@ public class DeviceINtell_Info {
     private int device_id;
     private int qufen_id;
     private String device_type;
-    private String  actions;
+    private String actions;
 
     @Generated(hash = 1686494382)
     public DeviceINtell_Info(Long id, int intell_id, String room_name,
-            String device_img, String back_img, String device_name,
-            String intell_name, String device_state, int device_id, int qufen_id,
-            String device_type, String actions) {
+                             String device_img, String back_img, String device_name,
+                             String intell_name, String device_state, int device_id, int qufen_id,
+                             String device_type, String actions) {
         this.id = id;
         this.intell_id = intell_id;
         this.room_name = room_name;
@@ -71,9 +71,6 @@ public class DeviceINtell_Info {
     public void setQufen_id(int qufen_id) {
         this.qufen_id = qufen_id;
     }
-
-
-
 
 
     public String getDevice_type() {

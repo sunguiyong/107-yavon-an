@@ -10,12 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <include layout="@layout/header"></include>
+
+        <include layout="@layout/header"/>
 
         <FrameLayout
             android:id="@+id/fl_my_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

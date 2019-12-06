@@ -61,9 +61,10 @@ public class RoomActivity extends BaseActivity<RoomPresenter> implements RoomCon
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.backgroundblack);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.backgroundblack).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.backgroundblack).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("房间管理");
         setRightMenuText("添加房间");

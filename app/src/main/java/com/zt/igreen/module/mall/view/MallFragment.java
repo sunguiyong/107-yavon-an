@@ -38,17 +38,16 @@ import butterknife.Unbinder;
 public class MallFragment extends BaseFragment<MaterialStylePresenter> implements MaterialStyleContract.View {
     @BindView(R.id.re_device_type)
     RecyclerView reDeviceType;
-    @BindView(R.id.shoucangjia)
-    TextView shoucangjia;
+    @BindView(R.id.shoucang_ll)
+    LinearLayout shoucangLl;
     @BindView(R.id.re_device)
     EasyRecyclerView reDevice;
     @BindView(R.id.lin_search)
     LinearLayout linSearch;
-    Unbinder unbinder;
-    Unbinder unbinder1;
     private DeviceTypeAdapter deviceTypeAdapter;
     private StyleAdapter deviceAdapter;
-    List<IntellListBean> list=new ArrayList<>();
+    List<IntellListBean> list = new ArrayList<>();
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_mall_main;
@@ -63,10 +62,13 @@ public class MallFragment extends BaseFragment<MaterialStylePresenter> implement
 
     @Override
     public void initView() {
-        reDeviceType.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        reDeviceType.setLayoutManager(manager);
+//        reDeviceType.setLayoutManager(new LinearLayoutManager(getActivity()));
         deviceTypeAdapter = new DeviceTypeAdapter(getActivity());
         reDeviceType.setAdapter(deviceTypeAdapter);
-        reDevice.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        reDevice.setLayoutManager(new GridLayoutManager(getActivity(), 2));//设置个数
         deviceAdapter = new StyleAdapter();
         reDevice.setAdapter(deviceAdapter);
         deviceTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -81,11 +83,11 @@ public class MallFragment extends BaseFragment<MaterialStylePresenter> implement
         deviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                int id=list.get(position).getId();
-                MalDetailsActivity.startAction(getActivity(),id+"");
+                int id = list.get(position).getId();
+                MalDetailsActivity.startAction(getActivity(), id + "");
             }
         });
-        shoucangjia.setOnClickListener(new View.OnClickListener() {
+        shoucangLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FavoriteActivity.startAction(getActivity());
@@ -105,11 +107,11 @@ public class MallFragment extends BaseFragment<MaterialStylePresenter> implement
 
     @Override
     public void returnMaterialList(List<IntellListBean> list) {
-        this.list=list;
+        this.list = list;
         deviceAdapter.setNewData(list);
     }
 
-    @OnClick(R.id.lin_search)
+    @OnClick(R.id.search_ll)
     public void onClick() {
         SearchActivity.startAction(getActivity());
     }

@@ -82,11 +82,12 @@ public class MedicalOneActivity extends BaseActivity<MedicalPresenter> implement
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
-        ImmersionBar.with(this).statusBarColor(R.color.huangse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.huangse).init();
+        sethead(R.color.touming);
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("体检报告");
-        LoginBean loginBean =SPUtil.getAccount(this);
+        LoginBean loginBean = SPUtil.getAccount(this);
         sethead(R.color.huangse);
         tvName.setText(loginBean.getNick_name());
         tvGengxin.setOnClickListener(new View.OnClickListener() {
@@ -158,10 +159,10 @@ public class MedicalOneActivity extends BaseActivity<MedicalPresenter> implement
         }
         String fatigue_str = bean.getPhysical_fatigue_str().getAnalysis();
         tvXueyafenxicontext.setText(fatigue_str);
-        int variability=bean.getHeart_rate_variability();
+        int variability = bean.getHeart_rate_variability();
         seekbar.setProgress(variability);
-        tvXinlvbianyi.setText(variability+"/"+100);
-        String variability_str=bean.getHeart_rate_variability_str().getAnalysis();
+        tvXinlvbianyi.setText(variability + "/" + 100);
+        String variability_str = bean.getHeart_rate_variability_str().getAnalysis();
         tvHuxifenxicontext.setText(variability_str);
 
     }

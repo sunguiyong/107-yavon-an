@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <FrameLayout

@@ -44,6 +44,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2019/3/5 0005.
+ * 添加动作页面，选择被监控的设备
  */
 
 public class AddDoActivity extends BaseActivity<AddDoPresenter> implements AddDoContract.View, SwipeRefreshLayout.OnRefreshListener {
@@ -83,9 +84,10 @@ public class AddDoActivity extends BaseActivity<AddDoPresenter> implements AddDo
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.touming);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("添加动作");
         //refreshLayout.setColorSchemeResources(R.color.white);
@@ -94,6 +96,7 @@ public class AddDoActivity extends BaseActivity<AddDoPresenter> implements AddDo
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
@@ -120,34 +123,36 @@ public class AddDoActivity extends BaseActivity<AddDoPresenter> implements AddDo
         btnBackHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (intellFragmentBean!=null){
-                   SetIntellActivity.start(AddDoActivity.this,"complete",intellFragmentBean);
-               finish();
-               }else{
-                   SetIntellActivity.startAction(AddDoActivity.this);
-                   finish();
-               }
+                if (intellFragmentBean != null) {
+                    SetIntellActivity.start(AddDoActivity.this, "complete", intellFragmentBean);
+                    finish();
+                } else {
+                    SetIntellActivity.startAction(AddDoActivity.this);
+                    finish();
+                }
             }
         });
     }
 
-    public static void startAction(Context context,String url,String name) {
+    public static void startAction(Context context, String url, String name) {
         Intent intent = new Intent(context, AddDoActivity.class);
-        intent.putExtra("url",url);
-        intent.putExtra("name",name);
+        intent.putExtra("url", url);
+        intent.putExtra("name", name);
         context.startActivity(intent);
     }
+
     public static void startAction1(Context context, IntellFragmentBean bean) {
         Intent intent = new Intent(context, AddDoActivity.class);
-        intent.putExtra("bean",bean);
+        intent.putExtra("bean", bean);
         context.startActivity(intent);
     }
+
     @Override
     public void errorTabData(String message) {
         ToastUtil.showLong(this, message);
     }
 
-    private int mSelectIndex =0;
+    private int mSelectIndex = 0;
 
     @Override
     public void returnTabData(List<TabBean> data) {
@@ -175,19 +180,19 @@ public class AddDoActivity extends BaseActivity<AddDoPresenter> implements AddDo
             } else if (fmts.size() > 0) {
                 fmts.clear();
             }
-            String[] titles = new String[data.size()-1];
+            String[] titles = new String[data.size() - 1];
 
             for (int i = 1; i < mTabData.size(); i++) {
                 String showName = mTabData.get(i).name;
                 if (showName.length() > 3) {
                     showName = showName.substring(0, 3) + "...";
                 }
-                titles[i-1] = showName;
+                titles[i - 1] = showName;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.EXTRA_DEVICE_TAB_ITEM_BEAN, mTabData.get(i));
-                bundle.putSerializable("bean",intellFragmentBean);
-                bundle.putString("url",url);
-                bundle.putString("name",name);
+                bundle.putSerializable("bean", intellFragmentBean);
+                bundle.putString("url", url);
+                bundle.putString("name", name);
                 Fragment fmt = Fragment.instantiate(this, FmtIntellDevice.class.getName(), bundle);
                 fmts.add(fmt);
 

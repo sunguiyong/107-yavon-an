@@ -23,6 +23,7 @@ import com.zt.igreen.utils.PackageUtil;
 import com.zt.igreen.utils.SPUtil;
 import com.zt.igreen.utils.TuYaLampSDK;
 import com.zt.igreen.utils.YisuobaoSDK;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,18 +39,20 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
     @Override
     public void getRoomList() {
-        mRxManage.add(Api.getRoomList(SPUtil.getToken(mContext),"REMOVE_MACHINE")
-                .subscribeWith(new RxSubscriber<List<TabBean>>(mContext,true) {
+        mRxManage.add(Api.getRoomList(SPUtil.getToken(mContext), "REMOVE_MACHINE")
+                .subscribeWith(new RxSubscriber<List<TabBean>>(mContext, true) {
                     @Override
                     protected void _onNext(List<TabBean> list) {
                         mView.returnRoomList(list);
                     }
+
                     @Override
                     protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
+                        ToastUtil.showShort(mContext, message);
                     }
                 }).getDisposable());
     }
+
     @Override
     public void deleteDevice(List<TabBean.MachineBean> beans) {
         if (beans == null || beans.isEmpty()) {
@@ -59,7 +62,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
         dialog = DialogUtil.create2BtnInfoDialog(mContext, "确定删除此设备吗？", null, null, new DialogUtil.OnComfirmListening() {
             @Override
             public void confirm() {
-                mRxManage.add(Api.deleteDevice(SPUtil.getToken(mContext),getIds(beans))
+                mRxManage.add(Api.deleteDevice(SPUtil.getToken(mContext), getIds(beans))
                         .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
                             @Override
                             protected void _onNext(BaseResponse response) {
@@ -68,7 +71,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
                             @Override
                             protected void _onError(String message) {
-                                ToastUtil.showShort(mContext,message);
+                                ToastUtil.showShort(mContext, message);
                             }
                         }).getDisposable());
             }
@@ -84,25 +87,25 @@ public class DevicePresenter extends DeviceContract.Presenter {
 //        DialogUtil.create2BtnInfoDialog(mContext, "确定删除此设备吗？", null, null, new DialogUtil.OnComfirmListening() {
 //            @Override
 //            public void confirm() {
-                mRxManage.add(Api.setOften(SPUtil.getToken(mContext),getIds(beans))
-                        .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
-                            @Override
-                            protected void _onNext(BaseResponse response) {
-                                mView.setOftenSuccess(beans);
-                            }
+        mRxManage.add(Api.setOften(SPUtil.getToken(mContext), getIds(beans))
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
+                    @Override
+                    protected void _onNext(BaseResponse response) {
+                        mView.setOftenSuccess(beans);
+                    }
 
-                            @Override
-                            protected void _onError(String message) {
-                                ToastUtil.showShort(mContext,message);
-                            }
-                        }).getDisposable());
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showShort(mContext, message);
+                    }
+                }).getDisposable());
 //            }
 //        });
     }
 
     @Override
     public void moveDev(List<TabBean.MachineBean> beans, String roomId) {
-        mRxManage.add(Api.moveDev(SPUtil.getToken(mContext),getIds(beans),roomId)
+        mRxManage.add(Api.moveDev(SPUtil.getToken(mContext), getIds(beans), roomId)
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
@@ -111,7 +114,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
                     @Override
                     protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
+                        ToastUtil.showShort(mContext, message);
                     }
                 }).getDisposable());
     }
@@ -127,10 +130,10 @@ public class DevicePresenter extends DeviceContract.Presenter {
             return;
         }
         TabBean.MachineBean machineBean = beans.get(0);
-        dialog = DialogUtil.createEtDialog(mContext,true, "重命名", machineBean.name, new DialogUtil.OnComfirmListening2() {
+        dialog = DialogUtil.createEtDialog(mContext, true, "重命名", machineBean.name, new DialogUtil.OnComfirmListening2() {
             @Override
             public void confirm(String data) {
-                mRxManage.add(Api.renameDev(SPUtil.getToken(mContext),beans.get(0).id+"",data)
+                mRxManage.add(Api.renameDev(SPUtil.getToken(mContext), beans.get(0).id + "", data)
                         .subscribeWith(new RxSubscriber<DevDetailBean>(mContext, true) {
                             @Override
                             protected void _onNext(DevDetailBean bean) {
@@ -141,7 +144,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
                             @Override
                             protected void _onError(String message) {
-                                ToastUtil.showShort(mContext,message);
+                                ToastUtil.showShort(mContext, message);
                             }
                         }).getDisposable());
             }
@@ -163,10 +166,10 @@ public class DevicePresenter extends DeviceContract.Presenter {
             ToastUtil.showLong(mContext, "您已是管理员，无需上报");
             return;
         }
-        dialog = DialogUtil.createEtDialog(mContext,true, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
+        dialog = DialogUtil.createEtDialog(mContext, true, "上报故障", "请填写上报内容", new DialogUtil.OnComfirmListening2() {
             @Override
             public void confirm(String data) {
-                mRxManage.add(Api.uploadFault(SPUtil.getToken(mContext),machineBean.id+"",data)
+                mRxManage.add(Api.uploadFault(SPUtil.getToken(mContext), machineBean.id + "", data)
                         .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
                             @Override
                             protected void _onNext(BaseResponse response) {
@@ -176,7 +179,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
                             @Override
                             protected void _onError(String message) {
-                                ToastUtil.showShort(mContext,message);
+                                ToastUtil.showShort(mContext, message);
                             }
                         }).getDisposable());
             }
@@ -186,7 +189,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
     @Override
     public void removeOften(List<TabBean.MachineBean> beans) {
-        mRxManage.add(Api.removeOften(SPUtil.getToken(mContext),getIds(beans))
+        mRxManage.add(Api.removeOften(SPUtil.getToken(mContext), getIds(beans))
                 .subscribeWith(new RxSubscriber<BaseResponse>(mContext, true) {
                     @Override
                     protected void _onNext(BaseResponse response) {
@@ -195,18 +198,18 @@ public class DevicePresenter extends DeviceContract.Presenter {
 
                     @Override
                     protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
+                        ToastUtil.showShort(mContext, message);
                     }
                 }).getDisposable());
     }
 
-    public String getIds(List<TabBean.MachineBean> beans){
+    public String getIds(List<TabBean.MachineBean> beans) {
         StringBuilder sb = new StringBuilder();
-        for(TabBean.MachineBean bean:beans){
+        for (TabBean.MachineBean bean : beans) {
             sb.append(bean.id).append(",");
         }
-        if(sb.length() > 0){
-            sb.setLength(sb.length()-1);
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
         }
         return sb.toString();
     }
@@ -218,49 +221,51 @@ public class DevicePresenter extends DeviceContract.Presenter {
         handler.removeMessages(0);
         handlerone.removeMessages(0);
     }
-    public void switchDevice(View view, boolean isChecked, TabBean.MachineBean bean){
-        handlerone = new Handler(){
-           @Override
-           public void handleMessage(Message msg) {
-               super.handleMessage(msg);
-               switch (msg.what){
-                   case 0:
-                       DialogUtil.dismiss(dialog);
-                       break;
-               }
-           }
-       };
-        switch (bean.machine_type){
+
+    public void switchDevice(View view, boolean isChecked, TabBean.MachineBean bean) {
+        handlerone = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        DialogUtil.dismiss(dialog);
+                        break;
+                }
+            }
+        };
+        switch (bean.machine_type) {
             case Constants.MACHINE_TYPE_LIGHT:
-                dialog = LoadingDialog.showDialogForLoading(mContext,"操作中...",true,null);
-                handlerone.sendEmptyMessageDelayed(0,50000);
-                TuYaLampSDK tuYaLampSDK = new TuYaLampSDK(bean.light_device_id, new TuYaLampSDK.TuYaListener(){
+                dialog = LoadingDialog.showDialogForLoading(mContext, "操作中...", true, null);
+                handlerone.sendEmptyMessageDelayed(0, 50000);
+                TuYaLampSDK tuYaLampSDK = new TuYaLampSDK(bean.light_device_id, new TuYaLampSDK.TuYaListener() {
                     @Override
                     public void onSwitchChanged(boolean isOn) {
                         DialogUtil.dismiss(dialog);
                         view.setSelected(isOn);
                         handlerone.removeMessages(0);
-                        reportServerDevSwitch(bean.id+"",isOn);
+                        reportServerDevSwitch(bean.id + "", isOn);
                     }
                 });
                 tuYaLampSDK.switchLamp(isChecked);
 //                tuYaLampSDK.release();
                 break;
             case Constants.MACHINE_TYPE_BATTERY_LOCK:
-                switchBatteryLock(view,isChecked,bean);
+                switchBatteryLock(view, isChecked, bean);
                 break;
         }
 
     }
-    private void switchBatteryLock(View view, boolean isChecked, TabBean.MachineBean bean){
+
+    private void switchBatteryLock(View view, boolean isChecked, TabBean.MachineBean bean) {
         if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
             BluetoothAdapter.getDefaultAdapter().enable();
         } else {
-            handler = new Handler(){
+            handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    switch (msg.what){
+                    switch (msg.what) {
                         case 0:
                             DialogUtil.dismiss(dialog);
                             break;
@@ -272,15 +277,15 @@ public class DevicePresenter extends DeviceContract.Presenter {
                     .permission(Permission.Group.LOCATION)
                     .onGranted(permissions -> {
                         DialogUtil.dismiss(dialog);
-                        dialog = LoadingDialog.showDialogForLoading(mContext,"操作中...",true,null);
-                        handler.sendEmptyMessageDelayed(0,50000);
-                        YisuobaoSDK yisuobaoSDK = new YisuobaoSDK(mContext,bean.asset_number,bean.password,new YisuobaoSDK.YisuobaoListener(){
+                        dialog = LoadingDialog.showDialogForLoading(mContext, "操作中...", true, null);
+                        handler.sendEmptyMessageDelayed(0, 50000);
+                        YisuobaoSDK yisuobaoSDK = new YisuobaoSDK(mContext, bean.asset_number, bean.password, new YisuobaoSDK.YisuobaoListener() {
                             @Override
                             public void onLockStateChanged(boolean isOpen) {
                                 DialogUtil.dismiss(dialog);
                                 view.setSelected(isOpen);
                                 handler.removeMessages(0);
-                                reportServerDevSwitch(bean.id+"",isOpen);
+                                reportServerDevSwitch(bean.id + "", isOpen);
                             }
                         });
                         yisuobaoSDK.autoLock(bean.auto_lock);
@@ -288,7 +293,7 @@ public class DevicePresenter extends DeviceContract.Presenter {
 //                yisuobaoSDK.release();
                     })
                     .onDenied(permissions -> {
-                        LogUtil.d("=========denied permissions:"+ Arrays.toString(permissions.toArray()));
+                        LogUtil.d("=========denied permissions:" + Arrays.toString(permissions.toArray()));
                         DialogUtil.create2BtnInfoDialog(mContext, "需要蓝牙和定位权限，马上去开启?", "取消", "开启", new DialogUtil.OnComfirmListening() {
                             @Override
                             public void confirm() {
@@ -299,15 +304,17 @@ public class DevicePresenter extends DeviceContract.Presenter {
                     .start();
         }
     }
-    private void reportServerDevSwitch(String machine_id,boolean isOn) {
-        mRxManage.add(Api.switchDev(machine_id,SPUtil.getToken(mContext),isOn?"ON":"OFF")
-                .subscribeWith(new RxSubscriber<BaseResponse>(mContext,false) {
+
+    private void reportServerDevSwitch(String machine_id, boolean isOn) {
+        mRxManage.add(Api.switchDev(machine_id, SPUtil.getToken(mContext), isOn ? "ON" : "OFF")
+                .subscribeWith(new RxSubscriber<BaseResponse>(mContext, false) {
                     @Override
                     protected void _onNext(BaseResponse response) {
                     }
+
                     @Override
                     protected void _onError(String message) {
-                        ToastUtil.showShort(mContext,message);
+                        ToastUtil.showShort(mContext, message);
                     }
                 }).getDisposable());
     }

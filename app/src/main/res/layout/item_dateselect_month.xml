@@ -9,14 +9,16 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_black"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@color/alpha_10_black" />
+        android:text="2018-10"
+        android:background="@color/backgroundblack" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerView"
+        android:background="@color/backgroundblack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

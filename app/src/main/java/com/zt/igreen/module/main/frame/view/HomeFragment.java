@@ -2,7 +2,9 @@ package com.zt.igreen.module.main.frame.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -27,29 +30,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.common.base.rx.RxManager;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizUserAccountType;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.google.gson.Gson;
-import com.qmjk.qmjkcloud.manager.QmjkNetworkManager;
+
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zt.igreen.R;
 import com.zt.igreen.baidumap.LocationService;
 import com.zt.igreen.component.BaseFragment;
 import com.zt.igreen.component.LeakSafeHandler;
-import com.zt.igreen.module.data.HealthInfoBean;
+
 import com.zt.igreen.module.data.TabBean;
 import com.zt.igreen.module.data.VersionBean;
 import com.zt.igreen.module.data.WeatherBean;
@@ -87,6 +95,16 @@ import io.reactivex.functions.Consumer;
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.sliding_tab_layout)
     public SlidingTabLayout slidingTabLayout;
+    @BindView(R.id.my_office)
+    TextView myOfficeTv;
+    @BindView(R.id.iv_scan)
+    ImageView scanImg;
+    @BindView(R.id.layout_msg)
+    FrameLayout msgFl;
+    @BindView(R.id.iv_add)
+    ImageView addImg;
+    @BindView(R.id.top_fl)
+    FrameLayout topFl;
     @BindView(R.id.view_pager)
     public ViewPager viewPager;
     @BindView(R.id.swipe_home)
@@ -109,10 +127,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     TextView tvPm25;
     @BindView(R.id.tv_co2)
     TextView tvCo2;
-    @BindView(R.id.layout_msg)
-    FrameLayout layoutMsg;
-    @BindView(R.id.iv_scan)
-    ImageView ivScan;
     @BindView(R.id.tv_roomnei)
     TextView tvRoomnei;
     @BindView(R.id.tv_roomwai)
@@ -160,7 +174,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private ConcurrentHashMap<String, String> appInfo;
     private List<ConcurrentHashMap<String, String>> productInfo;
     private ConcurrentHashMap<String, String> product;
-    String [] str=new String[5];
+    String[] str = new String[6];
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_home;
@@ -175,28 +190,29 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                     Gson gson = new Gson();
                     XinfengjiBean bean = gson.fromJson(gson.toJson(map), XinfengjiBean.class);
                     int ico2 = bean.getData().getIco2();
-                    str[0]=String.valueOf(ico2);
-
+                    str[0] = String.valueOf(ico2);
                     int itm = bean.getData().getItm();
-                    str[1]=String.valueOf(itm);
+                    str[1] = String.valueOf(itm);
                     int irh = bean.getData().getIrh();
-                    str[2]=String.valueOf(irh);
-
+                    str[2] = String.valueOf(irh);
                     int ipm2d5 = bean.getData().getIpm2d5();
-                    str[3]=String.valueOf(ipm2d5);
+                    str[3] = String.valueOf(ipm2d5);
+                    int lever = bean.getData().getFsval();
+                    str[4] = String.valueOf(lever);
+                    boolean onoff = bean.getData().isOnoff();
+                    str[5] = String.valueOf(onoff);
 
-                    EventBus.getDefault().post(new XinfengjiBean.DataBean(itm,ipm2d5,ico2,irh));
+                    EventBus.getDefault().post(new XinfengjiBean.DataBean(itm, ipm2d5, ico2, irh, lever, onoff));
                     break;
                 case GET_WEhData:
 
-                    if (wifidevices != null) {
+                    if (wifidevices != null && wifidevices.size() > 1) {
 
                         mDevice = wifidevices.get((wifidevices.size() - 1));
                         mDevice.setSubscribe(true);
                         mDevice.setListener(mListener_dingyue);
                     }
                     break;
-
             }
         }
     };
@@ -225,31 +241,51 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onCreate(savedInstanceState);
         gizWifiSDK = GizWifiSDK.sharedInstance();
         appInfo = new ConcurrentHashMap<>();
-        appInfo.put("appId", "cc8ea48ea06b4893a7ce3ab8bc3b5133");
-        appInfo.put("appSecret", "184eb86a5a774ad08547792985252b8a");
+        appInfo.put("appId", "c7c105946a534197b754431e24390bdd");
+        appInfo.put("appSecret", "8ae9383a480a4b0dbd718b0867676774");
         productInfo = new ArrayList<>();
         product = new ConcurrentHashMap<>();
         product.put("productKey", "4ffef0ef18604b719ef4fff9ca3212a3");
         product.put("productSecret", "d8fe6dff9efe4fe7a3eb701bf01ee206");
         productInfo.add(product);
-       // gizWifiSDK.setListener(basemListener);
         gizWifiSDK.startWithAppInfo(getActivity(), appInfo, productInfo, null, false);
         wifidevices = gizWifiSDK.getDeviceList();
-        gizWifiSDK.setListener(mListener_user);
-        gizWifiSDK.userLoginAnonymous();
-        gizWifiSDK.setListener(mListener1);
+        gizWifiSDK.setListener(mListener_user);//机智云监听
+
+        gizWifiSDK.registerUser("jzyyafeng" + SPUtil.getAccount(getContext()).getMobile(), "jzyyavon" + "%73-@$!cx",
+                null, GizUserAccountType.GizUserNormal);//注册账号
+
+        gizWifiSDK.userLogin("jzyyafeng" + SPUtil.getAccount(getContext()).getMobile(), "jzyyavon" + "%73-@$!cx");
+        Log.d("getaccount----", SPUtil.getAccount(getContext()).getMobile() + "");
+
     }
 
     @Override
     protected void initView() {
+
         refreshLayout.setColorSchemeResources(R.color.colorPrimary1);
         refreshLayout.setOnRefreshListener(this);
+        //添加按钮
         ivadding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).startActForResult(RoomActivity.class, MainActivity.REQUEST_CODE_ADD_ROOM, (Serializable) mTabData);
             }
         });
+
+        slidingTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+//                slidingTabLayout.getTitleView(position).setBackground(getResources().getDrawable(R.color.red));
+                slidingTabLayout.getTabWidth();
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+            }
+        });
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -257,6 +293,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
             @Override
             public void onPageSelected(int position) {
+                myOfficeTv.setVisibility(View.VISIBLE);
+                msgFl.setVisibility(View.VISIBLE);
+                scanImg.setVisibility(View.VISIBLE);
+                addImg.setVisibility(View.VISIBLE);
+                topFl.setBackgroundColor(getResources().getColor(R.color.transparent));
                 ((FmtDevice) fmts.get(position)).exitMultiSelectMode();
                 for (int i = 0; i < slidingTabLayout.getTabCount(); i++) {
                     String resUrl = (i == position ? mTabData.get(i).icon_select : mTabData.get(i).icon);
@@ -266,9 +307,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                                 @Override
                                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                     BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                                    drawable.setBounds(0, 0, 70, 70);
+                                    //指定可绘制边框
+                                    drawable.setBounds(0, 0, 120, 120);
                                     slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
-                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
+//                                    slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(1);
+
+
+                                    //设置选中背景
+//                                    slidingTabLayout.setPadding(4, 0, 4, 0);
+                                    slidingTabLayout.getTitleView(finalI).setBackground(getResources().getDrawable(R.drawable.sliding_selector));
                                 }
                             });
                 }
@@ -320,16 +367,21 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             }
         });
         initPermission();
-        mPresenter.loginTuYa();
+        mPresenter.loginTuYa(SPUtil.getAccount(getContext()).getMobile());
         mPresenter.getTabData(true);
         mPresenter.getInternalMsgUnreadCount();
         mPresenter.getVersion();
+
+        linRoomnei.setVisibility(View.VISIBLE);
+        linRoomwai.setVisibility(View.GONE);
+        tvRoomnei.setTextColor(Color.parseColor("#ffffff"));
+        tvRoomwai.setTextColor(Color.parseColor("#C4DC95"));
     }
 
     private void initPermission() {
         AndPermission.with(this)
                 .runtime()
-                .permission(Permission.Group.LOCATION,Permission.Group.STORAGE, Permission.Group.STORAGE)
+                .permission(Permission.Group.LOCATION, Permission.Group.STORAGE, Permission.Group.STORAGE)
                 .onGranted(permissions -> {
 //                    LocationUtil locationUtil = new LocationUtil(getActivity());
 //                    locationUtil.setListener(new LocationUtil.LocationChangedListener() {
@@ -413,6 +465,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 //            transaction.commitNowAllowingStateLoss();
             fmts.clear();
         }
+
+        // slidingTabLayout的文字显示
         String[] titles = new String[data.size()];
         for (int i = 0; i < data.size(); i++) {
             String showName = data.get(i).name;
@@ -439,15 +493,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             String resUrl = (i == mSelectIndex ? mTabData.get(i).icon_select : mTabData.get(i).icon);
             int textColor = i == mSelectIndex ? Color.parseColor("#9D9D9D") : Color.parseColor("#8B8B8B");
             int finalI = i;
+
             Glide.with(getActivity()).load(resUrl).asBitmap().
                     into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             BitmapDrawable drawable = new BitmapDrawable(getActivity().getResources(), resource);
-                            drawable.setBounds(0, 0, 70, 70);
+                            drawable.setBounds(0, 0, 120, 120);
                             slidingTabLayout.getTitleView(finalI).setCompoundDrawables(null, drawable, null, null);
                             // slidingTabLayout.getTitleView(finalI).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
-                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(16);
+                            slidingTabLayout.getTitleView(finalI).setCompoundDrawablePadding(1);
                             slidingTabLayout.getTitleView(finalI).setTextColor(textColor);
                         }
                     });
@@ -499,10 +554,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             tvTmp.setText(weather.now.hum + "");
             tvPm25.setText(weather.aqi.city.pm25 + "");
             tvCo2.setText(weather.aqi.city.co + "");
+
+            //室外
+            linRoomnei.setVisibility(View.VISIBLE);
+            linRoomwai.setVisibility(View.GONE);
+            tvRoomnei.setTextColor(Color.parseColor("#ffffff"));
+            tvRoomwai.setTextColor(Color.parseColor("#C4DC95"));
+            //todo
+            LocationClient locationClient = new LocationClient(getContext());
+            locationClient.disableLocInForeground(true);
         }
     }
-
-
 
 
     @Override
@@ -515,7 +577,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         super.onPause();
     }
 
-    @OnClick({R.id.tv_roomnei, R.id.tv_roomwai, R.id.iv_scan, R.id.iv_add, R.id.layout_msg, R.id.title_ok, R.id.title_select_all})
+    @OnClick({R.id.tv_roomnei, R.id.tv_roomwai, R.id.iv_scan, R.id.iv_add,
+            R.id.layout_msg, R.id.title_ok, R.id.title_select_all})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -524,24 +587,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void doClick(View view) {
         switch (view.getId()) {
             case R.id.tv_roomwai:
-                if (str[0]!=null){
+                if (str[0] != null) {
                     tvCo2.setText(str[0] + "");
-                } else{
+                } else {
                     tvCo2.setText("");
                 }
-                if (str[1]!=null){
+                if (str[1] != null) {
                     tvCon.setText(str[1] + "");
-                }else {
+                } else {
                     tvCon.setText("");
                 }
-                if (str[2]!=null) {
+                if (str[2] != null) {
                     tvTmp.setText(str[2] + "");
-                }else {
+                } else {
                     tvTmp.setText("");
                 }
-                if (str[3]!=null){
+                if (str[3] != null) {
                     tvPm25.setText(str[3] + "");
-                }else {
+                } else {
                     tvPm25.setText("");
                 }
                 linRoomnei.setVisibility(View.GONE);
@@ -557,8 +620,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 List<WeatherBean.HeWeather> list = bean.result.HeWeather5;
                 if (list != null && !list.isEmpty()) {
                     WeatherBean.HeWeather weather = list.get(0);
-                    tvCon.setText(weather.now.hum + "");
-                    tvTmp.setText(weather.now.tmp + "");
+                    tvCon.setText(weather.now.tmp + "");
+                    tvTmp.setText(weather.now.hum + "");
                     tvPm25.setText(weather.aqi.city.pm25 + "");
                     tvCo2.setText(weather.aqi.city.co + "");
                     // tvAir.setText("室外空气 "+weather.aqi.city.qlty);
@@ -574,6 +637,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 MessageListActivity.startAction(getActivity(), MessageListActivity.TYPE_INTERNAL);
                 break;
             case R.id.title_ok:
+                myOfficeTv.setVisibility(View.VISIBLE);
+                msgFl.setVisibility(View.VISIBLE);
+                scanImg.setVisibility(View.VISIBLE);
+                addImg.setVisibility(View.VISIBLE);
+                topFl.setBackgroundColor(getResources().getColor(R.color.transparent));
                 ((FmtDevice) fmts.get(viewPager.getCurrentItem())).onSelectCompleteClick();
                 break;
             case R.id.title_select_all:
@@ -600,9 +668,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         if (observer != null) {
             getContext().getContentResolver().unregisterContentObserver(observer);
         }
-        if (mDevice!=null){
-        mDevice.setSubscribe(false);
-        mDevice.isDisabled();}
+        if (mDevice != null) {
+            mDevice.setSubscribe(false);
+            mDevice.isDisabled();
+        }
         handler.removeMessages(GET_WEhData);
         handler.removeMessages(GET_WEhTER);
         super.onDestroy();
@@ -655,10 +724,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             LogUtil.d("==========result:" + location.getLocType());
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 city = location.getCity();
-
                 if (!TextUtils.isEmpty(city)) {
                     SPUtil.putLocation(getContext(), "loaction", city);
                     mPresenter.getWeather(city);
+
                 }
                 locationService.unregisterListener(this);
                 locationService.stop();
@@ -667,25 +736,59 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
 
     };
+    /**
+     * 注册机智云监听
+     */
     GizWifiSDKListener basemListener = new GizWifiSDKListener() {
         @Override
         public void didRegisterUser(GizWifiErrorCode result, String uid, String token) {
             super.didRegisterUser(result, uid, token);
-            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS || result == GizWifiErrorCode.GIZ_OPENAPI_USERNAME_UNAVALIABLE) {
+                Toast.makeText(getContext(), result + "", Toast.LENGTH_LONG).show();
+//                Log.d("注册成功", result + "");
             } else {
-
+                Toast.makeText(getContext(), result + "", Toast.LENGTH_LONG).show();
+//                Log.d("注册失败", result + "");
             }
         }
     };
+    /**
+     * 机智云监听
+     */
     GizWifiSDKListener mListener_user = new GizWifiSDKListener() {
+        //登录监听回调
         @Override
         public void didUserLogin(GizWifiErrorCode result, String uid, String token) {
 
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-
+//                Log.d("giz-登录", result + "--" + uid);
             } else {
+//                Log.d("giz-登录", result + "");
+            }
+        }
 
+        //注册监听回调
+        @Override
+        public void didRegisterUser(GizWifiErrorCode result, String uid, String token) {
+            super.didRegisterUser(result, uid, token);
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS || result == GizWifiErrorCode.GIZ_OPENAPI_USERNAME_UNAVALIABLE) {
+//                Log.d("giz-注册成功", result + "");
+            } else {
+//                Log.d("giz-注册失败", result + "");
+            }
+        }
+
+        //设备发现监听回调
+        @Override
+        public void didDiscovered(GizWifiErrorCode result, List<GizWifiDevice> deviceList) {
+            super.didDiscovered(result, deviceList);
+            wifidevices.clear();
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                for (GizWifiDevice gizWifiDevice : deviceList) {
+                    wifidevices.add(gizWifiDevice);
+                }
+                handler.sendEmptyMessageDelayed(GET_WEhData, 2000);
+            } else {
             }
         }
     };
@@ -710,23 +813,38 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         @Override
         public void didSetSubscribe(GizWifiErrorCode result, GizWifiDevice device, boolean isSubscribed) {
             super.didSetSubscribe(result, device, isSubscribed);
-            Log.e("xuxinyi3335",result+"");
+            Log.e("giz-didSetSubscribe", result + "");
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
                 mDevice_two = device;
-                mDevice_two.setListener(mListener_xianshi);
+                mDevice_two.setListener(mListener_xianshi);//mListener_xianshi
+            } else {
+//                Log.d("giz-didSetSubscribe", result + "");
+            }
+        }
+
+        @Override
+        public void didReceiveData(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> hashMap, int sn) {
+            super.didReceiveData(result, device, hashMap, sn);
+            Log.e("giz-didReceiveData", result + "");
+            if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS && hashMap != null) {
+                Log.e("giz-hashMap", hashMap.toString());
+                map = hashMap;
+                handler.sendEmptyMessage(GET_WEhTER);
             }
         }
     };
-    // 实现回调
+    // 实现回调，接收设备状态上报
     GizWifiDeviceListener mListener_xianshi = new GizWifiDeviceListener() {
         @Override
         public void didReceiveData(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> hashMap, int sn) {
             super.didReceiveData(result, device, hashMap, sn);
-            Log.e("xuxinyi336",result+"");
+            Log.e("giz-didReceiveData", result + "");
             if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS && hashMap != null) {
-                Log.e("xuxinyi336", hashMap.toString());
+                Log.e("giz-didReceiveData", hashMap.toString());
                 map = hashMap;
                 handler.sendEmptyMessage(GET_WEhTER);
+            } else {
+//                Log.d("giz-didReceiveData", result + "");
             }
         }
     };
@@ -743,12 +861,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mDevice!=null){
-        mDevice.setSubscribe(false);
-        mDevice.isDisabled();}
+        if (mDevice != null) {
+            mDevice.setSubscribe(false);
+            mDevice.isDisabled();
+        }
         handler.removeMessages(GET_WEhData);
         handler.removeMessages(GET_WEhTER);
     }
-
-
 }

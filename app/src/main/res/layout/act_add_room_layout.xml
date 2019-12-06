@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="30dp"
         android:paddingBottom="30dp"
-        android:background="#F7F7F7"
-        android:paddingTop="30dp">
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="选择房间编辑并创建"
-            android:textColor="@color/colorPrimary1" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="match_parent"
@@ -49,9 +49,9 @@
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/shape_stroke_green"
         android:text="确定"
         android:textColor="@color/colorPrimary"

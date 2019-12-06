@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
@@ -28,7 +28,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/backgroundblack">
 
 
     <LinearLayout
@@ -44,7 +44,7 @@
             android:layout_marginTop="10dp"
             android:padding="20dp"
             android:text="临时授权"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_start_time_author"

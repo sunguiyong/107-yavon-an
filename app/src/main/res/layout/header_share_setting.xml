@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <TextView
+        android:background="@color/backgroundblack"
         android:id="@+id/tv_name_dev"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
+        android:background="@color/backgroundblack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -49,7 +51,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="使用者"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
         <TextView
@@ -60,7 +62,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="使用时间"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
         <TextView
@@ -72,13 +74,16 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="操作"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/divider_white" />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/white"/>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@mipmap/divider_white" />-->
 </LinearLayout>

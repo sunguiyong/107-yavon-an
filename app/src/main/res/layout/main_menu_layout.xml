@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@drawable/selector_menu_often"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="设为常用"
             android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
@@ -32,11 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@drawable/selector_menu_move"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="移动"
             android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
@@ -47,11 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@drawable/selector_menu_rename"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="重命名"
             android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
@@ -62,11 +62,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@drawable/selector_menu_share"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="共享"
             android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
@@ -77,12 +77,43 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@drawable/selector_menu_more"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="更多"
+            android:textColor="@color/tab_text_select2"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/menu_del"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_menu_del"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="删除"
+            android:textColor="@color/tab_text_select2"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/menu_report"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_menu_report"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="故障上报"
             android:textColor="@color/tab_text_select2"
             android:textSize="12sp" />
     </LinearLayout>
@@ -97,48 +128,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/menu_del"-->
+        <!--            android:layout_width="0dip"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:drawableTop="@drawable/selector_menu_del"-->
+        <!--            android:drawablePadding="4dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:paddingTop="10dp"-->
+        <!--            android:paddingBottom="10dp"-->
+        <!--            android:text="删除"-->
+        <!--            android:textColor="@color/tab_text_select2"-->
+        <!--            android:textSize="12sp" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/menu_report"-->
+        <!--            android:layout_width="0dip"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:drawableTop="@drawable/selector_menu_report"-->
+        <!--            android:drawablePadding="4dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:paddingTop="10dp"-->
+        <!--            android:paddingBottom="10dp"-->
+        <!--            android:text="故障上报"-->
+        <!--            android:textColor="@color/tab_text_select2"-->
+        <!--            android:textSize="12sp" />-->
 
         <TextView
-            android:id="@+id/menu_del"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
-            android:drawableTop="@drawable/selector_menu_del"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="删除"
-            android:textColor="@color/tab_text_select2"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/menu_report"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawablePadding="4dp"
-            android:drawableTop="@drawable/selector_menu_report"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="故障上报"
-            android:textColor="@color/tab_text_select2"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@mipmap/ic_menu_rename"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="重命名"
             android:textColor="#999999"
             android:textSize="12sp"
@@ -149,11 +180,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@mipmap/ic_menu_share"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="共享"
             android:textColor="#999999"
             android:textSize="12sp"
@@ -164,11 +195,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawablePadding="4dp"
             android:drawableTop="@mipmap/ic_menu_more"
+            android:drawablePadding="4dp"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="更多"
             android:textColor="#999999"
             android:textSize="12sp"

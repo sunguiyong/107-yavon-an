@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#262626"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="办公室"
-            android:textColor="@color/qingse" />
+            android:textColor="@color/white" />
 
         <Space
             android:layout_width="0dip"
@@ -33,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设备：2"
-            android:textColor="#999999" />
+            android:textColor="@color/white" />
 
         <ImageView
             android:layout_width="wrap_content"

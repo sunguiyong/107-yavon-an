@@ -25,7 +25,7 @@ import butterknife.OnClick;
  * Created by lifujun on 2018/7/17.
  */
 
-public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> implements ModifyEmailContract.View{
+public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> implements ModifyEmailContract.View {
     @BindView(R.id.et_phone_modify)
     EditText etPhone;
     @BindView(R.id.et_verify_modify_email)
@@ -52,9 +52,9 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.touming);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle(getString(R.string.email_modify));
         etPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -63,10 +63,10 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
                 ivPhoneDivider.setSelected(hasFocus);
             }
         });
-        timer = new CountDownTimer(60*1000,1000) {
+        timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tvGetNotify.setText("重新获取("+millisUntilFinished/1000+")");
+                tvGetNotify.setText("重新获取(" + millisUntilFinished / 1000 + ")");
             }
 
             @Override
@@ -76,11 +76,13 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
             }
         };
     }
-    public static void startAction(Activity context,int reqCode){
-        Intent intent = new Intent(context,ModityEmailActivity.class);
-        context.startActivityForResult(intent,reqCode);
+
+    public static void startAction(Activity context, int reqCode) {
+        Intent intent = new Intent(context, ModityEmailActivity.class);
+        context.startActivityForResult(intent, reqCode);
     }
-    @OnClick({R.id.tv_get_email,R.id.btn_confirm_modify_email})
+
+    @OnClick({R.id.tv_get_email, R.id.btn_confirm_modify_email})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -88,11 +90,11 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
 
     @Override
     public void doClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_get_email:
                 String mobile = etPhone.getText().toString().trim();
-                if(TextUtils.isEmpty(mobile)){
-                    ToastUtil.showShort(this,"手机号或邮箱不能为空");
+                if (TextUtils.isEmpty(mobile)) {
+                    ToastUtil.showShort(this, "手机号或邮箱不能为空");
                     return;
                 }
                 tvGetNotify.setEnabled(false);
@@ -110,10 +112,10 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
 
     @Override
     public void sendCodeResult(String msg) {
-        if(TextUtils.isEmpty(msg)){
-            ToastUtil.showShort(this,"发送成功");
-        }else{
-            if(timer != null){
+        if (TextUtils.isEmpty(msg)) {
+            ToastUtil.showShort(this, "发送成功");
+        } else {
+            if (timer != null) {
                 timer.cancel();
                 timer.onFinish();
             }
@@ -122,15 +124,16 @@ public class ModityEmailActivity extends BaseActivity<ModifyEmailPresenter> impl
 
     @Override
     public void modifySuccess(String email) {
-        ToastUtil.showShort(this,"修改成功");
+        ToastUtil.showShort(this, "修改成功");
         Intent intent = new Intent();
-        intent.putExtra("email",email);
-        setResult(RESULT_OK,intent);
+        intent.putExtra("email", email);
+        setResult(RESULT_OK, intent);
         finish();
     }
+
     @Override
     public void onDestroy() {
-        if(timer != null ){
+        if (timer != null) {
             timer.cancel();
         }
         super.onDestroy();

@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
-    <include layout="@layout/header" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@mipmap/settingbg">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="230dp" />
+
+        <include layout="@layout/header" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/back_img"-->
+        <!--android:layout_width="20dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:src="@mipmap/back_w" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="设置" />-->
+    </FrameLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        >
+        android:layout_marginTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,31 +51,34 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="@string/auto_update"
-                    android:paddingLeft="20dp"
                     android:checked="true"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/auto_update"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/switch_update_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:paddingLeft="15dp"
-                    android:theme="@style/MySwitch"
                     android:checked="false"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="15dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="15sp"
+                    android:theme="@style/MySwitch" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/divider_white"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:src="@mipmap/divider_white" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,29 +88,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="@string/version"
-                    android:paddingLeft="20dp"
                     android:checked="true"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/version"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/tv_version_settting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:paddingRight="20dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/divider_white"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:src="@mipmap/divider_white" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,31 +123,33 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="@string/msg_sys"
-                    android:paddingLeft="20dp"
                     android:checked="true"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/msg_sys"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/switch_msg_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:paddingLeft="15dp"
-                    android:theme="@style/MySwitch"
                     android:checked="false"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="15dp"
                     android:paddingTop="15dp"
-                    android:paddingBottom="15dp"/>
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="15sp"
+                    android:theme="@style/MySwitch" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/divider_white"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:src="@mipmap/divider_white" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

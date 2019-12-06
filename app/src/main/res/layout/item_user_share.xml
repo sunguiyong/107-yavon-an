@@ -2,59 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:background="@color/backgroundblack"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_name_share"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:lineSpacingMultiplier="1.2"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="用户名"/>
+            android:lineSpacingMultiplier="1.2"
+            android:text="用户名"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/tv_time_share"
             android:layout_width="0dp"
-            android:layout_weight="1.5"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/black"
+            android:layout_weight="1.5"
             android:gravity="center"
-            android:text="时间"/>
+            android:text="时间"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
         <FrameLayout
             android:id="@+id/layout_do_share"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:background="@drawable/shape_edittext_bk4"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="4dp"
                 android:layout_gravity="center"
-                android:text="取消"/>
+                android:background="@drawable/shape_edittext_bk4"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingTop="3dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="4dp"
+                android:text="取消"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/divider_white"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/divider_white" />
 </LinearLayout>

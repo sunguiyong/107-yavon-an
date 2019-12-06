@@ -1,115 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
-    <include layout="@layout/header"/>
+
+    <include layout="@layout/header" />
+
     <com.zt.igreen.widget.CustomEditText
         android:id="@+id/et_name_dev"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        app:customHint="设备名称"
+        app:paddingBottom="10dp"
         app:paddingLeft="10dp"
         app:paddingRight="10dp"
         app:paddingTop="10dp"
-        app:paddingBottom="10dp"
-        app:customHint="设备名称"
-        app:textSize="14sp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
-        />
+        app:textSize="14sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_name_room"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
-            android:padding="10dp"
-            android:textColor="@color/black"
             android:drawableRight="@mipmap/arrow_down"
             android:drawablePadding="10dp"
             android:hint="选择房间"
-            />
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_room_add_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:padding="10dp"
             android:drawableLeft="@mipmap/add_room"
             android:drawablePadding="10dp"
-            android:textColor="@color/mainGreen"
+            android:padding="10dp"
             android:text="添加房间"
-            />
+            android:textColor="@color/mainGreen"
+            android:textSize="14sp" />
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:src="@mipmap/divider_white"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/divider_white" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_edit_dev"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:overScrollMode="never"
+        android:layout_weight="1"
         android:minHeight="100dp"
-        android:padding="10dp"/>
+        android:overScrollMode="never"
+        android:padding="10dp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-      <LinearLayout
-          android:id="@+id/layout_type_edit"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:paddingLeft="25dp"
-          android:paddingRight="25dp"
-          android:paddingBottom="80dp"
-          android:orientation="vertical">
-        <TextView
+        <LinearLayout
+            android:id="@+id/layout_type_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:text="选择类型"/>
-          <android.support.v7.widget.RecyclerView
-              android:id="@+id/recyclerview2_dev_edit"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              />
-      </LinearLayout>
-    <TextView
-        android:id="@+id/tv_submit_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center"
-        android:background="@drawable/shape_stroke_green"
-        android:textColor="@color/white"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_gravity="bottom"
-        android:text="确定"/>
+            android:orientation="vertical"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="80dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="选择类型"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview2_dev_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_submit_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/shape_stroke_green"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="确定"
+            android:textColor="@color/white" />
 
     </FrameLayout>
 </LinearLayout>

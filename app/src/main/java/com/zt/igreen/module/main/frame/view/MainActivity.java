@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.zt.igreen.module.data.LoginBean;
 import com.zt.igreen.module.main.frame.contract.MainContract;
 import com.zt.igreen.module.main.frame.presenter.MainPresenter;
 import com.zt.igreen.module.mall.view.MallFragment;
+import com.zt.igreen.module.mall.view.MallFragmentNew;
 import com.zt.igreen.module.message.view.MessageListActivity;
 import com.zt.igreen.module.mine.view.MineFragment;
 import com.zt.igreen.utils.Constants;
@@ -52,8 +54,12 @@ public class MainActivity extends BaseActivity {
     @BindView(android.R.id.tabhost)
     MyFragmentTabHost fragmentTabHost;
     public static final String texts[] = new String[4];
-    private Class fragmentArray[] = {HomeFragment.class, MallFragment.class, IntellFragment.class, MineFragment.class};
-    private int[] imageButton = {R.drawable.selector_hometab_home, R.drawable.selector_hometab_mall, R.drawable.selector_hometab_intell, R.drawable.selector_hometab_mine};
+    private Class fragmentArray[] = {HomeFragment.class, IntellFragment.class, MallFragment.class, MineFragment.class};
+    private int[] imageButton = {
+            R.drawable.selector_hometab_home,
+            R.drawable.selector_hometab_mall,
+            R.drawable.selector_hometab_intell,
+            R.drawable.selector_hometab_mine};
     private String selectTab;
     private long lastBack;
     private GizWifiSDK gizWifiSDK;
@@ -73,6 +79,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.touming).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming).init();
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
         if (bluetoothAdapter != null) {
@@ -82,15 +91,21 @@ public class MainActivity extends BaseActivity {
         wifidevices = gizWifiSDK.getDeviceList();
         gizWifiSDK.setListener(mListener_user);
         gizWifiSDK.userLoginAnonymous();
+        GizWifiSDK.sharedInstance().userLogin("1031122921@qq.com", "xxy12369");
         gizWifiSDK.setListener(mListener1);
 
         parseIntentData();
         ImmersionBar.with(this)
-                .statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+//                .transparentNavigationBar()
+                .transparentStatusBar()
+//                .statusBarColor(R.color.touming)
+//                .statusBarDarkFont(false)//状态栏字体是深色，不写默认为亮色
+//                .flymeOSStatusBarFontColor(R.color.touming)
+                .init();
         // setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         texts[0] = getString(R.string.tab_main);
-        texts[1] = getString(R.string.tab_mall);
-        texts[2] = getString(R.string.zhineng);
+        texts[1] = getString(R.string.zhineng);
+        texts[2] = getString(R.string.tab_mall);
         texts[3] = getString(R.string.tab_mine);
 
         selectTab = texts[0];
@@ -106,22 +121,23 @@ public class MainActivity extends BaseActivity {
                 selectTab = tabId;
             }
         });
-
     }
 
     private View getView(int i) {
 //       取得布局实例
         TextView textView = new TextView(this);
         textView.setGravity(Gravity.CENTER);
-        textView.setText(texts[i]);
+//        textView.setText(texts[i]);
         ColorStateList csl = (ColorStateList) getResources().getColorStateList(R.color.tab_text_select);
         textView.setTextColor(csl);
-        textView.setTextSize(11);
+        textView.setTextSize(1);
         Drawable drawable = getResources().getDrawable(imageButton[i]);
         // 这一步必须要做,否则不会显示.
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//        drawable.setBounds(0, 0, 40, 40);
+
         textView.setCompoundDrawables(null, drawable, null, null);
-        textView.setCompoundDrawablePadding(DensityUtil.dp2px(this, 3));
+        textView.setCompoundDrawablePadding(DensityUtil.dp2px(this, 2));
         textView.setPadding(0, DensityUtil.dp2px(this, 7), 0, DensityUtil.dp2px(this, 7));
         textView.setClickable(true);
 //        View view = getLayoutInflater().inflate(R.layout.item_tab_home,null);
@@ -194,6 +210,12 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         HomeFragment fmtHome = (HomeFragment) getSupportFragmentManager().findFragmentByTag(texts[0]);
         if (fmtHome != null && fmtHome.isVisible()) {
+            fmtHome.topFl.setBackgroundColor(getResources().getColor(R.color.transparent));
+            fmtHome.myOfficeTv.setVisibility(View.VISIBLE);
+            fmtHome.msgFl.setVisibility(View.VISIBLE);
+            fmtHome.scanImg.setVisibility(View.VISIBLE);
+            fmtHome.addImg.setVisibility(View.VISIBLE);
+
             if (fmtHome.fmts != null) {
                 FmtDevice fmtDev = (FmtDevice) fmtHome.fmts.get(fmtHome.viewPager.getCurrentItem());
                 if (fmtDev != null && fmtDev.isMenuShown()) {

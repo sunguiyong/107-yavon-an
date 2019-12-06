@@ -4,95 +4,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F8F8"
-    android:orientation="vertical"
-    >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-    <include layout="@layout/header"
-        android:background="@color/qingse"
-        />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layout_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@mipmap/minebg"></LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:background="@color/qingse"
-        android:orientation="horizontal"
-        android:paddingBottom="60dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp"
-        >
-        <ImageView
-            android:id="@+id/iv_avatar_mine"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:src="@mipmap/avatar_default"
-            android:scaleType="centerCrop"/>
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/header"
+            android:background="@color/qingse"
+            android:visibility="gone" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/layout_avatar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="120dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="60dp"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tv_name_mine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="昵称"
-                android:textColor="@color/white"
-                android:textSize="14.5sp" />
+            <ImageView
+                android:id="@+id/iv_avatar_mine"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/avatar_default" />
 
-            <TextView
-                android:id="@+id/tv_phone_mine"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="手机号码"
-                android:textColor="@color/white"
-                android:textSize="14.5sp" />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_name_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="昵称"
+                    android:textColor="@color/white"
+                    android:textSize="14.5sp" />
+
+                <TextView
+                    android:id="@+id/tv_phone_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="手机号码"
+                    android:textColor="@color/white"
+                    android:textSize="14.5sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:src="@mipmap/next_w"
+                android:visibility="visible" />
         </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:background="@color/backgroundblack"
+        android:padding="20dp">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/msg_img"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:src="@mipmap/next_w" />
-    </LinearLayout>
-    </LinearLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/round_5_white_bg"
-    android:padding="20dp"
-    android:layout_marginLeft="@dimen/dp_15"
-    android:layout_marginRight="@dimen/dp_15"
-    android:layout_marginTop="@dimen/dp_170"
-    android:layout_marginBottom="@dimen/dp_15"
-    >
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/msg" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_setting_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/setting"
+                android:drawableRight="@mipmap/arrow_right"
                 android:drawablePadding="15dp"
                 android:paddingBottom="20dp"
                 android:text="@string/setting"
-                android:textColor="@color/text_black"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <View
@@ -104,12 +117,12 @@
                 android:id="@+id/tv_about_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/about"
+                android:drawableRight="@mipmap/arrow_right"
                 android:drawablePadding="15dp"
-                android:paddingBottom="20dp"
                 android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:text="@string/about"
-                android:textColor="@color/text_black"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <View
@@ -121,13 +134,14 @@
                 android:id="@+id/tv_about_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/ziliao"
+                android:drawableRight="@mipmap/arrow_right"
                 android:drawablePadding="15dp"
-                android:paddingBottom="20dp"
                 android:paddingTop="20dp"
-                android:text="资料"
-                android:textColor="@color/text_black"
+                android:paddingBottom="20dp"
+                android:text="我的资料"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.6dp"
@@ -137,12 +151,12 @@
                 android:id="@+id/tv_dev_all_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/dev_all"
+                android:drawableRight="@mipmap/arrow_right"
                 android:drawablePadding="15dp"
-                android:paddingBottom="20dp"
                 android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:text="@string/all_dev"
-                android:textColor="@color/text_black"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <View
@@ -150,5 +164,20 @@
                 android:layout_height="0.6dp"
                 android:background="@color/divider_grey" />
         </LinearLayout>
-</RelativeLayout>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_avatar_mine1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="140dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/avatar_default" />
+    </FrameLayout>
 </RelativeLayout>

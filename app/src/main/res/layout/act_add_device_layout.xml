@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F7F7"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:paddingBottom="30dp"
         android:paddingTop="30dp"
+        android:paddingBottom="30dp"
         android:text="请点击勾选您常用的设备，选择的设备\n将在常用菜单中显示"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
     <com.zt.igreen.module.main.adddevice.adapter.RvAddDevice
         android:id="@+id/rv_add_device"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary" />
+        android:background="#262626" />
 
 </LinearLayout>

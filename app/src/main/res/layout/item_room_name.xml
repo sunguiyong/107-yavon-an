@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
     <TextView
         android:id="@+id/tv_name_room"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:layout_marginLeft="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:text="房间名"/>
     <ImageView
         android:layout_width="match_parent"

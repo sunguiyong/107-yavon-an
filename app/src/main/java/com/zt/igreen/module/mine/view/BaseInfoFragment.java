@@ -133,8 +133,8 @@ public class BaseInfoFragment extends BaseFragment<HelathInfoPresenter> implemen
         }else{
             tvName1.setText("生日");
             tvNameHeight.setText("身高");
-            tvNameWeight.setText("体重");
             tvNameWeight.setText("性别");
+            tvNameWeight.setText("体重");
             xian.setVisibility(View.VISIBLE);
             linFour.setVisibility(View.VISIBLE);
             tvUnit.setText(Base[0]);

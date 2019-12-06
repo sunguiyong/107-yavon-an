@@ -67,9 +67,10 @@ public class AddImgActivity extends BaseActivity<ImgAddPresenter> implements Img
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.backgroundblack);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("设置封面");
         recycler.setLayoutManager(new LinearLayoutManager(this));

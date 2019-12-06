@@ -4,35 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundblack"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context="com.zt.igreen.module.deviceconnect.view.DeviceAddActivity">
 
-    <include layout="@layout/header"></include>
+    <include layout="@layout/header" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
+
         <LinearLayout
-            android:background="@color/alpha_05_white"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_marginBottom="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/easyrecyclerview_shape"
+            android:gravity="center_horizontal">
+
             <com.jude.easyrecyclerview.EasyRecyclerView
                 android:id="@+id/re_device_type"
                 android:layout_width="match_parent"
-                android:background="#F4F3F3"
-                android:layout_height="match_parent"></com.jude.easyrecyclerview.EasyRecyclerView>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3">
+
             <com.jude.easyrecyclerview.EasyRecyclerView
                 android:id="@+id/re_device"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.jude.easyrecyclerview.EasyRecyclerView>
+                android:layout_height="match_parent"
+                android:background="@color/backgroundblack" />
         </LinearLayout>
     </LinearLayout>
 

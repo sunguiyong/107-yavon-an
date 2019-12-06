@@ -75,6 +75,28 @@ public class TabBean implements Serializable {
         public boolean isLastOne;
         public String device_id;
 
+        @Override
+        public String toString() {
+            return "MachineBean{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", icon='" + icon + '\'' +
+                    ", status='" + status + '\'' +
+                    ", machine_type='" + machine_type + '\'' +
+                    ", user_type='" + user_type + '\'' +
+                    ", is_authorized=" + is_authorized +
+                    ", auto_lock=" + auto_lock +
+                    ", from_room='" + from_room + '\'' +
+                    ", asset_number='" + asset_number + '\'' +
+                    ", locker_id='" + locker_id + '\'' +
+                    ", online_status='" + online_status + '\'' +
+                    ", password='" + password + '\'' +
+                    ", light_device_id='" + light_device_id + '\'' +
+                    ", isLastOne=" + isLastOne +
+                    ", device_id='" + device_id + '\'' +
+                    '}';
+        }
+
         public boolean isPowerOn() {
             return !TextUtils.isEmpty(status) && status.equals("ON");
         }

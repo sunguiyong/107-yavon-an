@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/backgroundblack"
     tools:context="com.zt.igreen.module.deviceconnect.view.BluetoothActivity">
 
-    <include layout="@layout/header"></include>
+    <include layout="@layout/header"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,7 +50,7 @@
                 <TextView
                     android:id="@+id/tv_disconnect"
                     android:text="无法连接设备怎么办?"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray"
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

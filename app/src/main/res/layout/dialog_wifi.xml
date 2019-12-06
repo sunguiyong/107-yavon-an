@@ -5,80 +5,95 @@
     android:background="@drawable/shape_dialog"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:gravity="center"
-        android:textSize="14sp"
+        android:padding="15dp"
         android:text="@string/title_wifi"
-        android:padding="15dp"/>
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/wifilogo" />
+
+    <TextView
+        android:id="@+id/tv_change_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_horizontal"
+        android:text="请选择设备网络"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
     <EditText
         android:id="@+id/et_pwd_wifi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/icon_lock_pwd"
-        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/shape_edittext_bk"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:drawableLeft="@mipmap/icon_lock_pwd"
         android:drawablePadding="10dp"
-        android:textColor="@color/black"
-        android:hint="设备不支持5Gwifi"
-        android:textSize="14sp"
         android:gravity="center_vertical"
-        />
+        android:hint="设备不支持5Gwifi"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="8dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:orientation="horizontal"
         android:padding="10dp">
-      <TextView
-          android:id="@+id/left_wifi"
-          android:text="当前WiFi:"
-          android:textColor="@color/black"
-          android:textSize="14sp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-      <TextView
-          android:text=""
-          android:textColor="@color/black"
-          android:id="@+id/tv_current_wifi"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textSize="14sp"
-          android:layout_marginLeft="5dp"
-          android:layout_toRightOf="@+id/left_wifi"/>
+
         <TextView
-            android:id="@+id/tv_change_wifi"
-            android:layout_alignParentRight="true"
+            android:id="@+id/left_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/mainGreen"
-            android:text="更换网络"
-            />
-    </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/divider_grey"/>
-        <TextView
-            android:id="@+id/btn_confirm_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="14sp"
+            android:text="当前WiFi:"
             android:textColor="@color/black"
-            android:text="@string/confirm"
-            android:padding="15dp"
-            android:gravity="center"
-            />
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_current_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/left_wifi"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/btn_confirm_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/confirm"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 </LinearLayout>

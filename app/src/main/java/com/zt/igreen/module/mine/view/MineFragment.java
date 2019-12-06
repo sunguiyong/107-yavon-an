@@ -29,6 +29,8 @@ import butterknife.OnClick;
  */
 
 public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
+    @BindView(R.id.iv_avatar_mine1)
+    ImageView ivAvatar1;
     @BindView(R.id.iv_avatar_mine)
     ImageView ivAvatar;
     @BindView(R.id.tv_name_mine)
@@ -80,11 +82,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
                     .error(R.mipmap.avatar_default)
                     .transform(new CenterCrop(getContext()), new GlideCircleTransfrom(getContext()))
                     .dontAnimate()
-                    .into(ivAvatar);
+                    .into(ivAvatar1);
         }
     }
 
-    @OnClick({R.id.tv_about_data,R.id.layout_avatar, R.id.tv_setting_mine, R.id.tv_about_setting, R.id.tv_right_header, R.id.tv_dev_all_mine})
+    @OnClick({R.id.msg_img, R.id.iv_avatar_mine1, R.id.tv_about_data, R.id.layout_avatar, R.id.tv_setting_mine, R.id.tv_about_setting, R.id.tv_right_header, R.id.tv_dev_all_mine})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -96,6 +98,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
             case R.id.tv_about_data:
                 PersionDataActivity.startAction(getContext());
                 break;
+            case R.id.msg_img:
             case R.id.tv_right_header:
                 MessageCenterActivity.startAction(getContext());
                 break;
@@ -107,10 +110,13 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
                 break;
             case R.id.tv_about_setting:
                 mPresenter.getDoc(Constants.DOC_TYPE_ABOUT);
-              // AboutActivity.startAction(getContext());
+                // AboutActivity.startAction(getContext());
                 break;
             case R.id.tv_dev_all_mine:
                 AllDevActivity.startAction(getContext());
+                break;
+            case R.id.iv_avatar_mine1:
+                PersonalInfoActivity.startAction(getContext());
                 break;
         }
     }

@@ -56,9 +56,10 @@ public class ActRoomSetting extends BaseActivity<RoomSettingPresenter> implement
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.backgroundblack);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.backgroundblack).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.backgroundblack).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("自定义房间");
         mRoomItemBean = (RoomItemBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);

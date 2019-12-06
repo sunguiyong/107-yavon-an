@@ -4,23 +4,33 @@
     <color name="qingse">#88B826</color>
     <color name="jindutiao">#88B826</color>
     <color name="huangse">#FF9D4D</color>
+    <color name="e6ca71">#E6CA71</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="devicebg">#76889A</color>
+    <color name="offlinebg1">#45505B</color>
+    <color name="offlinebg2">#22323F</color>
+    <color name="defaultmainbg">#C8A94C</color>
     <color name="backgroundblack">#1B1B1B</color>
     <color name="cyan">#88B826</color>
     <color name="white_tran">#A0FFFFFF</color>
+    <color name="adddevicebg">#3D3D3D</color>
     <color name="white_tran2">#40FFFFFF</color>
     <color name="gray_disable">#E4E4E4</color>
     <color name="gray_text">#898989</color>
     <color name="bg_main">#161429</color>
     <color name="green">#22B449</color>
+    <color name="defaultbgtext">#E6CA71</color>
+    <color name="officebg">#4B6E88</color>
     <color name="black2">#121212</color>
     <color name="mainGray">#b3b3b3</color>
     <color name="mainGreen">#88B826</color>
     <color name="newaccount">#019E9C</color>
+    <color name="k859893">#859893</color>
     <color name="existaccount">#FF5E3A</color>
     <color name="mainGreen_tran">#6652d5c5</color>
     <color name="black">#000000</color>
+    <color name="touming">#00000000</color>
     <color name="text_black">#2D2220</color>
     <color name="gray_circle">#88000000</color>
     <color name="bg_white">#f7f8f8</color>
@@ -47,9 +57,12 @@
     <color name="dark">#FF000000</color>
     <color name="whit">#ffffff</color>
     <color name="gray">#FF737373</color>
-
+    <color name="viewpagerbg">#252525</color>
+    <color name="graytext">#F2F2F0</color>
     <color name="geentext">#79cecb</color>
     <color name="red">#FFEC0C0D</color>
+    <color name="A5696B">#A5696B</color>
+    <color name="bangongshi">#76889A</color>
     <color name="red_f">#D7006F</color>
     <drawable name="g_ui_bg">#FFF0F0F0</drawable>
     <drawable name="g_ui_bg1">#FFFFFFFF</drawable>
@@ -85,7 +98,7 @@
     <color name="color_bg_normal">#e7e7e8</color>
     <color name="color_text_selected">#ffffff</color>
     <color name="color_text_normal">#000000</color>
-
+    <color name="levelbg">#5A0909</color>
     <color name="center_tree_text">#232323</color>
     <color name="center_item_text">#656565</color>
 

@@ -2,116 +2,122 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <include layout="@layout/header" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
         android:layout_weight="3"
         android:background="@drawable/shape_stroke_intell"
-        android:layout_margin="@dimen/dp_10"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         >
-      <ImageView
-          android:id="@+id/img_intell"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:scaleType="centerCrop"
-          android:src="@color/black"
-          />
-         <LinearLayout
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal"
-             >
-             <TextView
-                 android:id="@+id/ed_bianjiname"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="@null"
-                 android:layout_marginTop="@dimen/dp_15"
-                 android:layout_marginLeft="@dimen/dp_15"
-                 android:hint="编辑名字"
-                 android:textSize="@dimen/text_15"
-                 android:textColor="@color/white"
-                 />
-             <ImageView
-                 android:id="@+id/img_bianji"
-                 android:layout_marginTop="@dimen/dp_18"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:src="@mipmap/bianji_intell"
-                 />
-         </LinearLayout>
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:gravity="right|bottom"
-             >
-          <ImageView
-              android:id="@+id/img_chooseimg"
-              android:layout_margin="@dimen/dp_15"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:src="@mipmap/choose_intell"
-              />
-         </LinearLayout>
-     </RelativeLayout>
+        android:orientation="vertical">
 
-    </LinearLayout>
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="就执行一下动作"
-          android:textColor="#B1B0B0"
-          android:textSize="13sp"
-          android:layout_margin="@dimen/dp_10"
-          />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img_intell"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/black" />
+
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:background="@mipmap/changjingname"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ed_bianjiname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="场景名称"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_15" />
+
+                    <ImageView
+                        android:id="@+id/img_bianji"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/bianji_intell" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|bottom">
+
+                    <ImageView
+                        android:id="@+id/img_chooseimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_15"
+                        android:src="@mipmap/choose_intell" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:text="你要执行的指令"
+            android:textColor="#B1B0B0"
+            android:textSize="13sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.7"
-            android:orientation="vertical"
-            >
-        <com.yanzhenjie.recyclerview.SwipeRecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_margin="@dimen/dp_10"
-            android:layout_height="match_parent"/>
+            android:orientation="vertical">
+
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_10" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1"
         android:layout_margin="@dimen/dp_10"
-        >
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_execute"
-            android:padding="10dp"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/white"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_23"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="@dimen/dp_23"
             android:background="@drawable/shape_stroke_green"
+            android:gravity="center"
+            android:padding="10dp"
             android:text="添加执行动作"
-            android:textSize="16sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

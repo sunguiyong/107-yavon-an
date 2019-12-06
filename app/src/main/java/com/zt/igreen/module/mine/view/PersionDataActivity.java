@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ import butterknife.OnClick;
  */
 
 public class PersionDataActivity extends BaseActivity {
+    @BindView(R.id.back_img)
+    ImageView backImg;
     @BindView(R.id.tv_base)
     LinearLayout tvBase;
     @BindView(R.id.tv_base_name)
@@ -66,7 +69,11 @@ public class PersionDataActivity extends BaseActivity {
         mFragments.add(new BaseInfoFragment("live"));
         sethead(R.color.qingse);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this)
+//                .statusBarColor(R.color.qingse)
+//                .statusBarDarkFont(true)
+//                .flymeOSStatusBarFontColor(R.color.qingse)
+                .init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("我的资料");
         adapter = new myadapter(getSupportFragmentManager(), mFragments);
@@ -108,9 +115,12 @@ public class PersionDataActivity extends BaseActivity {
               tvLiveName.setTextColor(Color.parseColor("#88B826"));
           }
       }*/
-    @OnClick({R.id.tv_base_name, R.id.tv_health_name, R.id.tv_live_name})
+    @OnClick({R.id.back_img, R.id.tv_base_name, R.id.tv_health_name, R.id.tv_live_name})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.back_img:
+                finish();
+                break;
             case R.id.tv_base_name:
                 viewpager.setCurrentItem(0);
                 tvBase.setBackgroundResource(R.mipmap.data_select);
@@ -141,7 +151,6 @@ public class PersionDataActivity extends BaseActivity {
         }
     }
 
-   
 
     public class MyPagerChangeListener implements ViewPager.OnPageChangeListener {              //监听屏幕的滑动
         @Override

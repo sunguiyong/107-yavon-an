@@ -26,6 +26,8 @@ public class SPUtil {
         editor.putString(TEMP, encodeString);
         return editor.commit();
     }
+
+
     public static LoginBean getAccount(Context context){
         SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME, 0);
         String decodeString = sp.getString(TEMP,null);

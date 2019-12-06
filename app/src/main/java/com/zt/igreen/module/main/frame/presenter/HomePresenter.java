@@ -1,13 +1,23 @@
 package com.zt.igreen.module.main.frame.presenter;
 
+import android.util.Log;
+
+import com.common.base.rx.RxManager;
 import com.common.base.utils.LogUtil;
 import com.common.base.utils.ToastUtil;
 import com.tuya.smart.android.user.api.ILoginCallback;
 import com.tuya.smart.android.user.bean.User;
-import com.tuya.smart.sdk.TuyaUser;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.home.sdk.bean.HomeBean;
+import com.tuya.smart.home.sdk.callback.ITuyaGetHomeListCallback;
+import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
+import com.tuya.smart.sdk.TuyaSdk;
+import com.zt.igreen.module.data.BindTuyaHome;
 import com.zt.igreen.module.data.CityLocation;
 import com.zt.igreen.module.data.CountBean;
+import com.zt.igreen.module.data.DataSave;
 import com.zt.igreen.module.data.HealthInfoBean;
+import com.zt.igreen.module.data.LoginBean;
 import com.zt.igreen.module.data.TabBean;
 import com.zt.igreen.module.data.VersionBean;
 import com.zt.igreen.module.data.WeatherBean;
@@ -16,6 +26,7 @@ import com.zt.igreen.network.Api;
 import com.zt.igreen.network.RxSubscriber;
 import com.zt.igreen.utils.SPUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,21 +35,85 @@ import java.util.List;
 
 public class HomePresenter extends HomeContract.Presenter {
 
-    public void loginTuYa(){
-//        TuyaUser.getUserInstance().loginWithPhonePassword("86",  "18106223213", "123456", new ILoginCallback() {
-//        TuyaUser.getUserInstance().loginWithUid("86",  bean.getMobile(), bean.getPwd(), new ILoginCallback() {
-        TuyaUser.getUserInstance().loginWithUid("86",  "15556092750", "1111111", new ILoginCallback() {
+    /**
+     * 涂鸦登录
+     *
+     * @param userName
+     */
+    public void loginTuYa(String userName) {
+        TuyaHomeSdk.getUserInstance().loginOrRegisterWithUid("86", "tuyayavon" + userName, "tuyayavon123456", new ILoginCallback() {
             @Override
             public void onSuccess(User user) {
-                LogUtil.d("==================loginTuYa success");
+                Log.d("loginOrRegisterWithUidX", user.getUid() + "");
+                checkTuyaHome(SPUtil.getAccount(mContext).getMobile() + "");
             }
 
             @Override
             public void onError(String code, String error) {
-                LogUtil.d("==================loginTuYa error,code:"+code+",error:"+error);
+                Log.d("loginOrRegisterWithUid", code + "---" + error);
             }
         });
     }
+
+    private List<String> roomLists = new ArrayList<>();
+    long tuyahomeid;
+
+    private void checkTuyaHome(String mobile) {
+        roomLists.add(0, "room");
+        TuyaHomeSdk.getHomeManagerInstance().queryHomeList(new ITuyaGetHomeListCallback() {
+            @Override
+            public void onSuccess(List<HomeBean> homeBeans) {
+                if (homeBeans.size() > 0) {//有家庭
+                    Log.d("queryHomeList", homeBeans.get(0).getHomeId() + "");
+                    Log.d("queryHomeListName", homeBeans.get(0).getName() + "");
+                    tuyahomeid = homeBeans.get(0).getHomeId();
+                    DataSave.tuyaHomeId = tuyahomeid + "";
+                } else {//无家庭，创建家庭
+                    TuyaHomeSdk.getHomeManagerInstance().createHome("homeHasPrefix" + mobile,
+                            0, 0, "苏州", roomLists, new ITuyaHomeResultCallback() {
+                                @Override
+                                public void onSuccess(HomeBean bean) {
+                                    Log.d("createHome", bean.getHomeId() + "");
+                                    tuyahomeid = bean.getHomeId();
+                                    //todo 调用上传homeid的接口
+                                    uploadHomeId(tuyahomeid + "");
+                                }
+
+                                @Override
+                                public void onError(String errorCode, String errorMsg) {
+                                    Log.d("createHome", errorCode + "---" + errorMsg);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onError(String errorCode, String error) {
+                Log.i("queryHomeList", "onError: " + errorCode + "---" + error);
+            }
+        });
+    }
+
+    /**
+     * 涂鸦homeid上传到接口服务器保存
+     *
+     * @param ty_family_id
+     */
+    public void uploadHomeId(String ty_family_id) {
+        mRxManage.add(Api.bindTuyaHome(SPUtil.getToken(mContext), ty_family_id)
+                .subscribeWith(new RxSubscriber<BindTuyaHome>(mContext, false) {
+                    @Override
+                    protected void _onNext(BindTuyaHome bean) {
+                        Log.d("bindTuyaHome", bean.toString());
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        Log.d("bindTuyaHome_onError", message);
+                    }
+                }).getDisposable());
+    }
+
     @Override
     public void getTabData(boolean showLoading) {
         mRxManage.add(Api.getTabData(SPUtil.getToken(mContext))
@@ -77,7 +152,7 @@ public class HomePresenter extends HomeContract.Presenter {
                 .subscribeWith(new RxSubscriber<CityLocation>(mContext, false) {
                     @Override
                     protected void _onNext(CityLocation bean) {
-                        if("OK".equals(bean.status)){
+                        if ("OK".equals(bean.status)) {
                             getWeather(bean.result.addressComponent.city);
                         }
                     }
@@ -111,7 +186,7 @@ public class HomePresenter extends HomeContract.Presenter {
                 .subscribeWith(new RxSubscriber<WeatherBean>(mContext, false) {
                     @Override
                     protected void _onNext(WeatherBean bean) {
-                        if(bean != null && "10000".equals(bean.code)){
+                        if (bean != null && "10000".equals(bean.code)) {
                             mView.updateWeather(bean);
                         }
                     }

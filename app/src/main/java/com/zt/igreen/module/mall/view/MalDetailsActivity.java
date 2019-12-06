@@ -34,7 +34,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2019/2/21 0021.
  */
 
-public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> implements MalMaterialContract.View{
+public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> implements MalMaterialContract.View {
     @BindView(R.id.banner)
     Banner banner;
     @BindView(R.id.device_name)
@@ -55,9 +55,10 @@ public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> imple
     ImageView imgSoucang;
     @BindView(R.id.img_sms)
     ImageView imgSms;
-    MaterialDetailsBean bean=new MaterialDetailsBean();
+    MaterialDetailsBean bean = new MaterialDetailsBean();
     private String device_id;
-    private boolean favorite_Status=false;
+    private boolean favorite_Status = false;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_malldetails;
@@ -65,22 +66,26 @@ public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> imple
 
     @Override
     public void initPresenter() {
-         mPresenter.setVM(this);
-         device_id = getIntent().getStringExtra("id");
-         mPresenter.getMalMaterial(device_id);
+        mPresenter.setVM(this);
+        device_id = getIntent().getStringExtra("id");
+        mPresenter.getMalMaterial(device_id);
     }
 
     @Override
     public void initView() {
-        ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.white).init();
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.touming)
+                .statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming).init();
 
     }
 
-    public static void startAction(Context context,String  id) {
+    public static void startAction(Context context, String id) {
         Intent intent = new Intent(context, MalDetailsActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
+
     @OnClick({R.id.img_back, R.id.img_soucang, R.id.img_sms})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -88,50 +93,52 @@ public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> imple
                 finish();
                 break;
             case R.id.img_soucang:
-                boolean favorite=bean.isIs_favorite();
-                if (favorite_Status==false){
-                    favorite_Status=true;
+                boolean favorite = bean.isIs_favorite();
+                if (favorite_Status == false) {
+                    favorite_Status = true;
                     imgSoucang.setImageResource(R.mipmap.select_souchang);
                     mPresenter.getCollect(device_id);
-                }else if (favorite_Status==true){
+                } else if (favorite_Status == true) {
                     imgSoucang.setImageResource(R.mipmap.img_shoucang);
-                    favorite_Status=false;
+                    favorite_Status = false;
                     mPresenter.getCollect(device_id);
                 }
                 break;
             case R.id.img_sms:
-                WordsActivity.startAction(this,bean.getId()+"");
+                WordsActivity.startAction(this, bean.getId() + "");
                 break;
         }
     }
-    List<String> list_str=new ArrayList<>();
+
+    List<String> list_str = new ArrayList<>();
+
     @Override
     public void returnMalMaterial(MaterialDetailsBean bean) {
-        this.bean=bean;
-        boolean favorite=bean.isIs_favorite();
-        if (favorite==true){
+        this.bean = bean;
+        boolean favorite = bean.isIs_favorite();
+        if (favorite == true) {
             imgSoucang.setImageResource(R.mipmap.select_souchang);
-            favorite_Status=true;
-        }else if (favorite==false){
+            favorite_Status = true;
+        } else if (favorite == false) {
             imgSoucang.setImageResource(R.mipmap.img_shoucang);
-            favorite_Status=false;
+            favorite_Status = false;
         }
-      deviceName.setText(bean.getName());
-      deviceDes.setText(bean.getDescription());
-      deviceGuize.setText(bean.getSpecification()+"");
-      deviceMiaoshu.setText(bean.getCharacteristic());
-      deviceMessage.setText(bean.getSupplier());
-      List<MaterialDetailsBean.ImagesBean> img=bean.getImages();
-      list_str.clear();
-      for (int i=0;i<img.size()-1;i++){
-          String image=img.get(i).getImage();
-          list_str.add(image);
-      }
+        deviceName.setText(bean.getName());
+        deviceDes.setText(bean.getDescription());
+        deviceGuize.setText(bean.getSpecification() + "");
+        deviceMiaoshu.setText(bean.getCharacteristic());
+        deviceMessage.setText(bean.getSupplier());
+        List<MaterialDetailsBean.ImagesBean> img = bean.getImages();
+        list_str.clear();
+        for (int i = 0; i < img.size() - 1; i++) {
+            String image = img.get(i).getImage();
+            list_str.add(image);
+        }
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
-       banner.setImages(list_str);
+        banner.setImages(list_str);
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
         //设置轮播时间
@@ -144,13 +151,13 @@ public class MalDetailsActivity extends BaseActivity<MalMaterialPresenter> imple
 
     @Override
     public void returnCollect() {
-       // ToastUtil.show(this,"已经成功",Toast.LENGTH_LONG);
+        // ToastUtil.show(this,"已经成功",Toast.LENGTH_LONG);
     }
 
     private class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load((String)path).into(imageView);
+            Glide.with(context).load((String) path).into(imageView);
         }
     }
 }

@@ -11,10 +11,11 @@ import java.util.List;
  * Created by lifujun on 2018/7/28.
  */
 
-public class MineRoomBean extends AbstractExpandableItem<MineRoomBean.Machine> implements MultiItemEntity{
+public class MineRoomBean extends AbstractExpandableItem<MineRoomBean.Machine> implements MultiItemEntity {
     private String id;
     private String name;
     private List<Machine> machines;
+
     public String getId() {
         return id;
     }
@@ -52,7 +53,7 @@ public class MineRoomBean extends AbstractExpandableItem<MineRoomBean.Machine> i
         return 0;
     }
 
-    public static class Machine implements Serializable,MultiItemEntity{
+    public static class Machine implements Serializable, MultiItemEntity {
         private String machine_id;
         private String asset_number;
         private String machine_name;
@@ -66,6 +67,7 @@ public class MineRoomBean extends AbstractExpandableItem<MineRoomBean.Machine> i
         public int getItemType() {
             return AllDevAdapter.TYPE_DETAIL;
         }
+
         public String getMachine_id() {
             return machine_id;
         }

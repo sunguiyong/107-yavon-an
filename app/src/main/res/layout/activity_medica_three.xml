@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#EEEEEE">
+    android:background="@color/backgroundblack">
     <include layout="@layout/header" />
     <ScrollView
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_30"
-            android:background="#D9E3C6"
+            android:background="@color/backgroundblack"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -116,7 +116,7 @@
                 android:layout_marginTop="@dimen/dp_18"
                 android:layout_marginLeft="@dimen/dp_30"
                 android:layout_marginRight="@dimen/dp_30"
-                android:background="@color/whit"
+                android:background="@color/backgroundblack"
                 android:orientation="vertical"
                 >
                 <LinearLayout
@@ -130,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="血管健康阶级"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="分析报告"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_15"
                         android:layout_marginLeft="@dimen/dp_15"
                         />

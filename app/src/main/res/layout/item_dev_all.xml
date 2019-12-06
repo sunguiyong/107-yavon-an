@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="#252525"
     android:orientation="vertical"
     android:paddingTop="15dp">
 
@@ -30,7 +30,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="设备名称"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="13sp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="管理员"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="10dp"
             android:textSize="13sp" />
 
@@ -60,7 +60,7 @@
                 android:gravity="center"
                 android:text=""
                 android:padding="2.5dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:textSize="13sp" />
         </FrameLayout>
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:src="@mipmap/next_gray" />
+            android:src="@mipmap/arrow_right" />
 
     </LinearLayout>
 

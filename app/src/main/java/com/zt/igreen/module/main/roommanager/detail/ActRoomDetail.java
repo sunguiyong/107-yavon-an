@@ -45,6 +45,7 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
     Dialog dialog;
     int mDeviceCount;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.act_room_detail_layout;
@@ -57,9 +58,10 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.backgroundblack);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.backgroundblack).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.backgroundblack).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("房间详情");
         mTabBean = (TabBean) getIntent().getSerializableExtra(EXTRA_COMMON_DATA_BEAN);
@@ -68,15 +70,15 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         mDeviceCount = mTabBean.getMachineSize();
         tvCount.setText("已移入" + mDeviceCount + "个设备");
         mPresenter.getRoomDetail(mTabBean.id);
-        if("DEFAULT".equals(mTabBean.type)){
-            tvRoomName.setTextColor(ContextCompat.getColor(this,R.color.white_tran));
+        if ("DEFAULT".equals(mTabBean.type)) {
+            tvRoomName.setTextColor(ContextCompat.getColor(this, R.color.white_tran));
         }
         tvRoomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("DEFAULT".equals(mTabBean.type)){
-                    ToastUtil.showShort(ActRoomDetail.this,"不能修改默认房间名称");
-                }else{
+                if ("DEFAULT".equals(mTabBean.type)) {
+                    ToastUtil.showShort(ActRoomDetail.this, "不能修改默认房间名称");
+                } else {
                     dialog = DialogUtil.createEtDialog(ActRoomDetail.this, false, "重命名", mTabBean.name, new DialogUtil.OnComfirmListening2() {
                         @Override
                         public void confirm(String data) {
@@ -94,20 +96,27 @@ public class ActRoomDetail extends BaseActivity<RoomDetailPresenter> implements 
         ivRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("DEFAULT".equals(mTabBean.type)){
-                    ToastUtil.showShort(ActRoomDetail.this,"不能修改默认房间图标");
-                }else{
+                if ("DEFAULT".equals(mTabBean.type)) {
+                    ToastUtil.showShort(ActRoomDetail.this, "不能修改默认房间图标");
+                } else {
                     startActForResult(ActSelectIcon.class);
                 }
             }
         });
-        if("DEFAULT".equals(mTabBean.type)){
+        if ("DEFAULT".equals(mTabBean.type)) {
             btnDel.setVisibility(View.GONE);
-        }else {
+        } else {
             btnDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.delRoom(mTabBean.id);
+                    DialogUtil.dismiss(dialog);
+                    dialog = DialogUtil.create2BtnInfoDialog(ActRoomDetail.this, "确定删除吗？", "取消", "确定", new DialogUtil.OnComfirmListening() {
+                        @Override
+                        public void confirm() {
+                            mPresenter.delRoom(mTabBean.id);
+                        }
+                    });
+//                    mPresenter.delRoom(mTabBean.id);
                 }
             });
         }

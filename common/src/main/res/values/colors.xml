@@ -5,6 +5,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
+    <color name="lockelec">#90C290</color>
     <color name="text_grey">#1C1B21</color>
     <color name="black">#000000</color>
     <color name="window_default_bg">#FFFFFF</color>
@@ -44,6 +45,8 @@
     <color name="alpha_30_black">#4D000000</color>
     <color name="alpha_35_black">#59000000</color>
     <color name="alpha_40_black">#66000000</color>
+    <color name="lixian">#22323F</color>
+    <color name="lixian1">#45505B</color>
     <color name="alpha_45_black">#73000000</color>
     <color name="alpha_50_black">#80000000</color>
     <color name="alpha_55_black">#8C000000</color>

@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jaygoo.widget.RangeSeekBar;
 import com.zt.igreen.R;
@@ -18,6 +21,7 @@ import com.zt.igreen.module.data.MedicalBean;
 import com.zt.igreen.module.device.PAU.view.MySeekBar;
 import com.zt.igreen.module.device.health.contract.MedicalContract;
 import com.zt.igreen.module.device.health.presenter.MedicalPresenter;
+import com.zt.igreen.module.main.widget.GlideCircleTransfrom;
 import com.zt.igreen.module.mine.view.PersionDataActivity;
 import com.zt.igreen.utils.SPUtil;
 
@@ -91,6 +95,8 @@ public class MedicalActivity extends BaseActivity<MedicalPresenter> implements M
     TextView tvMoshaofenxicontext;
     @BindView(R.id.rangebar)
     RangeSeekBar rangebar;
+    @BindView(R.id.ava_img)
+    ImageView avaImg;
     private HistoryBean bean;
 
     @Override
@@ -108,13 +114,18 @@ public class MedicalActivity extends BaseActivity<MedicalPresenter> implements M
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
-        ImmersionBar.with(this).statusBarColor(R.color.huangse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.huangse).init();
+        sethead(R.color.backgroundblack);
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("体检报告");
-        sethead(R.color.huangse);
+        sethead(R.color.touming);
         LoginBean loginBean = SPUtil.getAccount(this);
-        sethead(R.color.huangse);
+        Glide.with(this)
+                .load(loginBean.getAvatar())
+                .error(R.mipmap.avatar_default)
+                .transform(new CenterCrop(this), new GlideCircleTransfrom(this))
+                .dontAnimate()
+                .into(avaImg);
         tvName.setText(loginBean.getNick_name());
         tvGengxin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +177,8 @@ public class MedicalActivity extends BaseActivity<MedicalPresenter> implements M
         tvXueya.setText(high_blood_pressure + "/" + low_blood_pressure);
         tvXueyaBainumber.setText(high_blood_pressure + "/" + low_blood_pressure);
         rangebar.setEnabled(false);
-       // rangebar.setRange(low_blood_pressure,high_blood_pressure);
-        rangebar.setValue(60,100);
+        // rangebar.setRange(low_blood_pressure,high_blood_pressure);
+        rangebar.setValue(60, 100);
         String xueya_result = bean.getBlood_pressure_str().getResult();
         tvXueyaTwo.setText(xueya_result);
         String pressure_analysis = bean.getBlood_pressure_str().getAnalysis();

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/backgroundblack"
     tools:context="com.zt.igreen.module.deviceconnect.view.BluetoothActivity">
 
-    <include layout="@layout/header"></include>
+    <include layout="@layout/header"/>
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/recycler"

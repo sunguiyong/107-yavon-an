@@ -5,97 +5,102 @@
     android:background="@drawable/shape_dialog"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:gravity="center"
-        android:textSize="14sp"
+        android:padding="15dp"
         android:text="@string/title_dialog_sitdown2"
-        android:padding="15dp"/>
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
     <GridView
         android:id="@+id/grid_desk_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"
-        android:scrollbars="none"
-        android:listSelector="@android:color/transparent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:verticalSpacing="10dp"
-        android:choiceMode="singleChoice"/>
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="10dp" />
+
     <EditText
         android:id="@+id/et_name_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:textSize="14sp"
+        android:background="@drawable/shape_edittext_bk"
+        android:hint="@string/hint_name_desk"
         android:maxLength="8"
+        android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:hint="@string/hint_name_desk"
-        android:background="@drawable/shape_edittext_bk"
-        android:padding="10dp"/>
+        android:textSize="14sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/shape_edittext_bk"
+        android:orientation="horizontal"
         android:padding="10dp">
+
         <EditText
             android:id="@+id/et_height_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
-            android:singleLine="true"
-            android:maxLength="3"
-            android:textColor="@color/black"
+            android:background="@null"
             android:hint="@string/hint_height_desk"
             android:inputType="number"
-            android:background="@null"/>
+            android:maxLength="3"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/black"
             android:text="H"
-            />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/btn_cancle_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
-            android:textColor="@color/gray_text"
-            android:text="@string/cancle"
-            android:padding="15dp"
             android:gravity="center"
-            />
+            android:padding="15dp"
+            android:text="@string/cancle"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/btn_confirm_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:text="@string/confirm"
-            android:padding="15dp"
             android:gravity="center"
-            />
+            android:padding="15dp"
+            android:text="@string/confirm"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

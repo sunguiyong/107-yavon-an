@@ -16,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.common.base.utils.ToastUtil;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tuya.smart.android.user.api.ILogoutCallback;
-import com.tuya.smart.sdk.TuyaUser;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zhihu.matisse.Matisse;
@@ -48,6 +48,8 @@ import butterknife.OnClick;
  */
 
 public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> implements PersonalInfoContract.View{
+    @BindView(R.id.iv_avatar_info1)
+    ImageView ivAvatar1;
     @BindView(R.id.iv_avatar_info)
     ImageView ivAvatar;
     @BindView(R.id.tv_nickname_info)
@@ -79,7 +81,11 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
     public void initView() {
         sethead(R.color.qingse);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.touming)
+                .statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming)
+                .init();
         setColor(Color.parseColor("#ffffff"));
         setTitle(getString(R.string.personal_info));
         LoginBean bean = SPUtil.getAccount(this);
@@ -100,7 +106,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                     .error(R.mipmap.avatar_default)
                     .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
                     .dontAnimate()
-                    .into(ivAvatar);
+                    .into(ivAvatar1);
         }
 //        File file = new File(FileUtil.getDiskCacheDir(this));
 //        if(!file.exists()){
@@ -115,7 +121,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
         Intent intent = new Intent(context,PersonalInfoActivity.class);
         context.startActivity(intent);
     }
-    @OnClick({R.id.iv_avatar_info,R.id.iv2_avatar_info,R.id.tv_nickname_info,R.id.tv_email_info,R.id.key_email_info,R.id.tv_phone_info,R.id.tv_pwd_info,R.id.btn_exit_info})
+    @OnClick({R.id.iv_avatar_info1,R.id.iv_avatar_info,R.id.iv2_avatar_info,R.id.tv_nickname_info,R.id.tv_email_info,R.id.key_email_info,R.id.tv_phone_info,R.id.tv_pwd_info,R.id.btn_exit_info})
     @Override
     public void doubleClickFilter(View view) {
         super.doubleClickFilter(view);
@@ -129,7 +135,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
     @Override
     public void doClick(View view) {
         switch (view.getId()){
-            case R.id.iv_avatar_info://修改头像
+            case R.id.iv_avatar_info1://修改头像
             case R.id.iv2_avatar_info:
                 AndPermission.with(this)
                         .runtime()
@@ -163,7 +169,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                 }
                 break;
             case R.id.tv_phone_info://绑定手机号
-                ModityPhoneActivity.startAction(this,REQ_PHONE);
+//                ModityPhoneActivity.startAction(this,REQ_PHONE);
                 break;
             case R.id.tv_pwd_info://修改密码
                 ResetPasswordActivity.start(this,"2");
@@ -181,7 +187,7 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                 LoginRegisterActivity.start(this,"login",true);
                 mRxManager.post(Constants.EVENT_ERROR_TOKEN,"");
                 //退出涂鸦登录
-                TuyaUser.getUserInstance().logout(new ILogoutCallback() {
+                TuyaHomeSdk.getUserInstance().logout(new ILogoutCallback() {
                     @Override
                     public void onSuccess() {
                         //退出登录成功
@@ -283,6 +289,6 @@ public class PersonalInfoActivity extends BaseActivity<PersonalInfoPresenter> im
                 .error(R.mipmap.avatar_default)
                 .transform(new CenterCrop(this),new GlideCircleTransfrom(this))
                 .dontAnimate()
-                .into(ivAvatar);
+                .into(ivAvatar1);
     }
 }

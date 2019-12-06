@@ -40,7 +40,7 @@
             app:visibleDrawable_open="@drawable/selector_eye_open" />
 
         <RelativeLayout
-            android:visibility="invisible"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">

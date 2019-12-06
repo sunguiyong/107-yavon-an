@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 
 public class MedicalTwoActivity extends BaseActivity<MedicalPresenter> implements MedicalContract.View {
 
-
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_suishu)
@@ -55,7 +54,6 @@ public class MedicalTwoActivity extends BaseActivity<MedicalPresenter> implement
         mPresenter.setVM(this);
         bean = (HistoryBean) getIntent().getSerializableExtra("bean");
         mPresenter.getMedical(bean.getId() + "");
-
     }
 
 

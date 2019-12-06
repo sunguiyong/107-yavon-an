@@ -43,9 +43,10 @@ public class FavoriteActivity extends BaseActivity<FavoritePresenter> implements
 
     @Override
     public void initView() {
-        sethead(R.color.qingse);
+        sethead(R.color.touming);
+        setLeftButtonImage(R.mipmap.cancel);
         setColor(Color.parseColor("#ffffff"));
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
         setColor(Color.parseColor("#ffffff"));
         setTitle("收藏夹");
         reDevice.setLayoutManager(new GridLayoutManager(this, 3));

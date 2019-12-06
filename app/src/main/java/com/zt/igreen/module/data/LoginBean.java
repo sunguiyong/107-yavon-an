@@ -15,6 +15,16 @@ public class LoginBean {
     private boolean open_auto_update;
     private boolean open_system_message;
 
+    public String getTy_family_id() {
+        return ty_family_id;
+    }
+
+    public void setTy_family_id(String ty_family_id) {
+        this.ty_family_id = ty_family_id;
+    }
+
+    private String ty_family_id;
+
     public String getNick_name() {
         return nick_name;
     }

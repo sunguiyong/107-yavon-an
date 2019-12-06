@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.7"
-        android:background="@drawable/shape_device_top"
-        >
+        android:background="@drawable/shape_device_top">
 
         <TextView
             android:id="@+id/guideline1"
@@ -24,8 +23,7 @@
             app:layout_constraintBottom_toTopOf="@+id/progress_desk"
             app:layout_constraintHorizontal_bias="0.085"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <com.zt.igreen.widget.VerticalSeekBar
             android:id="@+id/progress_desk"
@@ -42,15 +40,14 @@
             android:progress="0"
             android:progressDrawable="@drawable/progressbar"
             android:splitTrack="false"
-            android:thumbOffset="0dp"
             android:thumb="@drawable/round_point_seekbar"
+            android:thumbOffset="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.6"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.6"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/guideline2"
@@ -60,8 +57,7 @@
             app:layout_constraintHorizontal_bias="0.106"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress_desk"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/progress_desk" />
 
         <TextView
             android:id="@+id/tv_progress_desk"
@@ -73,109 +69,117 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/btn_up_desk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:src="@drawable/selector_up_desk"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.16"
-            android:clickable="true"/>
+            app:layout_constraintVertical_bias="0.16" />
+
         <ImageView
             android:id="@+id/btn_down_desk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:src="@drawable/selector_down_desk"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.85"
-            android:clickable="true"/>
+            app:layout_constraintVertical_bias="0.85" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center_horizontal"
             android:layout_marginRight="8dp"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy1_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
-                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
-                android:lines="2"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="自定义1"/>
+                android:lines="2"
+                android:maxLength="9"
+                android:text="自定义1"
+                android:textColor="@color/switch_text_select9"
+                android:textSize="13sp" />
+
             <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy2_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
-                android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
-                android:lines="2"
                 android:gravity="center"
-                android:text="自定义2"/>
+                android:lines="2"
+                android:maxLength="9"
+                android:text="自定义2"
+                android:textColor="@color/switch_text_select9"
+                android:textSize="13sp" />
+
             <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy3_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
-                android:textSize="13sp"
-                android:lines="2"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
-                android:text="自定义3"/>
+                android:gravity="center"
+                android:lines="2"
+                android:maxLength="9"
+                android:text="自定义3"
+                android:textColor="@color/switch_text_select9"
+                android:textSize="13sp" />
+
             <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy4_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
-                android:textSize="13sp"
-                android:lines="2"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
-                android:text="自定义4"/>
+                android:gravity="center"
+                android:lines="2"
+                android:maxLength="9"
+                android:text="自定义4"
+                android:textColor="@color/switch_text_select9"
+                android:textSize="13sp" />
+
             <com.zt.igreen.widget.MyTextView
                 android:id="@+id/tv_zdy5_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
-                android:lines="2"
-                android:gravity="center"
-                android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/switch_text_select9"
                 android:clickable="true"
-                android:text="自定义5"/>
+                android:gravity="center"
+                android:lines="2"
+                android:maxLength="9"
+                android:text="自定义5"
+                android:textColor="@color/switch_text_select9"
+                android:textSize="13sp" />
+
             <View
                 android:layout_width="20dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/white_tran2"
-                />
+                android:background="@color/white_tran2" />
+
             <ImageView
                 android:id="@+id/iv_setting_height_desk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="11dp"
-                android:src="@mipmap/setting_desk"/>
+                android:src="@mipmap/setting_desk" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
@@ -183,37 +187,40 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.28" />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_switch_desk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
             android:drawableTop="@drawable/selector_switch_dev"
-            android:textSize="14sp"
-            android:textColor="@color/switch_text_select"
             android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/text_switch"
+            android:textColor="@color/switch_text_select"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_coulometry_desk"
-            android:text="@string/text_switch"/>
+            app:layout_constraintRight_toLeftOf="@+id/tv_coulometry_desk" />
+
         <TextView
             android:id="@+id/tv_coulometry_desk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:clickable="true"
-            android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_coulometry_dev"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/coulometry"
             android:textColor="@color/switch_text_select3"
+            android:textSize="14sp"
             app:layout_constraintLeft_toRightOf="@+id/tv_switch_desk"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textSize="14sp" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -57,8 +57,9 @@ public class WordsActivity extends BaseActivity<WordPresenter> implements WordCo
 
     @Override
     public void initView() {
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
-        sethead(R.color.qingse);
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
+        sethead(R.color.touming);
         setColor(Color.parseColor("#ffffff"));
         setTitle("留言");
         edLiuyan.addTextChangedListener(new TextWatcher() {
@@ -66,10 +67,12 @@ public class WordsActivity extends BaseActivity<WordPresenter> implements WordCo
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
 

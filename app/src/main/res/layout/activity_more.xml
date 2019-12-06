@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundblack"
     >
     <include layout="@layout/header" />
     <LinearLayout
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary1"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginLeft="30dp"
         android:text="数据列表"

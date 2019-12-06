@@ -39,8 +39,8 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
     @Override
     public void initView() {
         ImmersionBar.with(this)
-                .statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
-        sethead(R.color.qingse);
+                .statusBarColor(R.color.touming).statusBarDarkFont(false).flymeOSStatusBarFontColor(R.color.touming).init();
+        sethead(R.color.backgroundblack);
         setColor(Color.parseColor("#ffffff"));
         setTitle("添加常用设备");
         setRightMenuText("完成");
@@ -64,7 +64,7 @@ public class ActAddDevice extends BaseActivity<AddDevicePresenter> implements Ad
                     }
                 }
                 if (sb.length() != 0) {
-                   sb.setLength(sb.length() -1);
+                    sb.setLength(sb.length() - 1);
                 }
                 mPresenter.setAddDeviceData(sb.toString());
             }

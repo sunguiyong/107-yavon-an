@@ -1,5 +1,6 @@
 package com.zt.igreen.module.main.roommanager.detail.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +13,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zt.igreen.R;
 import com.zt.igreen.module.main.roommanager.detail.ActRoomDetail;
 import com.zt.igreen.module.main.roommanager.detail.model.RoomDetailBean;
+import com.zt.igreen.utils.DialogUtil;
 import com.zt.igreen.widget.RvBase;
 
 public class RvRoomDevice extends RvBase<RoomDetailBean.MachinesBean> {
     public int mSelectIndex = -1;
+    Dialog dialog;
 
     public RvRoomDevice(Context context) {
         super(context);
@@ -48,7 +51,15 @@ public class RvRoomDevice extends RvBase<RoomDetailBean.MachinesBean> {
             @Override
             public void onClick(View v) {
                 mSelectIndex = holder.getLayoutPosition();
-                ((ActRoomDetail) getContext()).mPresenter.delDevice(bean.id);
+                DialogUtil.dismiss(dialog);
+                dialog = DialogUtil.create2BtnInfoDialog((ActRoomDetail) getContext(), "确定删除吗？", "取消",
+                        "确定", new DialogUtil.OnComfirmListening() {
+                            @Override
+                            public void confirm() {
+                                ((ActRoomDetail) getContext()).mPresenter.delDevice(bean.id);
+                            }
+                        });
+//                ((ActRoomDetail) getContext()).mPresenter.delDevice(bean.id);
             }
         });
     }

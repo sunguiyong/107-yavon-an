@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/ic_menu_rename2" android:state_pressed="true" />
-    <item android:drawable="@mipmap/ic_menu_rename" android:state_enabled="false" />
-    <item android:drawable="@mipmap/ic_menu_rename2" android:state_selected="true" />
-    <item android:drawable="@mipmap/ic_menu_rename" android:state_enabled="true" />
-    <item android:drawable="@mipmap/ic_menu_rename" />
+    <item android:drawable="@mipmap/rename_select" android:state_pressed="true" />
+    <item android:drawable="@mipmap/unrename" android:state_enabled="false" />
+    <item android:drawable="@mipmap/rename_select" android:state_selected="true" />
+    <item android:drawable="@mipmap/rename_1" android:state_enabled="true" />
+    <item android:drawable="@mipmap/rename_1" />
 </selector>

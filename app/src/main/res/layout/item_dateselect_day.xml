@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
-    android:id="@+id/linear_bg" xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/bg_white"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_bg"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    >
+    android:background="@color/backgroundblack"
+    android:orientation="vertical">
+
     <LinearLayout
+        android:background="@color/backgroundblack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
+
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_jr"
-            android:text=""
-            android:textSize="11sp"
-            android:textColor="@color/text_black"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:text=""
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
         <TextView
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:gravity="center"
             android:id="@+id/tv_day"
-            android:text=""
-            android:layout_marginTop="3dp"
-            android:textSize="16sp"
-            android:textColor="@color/text_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="adsadsf"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </FrameLayout>

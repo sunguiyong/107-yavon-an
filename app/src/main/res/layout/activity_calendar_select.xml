@@ -1,107 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_white"
+    android:background="@color/backgroundblack"
     android:fitsSystemWindows="true"
-    >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
+
         <TextView
             android:id="@+id/btn_back_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:textSize="14sp"
-            android:textColor="@color/text_black"
             android:text="@string/cancle"
-            android:gravity="center"/>
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_title_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="18sp"
-            android:textColor="@color/text_black"
-            android:text="@string/date_choose"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:layout_gravity="center"/>
+            android:text="@string/date_choose"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/tv_right_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:textSize="14sp"
-            android:textColor="@color/mainGreen"
             android:text="@string/complete"
-            android:gravity="center"
-            android:layout_gravity="right"
-            />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
     </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/bg_white"
-        android:gravity="center_vertical"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundblack"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="10dp"
-        >
+        android:paddingBottom="10dp">
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="日"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/orange"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/orange" />
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="一"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/text_black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="二"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/text_black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="三"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/text_black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="四"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/text_black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="五"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:textColor="@color/text_black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
+
         <TextView
-            android:text="六"
-            android:gravity="center"
             android:layout_width="0dp"
-            android:textColor="@color/orange"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:gravity="center"
+            android:text="六"
+            android:textColor="@color/orange" />
 
     </LinearLayout>
 
@@ -109,6 +116,6 @@
         android:id="@+id/recyclerView_calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_white"/>
+        android:background="@color/backgroundblack" />
 
 </LinearLayout>

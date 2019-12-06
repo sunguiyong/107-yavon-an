@@ -45,7 +45,7 @@ public class CombinedChartManager {
         leftAxis = mCombinedChart.getAxisLeft();
         rightAxis = mCombinedChart.getAxisRight();
         xAxis = mCombinedChart.getXAxis();
-        color = ContextCompat.getColor(combinedChart.getContext(), R.color.colorPrimary1);
+        color = ContextCompat.getColor(combinedChart.getContext(), R.color.white);
     }
 
     /**
@@ -55,12 +55,12 @@ public class CombinedChartManager {
         //不显示描述内容
         Description description = new Description();
         description.setText("度");
-        description.setTextColor(ContextCompat.getColor(mCombinedChart.getContext(),R.color.colorPrimary1));
+        description.setTextColor(ContextCompat.getColor(mCombinedChart.getContext(), R.color.white));
         description.setTextSize(11);
 //        LogUtil.d("=============get padding top:"+mCombinedChart.getClipToPadding());
         description.setTextAlign(Paint.Align.CENTER);
-        int dp15 = DensityUtil.dp2px(mCombinedChart.getContext(),11);
-        description.setPosition(dp15,dp15);
+        int dp15 = DensityUtil.dp2px(mCombinedChart.getContext(), 11);
+        description.setPosition(dp15, dp15);
 //        mCombinedChart.getExtraTopOffset()
         mCombinedChart.setDescription(description);
 //        mCombinedChart.getDescription().setEnabled(false);
@@ -112,14 +112,14 @@ public class CombinedChartManager {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
 
-        xAxis.setLabelCount(xAxisValues.size() - 1,false);
+        xAxis.setLabelCount(xAxisValues.size() - 1, false);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
 //                return xAxisValues.get((int) value % xAxisValues.size());
 //                LogUtil.d("============value:"+value);
                 String xValue = xAxisValues.get((int) value % xAxisValues.size());
-                return xValue.lastIndexOf("-") > 5?xValue.substring(5):xValue;
+                return xValue.lastIndexOf("-") > 5 ? xValue.substring(5) : xValue;
             }
         });
         xAxis.setAxisLineColor(color);
@@ -147,15 +147,15 @@ public class CombinedChartManager {
 
         dataSet.setColor(lineColor);
         dataSet.setCircleColor(Color.parseColor("#B3B3B3"));
-        dataSet.setValueTextColor(Color.parseColor("#000000"));
+        dataSet.setValueTextColor(Color.parseColor("#ffffff"));
         dataSet.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return new BigDecimal(value+"").setScale(2, RoundingMode.HALF_UP).toPlainString()+"度";
+                return new BigDecimal(value + "").setScale(2, RoundingMode.HALF_UP).toPlainString() + "度";
             }
         });
         dataSet.setCircleRadius(5);
-        dataSet.setLineWidth(DensityUtil.dp2px(mCombinedChart.getContext(),1f));
+        dataSet.setLineWidth(DensityUtil.dp2px(mCombinedChart.getContext(), 1f));
         //显示值
         dataSet.setDrawValues(true);
         dataSet.setValueTextSize(10f);
@@ -215,27 +215,27 @@ public class CombinedChartManager {
         BarDataSet barDataSet = new BarDataSet(yValues, barName);
 //        barDataSet.setColor(barColor);
         List<Integer> colorList = new ArrayList<>();
-        for(int i = 0;i<barChartY.size();i++){
-            if(i < barChartY.size() -1){
-                colorList.add(barColor);
-            }else{
+        for (int i = 0; i < barChartY.size(); i++) {
+            if (i < barChartY.size() - 1) {
+                colorList.add(Color.parseColor("#F2BA57"));
+            } else {
                 colorList.add(Color.parseColor("#F2BA57"));
             }
         }
         barDataSet.setDrawValues(false);
         barDataSet.setColors(colorList);
         barDataSet.setValueTextSize(10f);
-        barDataSet.setValueTextColor(barColor);
+        barDataSet.setValueTextColor(R.color.white);
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         barData.addDataSet(barDataSet);
         //以下是为了解决 柱状图 左右两边只显示了一半的问题 根据实际情况 而定
         xAxis.setAxisMinimum(-0.5f);
-        xAxis.setAxisMaximum((float) (barChartY.size()- 0.5));
+        xAxis.setAxisMaximum((float) (barChartY.size() - 0.5));
         int amount = barChartY.size();
 //        float barWidth = (float) ((2 -0.12) / amount / 10 * 9); // x4 DataSet
 //        LogUtil.d("==================bar width:"+barWidth);
         // (0.2 + 0.02) * 4 + 0.08 = 1.00 -> interval per "group"
-        xAxis.setLabelCount(barChartY.size() -1 , false);
+        xAxis.setLabelCount(barChartY.size() - 1, false);
         barData.setBarWidth(0.5f);
 
 

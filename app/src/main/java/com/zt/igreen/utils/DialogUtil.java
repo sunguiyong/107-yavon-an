@@ -439,6 +439,14 @@ public class DialogUtil {
         return dialog;
     }
 
+    /**
+     * 创建wifi配置dialog
+     * @param context
+     * @param ssid
+     * @param pwd
+     * @param listener
+     * @return
+     */
     public static Dialog createWifiDialog(final Context context,String ssid,String pwd, final OnComfirmListening2 listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View parent = inflater.inflate(R.layout.dialog_wifi, null);

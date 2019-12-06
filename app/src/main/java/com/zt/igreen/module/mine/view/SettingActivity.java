@@ -42,8 +42,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     public void initView() {
-        ImmersionBar.with(this).statusBarColor(R.color.qingse).statusBarDarkFont(true).flymeOSStatusBarFontColor(R.color.qingse).init();
-        sethead(R.color.qingse);
+        ImmersionBar.with(this).statusBarColor(R.color.touming).statusBarDarkFont(false)
+                .flymeOSStatusBarFontColor(R.color.touming).init();
+        sethead(R.color.touming);
         setColor(Color.parseColor("#ffffff"));
         setTitle(getString(R.string.setting));
         tvVersion.setText("v"+ PackageUtil.getAppVersion(this));

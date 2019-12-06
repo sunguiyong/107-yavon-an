@@ -57,11 +57,13 @@ public class XinfengjiBean {
     }
 
     public static class DataBean {
-        public DataBean(int itm, int ipm2d5,  int ico2, int irh) {
+        public DataBean(int itm, int ipm2d5, int ico2, int irh, int fsval, boolean onoff) {
             this.itm = itm;
             this.ipm2d5 = ipm2d5;
             this.ico2 = ico2;
             this.irh = irh;
+            this.fsval = fsval;
+            this.onoff = onoff;
         }
 
         /**

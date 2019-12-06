@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundblack"
     android:orientation="vertical">
 
     <include layout="@layout/header" />
 
     <LinearLayout
+        android:background="@color/backgroundblack"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:gravity="center_vertical"
@@ -20,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="房间名称"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <Space
             android:layout_width="0dip"
@@ -32,19 +33,29 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawablePadding="12dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:drawableRight="@mipmap/ic_goto"
             android:gravity="center_vertical"
             android:text="请输入房间名称" />
 
     </LinearLayout>
 
-    <ImageView
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shape_edittext_line" />
+        android:layout_height="1dp">
+        <View
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/shape_edittext_line" />-->
 
     <LinearLayout
+        android:background="@color/backgroundblack"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:gravity="center_vertical"
@@ -57,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="房间图标"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <Space
             android:layout_width="0dip"
@@ -78,7 +89,7 @@
 
             <TextView
                 android:id="@+id/tv_select_room_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawablePadding="12dp"
                 android:drawableRight="@mipmap/ic_goto"
@@ -87,11 +98,16 @@
         </FrameLayout>
 
     </LinearLayout>
+    <LinearLayout
 
-    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shape_edittext_line" />
+        android:layout_height="1dp">
+        <View
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
     <android.support.v4.widget.Space
         android:layout_width="0dip"
@@ -105,7 +121,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:background="@drawable/shape_stroke_green"
+        android:background="#193A61"
         android:text="保存"
         android:textColor="@color/white" />
 </LinearLayout>
